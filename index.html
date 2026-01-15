@@ -7,440 +7,335 @@
   <meta name="Generator" content="Cocoa HTML Writer">
   <meta name="CocoaVersion" content="2685.3">
   <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    p.p3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+    span.s2 {font-kerning: none; color: #bebebe; -webkit-text-stroke: 0px #000000}
   </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;NorthernPixl | Northumberland Photography Guide&lt;/title&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- External Dependencies --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</p>
-<p class="p2"><span class="Apple-converted-space">    </span></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap');</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>-webkit-font-smoothing: antialiased;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.custom-scrollbar::-webkit-scrollbar { width: 6px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fade-in {<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(15px); }<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.animate-in {<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>@keyframes pulse-ring {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>0% { transform: scale(.8); opacity: 0.5; }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>50% { opacity: 0.3; }</p>
-<p class="p1"><span class="Apple-converted-space">            </span>100% { transform: scale(1.8); opacity: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.pulse::before {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>content: '';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: inherit;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: inherit;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: pulse-ring 2.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.map-bg {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-image: radial-gradient(#cbd5e1 1px, transparent 1px);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-size: 30px 30px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body class="bg-white text-slate-900 overflow-x-hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const { useState, useMemo, useEffect } = React;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const Icon = ({ name, size = 20, className = "" }) =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const icons = {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>camera: &lt;&gt;&lt;path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/&gt;&lt;circle cx="12" cy="13" r="3"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>star: &lt;polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>mountain: &lt;path d="m8 3 4 8 5-5 5 15H2L8 3z"/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>bird: &lt;&gt;&lt;path d="M16 7c.5 0 .1 2.2-.4 3.5-.7 1.9-2.6 3.1-4.1 4-2 .1-3.4-.3-4.5-1.5C6 12 5.5 10.5 6 9c.5-1.5 1.5-3 3-4 2.3-1.5 4.5-1 7 2z"/&gt;&lt;path d="M8 10c1-1 3-2 5-2"/&gt;&lt;path d="m11 11 3 3"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>x: &lt;&gt;&lt;path d="M18 6 6 18"/&gt;&lt;path d="m6 6 12 12"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>mapPin: &lt;&gt;&lt;path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/&gt;&lt;circle cx="12" cy="10" r="3"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>settings: &lt;&gt;&lt;path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>focus: &lt;&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;path d="M3 7V5a2 2 0 0 1 2-2h2"/&gt;&lt;path d="M17 3h2a2 2 0 0 1 2 2v2"/&gt;&lt;path d="M21 17v2a2 2 0 0 1-2 2h-2"/&gt;&lt;path d="M7 21H5a2 2 0 0 1-2-2v-2"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>barChart: &lt;&gt;&lt;line x1="12" x2="12" y1="20" y2="10"/&gt;&lt;line x1="18" x2="18" y1="20" y2="4"/&gt;&lt;line x1="6" x2="6" y1="20" y2="16"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>search: &lt;&gt;&lt;circle cx="11" cy="11" r="8"/&gt;&lt;path d="m21 21-4.3-4.3"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>compass: &lt;&gt;&lt;circle cx="12" cy="12" r="10"/&gt;&lt;polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>users: &lt;&gt;&lt;path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/&gt;&lt;circle cx="9" cy="7" r="4"/&gt;&lt;path d="M22 21v-2a4 4 0 0 0-3-3.87"/&gt;&lt;path d="M16 3.13a4 4 0 0 1 0 7.75"/&gt;&lt;/&gt;,</p>
-<p class="p1"><span class="Apple-converted-space">                </span>moon: &lt;path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>};</p>
-<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;svg</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>xmlns="http://www.w3.org/2000/svg"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>width={size}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>height={size}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>viewBox="0 0 24 24"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>fill="none"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>stroke="currentColor"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>strokeWidth="2"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>strokeLinecap="round"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>strokeLinejoin="round"</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>className={className}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>{icons[name] || null}</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const LOCATIONS = [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 1, name: "Bamburgh Castle", type: "Landscape", x: 68, y: 18, desc: "Iconic fortress on basalt outcrop.", parking: "NE69 7DF", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 2, name: "Dunstanburgh Castle", type: "Landscape", x: 72, y: 28, desc: "Haunting ruins via Craster walk.", parking: "Craster Quarry", difficulty: "Medium" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 3, name: "Kielder Water", type: "Astro", x: 22, y: 48, desc: "Gold tier dark skies and reflections.", parking: "Leaplish", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 4, name: "Sycamore Gap", type: "Landscape", x: 30, y: 75, desc: "Historical site on Hadrian's Wall.", parking: "Steel Rigg", difficulty: "Medium" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 5, name: "Holy Island", type: "Landscape", x: 62, y: 10, desc: "Lindisfarne Castle &amp; tidal causeway.", parking: "Chare Ends", difficulty: "Tidal" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 6, name: "Farne Islands", type: "Wildlife", x: 78, y: 20, desc: "Puffin and Seal sanctuary.", parking: "Seahouses Harbor", difficulty: "Boat Only" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 7, name: "Alnwick Castle", type: "Landscape", x: 64, y: 38, desc: "Stately home with lion bridge.", parking: "Greenwell Lane", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 8, name: "Simonside Hills", type: "Landscape", x: 45, y: 52, desc: "Dramatic sandstone ridges.", parking: "Lordenshaws", difficulty: "Hard" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 9, name: "Cullernose Point", type: "Landscape", x: 74, y: 32, desc: "Basalt cliffs and sea pinks.", parking: "Craster", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 10, name: "Coquet Island", type: "Wildlife", x: 76, y: 45, desc: "Rare Roseate Tern colonies.", parking: "Amble Harbor", difficulty: "Boat Only" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 11, name: "Cragside", type: "Landscape", x: 48, y: 48, desc: "First house with hydroelectricity.", parking: "On-site", difficulty: "Medium" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 12, name: "Steel Rigg", type: "Landscape", x: 28, y: 72, desc: "Best views of Hadrian's Wall.", parking: "NE47 7AN", difficulty: "Medium" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 13, name: "Budle Bay", type: "Wildlife", x: 64, y: 14, desc: "Spectacular mudflats for waders.", parking: "Waren Mill", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 14, name: "Rumpside Rocks", type: "Landscape", x: 70, y: 22, desc: "Unique geology near Bamburgh.", parking: "Roadside", difficulty: "Medium" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 15, name: "Druridge Bay", type: "Wildlife", x: 72, y: 55, desc: "7 miles of golden sands and dunes.", parking: "Country Park", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 16, name: "Blyth Beach Huts", type: "Landscape", x: 78, y: 80, desc: "Colorful minimalist subjects.", parking: "Beachway", difficulty: "Easy" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 17, name: "St Mary's Lighthouse", type: "Landscape", x: 82, y: 88, desc: "White tower on tidal island.", parking: "NE26 4RS", difficulty: "Tidal" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 18, name: "Linhope Spout", type: "Landscape", x: 42, y: 35, desc: "18m waterfall in Breamish Valley.", parking: "Hartside", difficulty: "Medium" },</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{ id: 19, name: "Cheviot Summit", type: "Landscape", x: 38, y: 28, desc: "Highest point in the county.", parking: "Langleeford", difficulty: "Very Hard" },</p>
-<p class="p1"><span class="Apple-converted-space">        </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const WORKSHOPS = [</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>id: 'astro',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>title: 'Stellar Nightscapes',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>type: 'Astro',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>icon: 'moon',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>instructor: 'Dr. Sarah Night',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>duration: '6 Hours (Overnight)',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>price: '£185',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>details: 'Specialized tuition in the Kielder Gold Tier Dark Sky Park. Learn about polar alignment, tracking, and deep-sky stacking.',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>advice: 'Bring a fast wide-angle lens (f/2.8 or wider), a sturdy tripod, and red-light torches to preserve night vision.',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>itinerary: 'Guided walk from Leaplish to a secluded dark site, followed by 4 hours of shooting and on-site editing tips.'</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>id: 'wildlife',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>title: 'Seabird Sanctuary',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>type: 'Wildlife',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>icon: 'bird',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>instructor: 'James Puffin',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>duration: 'Full Day',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>price: '£220',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>details: 'Exclusive boat access to the Farne Islands. Focus on bird-in-flight techniques and animal behavior anticipation.',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>advice: 'Fast shutter speeds (1/2000s+) are essential. A 400mm+ lens is recommended, but 70-200mm works for environmental shots.',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>itinerary: 'Early morning boat launch from Seahouses, landing on Inner Farne for 4 hours of dedicated puffin and tern photography.'</p>
-<p class="p1"><span class="Apple-converted-space">            </span>},</p>
-<p class="p1"><span class="Apple-converted-space">            </span>{</p>
-<p class="p1"><span class="Apple-converted-space">                </span>id: 'landscape',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>title: 'Coastal Heritage',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>type: 'Landscape',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>icon: 'mountain',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>instructor: 'David Shore',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>duration: '8 Hours',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>price: '£140',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>details: 'Mastering the use of ND filters to capture the motion of the North Sea against the basalt structures of the coast.',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>advice: 'Circular polarizers help cut glare on wet rocks. Wear high-quality waterproof boots for rock-pooling.',</p>
-<p class="p1"><span class="Apple-converted-space">                </span>itinerary: 'Golden hour at Dunstanburgh ruins, followed by a guided coastal hike to Cullernose Point for blue hour.'</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>];</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const App = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const [activeTab, setActiveTab] = useState('home');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const [filter, setFilter] = useState("All");</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const [selectedLoc, setSelectedLoc] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const [selectedTopic, setSelectedTopic] = useState(null);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const [selectedWorkshop, setSelectedWorkshop] = useState(null);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>const filteredLocations = useMemo(() =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>return filter === "All" ? LOCATIONS : LOCATIONS.filter(l =&gt; l.type === filter);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}, [filter]);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>{/* Enhanced Navigation */}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;nav className="bg-white/90 backdrop-blur-xl sticky top-0 z-[60] border-b border-slate-100"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex items-center space-x-3 cursor-pointer group" onClick={() =&gt; setActiveTab('home')}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;Icon name="camera" size={18} className="text-white" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span className="font-black text-xl tracking-tighter uppercase"&gt;NorthernPixl&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                            </span></p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="hidden md:flex space-x-10 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>{['locations', 'workshops', 'learn'].map(tab =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>key={tab}</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setActiveTab(tab)}</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>className={`hover:text-slate-900 transition-all relative py-1 ${activeTab === tab ? 'text-slate-900' : ''}`}</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>{tab}</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>{activeTab === tab &amp;&amp; &lt;span className="absolute -bottom-1 left-0 w-full h-1 bg-sky-500 rounded-full"&gt;&lt;/span&gt;}</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onClick={() =&gt; setActiveTab('workshops')} className="bg-sky-500 text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-sky-200"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>Book Now</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/nav&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;main&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'home' &amp;&amp; (</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="min-h-[90vh] bg-slate-900 flex flex-col items-center justify-center text-center px-6 relative overflow-hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,#334155_0%,#0f172a_100%)] opacity-80"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="relative z-10 max-w-5xl space-y-12 animate-in"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h1 className="text-7xl md:text-[10rem] font-black text-white tracking-tighter leading-[0.85]"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>WILD &lt;br/&gt;&lt;span className="text-sky-500"&gt;NORTH.&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/h1&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>The definitive guide to capturing Northumberland's rugged coast, dark skies, and rare wildlife.</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex flex-col sm:flex-row gap-6 justify-center pt-10"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setActiveTab('locations')} className="bg-white text-slate-900 px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all shadow-2xl active:scale-95"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>Interactive Map</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setActiveTab('workshops')} className="bg-slate-800 text-white border border-white/10 px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-700 transition-all active:scale-95"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>View Workshops</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'locations' &amp;&amp; (</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-[1400px] mx-auto px-6 py-16 animate-in"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="flex flex-col lg:flex-row gap-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="lg:w-2/3 space-y-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;h2 className="text-5xl font-black tracking-tighter uppercase"&gt;Field Map&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;p className="text-slate-400 font-medium"&gt;19 curated vantage points across the county.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="flex gap-2 p-1.5 bg-slate-100 rounded-2xl"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>{CATEGORIES.map(cat =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;button<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>key={cat}<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>onClick={() =&gt; setFilter(cat)}<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>{cat}</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="relative aspect-[4/5] md:aspect-video bg-slate-50 rounded-[3rem] border-2 border-slate-100 overflow-hidden map-bg shadow-inner group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>{filteredLocations.map(loc =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;button</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>key={loc.id}</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>onClick={() =&gt; setSelectedLoc(loc)}</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>style={{ left: `${loc.x}%`, top: `${loc.y}%` }}</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${selectedLoc?.id === loc.id ? 'z-30' : 'z-10 hover:z-20'}`}</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className={`w-10 h-10 rounded-full border-4 border-white flex items-center justify-center transition-all pulse ${selectedLoc?.id === loc.id ? 'bg-sky-500 scale-125' : 'bg-slate-900 hover:scale-110'}`}&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Icon name={loc.type === 'Wildlife' ? 'bird' : loc.type === 'Astro' ? 'moon' : 'mapPin'} size={12} className="text-white" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="lg:w-1/3 space-y-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="sticky top-32 space-y-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl min-h-[500px] flex flex-col justify-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>{selectedLoc ? (</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="space-y-8 animate-in"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-500 border border-sky-100 mb-2"&gt;{selectedLoc.type}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;h3 className="text-4xl font-black tracking-tight text-slate-900"&gt;{selectedLoc.name}&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-slate-500 text-sm leading-relaxed font-medium"&gt;{selectedLoc.desc}&lt;/p&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                                                        </span></p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;div className="space-y-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-[9px] font-black uppercase text-slate-400"&gt;Difficulty&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-xs font-bold text-slate-700"&gt;{selectedLoc.difficulty}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;div className="space-y-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-[9px] font-black uppercase text-slate-400"&gt;Postcode/Ref&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-xs font-bold text-slate-700"&gt;{selectedLoc.parking}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">                                                        </span></p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;button onClick={() =&gt; setActiveTab('workshops')} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-sky-500 transition-all"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                            </span>Find Guided Walks Here</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>) : (</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="text-center space-y-6 opacity-40"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Icon name="compass" size={48} className="mx-auto" /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-[10px] font-black uppercase tracking-widest"&gt;Select a waypoint&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>)}</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'workshops' &amp;&amp; (</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-7xl mx-auto px-6 py-20 animate-in"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="max-w-3xl mb-16 space-y-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h2 className="text-6xl font-black tracking-tighter uppercase"&gt;Guided &lt;br/&gt;&lt;span className="text-sky-500"&gt;Expeditions.&lt;/span&gt;&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-xl text-slate-500 font-medium leading-relaxed"&gt;Professional tuition tailored to your skill level, focusing on the specialized requirements of Northumberland photography.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="grid md:grid-cols-3 gap-10"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>{WORKSHOPS.map(shop =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>key={shop.id}</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>className="group bg-slate-50 rounded-[3.5rem] p-10 flex flex-col justify-between hover:bg-white hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-slate-100"</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white group-hover:bg-sky-500 transition-colors"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;Icon name={shop.icon} size={28} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex justify-between items-center"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-widest text-sky-500"&gt;{shop.type}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="text-lg font-black text-slate-900"&gt;{shop.price}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;h3 className="text-3xl font-black tracking-tight"&gt;{shop.title}&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex items-center space-x-3 text-slate-400"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Icon name="users" size={14} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-widest"&gt;{shop.instructor}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-slate-500 text-sm font-medium leading-relaxed"&gt;{shop.details}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;button<span class="Apple-converted-space"> </span></p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>onClick={() =&gt; setSelectedWorkshop(shop)}</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>className="mt-12 w-full py-5 rounded-2xl border-2 border-slate-900 text-slate-900 font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all"</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>Learn More</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="mt-24 p-12 bg-slate-900 rounded-[4rem] flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="absolute top-0 right-0 w-1/2 h-full bg-sky-500 opacity-10 blur-[100px]"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="relative z-10 space-y-4 max-w-xl"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h3 className="text-4xl font-black text-white tracking-tight"&gt;Need a Bespoke Route?&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;p className="text-slate-400 font-medium"&gt;We offer 1-to-1 private tuition for specific locations not listed in our public workshops. Tell us your goals.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button className="relative z-10 bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>Request Private Session</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'learn' &amp;&amp; (</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-7xl mx-auto px-6 py-20 animate-in"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 className="text-5xl font-black tracking-tighter uppercase mb-16"&gt;Technical Manuals&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="grid md:grid-cols-3 gap-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>{/* Using previous logic for guides */}</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>{['Basics', 'Fieldwork', 'Artistry'].map(cat =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div key={cat} className="space-y-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300"&gt;{cat}&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-4"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>{[1,2,3].map(i =&gt; (</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div key={i} className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 hover:border-sky-200 transition-all cursor-pointer group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;h4 className="font-black text-lg mb-2 group-hover:text-sky-500 transition-colors"&gt;Digital Workflow {i}&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-slate-400 text-sm"&gt;Essential processing techniques for northern light.&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                                </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>))}</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>{/* Workshop Detail Modal */}</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>{selectedWorkshop &amp;&amp; (</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl animate-in" onClick={() =&gt; setSelectedWorkshop(null)}&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="relative bg-white w-full max-w-4xl rounded-[4rem] shadow-2xl animate-in overflow-hidden flex flex-col max-h-[90vh]"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="p-10 md:p-14 border-b border-slate-100 flex justify-between items-center bg-slate-50/50"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-widest text-sky-500"&gt;{selectedWorkshop.type} Masterclass&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h3 className="text-4xl font-black tracking-tighter"&gt;{selectedWorkshop.title}&lt;/h3&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button onClick={() =&gt; setSelectedWorkshop(null)} className="w-14 h-14 bg-white shadow-sm rounded-full flex items-center justify-center hover:rotate-90 transition-all"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;Icon name="x" size={20} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="p-10 md:p-20 overflow-y-auto custom-scrollbar flex-1 space-y-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="grid md:grid-cols-2 gap-12"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400"&gt;Technical Advice&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-slate-600 font-medium leading-relaxed italic border-l-4 border-sky-500 pl-6"&gt;{selectedWorkshop.advice}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400"&gt;Guided Walk &amp; Itinerary&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-slate-600 font-medium leading-relaxed"&gt;{selectedWorkshop.itinerary}&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="p-10 bg-slate-900 rounded-[3rem] text-white flex flex-col md:flex-row justify-between items-center gap-6"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-1"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-[10px] font-black uppercase tracking-widest text-slate-400"&gt;Next Session&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-xl font-black"&gt;October 14th, 2024&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button className="bg-sky-500 text-white px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                            </span>Confirm Booking</p>
-<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;footer className="py-24 border-t border-slate-100 bg-white"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-6 text-center space-y-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex justify-center items-center space-x-3 text-slate-900"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;Icon name="camera" size={16} /&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span className="font-black text-sm uppercase tracking-[0.3em]"&gt;NorthernPixl&lt;/span&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300"&gt;© 2024 Northumberland Field Guild&lt;/p&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/footer&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const root = ReactDOM.createRoot(document.getElementById('root'));</p>
-<p class="p1"><span class="Apple-converted-space">        </span>root.render(&lt;App /&gt;);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="en"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;NorthernPixl | Northumberland Photography Guide&lt;/title&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body class="bg-white text-slate-900 overflow-x-hidden"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</span></p>
+<p class="p3"><span class="s2"><span class="Apple-converted-space">        </span></span>const { useState, useMemo, useEffect } = React;</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p3"><span class="Apple-converted-space">         </span>* SVG Icon Component</p>
+<p class="p3"><span class="Apple-converted-space">         </span>* Fixed: Wrapped multiple SVG elements in React Fragments to ensure compatibility with Babel.</p>
+<p class="p3"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p3"><span class="Apple-converted-space">        </span>const Icon = ({ name, size = 20, className = "" }) =&gt; {</p>
+<p class="p3"><span class="Apple-converted-space">            </span>const icons = {</p>
+<p class="p3"><span class="Apple-converted-space">                </span>camera: &lt;&gt;&lt;path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/&gt;&lt;circle cx="12" cy="13" r="3"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>star: &lt;polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>mountain: &lt;path d="m8 3 4 8 5-5 5 15H2L8 3z"/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>bird: &lt;&gt;&lt;path d="M16 7c.5 0 .1 2.2-.4 3.5-.7 1.9-2.6 3.1-4.1 4-2 .1-3.4-.3-4.5-1.5C6 12 5.5 10.5 6 9c.5-1.5 1.5-3 3-4 2.3-1.5 4.5-1 7 2z"/&gt;&lt;path d="M8 10c1-1 3-2 5-2"/&gt;&lt;path d="m11 11 3 3"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>x: &lt;&gt;&lt;path d="M18 6 6 18"/&gt;&lt;path d="m6 6 12 12"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>mapPin: &lt;&gt;&lt;path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/&gt;&lt;circle cx="12" cy="10" r="3"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>settings: &lt;&gt;&lt;path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>focus: &lt;&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;path d="M3 7V5a2 2 0 0 1 2-2h2"/&gt;&lt;path d="M17 3h2a2 2 0 0 1 2 2v2"/&gt;&lt;path d="M21 17v2a2 2 0 0 1-2 2h-2"/&gt;&lt;path d="M7 21H5a2 2 0 0 1-2-2v-2"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>barChart: &lt;&gt;&lt;line x1="12" x2="12" y1="20" y2="10"/&gt;&lt;line x1="18" x2="18" y1="20" y2="4"/&gt;&lt;line x1="6" x2="6" y1="20" y2="16"/&gt;&lt;/&gt;,</p>
+<p class="p3"><span class="Apple-converted-space">                </span>search: &lt;&gt;&lt;circle cx="11" cy="11" r="8"/&gt;&lt;path d="m21 21-4.3-4.3"/&gt;&lt;/&gt;</p>
+<p class="p3"><span class="Apple-converted-space">            </span>};</p>
+<p class="p3"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p3"><span class="Apple-converted-space">                </span>&lt;svg</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>xmlns="http://www.w3.org/2000/svg"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>width={size}</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>height={size}</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>viewBox="0 0 24 24"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>fill="none"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>stroke="currentColor"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>strokeWidth="2"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>strokeLinecap="round"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>strokeLinejoin="round"</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>className={className}</p>
+<p class="p3"><span class="Apple-converted-space">                </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>{icons[name] || null}</p>
+<p class="p3"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</p>
+<p class="p3"><span class="Apple-converted-space">            </span>);</p>
+<p class="p3"><span class="Apple-converted-space">        </span>};</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">        </span>const LOCATIONS = [</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{ id: 1, name: "Bamburgh Castle", type: "Landscape", x: 65, y: 15, desc: "Perched on a 180-foot high basalt outcrop. For photographers, the 'Black Rocks' at low tide provide ancient lead-in lines.", parking: "Main car park (NE69 7DF).", difficulty: "Easy" },</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{ id: 2, name: "Dunstanburgh Castle", type: "Landscape", x: 68, y: 25, desc: "A haunting silhouette against winter sunrises. Reachable via a scenic coastal walk from Craster.", parking: "Craster Quarry car park.", difficulty: "Medium" },</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{ id: 4, name: "Kielder Observatory", type: "Astro", x: 20, y: 45, desc: "An architectural marvel in Europe's largest gold-tier Dark Sky Park.", parking: "On-site for ticket holders.", difficulty: "Easy" },</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{ id: 6, name: "The Farne Islands", type: "Wildlife", x: 75, y: 18, desc: "Sanctuary for over 100,000 pairs of seabirds including Puffins and Arctic Terns.", parking: "Seahouses harbor.", difficulty: "Medium" },</p>
+<p class="p3"><span class="Apple-converted-space">        </span>];</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">        </span>const CATEGORIES = ["All", "Landscape", "Wildlife", "Astro"];</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">        </span>const GUIDES = [</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{</p>
+<p class="p3"><span class="Apple-converted-space">                </span>id: 'exposure', title: "The Exposure Triangle", category: "Basics", iconName: "settings",</p>
+<p class="p3"><span class="Apple-converted-space">                </span>content: "Master the relationship between Aperture, Shutter Speed, and ISO to gain full creative control over your images. This core principle allows you to balance light, depth of field, and motion blur to achieve professional results regardless of the lighting conditions."</p>
+<p class="p3"><span class="Apple-converted-space">            </span>},</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{</p>
+<p class="p3"><span class="Apple-converted-space">                </span>id: 'composition', title: "Architectural Composition", category: "Art", iconName: "focus",</p>
+<p class="p3"><span class="Apple-converted-space">                </span>content: "Learn how to use leading lines, symmetry, and the 'Rule of Thirds' when photographing the historic castles of the North. Composition is about telling a story through the frame, guiding the viewer's eye toward the most dramatic features of the Northumberland coastline."</p>
+<p class="p3"><span class="Apple-converted-space">            </span>},</p>
+<p class="p3"><span class="Apple-converted-space">            </span>{</p>
+<p class="p3"><span class="Apple-converted-space">                </span>id: 'histogram', title: "The Histogram Decoded", category: "Basics", iconName: "barChart",</p>
+<p class="p3"><span class="Apple-converted-space">                </span>content: "Ensure perfect exposure every time by understanding the mathematical distribution of light in your frame. The histogram is your most reliable tool in the field, showing you exactly where you might be losing detail in the brightest highlights or deepest shadows."</p>
+<p class="p3"><span class="Apple-converted-space">            </span>}</p>
+<p class="p3"><span class="Apple-converted-space">        </span>];</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">        </span>const App = () =&gt; {</p>
+<p class="p3"><span class="Apple-converted-space">            </span>const [activeTab, setActiveTab] = useState('home');</p>
+<p class="p3"><span class="Apple-converted-space">            </span>const [filter, setFilter] = useState("All");</p>
+<p class="p3"><span class="Apple-converted-space">            </span>const [selectedLoc, setSelectedLoc] = useState(null);</p>
+<p class="p3"><span class="Apple-converted-space">            </span>const [selectedTopic, setSelectedTopic] = useState(null);</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">            </span>const filteredLocations = useMemo(() =&gt; {</p>
+<p class="p3"><span class="Apple-converted-space">                </span>return filter === "All" ? LOCATIONS : LOCATIONS.filter(l =&gt; l.type === filter);</p>
+<p class="p3"><span class="Apple-converted-space">            </span>}, [filter]);</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p3"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-white"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>{/* Header/Navbar */}</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>&lt;nav className="bg-white/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-100"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                </span>className="flex items-center space-x-3 cursor-pointer group"<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                </span>onClick={() =&gt; setActiveTab('home')}</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center transition-transform group-hover:rotate-6 group-hover:scale-110"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;Icon name="camera" size={18} className="text-white" /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;span className="font-black text-xl tracking-tighter uppercase"&gt;NorthernPixl&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p4"><span class="Apple-converted-space">                            </span></p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-[0.2em] text-slate-400"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>{['locations', 'learn'].map(tab =&gt; (</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>key={tab}</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setActiveTab(tab)}</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>className={`hover:text-slate-900 transition-all relative py-1 ${activeTab === tab ? 'text-slate-900' : ''}`}</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>{tab}</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>{activeTab === tab &amp;&amp; (</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;span className="absolute bottom-0 left-0 w-full h-0.5 bg-sky-500 rounded-full"&gt;&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>)}</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>))}</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;button className="bg-slate-900 text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-sky-500 hover:shadow-xl hover:shadow-sky-500/20 transition-all active:scale-95"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>Workshops</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>&lt;/nav&gt;</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                    </span>&lt;main&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>{/* Hero Section */}</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>{activeTab === 'home' &amp;&amp; (</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="min-h-[85vh] bg-slate-900 flex flex-col items-center justify-center text-center px-6 relative overflow-hidden"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,#334155_0%,#0f172a_70%)] opacity-80"&gt;&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="relative z-10 max-w-4xl space-y-10 animate-in"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="inline-block px-4 py-2 bg-sky-500/10 border border-sky-500/20 rounded-full text-sky-400 text-[10px] font-black uppercase tracking-[0.3em] mb-4"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>Northumberland Coast Guide</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;h1 className="text-6xl md:text-9xl font-black text-white tracking-tighter leading-[0.9]"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>NORTHERN &lt;br/&gt;&lt;span className="text-sky-500"&gt;EXPOSURE.&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/h1&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;p className="text-lg md:text-xl text-slate-400 max-w-xl mx-auto font-medium leading-relaxed"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>The essential field companion for photographers exploring the rugged beauty of the English North.</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="flex flex-col sm:flex-row gap-4 justify-center pt-8"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>onClick={() =&gt; setActiveTab('locations')}<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>className="bg-white text-slate-900 px-10 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all shadow-2xl hover:shadow-sky-500/40 active:scale-95"</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>Explore Locations</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>onClick={() =&gt; setActiveTab('learn')}</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>className="bg-slate-800 text-white border border-white/10 px-10 py-5 rounded-full font-black text-xs uppercase tracking-widest hover:bg-slate-700 transition-all active:scale-95"</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>View Guides</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                        </span>{/* Locations Section */}</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>{activeTab === 'locations' &amp;&amp; (</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-7xl mx-auto px-6 py-20 animate-in"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;h2 className="text-5xl font-black uppercase tracking-tighter"&gt;Location Scout&lt;/h2&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;p className="text-slate-500 font-medium"&gt;Interactive reference for primary vantage points.&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="flex flex-wrap gap-2 bg-slate-100 p-1.5 rounded-2xl"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>{CATEGORIES.map(cat =&gt; (</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>key={cat}<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>onClick={() =&gt; setFilter(cat)}<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>{cat}</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>))}</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="grid lg:grid-cols-12 gap-12"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="lg:col-span-8 bg-slate-50 rounded-[3rem] p-4 aspect-video relative overflow-hidden shadow-inner border border-slate-200 group"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"&gt;&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>{filteredLocations.map(loc =&gt; (</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;button</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>key={loc.id}</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>onClick={() =&gt; setSelectedLoc(loc)}</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>style={{ left: `${loc.x}%`, top: `${loc.y}%` }}</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ${selectedLoc?.id === loc.id ? 'z-30' : 'z-10'}`}</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;div className={`w-10 h-10 rounded-full border-4 border-white flex items-center justify-center transition-all pulse ${selectedLoc?.id === loc.id ? 'bg-sky-500 scale-125' : 'bg-slate-900 hover:bg-slate-700 hover:scale-110'}`}&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;Icon name="mapPin" size={14} className="text-white" /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>))}</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="lg:col-span-4 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col justify-center min-h-[400px]"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>{selectedLoc ? (</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-8 animate-in"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-500 border border-sky-100 mb-4"&gt;{selectedLoc.type}&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;h3 className="text-4xl font-black tracking-tight text-slate-900 leading-tight"&gt;{selectedLoc.name}&lt;/h3&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;p className="text-slate-500 text-sm leading-relaxed"&gt;{selectedLoc.desc}&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-6 pt-6 border-t border-slate-100"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex items-start space-x-4"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                        </span>&lt;div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center shrink-0"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                            </span>&lt;Icon name="search" size={14} className="text-slate-400" /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                        </span>&lt;div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                            </span>&lt;p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1"&gt;Access / Parking&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                            </span>&lt;p className="text-xs text-slate-700 font-bold leading-snug"&gt;{selectedLoc.parking}&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>) : (</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="flex flex-col items-center justify-center text-center space-y-6"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center text-slate-200"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;Icon name="search" size={32} /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-2"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400"&gt;Scan the Horizon&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-sm text-slate-400 font-medium"&gt;Select a marker on the map to &lt;br/&gt;view location intelligence.&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>)}</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                        </span>{/* Learning Hub */}</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>{activeTab === 'learn' &amp;&amp; (</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-7xl mx-auto px-6 py-20 animate-in"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="mb-20"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;h2 className="text-5xl font-black uppercase tracking-tighter mb-4"&gt;Learning Hub&lt;/h2&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;p className="text-slate-500 max-w-2xl font-medium"&gt;Master the technical and artistic foundations of high-latitude photography.&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>{GUIDES.map(guide =&gt; (</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;div<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>key={guide.id}<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>className="group relative bg-slate-900 rounded-[3rem] p-10 h-[400px] flex flex-col justify-end cursor-pointer hover:-translate-y-3 transition-all duration-500 hover:shadow-3xl overflow-hidden shadow-2xl shadow-slate-200/50"</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>onClick={() =&gt; setSelectedTopic(guide)}</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_80%_20%,#334155_0%,transparent_100%)] opacity-20"&gt;&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="absolute top-10 right-10 text-white/5 group-hover:text-white/10 transition-colors transform group-hover:rotate-12 group-hover:scale-110 duration-500"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;Icon name={guide.iconName} size={150} /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="relative z-10 space-y-4"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400"&gt;{guide.category}&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;h3 className="text-2xl font-black text-white leading-tight"&gt;{guide.title}&lt;/h3&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;div className="w-10 h-1 bg-sky-500/30 group-hover:w-full transition-all duration-500"&gt;&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>))}</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                    </span>{/* Full Screen Modal */}</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>{selectedTopic &amp;&amp; (</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>&lt;div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl animate-in" onClick={() =&gt; setSelectedTopic(null)}&gt;&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="relative bg-white w-full max-w-4xl rounded-[4rem] shadow-2xl animate-in overflow-hidden flex flex-col max-h-full"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="p-10 md:p-14 border-b border-slate-100 flex justify-between items-center bg-slate-50/50"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-500"&gt;{selectedTopic.category}&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;h3 className="text-4xl font-black tracking-tighter text-slate-900"&gt;{selectedTopic.title}&lt;/h3&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setSelectedTopic(null)}<span class="Apple-converted-space"> </span></p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>className="w-14 h-14 bg-white border border-slate-100 shadow-sm rounded-full flex items-center justify-center hover:bg-slate-100 transition-all hover:rotate-90"</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;Icon name="x" size={24} className="text-slate-900" /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;div className="p-10 md:p-20 overflow-y-auto custom-scrollbar flex-1"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;div className="max-w-2xl mx-auto space-y-10"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;p className="text-xl md:text-2xl text-slate-600 font-medium leading-relaxed italic border-l-4 border-sky-100 pl-8"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>{selectedTopic.content}</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;div className="grid sm:grid-cols-2 gap-8 pt-10"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4"&gt;Pro Tip&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;p className="text-sm text-slate-700 leading-relaxed font-semibold"&gt;Always check tide times before heading out. High tide at Bamburgh completely changes the composition opportunities.&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;div className="p-8 bg-sky-50 rounded-[2.5rem] border border-sky-100"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;p className="text-[10px] font-black uppercase tracking-widest text-sky-400 mb-4"&gt;Essential Gear&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                                </span>&lt;p className="text-sm text-sky-900 leading-relaxed font-semibold"&gt;A sturdy tripod is non-negotiable for the long exposures needed to soften the North Sea waves.&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">                    </span>&lt;footer className="py-20 border-t border-slate-100 text-center bg-white"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-6 space-y-6"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;div className="flex justify-center items-center space-x-3 text-slate-900"&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;Icon name="camera" size={16} /&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                                </span>&lt;span className="font-black text-xs uppercase tracking-widest"&gt;NorthernPixl Field Manual&lt;/span&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                            </span>&lt;p className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-300"&gt;© 2024 Guild of Northern Photographers. All Rights Reserved.&lt;/p&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                    </span>&lt;/footer&gt;</p>
+<p class="p3"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p3"><span class="Apple-converted-space">            </span>);</p>
+<p class="p3"><span class="Apple-converted-space">        </span>};</p>
+<p class="p4"><br></p>
+<p class="p3"><span class="Apple-converted-space">        </span>const root = ReactDOM.createRoot(document.getElementById('root'));</p>
+<p class="p3"><span class="Apple-converted-space">        </span>root.render(&lt;App /&gt;);</p>
+<p class="p3"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p3">&lt;/body&gt;</p>
+<p class="p3">&lt;/html&gt;</p>
 </body>
 </html>
