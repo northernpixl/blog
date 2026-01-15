@@ -1,393 +1,446 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NorthernPixl | Northumberland Photography Guide</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-    </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.3">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
 </head>
-<body class="bg-white text-slate-900 overflow-x-hidden">
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useMemo, useEffect } = React;
-
-        const Icon = ({ name, size = 20, className = "" }) => {
-            const icons = {
-                camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
-                star: <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>,
-                mountain: <path d="m8 3 4 8 5-5 5 15H2L8 3z"/>,
-                bird: <><path d="M16 7c.5 0 .1 2.2-.4 3.5-.7 1.9-2.6 3.1-4.1 4-2 .1-3.4-.3-4.5-1.5C6 12 5.5 10.5 6 9c.5-1.5 1.5-3 3-4 2.3-1.5 4.5-1 7 2z"/><path d="M8 10c1-1 3-2 5-2"/><path d="m11 11 3 3"/></>,
-                x: <><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>,
-                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
-                settings: <><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></>,
-                focus: <><circle cx="12" cy="12" r="3"/><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/></>,
-                barChart: <><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></>,
-                search: <><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></>,
-                compass: <><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></>,
-                users: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>,
-                moon: <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-            };
-            return (
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width={size}
-                    height={size}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={className}
-                >
-                    {icons[name] || null}
-                </svg>
-            );
-        };
-
-        const LOCATIONS = [
-            { id: 1, name: "Bamburgh Castle", type: "Landscape", x: 68, y: 18, desc: "Iconic fortress on basalt outcrop.", parking: "NE69 7DF", difficulty: "Easy" },
-            { id: 2, name: "Dunstanburgh Castle", type: "Landscape", x: 72, y: 28, desc: "Haunting ruins via Craster walk.", parking: "Craster Quarry", difficulty: "Medium" },
-            { id: 3, name: "Kielder Water", type: "Astro", x: 22, y: 48, desc: "Gold tier dark skies and reflections.", parking: "Leaplish", difficulty: "Easy" },
-            { id: 4, name: "Sycamore Gap", type: "Landscape", x: 30, y: 75, desc: "Historical site on Hadrian's Wall.", parking: "Steel Rigg", difficulty: "Medium" },
-            { id: 5, name: "Holy Island", type: "Landscape", x: 62, y: 10, desc: "Lindisfarne Castle & tidal causeway.", parking: "Chare Ends", difficulty: "Tidal" },
-            { id: 6, name: "Farne Islands", type: "Wildlife", x: 78, y: 20, desc: "Puffin and Seal sanctuary.", parking: "Seahouses Harbor", difficulty: "Boat Only" },
-            { id: 7, name: "Alnwick Castle", type: "Landscape", x: 64, y: 38, desc: "Stately home with lion bridge.", parking: "Greenwell Lane", difficulty: "Easy" },
-            { id: 8, name: "Simonside Hills", type: "Landscape", x: 45, y: 52, desc: "Dramatic sandstone ridges.", parking: "Lordenshaws", difficulty: "Hard" },
-            { id: 9, name: "Cullernose Point", type: "Landscape", x: 74, y: 32, desc: "Basalt cliffs and sea pinks.", parking: "Craster", difficulty: "Easy" },
-            { id: 10, name: "Coquet Island", type: "Wildlife", x: 76, y: 45, desc: "Rare Roseate Tern colonies.", parking: "Amble Harbor", difficulty: "Boat Only" },
-            { id: 11, name: "Cragside", type: "Landscape", x: 48, y: 48, desc: "First house with hydroelectricity.", parking: "On-site", difficulty: "Medium" },
-            { id: 12, name: "Steel Rigg", type: "Landscape", x: 28, y: 72, desc: "Best views of Hadrian's Wall.", parking: "NE47 7AN", difficulty: "Medium" },
-            { id: 13, name: "Budle Bay", type: "Wildlife", x: 64, y: 14, desc: "Spectacular mudflats for waders.", parking: "Waren Mill", difficulty: "Easy" },
-            { id: 14, name: "Rumpside Rocks", type: "Landscape", x: 70, y: 22, desc: "Unique geology near Bamburgh.", parking: "Roadside", difficulty: "Medium" },
-            { id: 15, name: "Druridge Bay", type: "Wildlife", x: 72, y: 55, desc: "7 miles of golden sands and dunes.", parking: "Country Park", difficulty: "Easy" },
-            { id: 16, name: "Blyth Beach Huts", type: "Landscape", x: 78, y: 80, desc: "Colorful minimalist subjects.", parking: "Beachway", difficulty: "Easy" },
-            { id: 17, name: "St Mary's Lighthouse", type: "Landscape", x: 82, y: 88, desc: "White tower on tidal island.", parking: "NE26 4RS", difficulty: "Tidal" },
-            { id: 18, name: "Linhope Spout", type: "Landscape", x: 42, y: 35, desc: "18m waterfall in Breamish Valley.", parking: "Hartside", difficulty: "Medium" },
-            { id: 19, name: "Cheviot Summit", type: "Landscape", x: 38, y: 28, desc: "Highest point in the county.", parking: "Langleeford", difficulty: "Very Hard" },
-        ];
-
-        const WORKSHOPS = [
-            {
-                id: 'astro',
-                title: 'Stellar Nightscapes',
-                type: 'Astro',
-                icon: 'moon',
-                instructor: 'Dr. Sarah Night',
-                duration: '6 Hours (Overnight)',
-                price: '£185',
-                details: 'Specialized tuition in the Kielder Gold Tier Dark Sky Park. Learn about polar alignment, tracking, and deep-sky stacking.',
-                advice: 'Bring a fast wide-angle lens (f/2.8 or wider), a sturdy tripod, and red-light torches to preserve night vision.',
-                itinerary: 'Guided walk from Leaplish to a secluded dark site, followed by 4 hours of shooting and on-site editing tips.'
-            },
-            {
-                id: 'wildlife',
-                title: 'Seabird Sanctuary',
-                type: 'Wildlife',
-                icon: 'bird',
-                instructor: 'James Puffin',
-                duration: 'Full Day',
-                price: '£220',
-                details: 'Exclusive boat access to the Farne Islands. Focus on bird-in-flight techniques and animal behavior anticipation.',
-                advice: 'Fast shutter speeds (1/2000s+) are essential. A 400mm+ lens is recommended, but 70-200mm works for environmental shots.',
-                itinerary: 'Early morning boat launch from Seahouses, landing on Inner Farne for 4 hours of dedicated puffin and tern photography.'
-            },
-            {
-                id: 'landscape',
-                title: 'Coastal Heritage',
-                type: 'Landscape',
-                icon: 'mountain',
-                instructor: 'David Shore',
-                duration: '8 Hours',
-                price: '£140',
-                details: 'Mastering the use of ND filters to capture the motion of the North Sea against the basalt structures of the coast.',
-                advice: 'Circular polarizers help cut glare on wet rocks. Wear high-quality waterproof boots for rock-pooling.',
-                itinerary: 'Golden hour at Dunstanburgh ruins, followed by a guided coastal hike to Cullernose Point for blue hour.'
-            }
-        ];
-
-        const App = () => {
-            const [activeTab, setActiveTab] = useState('home');
-            const [filter, setFilter] = useState("All");
-            const [selectedLoc, setSelectedLoc] = useState(null);
-            const [selectedTopic, setSelectedTopic] = useState(null);
-            const [selectedWorkshop, setSelectedWorkshop] = useState(null);
-
-            const filteredLocations = useMemo(() => {
-                return filter === "All" ? LOCATIONS : LOCATIONS.filter(l => l.type === filter);
-            }, [filter]);
-
-            return (
-                <div className="min-h-screen bg-white">
-                    {/* Enhanced Navigation */}
-                    <nav className="bg-white/90 backdrop-blur-xl sticky top-0 z-[60] border-b border-slate-100">
-                        <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
-                            <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => setActiveTab('home')}>
-                                <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110">
-                                    <Icon name="camera" size={18} className="text-white" />
-                                </div>
-                                <span className="font-black text-xl tracking-tighter uppercase">NorthernPixl</span>
-                            </div>
-                            
-                            <div className="hidden md:flex space-x-10 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">
-                                {['locations', 'workshops', 'learn'].map(tab => (
-                                    <button 
-                                        key={tab}
-                                        onClick={() => setActiveTab(tab)}
-                                        className={`hover:text-slate-900 transition-all relative py-1 ${activeTab === tab ? 'text-slate-900' : ''}`}
-                                    >
-                                        {tab}
-                                        {activeTab === tab && <span className="absolute -bottom-1 left-0 w-full h-1 bg-sky-500 rounded-full"></span>}
-                                    </button>
-                                ))}
-                            </div>
-
-                            <button onClick={() => setActiveTab('workshops')} className="bg-sky-500 text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-sky-200">
-                                Book Now
-                            </button>
-                        </div>
-                    </nav>
-
-                    <main>
-                        {activeTab === 'home' && (
-                            <div className="min-h-[90vh] bg-slate-900 flex flex-col items-center justify-center text-center px-6 relative overflow-hidden">
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,#334155_0%,#0f172a_100%)] opacity-80"></div>
-                                <div className="relative z-10 max-w-5xl space-y-12 animate-in">
-                                    <h1 className="text-7xl md:text-[10rem] font-black text-white tracking-tighter leading-[0.85]">
-                                        WILD <br/><span className="text-sky-500">NORTH.</span>
-                                    </h1>
-                                    <p className="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed">
-                                        The definitive guide to capturing Northumberland's rugged coast, dark skies, and rare wildlife.
-                                    </p>
-                                    <div className="flex flex-col sm:flex-row gap-6 justify-center pt-10">
-                                        <button onClick={() => setActiveTab('locations')} className="bg-white text-slate-900 px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all shadow-2xl active:scale-95">
-                                            Interactive Map
-                                        </button>
-                                        <button onClick={() => setActiveTab('workshops')} className="bg-slate-800 text-white border border-white/10 px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-700 transition-all active:scale-95">
-                                            View Workshops
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'locations' && (
-                            <div className="max-w-[1400px] mx-auto px-6 py-16 animate-in">
-                                <div className="flex flex-col lg:flex-row gap-12">
-                                    <div className="lg:w-2/3 space-y-8">
-                                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                                            <div>
-                                                <h2 className="text-5xl font-black tracking-tighter uppercase">Field Map</h2>
-                                                <p className="text-slate-400 font-medium">19 curated vantage points across the county.</p>
-                                            </div>
-                                            <div className="flex gap-2 p-1.5 bg-slate-100 rounded-2xl">
-                                                {CATEGORIES.map(cat => (
-                                                    <button 
-                                                        key={cat} 
-                                                        onClick={() => setFilter(cat)} 
-                                                        className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-                                                    >
-                                                        {cat}
-                                                    </button>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        <div className="relative aspect-[4/5] md:aspect-video bg-slate-50 rounded-[3rem] border-2 border-slate-100 overflow-hidden map-bg shadow-inner group">
-                                            {filteredLocations.map(loc => (
-                                                <button
-                                                    key={loc.id}
-                                                    onClick={() => setSelectedLoc(loc)}
-                                                    style={{ left: `${loc.x}%`, top: `${loc.y}%` }}
-                                                    className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${selectedLoc?.id === loc.id ? 'z-30' : 'z-10 hover:z-20'}`}
-                                                >
-                                                    <div className={`w-10 h-10 rounded-full border-4 border-white flex items-center justify-center transition-all pulse ${selectedLoc?.id === loc.id ? 'bg-sky-500 scale-125' : 'bg-slate-900 hover:scale-110'}`}>
-                                                        <Icon name={loc.type === 'Wildlife' ? 'bird' : loc.type === 'Astro' ? 'moon' : 'mapPin'} size={12} className="text-white" />
-                                                    </div>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-
-                                    <div className="lg:w-1/3 space-y-6">
-                                        <div className="sticky top-32 space-y-6">
-                                            <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl min-h-[500px] flex flex-col justify-center">
-                                                {selectedLoc ? (
-                                                    <div className="space-y-8 animate-in">
-                                                        <span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-500 border border-sky-100 mb-2">{selectedLoc.type}</span>
-                                                        <h3 className="text-4xl font-black tracking-tight text-slate-900">{selectedLoc.name}</h3>
-                                                        <p className="text-slate-500 text-sm leading-relaxed font-medium">{selectedLoc.desc}</p>
-                                                        
-                                                        <div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100">
-                                                            <div className="space-y-1">
-                                                                <p className="text-[9px] font-black uppercase text-slate-400">Difficulty</p>
-                                                                <p className="text-xs font-bold text-slate-700">{selectedLoc.difficulty}</p>
-                                                            </div>
-                                                            <div className="space-y-1">
-                                                                <p className="text-[9px] font-black uppercase text-slate-400">Postcode/Ref</p>
-                                                                <p className="text-xs font-bold text-slate-700">{selectedLoc.parking}</p>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <button onClick={() => setActiveTab('workshops')} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-sky-500 transition-all">
-                                                            Find Guided Walks Here
-                                                        </button>
-                                                    </div>
-                                                ) : (
-                                                    <div className="text-center space-y-6 opacity-40">
-                                                        <Icon name="compass" size={48} className="mx-auto" />
-                                                        <p className="text-[10px] font-black uppercase tracking-widest">Select a waypoint</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'workshops' && (
-                            <div className="max-w-7xl mx-auto px-6 py-20 animate-in">
-                                <div className="max-w-3xl mb-16 space-y-4">
-                                    <h2 className="text-6xl font-black tracking-tighter uppercase">Guided <br/><span className="text-sky-500">Expeditions.</span></h2>
-                                    <p className="text-xl text-slate-500 font-medium leading-relaxed">Professional tuition tailored to your skill level, focusing on the specialized requirements of Northumberland photography.</p>
-                                </div>
-
-                                <div className="grid md:grid-cols-3 gap-10">
-                                    {WORKSHOPS.map(shop => (
-                                        <div 
-                                            key={shop.id}
-                                            className="group bg-slate-50 rounded-[3.5rem] p-10 flex flex-col justify-between hover:bg-white hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-slate-100"
-                                        >
-                                            <div className="space-y-8">
-                                                <div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white group-hover:bg-sky-500 transition-colors">
-                                                    <Icon name={shop.icon} size={28} />
-                                                </div>
-                                                <div className="space-y-2">
-                                                    <div className="flex justify-between items-center">
-                                                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-500">{shop.type}</span>
-                                                        <span className="text-lg font-black text-slate-900">{shop.price}</span>
-                                                    </div>
-                                                    <h3 className="text-3xl font-black tracking-tight">{shop.title}</h3>
-                                                </div>
-                                                <div className="space-y-4">
-                                                    <div className="flex items-center space-x-3 text-slate-400">
-                                                        <Icon name="users" size={14} />
-                                                        <span className="text-[10px] font-black uppercase tracking-widest">{shop.instructor}</span>
-                                                    </div>
-                                                    <p className="text-slate-500 text-sm font-medium leading-relaxed">{shop.details}</p>
-                                                </div>
-                                            </div>
-                                            <button 
-                                                onClick={() => setSelectedWorkshop(shop)}
-                                                className="mt-12 w-full py-5 rounded-2xl border-2 border-slate-900 text-slate-900 font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all"
-                                            >
-                                                Learn More
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="mt-24 p-12 bg-slate-900 rounded-[4rem] flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative">
-                                    <div className="absolute top-0 right-0 w-1/2 h-full bg-sky-500 opacity-10 blur-[100px]"></div>
-                                    <div className="relative z-10 space-y-4 max-w-xl">
-                                        <h3 className="text-4xl font-black text-white tracking-tight">Need a Bespoke Route?</h3>
-                                        <p className="text-slate-400 font-medium">We offer 1-to-1 private tuition for specific locations not listed in our public workshops. Tell us your goals.</p>
-                                    </div>
-                                    <button className="relative z-10 bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all">
-                                        Request Private Session
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'learn' && (
-                            <div className="max-w-7xl mx-auto px-6 py-20 animate-in">
-                                <h2 className="text-5xl font-black tracking-tighter uppercase mb-16">Technical Manuals</h2>
-                                <div className="grid md:grid-cols-3 gap-8">
-                                    {/* Using previous logic for guides */}
-                                    {['Basics', 'Fieldwork', 'Artistry'].map(cat => (
-                                        <div key={cat} className="space-y-6">
-                                            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300">{cat}</span>
-                                            <div className="space-y-4">
-                                                {[1,2,3].map(i => (
-                                                    <div key={i} className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 hover:border-sky-200 transition-all cursor-pointer group">
-                                                        <h4 className="font-black text-lg mb-2 group-hover:text-sky-500 transition-colors">Digital Workflow {i}</h4>
-                                                        <p className="text-slate-400 text-sm">Essential processing techniques for northern light.</p>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </main>
-
-                    {/* Workshop Detail Modal */}
-                    {selectedWorkshop && (
-                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8">
-                            <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl animate-in" onClick={() => setSelectedWorkshop(null)}></div>
-                            <div className="relative bg-white w-full max-w-4xl rounded-[4rem] shadow-2xl animate-in overflow-hidden flex flex-col max-h-[90vh]">
-                                <div className="p-10 md:p-14 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                                    <div className="space-y-2">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-sky-500">{selectedWorkshop.type} Masterclass</span>
-                                        <h3 className="text-4xl font-black tracking-tighter">{selectedWorkshop.title}</h3>
-                                    </div>
-                                    <button onClick={() => setSelectedWorkshop(null)} className="w-14 h-14 bg-white shadow-sm rounded-full flex items-center justify-center hover:rotate-90 transition-all">
-                                        <Icon name="x" size={20} />
-                                    </button>
-                                </div>
-                                <div className="p-10 md:p-20 overflow-y-auto custom-scrollbar flex-1 space-y-12">
-                                    <div className="grid md:grid-cols-2 gap-12">
-                                        <div className="space-y-6">
-                                            <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Technical Advice</h4>
-                                            <p className="text-slate-600 font-medium leading-relaxed italic border-l-4 border-sky-500 pl-6">{selectedWorkshop.advice}</p>
-                                        </div>
-                                        <div className="space-y-6">
-                                            <h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400">Guided Walk & Itinerary</h4>
-                                            <p className="text-slate-600 font-medium leading-relaxed">{selectedWorkshop.itinerary}</p>
-                                        </div>
-                                    </div>
-                                    <div className="p-10 bg-slate-900 rounded-[3rem] text-white flex flex-col md:flex-row justify-between items-center gap-6">
-                                        <div className="space-y-1">
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Next Session</p>
-                                            <p className="text-xl font-black">October 14th, 2024</p>
-                                        </div>
-                                        <button className="bg-sky-500 text-white px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all">
-                                            Confirm Booking
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    <footer className="py-24 border-t border-slate-100 bg-white">
-                        <div className="max-w-7xl mx-auto px-6 text-center space-y-8">
-                            <div className="flex justify-center items-center space-x-3 text-slate-900">
-                                <Icon name="camera" size={16} />
-                                <span className="font-black text-sm uppercase tracking-[0.3em]">NorthernPixl</span>
-                            </div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300">© 2024 Northumberland Field Guild</p>
-                        </div>
-                    </footer>
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;NorthernPixl | Northumberland Photography Guide&lt;/title&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- External Dependencies --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</p>
+<p class="p2"><span class="Apple-converted-space">    </span></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&amp;display=swap');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-font-smoothing: antialiased;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.custom-scrollbar::-webkit-scrollbar { width: 6px; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes fade-in {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>from { opacity: 0; transform: translateY(15px); }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>to { opacity: 1; transform: translateY(0); }<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.animate-in {<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes pulse-ring {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0% { transform: scale(.8); opacity: 0.5; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>50% { opacity: 0.3; }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>100% { transform: scale(1.8); opacity: 0; }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.pulse::before {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>content: '';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>position: absolute;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 100%;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: inherit;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: pulse-ring 2.5s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>.map-bg {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-image: radial-gradient(#cbd5e1 1px, transparent 1px);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-size: 30px 30px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="bg-white text-slate-900 overflow-x-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { useState, useMemo, useEffect } = React;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const Icon = ({ name, size = 20, className = "" }) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const icons = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>camera: &lt;&gt;&lt;path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/&gt;&lt;circle cx="12" cy="13" r="3"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>star: &lt;polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mountain: &lt;path d="m8 3 4 8 5-5 5 15H2L8 3z"/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>bird: &lt;&gt;&lt;path d="M16 7c.5 0 .1 2.2-.4 3.5-.7 1.9-2.6 3.1-4.1 4-2 .1-3.4-.3-4.5-1.5C6 12 5.5 10.5 6 9c.5-1.5 1.5-3 3-4 2.3-1.5 4.5-1 7 2z"/&gt;&lt;path d="M8 10c1-1 3-2 5-2"/&gt;&lt;path d="m11 11 3 3"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>x: &lt;&gt;&lt;path d="M18 6 6 18"/&gt;&lt;path d="m6 6 12 12"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>mapPin: &lt;&gt;&lt;path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/&gt;&lt;circle cx="12" cy="10" r="3"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>settings: &lt;&gt;&lt;path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.38a2 2 0 0 0-.73-2.73l-.15-.1a2 2 0 0 1-1-1.72v-.51a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>focus: &lt;&gt;&lt;circle cx="12" cy="12" r="3"/&gt;&lt;path d="M3 7V5a2 2 0 0 1 2-2h2"/&gt;&lt;path d="M17 3h2a2 2 0 0 1 2 2v2"/&gt;&lt;path d="M21 17v2a2 2 0 0 1-2 2h-2"/&gt;&lt;path d="M7 21H5a2 2 0 0 1-2-2v-2"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>barChart: &lt;&gt;&lt;line x1="12" x2="12" y1="20" y2="10"/&gt;&lt;line x1="18" x2="18" y1="20" y2="4"/&gt;&lt;line x1="6" x2="6" y1="20" y2="16"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>search: &lt;&gt;&lt;circle cx="11" cy="11" r="8"/&gt;&lt;path d="m21 21-4.3-4.3"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>compass: &lt;&gt;&lt;circle cx="12" cy="12" r="10"/&gt;&lt;polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>users: &lt;&gt;&lt;path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/&gt;&lt;circle cx="9" cy="7" r="4"/&gt;&lt;path d="M22 21v-2a4 4 0 0 0-3-3.87"/&gt;&lt;path d="M16 3.13a4 4 0 0 1 0 7.75"/&gt;&lt;/&gt;,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>moon: &lt;path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;svg</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>xmlns="http://www.w3.org/2000/svg"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>width={size}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>height={size}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>viewBox="0 0 24 24"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>fill="none"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>stroke="currentColor"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>strokeWidth="2"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>strokeLinecap="round"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>strokeLinejoin="round"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>className={className}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{icons[name] || null}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const LOCATIONS = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 1, name: "Bamburgh Castle", type: "Landscape", x: 68, y: 18, desc: "Iconic fortress on basalt outcrop.", parking: "NE69 7DF", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 2, name: "Dunstanburgh Castle", type: "Landscape", x: 72, y: 28, desc: "Haunting ruins via Craster walk.", parking: "Craster Quarry", difficulty: "Medium" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 3, name: "Kielder Water", type: "Astro", x: 22, y: 48, desc: "Gold tier dark skies and reflections.", parking: "Leaplish", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 4, name: "Sycamore Gap", type: "Landscape", x: 30, y: 75, desc: "Historical site on Hadrian's Wall.", parking: "Steel Rigg", difficulty: "Medium" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 5, name: "Holy Island", type: "Landscape", x: 62, y: 10, desc: "Lindisfarne Castle &amp; tidal causeway.", parking: "Chare Ends", difficulty: "Tidal" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 6, name: "Farne Islands", type: "Wildlife", x: 78, y: 20, desc: "Puffin and Seal sanctuary.", parking: "Seahouses Harbor", difficulty: "Boat Only" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 7, name: "Alnwick Castle", type: "Landscape", x: 64, y: 38, desc: "Stately home with lion bridge.", parking: "Greenwell Lane", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 8, name: "Simonside Hills", type: "Landscape", x: 45, y: 52, desc: "Dramatic sandstone ridges.", parking: "Lordenshaws", difficulty: "Hard" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 9, name: "Cullernose Point", type: "Landscape", x: 74, y: 32, desc: "Basalt cliffs and sea pinks.", parking: "Craster", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 10, name: "Coquet Island", type: "Wildlife", x: 76, y: 45, desc: "Rare Roseate Tern colonies.", parking: "Amble Harbor", difficulty: "Boat Only" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 11, name: "Cragside", type: "Landscape", x: 48, y: 48, desc: "First house with hydroelectricity.", parking: "On-site", difficulty: "Medium" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 12, name: "Steel Rigg", type: "Landscape", x: 28, y: 72, desc: "Best views of Hadrian's Wall.", parking: "NE47 7AN", difficulty: "Medium" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 13, name: "Budle Bay", type: "Wildlife", x: 64, y: 14, desc: "Spectacular mudflats for waders.", parking: "Waren Mill", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 14, name: "Rumpside Rocks", type: "Landscape", x: 70, y: 22, desc: "Unique geology near Bamburgh.", parking: "Roadside", difficulty: "Medium" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 15, name: "Druridge Bay", type: "Wildlife", x: 72, y: 55, desc: "7 miles of golden sands and dunes.", parking: "Country Park", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 16, name: "Blyth Beach Huts", type: "Landscape", x: 78, y: 80, desc: "Colorful minimalist subjects.", parking: "Beachway", difficulty: "Easy" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 17, name: "St Mary's Lighthouse", type: "Landscape", x: 82, y: 88, desc: "White tower on tidal island.", parking: "NE26 4RS", difficulty: "Tidal" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 18, name: "Linhope Spout", type: "Landscape", x: 42, y: 35, desc: "18m waterfall in Breamish Valley.", parking: "Hartside", difficulty: "Medium" },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 19, name: "Cheviot Summit", type: "Landscape", x: 38, y: 28, desc: "Highest point in the county.", parking: "Langleeford", difficulty: "Very Hard" },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const WORKSHOPS = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: 'astro',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: 'Stellar Nightscapes',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: 'Astro',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>icon: 'moon',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>instructor: 'Dr. Sarah Night',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>duration: '6 Hours (Overnight)',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>price: '£185',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>details: 'Specialized tuition in the Kielder Gold Tier Dark Sky Park. Learn about polar alignment, tracking, and deep-sky stacking.',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>advice: 'Bring a fast wide-angle lens (f/2.8 or wider), a sturdy tripod, and red-light torches to preserve night vision.',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itinerary: 'Guided walk from Leaplish to a secluded dark site, followed by 4 hours of shooting and on-site editing tips.'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: 'wildlife',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: 'Seabird Sanctuary',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: 'Wildlife',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>icon: 'bird',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>instructor: 'James Puffin',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>duration: 'Full Day',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>price: '£220',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>details: 'Exclusive boat access to the Farne Islands. Focus on bird-in-flight techniques and animal behavior anticipation.',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>advice: 'Fast shutter speeds (1/2000s+) are essential. A 400mm+ lens is recommended, but 70-200mm works for environmental shots.',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itinerary: 'Early morning boat launch from Seahouses, landing on Inner Farne for 4 hours of dedicated puffin and tern photography.'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>},</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{</p>
+<p class="p1"><span class="Apple-converted-space">                </span>id: 'landscape',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>title: 'Coastal Heritage',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>type: 'Landscape',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>icon: 'mountain',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>instructor: 'David Shore',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>duration: '8 Hours',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>price: '£140',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>details: 'Mastering the use of ND filters to capture the motion of the North Sea against the basalt structures of the coast.',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>advice: 'Circular polarizers help cut glare on wet rocks. Wear high-quality waterproof boots for rock-pooling.',</p>
+<p class="p1"><span class="Apple-converted-space">                </span>itinerary: 'Golden hour at Dunstanburgh ruins, followed by a guided coastal hike to Cullernose Point for blue hour.'</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const App = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [activeTab, setActiveTab] = useState('home');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [filter, setFilter] = useState("All");</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [selectedLoc, setSelectedLoc] = useState(null);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [selectedTopic, setSelectedTopic] = useState(null);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [selectedWorkshop, setSelectedWorkshop] = useState(null);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const filteredLocations = useMemo(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return filter === "All" ? LOCATIONS : LOCATIONS.filter(l =&gt; l.type === filter);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, [filter]);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen bg-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{/* Enhanced Navigation */}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;nav className="bg-white/90 backdrop-blur-xl sticky top-0 z-[60] border-b border-slate-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex items-center space-x-3 cursor-pointer group" onClick={() =&gt; setActiveTab('home')}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;Icon name="camera" size={18} className="text-white" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span className="font-black text-xl tracking-tighter uppercase"&gt;NorthernPixl&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                            </span></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="hidden md:flex space-x-10 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>{['locations', 'workshops', 'learn'].map(tab =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>key={tab}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setActiveTab(tab)}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className={`hover:text-slate-900 transition-all relative py-1 ${activeTab === tab ? 'text-slate-900' : ''}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>{tab}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>{activeTab === tab &amp;&amp; &lt;span className="absolute -bottom-1 left-0 w-full h-1 bg-sky-500 rounded-full"&gt;&lt;/span&gt;}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button onClick={() =&gt; setActiveTab('workshops')} className="bg-sky-500 text-white px-8 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-slate-900 transition-all shadow-lg shadow-sky-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>Book Now</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/nav&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;main&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'home' &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="min-h-[90vh] bg-slate-900 flex flex-col items-center justify-center text-center px-6 relative overflow-hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,#334155_0%,#0f172a_100%)] opacity-80"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="relative z-10 max-w-5xl space-y-12 animate-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h1 className="text-7xl md:text-[10rem] font-black text-white tracking-tighter leading-[0.85]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>WILD &lt;br/&gt;&lt;span className="text-sky-500"&gt;NORTH.&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-xl md:text-2xl text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>The definitive guide to capturing Northumberland's rugged coast, dark skies, and rare wildlife.</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex flex-col sm:flex-row gap-6 justify-center pt-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setActiveTab('locations')} className="bg-white text-slate-900 px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all shadow-2xl active:scale-95"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>Interactive Map</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setActiveTab('workshops')} className="bg-slate-800 text-white border border-white/10 px-12 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-slate-700 transition-all active:scale-95"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>View Workshops</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'locations' &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-[1400px] mx-auto px-6 py-16 animate-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="flex flex-col lg:flex-row gap-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="lg:w-2/3 space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;h2 className="text-5xl font-black tracking-tighter uppercase"&gt;Field Map&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;p className="text-slate-400 font-medium"&gt;19 curated vantage points across the county.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="flex gap-2 p-1.5 bg-slate-100 rounded-2xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{CATEGORIES.map(cat =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>key={cat}<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>onClick={() =&gt; setFilter(cat)}<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${filter === cat ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>{cat}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="relative aspect-[4/5] md:aspect-video bg-slate-50 rounded-[3rem] border-2 border-slate-100 overflow-hidden map-bg shadow-inner group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>{filteredLocations.map(loc =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>key={loc.id}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>onClick={() =&gt; setSelectedLoc(loc)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>style={{ left: `${loc.x}%`, top: `${loc.y}%` }}</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>className={`absolute transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 ${selectedLoc?.id === loc.id ? 'z-30' : 'z-10 hover:z-20'}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className={`w-10 h-10 rounded-full border-4 border-white flex items-center justify-center transition-all pulse ${selectedLoc?.id === loc.id ? 'bg-sky-500 scale-125' : 'bg-slate-900 hover:scale-110'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Icon name={loc.type === 'Wildlife' ? 'bird' : loc.type === 'Astro' ? 'moon' : 'mapPin'} size={12} className="text-white" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="lg:w-1/3 space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="sticky top-32 space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl min-h-[500px] flex flex-col justify-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{selectedLoc ? (</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="space-y-8 animate-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="inline-block px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest bg-sky-50 text-sky-500 border border-sky-100 mb-2"&gt;{selectedLoc.type}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;h3 className="text-4xl font-black tracking-tight text-slate-900"&gt;{selectedLoc.name}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-slate-500 text-sm leading-relaxed font-medium"&gt;{selectedLoc.desc}&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                                                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;div className="grid grid-cols-2 gap-4 pt-6 border-t border-slate-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;div className="space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-[9px] font-black uppercase text-slate-400"&gt;Difficulty&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-xs font-bold text-slate-700"&gt;{selectedLoc.difficulty}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;div className="space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-[9px] font-black uppercase text-slate-400"&gt;Postcode/Ref&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                                </span>&lt;p className="text-xs font-bold text-slate-700"&gt;{selectedLoc.parking}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                                                        </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;button onClick={() =&gt; setActiveTab('workshops')} className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-sky-500 transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                            </span>Find Guided Walks Here</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>) : (</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="text-center space-y-6 opacity-40"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Icon name="compass" size={48} className="mx-auto" /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-[10px] font-black uppercase tracking-widest"&gt;Select a waypoint&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'workshops' &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-7xl mx-auto px-6 py-20 animate-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="max-w-3xl mb-16 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;h2 className="text-6xl font-black tracking-tighter uppercase"&gt;Guided &lt;br/&gt;&lt;span className="text-sky-500"&gt;Expeditions.&lt;/span&gt;&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-xl text-slate-500 font-medium leading-relaxed"&gt;Professional tuition tailored to your skill level, focusing on the specialized requirements of Northumberland photography.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="grid md:grid-cols-3 gap-10"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>{WORKSHOPS.map(shop =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>key={shop.id}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>className="group bg-slate-50 rounded-[3.5rem] p-10 flex flex-col justify-between hover:bg-white hover:shadow-2xl hover:-translate-y-4 transition-all duration-500 border border-slate-100"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="w-16 h-16 bg-slate-900 rounded-2xl flex items-center justify-center text-white group-hover:bg-sky-500 transition-colors"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;Icon name={shop.icon} size={28} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex justify-between items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-widest text-sky-500"&gt;{shop.type}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="text-lg font-black text-slate-900"&gt;{shop.price}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;h3 className="text-3xl font-black tracking-tight"&gt;{shop.title}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;div className="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div className="flex items-center space-x-3 text-slate-400"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;Icon name="users" size={14} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-widest"&gt;{shop.instructor}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-slate-500 text-sm font-medium leading-relaxed"&gt;{shop.details}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;button<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>onClick={() =&gt; setSelectedWorkshop(shop)}</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>className="mt-12 w-full py-5 rounded-2xl border-2 border-slate-900 text-slate-900 font-black text-[10px] uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all"</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>Learn More</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="mt-24 p-12 bg-slate-900 rounded-[4rem] flex flex-col md:flex-row items-center justify-between gap-10 overflow-hidden relative"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="absolute top-0 right-0 w-1/2 h-full bg-sky-500 opacity-10 blur-[100px]"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="relative z-10 space-y-4 max-w-xl"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h3 className="text-4xl font-black text-white tracking-tight"&gt;Need a Bespoke Route?&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;p className="text-slate-400 font-medium"&gt;We offer 1-to-1 private tuition for specific locations not listed in our public workshops. Tell us your goals.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button className="relative z-10 bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-sky-500 hover:text-white transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Request Private Session</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{activeTab === 'learn' &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="max-w-7xl mx-auto px-6 py-20 animate-in"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h2 className="text-5xl font-black tracking-tighter uppercase mb-16"&gt;Technical Manuals&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="grid md:grid-cols-3 gap-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>{/* Using previous logic for guides */}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>{['Basics', 'Fieldwork', 'Artistry'].map(cat =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div key={cat} className="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;span className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-300"&gt;{cat}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>{[1,2,3].map(i =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;div key={i} className="bg-slate-50 p-8 rounded-[2.5rem] border border-slate-100 hover:border-sky-200 transition-all cursor-pointer group"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;h4 className="font-black text-lg mb-2 group-hover:text-sky-500 transition-colors"&gt;Digital Workflow {i}&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-slate-400 text-sm"&gt;Essential processing techniques for northern light.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                                </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{/* Workshop Detail Modal */}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{selectedWorkshop &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xl animate-in" onClick={() =&gt; setSelectedWorkshop(null)}&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="relative bg-white w-full max-w-4xl rounded-[4rem] shadow-2xl animate-in overflow-hidden flex flex-col max-h-[90vh]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="p-10 md:p-14 border-b border-slate-100 flex justify-between items-center bg-slate-50/50"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;span className="text-[10px] font-black uppercase tracking-widest text-sky-500"&gt;{selectedWorkshop.type} Masterclass&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;h3 className="text-4xl font-black tracking-tighter"&gt;{selectedWorkshop.title}&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button onClick={() =&gt; setSelectedWorkshop(null)} className="w-14 h-14 bg-white shadow-sm rounded-full flex items-center justify-center hover:rotate-90 transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;Icon name="x" size={20} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="p-10 md:p-20 overflow-y-auto custom-scrollbar flex-1 space-y-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="grid md:grid-cols-2 gap-12"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400"&gt;Technical Advice&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-slate-600 font-medium leading-relaxed italic border-l-4 border-sky-500 pl-6"&gt;{selectedWorkshop.advice}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;h4 className="text-[11px] font-black uppercase tracking-widest text-slate-400"&gt;Guided Walk &amp; Itinerary&lt;/h4&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-slate-600 font-medium leading-relaxed"&gt;{selectedWorkshop.itinerary}&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;div className="p-10 bg-slate-900 rounded-[3rem] text-white flex flex-col md:flex-row justify-between items-center gap-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-[10px] font-black uppercase tracking-widest text-slate-400"&gt;Next Session&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-xl font-black"&gt;October 14th, 2024&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;button className="bg-sky-500 text-white px-10 py-5 rounded-2xl font-black text-[11px] uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                            </span>Confirm Booking</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;footer className="py-24 border-t border-slate-100 bg-white"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-6 text-center space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;div className="flex justify-center items-center space-x-3 text-slate-900"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;Icon name="camera" size={16} /&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;span className="font-black text-sm uppercase tracking-[0.3em]"&gt;NorthernPixl&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-300"&gt;© 2024 Northumberland Field Guild&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/footer&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const root = ReactDOM.createRoot(document.getElementById('root'));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>root.render(&lt;App /&gt;);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
 </body>
 </html>
