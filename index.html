@@ -20,7 +20,8 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 3rem; z-index: 10; }
+        /* Fix for Leaflet z-index to ensure it sits below modals but above base */
+        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 3rem; z-index: 0; }
     </style>
 </head>
 <body class="bg-white text-slate-900 overflow-x-hidden">
@@ -44,154 +45,414 @@
         };
 
         const LOCATIONS = [
-            { id: 1, name: "Bamburgh Castle", type: "Landscape", lat: 55.6090, lng: -1.7120, desc: "Capture reflections in the 'Black Rocks' pools at low tide.", parking: "NE69 7DF", history: "Originally an Anglo-Saxon citadel. Owned by the Armstrong family." },
-            { id: 2, name: "Dunstanburgh Castle", type: "Landscape", lat: 55.4915, lng: -1.5947, desc: "Dramatic silhouettes at sunrise. Reachable via a scenic coast walk.", parking: "NE66 3TW", history: "Built in 1313, a major fortress during the Wars of the Roses." },
-            { id: 4, name: "Lindisfarne Castle", type: "Landscape", lat: 55.6694, lng: -1.7856, desc: "16th-century castle on Holy Island. Accessible only at low tide.", parking: "TD15 2RX", history: "Site of the first Viking raid in 793 AD." },
-            { id: 5, name: "St Mary's Island", lat: 55.0717, lng: -1.4496, type: "Landscape", desc: "White lighthouse on a tidal island. Use long exposure for misty water.", parking: "NE26 4RS", history: "The lighthouse operated until 1984." },
-            { id: 6, name: "Farne Islands", type: "Wildlife", lat: 55.6178, lng: -1.6314, desc: "Thousands of Puffins and Seals. Boat trips leave from Seahouses.", parking: "Seahouses", history: "Home of St. Cuthbert and Grace Darling." },
-            { id: 7, name: "Coquet Island", type: "Wildlife", lat: 55.3340, lng: -1.5372, desc: "Rare Roseate Tern. Boat trips from Amble required.", parking: "NE65 0AP", history: "Features ruins of a Benedictine cell." },
-            { id: 8, name: "Chillingham Park", type: "Wildlife", lat: 55.5262, lng: -1.9054, desc: "Home to the Wild Cattle, rarer than giant pandas.", parking: "NE66 5NJ", history: "Enclosed since the 13th century." },
-            { id: 9, name: "Kielder Water", type: "Wildlife", lat: 55.2330, lng: -2.5330, desc: "Ospreys and Red Squirrels around the lake.", parking: "NE48 1BT", history: "Europe's largest man-made lake." },
-            { id: 11, name: "Kielder Observatory", type: "Astro", lat: 55.2369, lng: -2.6105, desc: "Gold-Tier Dark Sky Park. Prime spot for Milky Way.", parking: "NE48 1EJ", history: "Opened in 2008." },
-            { id: 12, name: "Cawfields Quarry", type: "Astro", lat: 54.9967, lng: -2.4645, desc: "Dark Sky Discovery Site. Reflects stars perfectly.", parking: "NE49 9PJ", history: "Former dolerite quarry on the Whin Sill." },
-            { id: 15, name: "Dunstan Steads", type: "Astro", lat: 55.4988, lng: -1.6112, desc: "Northern Lights (Aurora) looking North.", parking: "NE66 3SY", history: "Coastline fortified during WWII." },
-            { id: 16, name: "Alnwick Castle", type: "Landscape", lat: 55.4156, lng: -1.7059, desc: "The 'Harry Potter' castle.", parking: "NE66 1YU", history: "Seat of the Duke of Northumberland." },
-            { id: 17, name: "Cragside House", type: "Landscape", lat: 55.3134, lng: -1.8845, desc: "Victorian architecture.", parking: "NE65 7PX", history: "First house lit by hydroelectric power." },
-            { id: 18, name: "Housesteads", type: "Landscape", lat: 55.0135, lng: -2.3283, desc: "Complete Roman fort.", parking: "NE47 6NN", history: "Built around 124 AD." },
-            { id: 19, name: "Blyth Beach Huts", type: "Landscape", lat: 55.1207, lng: -1.5034, desc: "Vibrant, colorful huts.", parking: "NE24 3PL", history: "Modern regeneration site." },
-            { id: 20, name: "Northumberlandia", type: "Landscape", lat: 55.0934, lng: -1.6288, desc: "Human landform sculpture.", parking: "NE23 8AU", history: "Completed in 2012." },
-            { id: 21, name: "Linhope Spout", type: "Landscape", lat: 55.4437, lng: -2.0634, desc: "Spectacular 18m chute waterfall.", parking: "NE66 4LZ", history: "Breamish Valley location." },
-            { id: 22, name: "Twizell Castle", type: "Landscape", lat: 55.6835, lng: -2.1895, desc: "Unfinished gothic folly.", parking: "TD15 2PS", history: "Begun in 1770." },
-            { id: 23, name: "Simonside Hills", type: "Landscape", lat: 55.2890, lng: -1.9480, desc: "360-degree views of Cheviots.", parking: "NE65 7NW", history: "Rich in local folklore." },
-            { id: 24, name: "Cresswell Pond", type: "Wildlife", lat: 55.2289, lng: -1.5434, desc: "Brackish lagoon for waders.", parking: "NE61 5LF", history: "Formed by mining subsidence." },
-            { id: 25, name: "Holystone Woods", type: "Wildlife", lat: 55.3235, lng: -2.0678, desc: "Native oak woodland.", parking: "NE65 7AJ", history: "Associated with St. Ninian." },
-            { id: 26, name: "The Cheviot", type: "Wildlife", lat: 55.4795, lng: -2.1466, desc: "Highest peak in the county.", parking: "NE71 6RJ", history: "An extinct volcano." },
-            { id: 27, name: "Hareshaw Linn", type: "Wildlife", lat: 55.1557, lng: -2.2420, desc: "Ancient ravine waterfall.", parking: "NE48 2BZ", history: "Once an ironworks site." },
-            { id: 28, name: "Elf Kirk", type: "Astro", lat: 55.2045, lng: -2.5367, desc: "Deep forest dark sky site.", parking: "NE48 1HX", history: "Zero light pollution." },
-            { id: 29, name: "Wooler Common", type: "Astro", lat: 55.5412, lng: -2.0345, desc: "Great low horizons.", parking: "NE71 6RL", history: "Ancient common land." },
-            { id: 30, name: "Stonehaugh", type: "Astro", lat: 55.0877, lng: -2.3166, desc: "Stargazing pavilion.", parking: "NE48 3DZ", history: "Architecture student project." }
+            { 
+                id: 1, 
+                name: "Bamburgh Castle", 
+                type: "Landscape", 
+                lat: 55.6090, 
+                lng: -1.7120, 
+                desc: "This is arguably the most iconic view in the county. At low tide, head north of the castle to the 'Black Rocks' (part of the Whin Sill). These volcanic pools act as perfect mirrors. \n\nCOMPOSITION: Use a wide-angle lens (16-24mm) to get close to the green, mossy rocks in the foreground while keeping the castle imposing in the background. Watch for the 'Stag Rock' painted white for an alternative angle further north.", 
+                parking: "NE69 7DF (Links Car Park)", 
+                best_time: "Sunrise (Winter) / Sunset (Summer)",
+                history: "The Royal Seat of the Kings of Northumbria. It has stood guard here for over 1,400 years, originally a wooden fort destroyed by Vikings in 993, then rebuilt by Normans. Restored to its current glory by industrialist Lord Armstrong." 
+            },
+            { 
+                id: 2, 
+                name: "Dunstanburgh Castle", 
+                type: "Landscape", 
+                lat: 55.4915, 
+                lng: -1.5947, 
+                desc: "The approach from Craster is a 1.3-mile walk, but the photographic rewards are immense. The classic shot is from the 'Greystones' (round boulders) on the north side at Embleton Bay. \n\nCOMPOSITION: Long exposure (1-2 seconds) is essential here to smooth the often rough water washing over the round stones. The castle ruins form a jagged silhouette that looks best when backlit at sunrise.", 
+                parking: "NE66 3TW (Craster Quarry)", 
+                best_time: "Sunrise (Year-round)",
+                history: "Built in 1313 by Earl Thomas of Lancaster on a magnificent scale, seemingly to defy King Edward II. It fell into ruin after the Wars of the Roses and was captured twice by Yorkist forces." 
+            },
+            { 
+                id: 4, 
+                name: "Lindisfarne Castle", 
+                type: "Landscape", 
+                lat: 55.6694, 
+                lng: -1.7856, 
+                desc: "Situated on Holy Island, access is dictated by the tide tables—do not get cut off. The castle sits atop a volcanic mound (Beblowe Crag). \n\nCOMPOSITION: The most popular angle is from the row of upturned fishing boats in the harbor (The Ouse). These provide fantastic leading lines. Another option is the small stone jetty which points directly at the castle.", 
+                parking: "TD15 2RX (Chare Ends)", 
+                best_time: "Sunrise or Golden Hour",
+                history: "A 16th-century fort built using stones from the dissolved priory. It was famously renovated by Arts and Crafts architect Edwin Lutyens in 1901. This island saw the first major Viking raid in 793 AD." 
+            },
+            { 
+                id: 5, 
+                name: "St Mary's Island", 
+                lat: 55.0717, 
+                lng: -1.4496, 
+                type: "Landscape", 
+                desc: "A tidal island linked by a short causeway. The white lighthouse is a stark contrast to the dark rocks. \n\nCOMPOSITION: The causeway itself is a perfect leading line. Photograph it as the tide is just starting to cover it (ensure you are on the mainland side!). Long exposures work beautifully here to turn the North Sea into a milky mist around the concrete walkway.", 
+                parking: "NE26 4RS", 
+                best_time: "High Tide (for long exposure)",
+                history: "The lighthouse was built in 1898 on the site of an 11th-century monastic chapel. It was decommissioned in 1984 but remains a beacon for photographers and birdwatchers." 
+            },
+            { 
+                id: 6, 
+                name: "Farne Islands", 
+                type: "Wildlife", 
+                lat: 55.6178, 
+                lng: -1.6314, 
+                desc: "Accessible only by boat from Seahouses. Inner Farne is the main landing site. \n\nGEAR: You need a telephoto lens (300mm-500mm). The Arctic Terns will dive-bomb you (wear a hat!). The Puffins are fast—use a shutter speed of at least 1/2000s to freeze their wings. For seals, take a boat that circles the outer islands.", 
+                parking: "Seahouses Harbor", 
+                best_time: "May - July (Puffin Season)",
+                history: "Famed as the hermitage of St. Cuthbert who died here in 687 AD. Also the site of Grace Darling's heroic rescue of the SS Forfarshire survivors in 1838." 
+            },
+            { 
+                id: 7, 
+                name: "Coquet Island", 
+                type: "Wildlife", 
+                lat: 55.3340, 
+                lng: -1.5372, 
+                desc: "This is an RSPB reserve and landing is prohibited, but boat tours from Amble offer incredible proximity. \n\nSPECIES: It is the UK's only stronghold for the Roseate Tern. It also hosts thousands of Puffins. Because you are on a moving boat, image stabilization (IS/VR) is critical. Keep your shutter speed high.", 
+                parking: "NE65 0AP (Amble)", 
+                best_time: "Summer Breeding Season",
+                history: "Home to the ruins of a medieval Benedictine cell. The lighthouse was built in 1841 and is now automated. The island has been a sanctuary since the 7th century." 
+            },
+            { 
+                id: 8, 
+                name: "Chillingham Park", 
+                type: "Wildlife", 
+                lat: 55.5262, 
+                lng: -1.9054, 
+                desc: "Home to the famous Wild Cattle, the only survivors of the ancient wild herds of Britain. They are dangerous and must be viewed with a warden. \n\nCOMPOSITION: The park is a mix of woodland and open pasture. Try to capture the cattle interacting—locking horns or nursing calves. The ancient trees in the park also make for spooky atmospheric shots.", 
+                parking: "NE66 5NJ", 
+                best_time: "Early Morning (Mist)",
+                history: "The herd has been enclosed here since the 13th century, remaining genetically isolated for hundreds of years. They are considered rarer than the giant panda." 
+            },
+            { 
+                id: 9, 
+                name: "Kielder Water", 
+                type: "Wildlife", 
+                lat: 55.2330, 
+                lng: -2.5330, 
+                desc: "A massive area offering Ospreys (Bakethin Hide is best) and Red Squirrels. \n\nSTRATEGY: For squirrels, patience is key. Sit quietly near the feeders at the hides. For Ospreys, you need a very long lens (600mm ideally) and a tripod with a gimbal head to track their flight over the water.", 
+                parking: "NE48 1BT (Tower Knowe)", 
+                best_time: "April - August (Ospreys)",
+                history: "Europe's largest man-made lake, created in 1981. The valley holds a submerged history of farms and schools that were flooded to create the reservoir." 
+            },
+            { 
+                id: 11, 
+                name: "Kielder Observatory", 
+                type: "Astro", 
+                lat: 55.2369, 
+                lng: -2.6105, 
+                desc: "Located in the heart of the Gold-Tier Dark Sky Park. While you can't always shoot through their telescopes, the architecture of the observatory itself makes a stunning foreground for wide-angle Milky Way shots. \n\nTECH: Use a fast wide angle (14mm f/2.8). The deck faces South, perfect for the galactic core.", 
+                parking: "NE48 1EJ (Permit required at night)", 
+                best_time: "New Moon (Winter)",
+                history: "Opened in 2008, this timber structure is designed to look like a 'landship' moored on the hillside. It is a beacon for astronomy education in the UK." 
+            },
+            { 
+                id: 12, 
+                name: "Cawfields Quarry", 
+                type: "Astro", 
+                lat: 54.9967, 
+                lng: -2.4645, 
+                desc: "One of the most accessible Dark Sky sites. A deep lake sits in a former quarry with steep cliffs blocking light pollution. \n\nCOMPOSITION: The lake is incredibly still at night, offering perfect star reflections. Hadrian's Wall runs along the top of the crags—try illuminating it gently with a torch (light painting) during your exposure.", 
+                parking: "NE49 9PJ", 
+                best_time: "Clear Winter Nights",
+                history: "A former dolerite quarry cut directly into the Whin Sill. The dark igneous rock provides a dramatic, stark contrast to the night sky." 
+            },
+            { 
+                id: 15, 
+                name: "Dunstan Steads", 
+                type: "Astro", 
+                lat: 55.4988, 
+                lng: -1.6112, 
+                desc: "A prime location for the Aurora Borealis (Northern Lights). It has a clear, unobstructed view North over the ocean. \n\nADVICE: Monitor solar activity apps (like Glendale). When the Kp index hits 5 or 6, head here. You need a 10-15 second exposure at ISO 1600+ to bring out the colors that the naked eye might miss.", 
+                parking: "NE66 3SY", 
+                best_time: "Aurora Forecast > Kp5",
+                history: "The coastline here is dotted with World War II concrete pillboxes, constructed to defend against a potential German invasion from Norway." 
+            },
+            { 
+                id: 16, 
+                name: "Alnwick Castle", 
+                type: "Landscape", 
+                lat: 55.4156, 
+                lng: -1.7059, 
+                desc: "Famous as Hogwarts in Harry Potter. The best view for photographers is not from the entrance, but from the 'Lion Bridge' across the River Aln. \n\nCOMPOSITION: Frame the castle through the arches of the bridge or use the river as a leading line. The daffodils on the bank in spring create a yellow carpet foreground.", 
+                parking: "NE66 1YU", 
+                best_time: "Late Afternoon / Golden Hour",
+                history: "The seat of the Duke of Northumberland and the Percy family for over 700 years. It is the second largest inhabited castle in England after Windsor." 
+            },
+            { 
+                id: 17, 
+                name: "Cragside House", 
+                type: "Landscape", 
+                lat: 55.3134, 
+                lng: -1.8845, 
+                desc: "A Victorian fantasy house nestled in a forest of rhododendrons. \n\nCOMPOSITION: The Iron Bridge offers a fantastic view of the house towering above the gorge. In Autumn, the colors here are riotous. Use a polarizing filter to cut glare on the wet leaves and pop the red/orange foliage.", 
+                parking: "NE65 7PX", 
+                best_time: "Autumn (Oct-Nov)",
+                history: "Built by Lord Armstrong, it was the first house in the world to be lit by hydroelectricity. It is a masterpiece of Victorian engineering and innovation." 
+            },
+            { 
+                id: 18, 
+                name: "Housesteads", 
+                type: "Landscape", 
+                lat: 55.0135, 
+                lng: -2.3283, 
+                desc: "The most complete Roman Fort on Hadrian's Wall. It sits high on an exposed escarpment. \n\nCOMPOSITION: This is a location for drama. Turbulent clouds and moody lighting suit the ruins. Shoot from the east looking west along the wall to capture the undulations of the landscape.", 
+                parking: "NE47 6NN", 
+                best_time: "Stormy/Moody Weather",
+                history: "Vercovicium (Housesteads) was built around 124 AD. It housed 800 infantry soldiers and is one of the best-preserved frontiers of the Roman Empire." 
+            },
+            { 
+                id: 19, 
+                name: "Blyth Beach Huts", 
+                type: "Landscape", 
+                lat: 55.1207, 
+                lng: -1.5034, 
+                desc: "A row of vibrantly colored wooden beach huts. \n\nCOMPOSITION: This is an exercise in symmetry and color. Use a longer focal length (50mm-85mm) and stand back to compress the perspective. Shoot straight on to create a graphic, abstract image consisting of just vertical lines and bold colors.", 
+                parking: "NE24 3PL", 
+                best_time: "Overcast (for even light)",
+                history: "Part of the modern regeneration of the Blyth coastline. These huts have become a contemporary icon of the Northumberland coast, distinct from the ancient castles." 
+            },
+            { 
+                id: 20, 
+                name: "Northumberlandia", 
+                type: "Landscape", 
+                lat: 55.0934, 
+                lng: -1.6288, 
+                desc: "Assuming the form of a reclining woman, this is the world's largest human landform sculpture. \n\nCOMPOSITION: From the ground, it's hard to capture the shape. Walk to the highest point (the head) for panoramic views of the Shotton Surface Mine, or use the winding paths as geometric leading lines.", 
+                parking: "NE23 8AU", 
+                best_time: "Sunset",
+                history: "Completed in 2012, designed by Charles Jencks. It was built using 1.5 million tonnes of rock, clay, and soil from the neighboring open-cast mine." 
+            },
+            { 
+                id: 21, 
+                name: "Linhope Spout", 
+                type: "Landscape", 
+                lat: 55.4437, 
+                lng: -2.0634, 
+                desc: "A spectacular 18m chute waterfall in the Breamish Valley. It requires a 1.5-mile walk to reach. \n\nCOMPOSITION: You need a tripod and an ND filter. A shutter speed of 0.5s to 1s is perfect to blur the water while keeping texture. There is a plunge pool at the bottom that swirls—great for long exposure spirals.", 
+                parking: "NE66 4LZ (Hartside Farm)", 
+                best_time: "Overcast / After Rain",
+                history: "A popular Victorian picnic spot. The deep plunge pool is bottomless according to local folklore (though actually about 5m deep)." 
+            },
+            { 
+                id: 22, 
+                name: "Twizell Castle", 
+                type: "Landscape", 
+                lat: 55.6835, 
+                lng: -2.1895, 
+                desc: "An unfinished Gothic folly that stands eerily empty. It has a 'shell' quality that is haunting. \n\nCOMPOSITION: Frame the castle with the ancient trees surrounding it. It sits high above the River Till. The bridge below (Twizell Bridge) is also medieval and worth a shot.", 
+                parking: "TD15 2PS", 
+                best_time: "Mist/Fog",
+                history: "Begun in 1770 by Sir Francis Blake, but never completed. It was designed to be a five-story mansion but remains a grand, empty stone skeleton." 
+            },
+            { 
+                id: 23, 
+                name: "Simonside Hills", 
+                type: "Landscape", 
+                lat: 55.2890, 
+                lng: -1.9480, 
+                desc: "A sandstone ridge offering 360-degree views. \n\nCOMPOSITION: The heather here turns the hills purple in late summer. Use the stone cairns on the summit as foreground interest. The view looks straight towards the Cheviot Massif.", 
+                parking: "NE65 7NW", 
+                best_time: "August (Heather Season)",
+                history: "Known in folklore as the home of the 'Duergar' (dark dwarves) who would lure travelers into bogs. The hills have spiritual significance dating back to the Bronze Age." 
+            },
+            { 
+                id: 24, 
+                name: "Cresswell Pond", 
+                type: "Wildlife", 
+                lat: 55.2289, 
+                lng: -1.5434, 
+                desc: "A brackish lagoon right next to the beach. \n\nSPECIES: Excellent for wading birds like Avocets, Redshanks, and migrating geese. The hide is well-positioned. You need a long lens (400mm+) as the birds can be in the center of the pond. Early morning light is best to avoid heat haze.", 
+                parking: "NE61 5LF", 
+                best_time: "High Tide (pushes birds closer)",
+                history: "Formed by mining subsidence, this accidental nature reserve is now a permanent feature of Druridge Bay's ecology." 
+            },
+            { 
+                id: 25, 
+                name: "Holystone Woods", 
+                type: "Wildlife", 
+                lat: 55.3235, 
+                lng: -2.0678, 
+                desc: "Ancient semi-natural oak woodland. \n\nSPECIES: Great for Red Squirrels, Pied Flycatchers, and Wood Warblers. It is dense and dark, so you will need a higher ISO (800-1600) to get fast shutter speeds. Look for the 'Lady's Well'—a clear pool surrounded by trees.", 
+                parking: "NE65 7AJ", 
+                best_time: "Spring (Bluebells)",
+                history: "Associated with St. Ninian, who is said to have baptized early Christians in the Lady's Well here in the 5th century." 
+            },
+            { 
+                id: 26, 
+                name: "The Cheviot", 
+                type: "Wildlife", 
+                lat: 55.4795, 
+                lng: -2.1466, 
+                desc: "The highest point in Northumberland (815m). It is a bleak, peat-bog plateau. \n\nSPECIES: Look for Red Grouse bursting out of the heather (keep your autofocus on continuous). You may also see Mountain Hares in their white winter coats if you are lucky.", 
+                parking: "NE71 6RJ (Langleeford)", 
+                best_time: "Winter (Snow)",
+                history: "An extinct volcano that was active 390 million years ago. It has been eroded down to the granite stump we hike today." 
+            },
+            { 
+                id: 27, 
+                name: "Hareshaw Linn", 
+                type: "Wildlife", 
+                lat: 55.1557, 
+                lng: -2.2420, 
+                desc: "A deep, damp ravine leading to a waterfall. \n\nSPECIES: The damp conditions are perfect for ferns, mosses, and fungi (macro photography paradise). Look for Dippers bobbing on the rocks in the stream and Spotted Flycatchers in the canopy.", 
+                parking: "NE48 2BZ (Bellingham)", 
+                best_time: "Overcast days",
+                history: "Surprisingly, this was the site of a noisy ironworks in the 19th century. Nature has completely reclaimed the industrial spoil heaps." 
+            },
+            { 
+                id: 28, 
+                name: "Elf Kirk", 
+                type: "Astro", 
+                lat: 55.2045, 
+                lng: -2.5367, 
+                desc: "A clearing in Kielder Forest. It is incredibly dark (Bortle Class 2). \n\nCOMPOSITION: The tall pine trees frame the sky beautifully, creating a 'window' to the stars. It feels very enclosed and private. Great for vertical panoramic shots of the Milky Way arching overhead.", 
+                parking: "NE48 1HX", 
+                best_time: "Moonless Nights",
+                history: "The name implies a 'Church of the Elves', hinting at the magical atmosphere of this remote forest clearing." 
+            },
+            { 
+                id: 29, 
+                name: "Wooler Common", 
+                type: "Astro", 
+                lat: 55.5412, 
+                lng: -2.0345, 
+                desc: "Great for those who want big skies without the drive to Kielder. \n\nCOMPOSITION: The horizon is low and distant, meaning you can see stars almost down to 0 degrees elevation. There are small ponds on the common that can reflect the brightest stars (like Sirius or Jupiter).", 
+                parking: "NE71 6RL", 
+                best_time: "Meteor Showers",
+                history: "Ancient common land that has been grazed for centuries. It sits on the edge of the Northumberland National Park." 
+            },
+            { 
+                id: 30, 
+                name: "Stonehaugh", 
+                type: "Astro", 
+                lat: 55.0877, 
+                lng: -2.3166, 
+                desc: "Home to the 'Stargazing Pavilion', a concrete structure designed for lying back and watching the sky. \n\nUSAGE: The pavilion blocks the wind and gives you a comfortable concrete recliner. It is excellent for star trail photography—set your camera up on the structure and let it run for an hour.", 
+                parking: "NE48 3DZ", 
+                best_time: "Winter (Gemini Meteor Shower)",
+                history: "The village was built in the 1950s for forestry workers. The pavilion was a project by architecture students from Newcastle University." 
+            }
         ];
 
         const GUIDES = [
             { 
                 id: 1, title: "Hyperfocal Distance", cat: "Landscape", time: "15 min", 
-                fundamentals: "The hyperfocal distance is the closest distance at which a lens can be focused while keeping objects at infinity acceptably sharp. When you focus at the hyperfocal distance, your depth of field extends from half that distance to infinity. This is crucial for landscapes where you have a prominent foreground subject (like the rocks at Bamburgh) but also want the distant castle to stay crisp. To calculate this, you need to consider your focal length and aperture (e.g., 24mm at f/11). \n\nSTEPS: 1. Use an app or table to find the distance. 2. Switch to manual focus. 3. Set the distance on your lens's scale. 4. Use a tripod to ensure no movement during the longer shutter speed required by a small aperture.",
-                impact: "Maximizing sharpness across the entire frame creates a professional, immersive feel that draws the viewer's eye from the bottom of the photo to the horizon without any blurry 'dead zones'.",
-                proTip: "If you don't have an app, focus roughly one-third of the way into the scene; this is a reliable 'field rule' for achieving decent front-to-back sharpness."
+                fundamentals: "Hyperfocal distance is the 'holy grail' calculation for maximum depth of field. It is the closest distance at which a lens can be focused while keeping objects at infinity acceptably sharp. When you focus at the hyperfocal distance, your depth of field extends from half that distance all the way to the horizon. \n\nWHY IT MATTERS: If you focus on the horizon, your foreground rocks will be soft. If you focus on the rocks, the castle in the background will be blurry. Hyperfocal is the mathematical middle ground.\n\nDETAILED STEPS:\n1. Compose your shot (e.g., rocks in front, castle in back).\n2. Determine your focal length (e.g., 24mm) and aperture (e.g., f/11).\n3. Use an app (PhotoPills) to find the number (e.g., 1.7 meters).\n4. Switch lens to Manual Focus.\n5. Focus on an object roughly 1.7m away (or use the distance scale on the lens).\n6. Do not touch the focus ring again.",
+                impact: "Maximizing sharpness across the entire frame creates a professional, immersive feel. It guides the viewer's eye from the grass at their feet to the clouds in the sky without hitting any blurry 'dead zones'.",
+                proTip: "No app? The 'Double Distance' rule works well: Estimate how far away your closest subject is (e.g., 2 meters). Focus at double that distance (4 meters). Check your review screen and zoom in to verify."
             },
             { 
                 id: 2, title: "Long Exposure Waterscapes", cat: "Landscape", time: "12 min", 
-                fundamentals: "Long exposure involves using a slow shutter speed (from 0.5 seconds to several minutes) to blur the movement of water or clouds. In Northumberland, this is essential for turning the North Sea into a smooth mist around the base of St Mary's Lighthouse. \n\nTECHNIQUE: 1. Secure your camera on a heavy tripod. 2. Use a Neutral Density (ND) filter to block light, allowing for slower speeds. 3. Use a remote shutter or the 2-second timer to prevent camera shake from your finger. 4. Shoot in Manual mode to maintain consistency across shots.",
-                impact: "It simplifies a busy, chaotic scene. By smoothing out waves, you emphasize the stationary, permanent structures of the landscape, creating a sense of peace and artistic abstraction.",
-                proTip: "Time your shots with the outgoing tide; the retreating water creates beautiful 'streaks' that lead the eye toward your subject."
+                fundamentals: "Long exposure involves using a slow shutter speed to blur the movement of water or clouds. In Northumberland, this is the signature style for coastlines. \n\nGEAR NEEDED:\n1. A sturdy tripod (essential).\n2. A remote shutter release (to prevent shake).\n3. Neutral Density (ND) filters (6-stop or 10-stop).\n\nSETTINGS GUIDE:\n- 0.5 to 1 second: Retains texture and energy in the water (good for crashing waves).\n- 30 seconds: Creates a flat, misty, ethereal surface (good for calm minimalism).\n- 2 minutes+: Totally flattens the sea and streaks the clouds.",
+                impact: "It simplifies a busy, chaotic scene. By smoothing out random wave patterns, you emphasize the stationary, permanent structures (rocks, lighthouses), creating a sense of peace and artistic abstraction.",
+                proTip: "Cover your viewfinder! On DSLR cameras, light can leak in through the viewfinder during long exposures and cause purple banding on your image. Use the little rubber cover or a piece of black tape."
             },
             { 
                 id: 3, title: "The Rule of Thirds & Beyond", cat: "Landscape", time: "10 min", 
-                fundamentals: "Composition is the arrangement of elements in your frame. The Rule of Thirds suggests dividing the frame into a 3x3 grid and placing key elements on the lines or intersections. For Northumberland's vast skies, placing the horizon on the bottom third emphasizes the clouds. For the coast, placing the horizon on the top third emphasizes the beach textures. \n\nADVANCED: Consider the 'Golden Ratio' or 'Leading Lines' (like the pier at Blyth) to create a more natural flow for the eye.",
-                impact: "Good composition transforms a snapshot into a story. It creates balance and tension, guiding the viewer through the image in a deliberate way.",
-                proTip: "Break the rule for symmetry! If you're shooting the Blyth Beach Huts, center them perfectly to emphasize their rhythmic pattern."
+                fundamentals: "Composition is the arrangement of elements. The Rule of Thirds divides the frame into a 3x3 grid. \n\nAPPLICATION:\n- Horizon: Place it on the top line to emphasize the foreground (rocks/beach). Place it on the bottom line to emphasize a dramatic sky.\n- Intersections: Place your main subject (e.g., a castle) where the grid lines cross.\n\nADVANCED CONCEPTS:\n- Leading Lines: Use the pier at Blyth or a wall at Housesteads to physically point towards your subject.\n- Negative Space: Don't be afraid of empty sky. It creates a sense of scale and isolation.",
+                impact: "Good composition transforms a snapshot into a story. It creates balance and tension, guiding the viewer through the image in a deliberate way rather than letting their eye wander aimlessly.",
+                proTip: "Break the rule for symmetry! If you're shooting the Blyth Beach Huts or a reflection in a still lake, center the horizon perfectly to emphasize the geometric mirror effect."
             },
             { 
                 id: 4, title: "Focus Stacking Techniques", cat: "Landscape", time: "18 min", 
-                fundamentals: "Sometimes, even at f/16, you cannot get a very close foreground and a distant background sharp in one shot. Focus stacking is the solution. You take multiple photos (usually 3-5) of the exact same scene, shifting the focus point from the closest object to the furthest. \n\nWORKFLOW: 1. Use a tripod—frames must align perfectly. 2. Shoot in Manual. 3. Take shot 1 focused on the immediate foreground. 4. Take shot 2 focused slightly further back. 5. Repeat until you reach infinity. 6. Merge in post-processing software.",
-                impact: "This allows you to use the 'sweet spot' of your lens (usually f/5.6 or f/8) where it is sharpest, rather than stopping down to f/22 and suffering from diffraction blur.",
-                proTip: "Check your first and last shots immediately on-screen to ensure you didn't miss the 'front' or 'back' of the focus range."
+                fundamentals: "Sometimes, physics defeats you. Even at f/16, you cannot get a flower 10cm from the lens and a mountain 10km away both sharp. Focus stacking solves this by combining multiple images.\n\nFIELD WORKFLOW:\n1. Lock your camera on a tripod. Composition must not change.\n2. Exposure: Manual mode (constant aperture/shutter/ISO).\n3. Shot 1: Focus on the absolute closest object.\n4. Shot 2: Focus on the middle ground.\n5. Shot 3: Focus on the background/infinity.\n6. Check: Ensure images overlap in focus zones.\n\nPOST-PROCESSING: Use Photoshop (Edit > Auto-Align, then Edit > Auto-Blend) to stitch them.",
+                impact: "This allows you to use the 'sweet spot' of your lens (usually f/5.6 or f/8) where it is sharpest, rather than stopping down to f/22 and suffering from diffraction blur (softness caused by light bending).",
+                proTip: "Watch out for wind! If the grass in the foreground moves between shot 1 and shot 2, the blending software will fail. Wait for a lull in the breeze."
             },
             { 
                 id: 5, title: "Polarizing for Clarity", cat: "Landscape", time: "11 min", 
-                fundamentals: "A Circular Polarizer is the most important filter for landscape work. It works by filtering out light that has been polarized by reflection. It reduces glare on wet rocks, removes reflections from the surface of the sea (revealing the 'Black Rocks' at Bamburgh), and increases color saturation in the sky. \n\nUSAGE: 1. Screw the filter onto the lens. 2. Rotate the outer ring while looking through the viewfinder. 3. You will see the reflections vanish and the blue of the sky deepen.",
-                impact: "It achieves an effect that is impossible to replicate in Photoshop. It adds 'punch' and clarity to images by removing the haze caused by reflected light.",
-                proTip: "Polarizers are most effective when the sun is at a 90-degree angle to your camera. Avoid using them on extreme wide-angle lenses (under 16mm) as they can cause uneven dark patches in the sky."
+                fundamentals: "A Circular Polarizer (CPL) is the one filter that software cannot mimic. It physically filters out scattered light waves.\n\nPRIMARY USES:\n1. Removing Glare: It lets you see *through* the water in rock pools, revealing colored pebbles instead of white sky reflection.\n2. Darkening Skies: It deepens the blue of the sky, making white clouds pop.\n3. Foliage: It removes the white sheen from wet leaves in forests (like Cragside), increasing color saturation.\n\nHOW TO USE: Screw it on and rotate the outer ring while looking through the viewfinder. The effect will cycle from min to max.",
+                impact: "It adds 'punch' and clarity to images instantly. It turns a flat, hazy image into a vibrant, three-dimensional scene with rich contrast.",
+                proTip: "The '90-Degree Rule': Polarizers work best when the sun is at a 90-degree angle to your lens (i.e., over your shoulder). If shooting directly into the sun, they do nothing."
             },
             { 
                 id: 6, title: "Exposure Bracketing", cat: "Landscape", time: "10 min", 
-                fundamentals: "Northumberland sunrises often have a huge dynamic range—the sun is too bright and the shadows are too dark for the camera sensor to capture in one shot. Bracketing involves taking one 'normal' exposure, one underexposed (to save sky detail), and one overexposed (to save shadow detail). \n\nSETTINGS: Look for 'AEB' (Auto Exposure Bracketing) in your menu. Set it to 3 shots at 2-stop intervals.",
-                impact: "Ensures you never have 'blown out' white skies or 'crushed' black shadows, giving you all the data needed for a perfect edit.",
-                proTip: "Even if you don't intend to make an HDR (High Dynamic Range) image, bracketing is great 'insurance' to ensure you caught the best possible single exposure."
+                fundamentals: "Northumberland sunrises have high dynamic range (bright sun, dark rocks). A single sensor often can't capture both.\n\nTECHNIQUE (AEB):\n1. Find 'Auto Exposure Bracketing' in your menu.\n2. Set it to 3 shots with a 2-stop interval (-2, 0, +2).\n3. Set drive mode to 'High Speed Continuous'.\n4. Hold the button: The camera will take 3 rapid fire shots.\n   - Shot 1 (Dark): Captures details in the bright sun/clouds.\n   - Shot 2 (Normal): General exposure.\n   - Shot 3 (Bright): Captures details in the deep shadows.",
+                impact: "Ensures you never have 'blown out' white skies or 'crushed' black shadows. You can merge these later into an HDR image or manually blend them for a natural look.",
+                proTip: "Even if you don't plan to blend them, shooting brackets is great 'insurance'. Sometimes the -2 underexposed shot is actually the moody, dramatic one you end up using."
             },
             { 
                 id: 7, title: "Wildlife: Shutter Priority Mastery", cat: "Wildlife", time: "14 min", 
-                fundamentals: "In wildlife photography, speed is everything. Movement is constant. Using Shutter Priority (Tv or S) allows you to lock in a speed that guarantees sharpness, while the camera adjusts the aperture. For large, slow animals like the Chillingham Cattle, 1/500s is enough. For fast-flying Puffins on the Farnes, you need 1/2500s or higher. \n\nCRITICAL STEP: Pair this with 'Auto-ISO' so that if the light drops (a cloud covers the sun), your speed remains fast enough to freeze the action.",
-                impact: "The difference between a blurry Puffin and one where you can see the individual feathers is purely down to shutter speed. It removes the risk of 'motion blur' ruining a once-in-a-lifetime moment.",
-                proTip: "If you have a very steady hand or a gimbal, try 'Panning' at 1/60s. Move the camera at the same speed as the animal to get a sharp subject against a blurred, artistic background."
+                fundamentals: "In wildlife, sharpness is dictated by Shutter Speed. You must control this directly using Shutter Priority (Tv or S) mode.\n\nSPEED GUIDE:\n- 1/2500s: Puffins in flight (they flap 400 times a minute!).\n- 1/1000s: Birds taking off or landing.\n- 1/500s: Walking animals (deer/cattle).\n- 1/60s: Panning shots (artistic blur).\n\nAUTO-ISO: This is the secret weapon. Set your Shutter and Aperture manually, and let the camera choose ISO to balance the light. This guarantees your speed never drops too low.",
+                impact: "The difference between a blurry, unusable photo and a National Geographic sharp shot is purely shutter speed. It removes motion blur entirely.",
+                proTip: "For panning (e.g., a deer running), set 1/50s and move your camera in perfect sync with the animal. The legs will blur, but the head will be sharp. High risk, high reward!"
             },
             { 
                 id: 8, title: "Back-Button Focusing", cat: "Wildlife", time: "12 min", 
-                fundamentals: "By default, your camera focuses when you half-press the shutter. Back-button focus moves this function to a button on the back of the camera (usually AF-ON). This separates the act of focusing from the act of taking the picture. \n\nWHY IT WORKS: You can keep the button held down to track a moving bird (Continuous AF), or tap it once to lock focus on a stationary squirrel, and then fire the shutter multiple times without the lens 'hunting' for focus again.",
-                impact: "It gives you instant control over when to track and when to lock, drastically increasing your 'hit rate' for sharp images of unpredictable animals.",
-                proTip: "It takes about a week of practice to build the muscle memory for this, but once you do, you will never go back to shutter-focusing."
+                fundamentals: "Standard cameras focus when you half-press the shutter. This is bad for wildlife because every time you lift your finger to take a shot, the camera tries to refocus.\n\nTHE SOLUTION: Disable shutter AF. Assign AF-ON (back button) to focus.\n\nSCENARIO:\n1. You hold the back button to track a flying bird (Continuous AF).\n2. The bird lands. You release the back button. Focus locks instantly.\n3. You can now recompose and shoot freely without the lens hunting.\n\nIt merges Single AF and Continuous AF into one button.",
+                impact: "It drastically increases your 'hit rate'. You stop fighting the camera's autofocus system and gain total control over when to track and when to lock.",
+                proTip: "It takes about 3 days of frustration to retrain your muscle memory. Stick with it. Once you adapt, you will never go back."
             },
             { 
                 id: 9, title: "Ethics of Wildlife Photography", cat: "Wildlife", time: "20 min", 
-                fundamentals: "The welfare of the subject must always come before the photograph. Northumberland is home to rare and sensitive species; our presence must be invisible. \n\nDO'S: 1. Use a long telephoto lens (300mm+) to maintain a safe distance. 2. Approach slowly and avoid direct eye contact, which animals perceive as a threat. 3. Learn the animal's behavior to recognize stress signs (e.g., stopping feeding, 'freezing', or alarm calls). 4. Use a silent/electronic shutter to avoid startling animals with 'clack' sounds. \n\nDON'TS: 1. Never 'flush' an animal (forcing it to fly/run) just for an action shot. 2. Do not use playback bird calls to lure species during breeding season. 3. Never bait animals with food. 4. Do not disturb nests or burrows. \n\nLEGALITIES: You MUST stay on Public Rights of Way (designated footpaths/bridleways). Do not climb over fences or walls. Trespassing on private land is illegal and damages the reputation of all photographers. Always respect 'Private Land' and 'No Entry' signage.",
-                impact: "Ethical practice ensures that wildlife continues to thrive and that access to these beautiful locations remains open for future generations of photographers.",
-                proTip: "If an animal looks directly at your lens and stops what it's doing for more than a few seconds, you are too close. Back away slowly and immediately."
+                fundamentals: "Northumberland hosts fragile ecosystems. Your shot is never worth an animal's welfare.\n\nTHE CODE:\n1. Disturbance: If an animal changes its behavior (stops eating, looks at you, moves away), you are too close. Back off.\n2. Nests: Never photograph active nests. It reveals the location to predators (crows/foxes) and can cause parents to abandon eggs.\n3. Baiting: Never use live bait. It alters natural hunting behaviors.\n4. Callbacks: Do not use tape lures (birdsong apps) to attract birds during breeding season. It stresses them out thinking a rival is in their territory.",
+                impact: "Ethical practice ensures that wildlife continues to thrive. It also prevents locations from being closed off to photographers by angry landowners or conservation trusts.",
+                proTip: "Fieldcraft beats focal length. Sitting still in camouflage gear for 20 minutes will get you closer to a hare than walking towards it with a 600mm lens ever will."
             },
             { 
                 id: 10, title: "Background Separation (Bokeh)", cat: "Wildlife", time: "13 min", 
-                fundamentals: "A 'busy' background (lots of branches or grass) distracts from the animal. To get a creamy, blurred background, you need a shallow depth of field. This is achieved by: 1. Using a wide aperture (e.g., f/4). 2. Increasing the distance between the subject and the background. 3. Getting as close to the subject as safely possible. \n\nPHYSICS: The longer your lens (e.g., 500mm), the thinner the plane of focus becomes.",
-                impact: "Isolating the subject makes the animal 'pop' out of the frame, creating a portrait-like quality that emphasizes the character and eyes of the creature.",
-                proTip: "Get down to eye level! Shooting from a high angle (looking down) makes the ground the background. Shooting from eye level puts the distant trees in the background, which blurs much better."
+                fundamentals: "A 'busy' background (twigs, fences, bright spots) ruins a wildlife shot. You want a smooth, creamy wash of color.\n\nHOW TO ACHIEVE IT:\n1. Aperture: Use the widest available (f/2.8 - f/5.6).\n2. Distance Ratio: This is key. You want the distance between 'Subject and Background' to be MUCH larger than the distance between 'Camera and Subject'.\n3. Angle: Move your feet. If a branch is behind the bird's head, step six inches to the right.",
+                impact: "Isolating the subject makes the animal 'pop' out of the frame. It creates that high-end, studio-portrait look in the wild, emphasizing the character and eyes.",
+                proTip: "Get low! Shooting from standing height points your camera at the ground (which is close). Shooting from eye-level (lying down) points your camera at the distant trees/horizon (which are far away), creating much better blur."
             },
             { 
                 id: 11, title: "Animal Eye Auto-Focus", cat: "Wildlife", time: "10 min", 
-                fundamentals: "Modern mirrorless cameras have specific 'Animal Eye AF' modes. The camera uses AI to recognize the eye of a bird, dog, or cat and locks the focus point onto it instantly. \n\nSETUP: Ensure your camera is in 'Subject Detection: Animal' and 'Continuous AF' (Servo).",
-                impact: "In wildlife, if the eye isn't sharp, the whole photo is a failure. This technology removes the human error of trying to manually move a focus point while a bird is fluttering.",
-                proTip: "In very thick brush, the camera might get confused by twigs. Be ready to switch to a 'Small Spot' focus point to manually guide the AF to the eye."
+                fundamentals: "Mirrorless cameras (Canon R5, Sony A7, Nikon Z8) have revolutionized wildlife photography with AI-based Eye Tracking.\n\nSETUP GUIDE:\n1. Menu > AF Method > Face/Eye Detection.\n2. Subject to Detect > Animals.\n3. AF Case > 'Sticky' (locked on).\n\nUSAGE: The camera will find the eye and draw a box around it. It will track that eye even if the bird turns its head or flies behind a tree trunk briefly.",
+                impact: "It removes the technical burden of moving focus points. You can focus entirely on composition and timing, knowing the eye will be tack sharp.",
+                proTip: "In snow or heavy rain, the AI can get confused. Map a button to instantly switch back to 'Single Point' AF so you can manually override if the camera starts focusing on snowflakes."
             },
             { 
                 id: 12, title: "Stealth & Fieldcraft", cat: "Wildlife", time: "15 min", 
-                fundamentals: "Photography is only 20% of the job; fieldcraft is the other 80%. This involves understanding wind direction (so animals don't smell you), using natural cover (hedges/walls), and wearing neutral colors. \n\nADVICE: Move 'one step at a time'. Walk when the animal is busy feeding; stop when it looks up.",
-                impact: "Better fieldcraft allows you to get closer to the animal naturally without causing stress, resulting in more relaxed and 'intimate' behaviors on camera.",
-                proTip: "Avoid wearing 'loud' fabrics like crinkly waterproofs. Soft fleece or wool is much quieter when you're moving through the woods."
+                fundamentals: "You cannot photograph what you cannot see. Fieldcraft is the art of blending in.\n\nTECHNIQUES:\n1. Shape Breaking: Animals fear the human silhouette (head and shoulders). Sit against a tree or rock to break your outline.\n2. Wind: Always approach from downwind. If a deer smells you, it's gone before you see it.\n3. The 'Stop-Go': Move only when the animal is feeding/looking away. When it looks up, freeze completely. Do not blink.",
+                impact: "Better fieldcraft allows you to witness natural behaviors—grooming, sleeping, playing—rather than just photos of animals running away in fear.",
+                proTip: "Silence your gear. Turn off the 'beep' focus confirmation. Use 'Silent Shutter' (electronic) mode. Even the velcro on your lens pouch sounds like a gunshot in a quiet wood."
             },
             { 
                 id: 13, title: "Understanding Animal Behavior", cat: "Wildlife", time: "12 min", 
-                fundamentals: "Predicting the shot is better than reacting to it. Spend time watching your subject without the camera. Do the birds always land on the same branch? Does the deer move toward the water at a specific time? \n\nKNOWLEDGE: Research your target species' habits—breeding seasons, feeding times, and preferred habitats in Northumberland.",
-                impact: "Predictive shooting leads to much better compositions because you can set up your frame in advance and wait for the animal to walk into it.",
-                proTip: "The best wildlife photos happen at the 'edges' of the day (dawn/dusk). Most animals are crepuscular, meaning they are most active during these low-light periods."
+                fundamentals: "Predicting the shot is superior to reacting to it. Photography is 10% shooting and 90% observation.\n\nEXAMPLES:\n- Ducks: Before a duck flies, it often dips its head rapidly and shakes its body.\n- Raptors: Birds of prey (Ospreys) usually poop immediately before taking off. If you see this, get your finger on the shutter!\n- Hares: In March, they 'box'. This usually happens when a male chases a female and she turns to rebuff him.",
+                impact: "Predictive shooting leads to action shots (take-offs, fights) rather than static portraits. It puts you a split-second ahead of the action.",
+                proTip: "Learn the local tides. Wading birds feed on the falling tide (when mud is exposed) and roost on the rising tide (when pushed up the beach). The 'Roost' is often the best time to get flock shots."
             },
             { 
-                id: 14, title: "The 500 Rule for Stars", cat: "Astro", time: "11 min", 
-                fundamentals: "Because the Earth rotates, stars will 'streak' across your frame if your exposure is too long. The 500 Rule helps you find the longest shutter speed you can use before stars start to blur. \n\nFORMULA: 500 ÷ Focal Length = Max Seconds. (e.g., 500 ÷ 20mm = 25 seconds). If you have a 'crop sensor' camera, you must multiply the focal length first (e.g., 20mm x 1.5 = 30mm; 500 ÷ 30 = 16 seconds).",
-                impact: "This ensures the stars appear as sharp, brilliant pinpricks of light rather than blurry white lines, which is the mark of a high-quality astro-photo.",
-                proTip: "Modern high-resolution sensors are very sensitive; many pros now use the '400 Rule' or even '300 Rule' to be extra safe for large prints."
+                id: 14, title: "500 Rule vs. NPF Rule", cat: "Astro", time: "11 min", 
+                fundamentals: "To keep stars sharp as the Earth rotates, you must limit your shutter speed. There are two main ways to calculate this:\n\n1. THE 500 RULE (Classic)\nFormula: 500 ÷ Focal Length = Max Seconds.\n- Example (24mm): 500 ÷ 24 = 20 seconds.\n- Pros: Easy to calculate in your head.\n- Cons: Designed for film/older cameras. On modern high-resolution sensors (24MP+), it often results in slight star trailing.\n\n2. THE NPF RULE (Pro Standard)\nFormula: Complex (considers aperture, pixel pitch, and declination).\n- Accuracy: It is far stricter. For that same 24mm lens, it might suggest 13 seconds instead of 20.\n- Usage: Don't do the math yourself. Use free 'NPF Calculators' available online or in apps like PhotoPills.\n\nVERDICT: Use the 500 Rule for social media. Use the NPF Rule for large prints.",
+                impact: "Choosing the right rule ensures the stars appear as sharp, brilliant pinpricks of light rather than short dashes, which is critical for clarity in the Milky Way core.",
+                proTip: "If you don't have an NPF calculator handy, a safe middle ground for modern cameras is the '400 Rule' (400 ÷ Focal Length)."
             },
             { 
                 id: 15, title: "Astro: Manual Focus in the Dark", cat: "Astro", time: "13 min", 
-                fundamentals: "Your camera cannot autofocus on the dark sky. You must use manual focus. 1. Turn on 'Live View' on your screen. 2. Find the brightest star or a distant light. 3. Use the digital zoom (10x) on your screen to look closely at that star. 4. Rotate the focus ring until the star is the smallest possible dot. 5. If the star looks like a 'donut' or a large blob, you are out of focus.",
-                impact: "In astro-photography, focus is the hardest part. If it's off by even a millimeter, the entire night's work is wasted. Precise focus brings out the true colors of stars.",
-                proTip: "Once you have found perfect focus, use a small piece of electrical tape to secure the focus ring so it doesn't move during the night."
+                fundamentals: "Autofocus does not work at night. You must focus manually, and the 'Infinity' symbol on your lens is rarely accurate.\n\nTHE METHOD:\n1. Switch lens to MF.\n2. Turn on 'Live View' (LCD Screen).\n3. Point camera at the brightest star available (or a distant streetlamp).\n4. Use the digital zoom button (+) to zoom in 10x on the screen.\n5. Gently rotate focus ring until the star is as small and sharp as possible.\n6. If it looks like a donut, you are out of focus.",
+                impact: "Focus is the single most common failure point in astro. A slightly blurry star ruins the entire image. Precise focus brings out faint stars that blurred focus would hide.",
+                proTip: "Gaffer Tape! Once you nail the focus, tape the focus ring down. It is very easy to accidentally nudge it while moving the tripod or changing composition in the dark."
             },
             { 
                 id: 16, title: "Light Painting for Foregrounds", cat: "Astro", time: "10 min", 
-                fundamentals: "In a 25-second astro exposure, the sky will be bright but the ground (like the Roman wall) will be a black silhouette. Light painting involves using a low-power torch or your phone screen to 'brush' light onto the foreground during the exposure. \n\nTECHNIQUE: Don't point the light directly at the subject for the whole time. Just 'sweep' it across for 1-2 seconds from a side angle to create depth and shadows.",
-                impact: "It brings a sense of place and scale to the stars, making the image a 'Landscape-Astro' hybrid rather than just a photo of the sky.",
-                proTip: "Use a 'warm' light source or a gel. Standard LED torches are very blue and look unnatural in a night scene."
+                fundamentals: "Astro photos often result in a great sky but a pitch-black, noisy foreground. Light painting fixes this by adding artificial light during the exposure.\n\nTECHNIQUE (Lannan Flashlight Method):\n1. Start your 20-second exposure.\n2. Stand 10 meters to the side of your camera.\n3. Using a dim LED torch, 'sweep' the beam over the foreground rock/castle for just 1-2 seconds.\n4. Keep the light moving (like spray paint) to avoid hot spots.",
+                impact: "It brings texture and color back into the landscape, anchoring the stars to reality. It creates depth and dimension rather than a silhouette.",
+                proTip: "Avoid direct, white LED light—it looks harsh and blue. Put a warming gel (orange plastic) over your torch, or bounce the light off the grass/ground to diffuse it for a softer look."
             },
             { 
                 id: 17, title: "ISO & Noise Management", cat: "Astro", time: "14 min", 
-                fundamentals: "To capture the Milky Way, you need a high ISO (usually 3200 or 6400). This introduces 'noise' (grain). Understanding your camera's limits is key. \n\nMITIGATION: 1. Turn off 'Long Exposure Noise Reduction' in camera (it doubles your wait time). 2. Use 'Long Exposure Stacking' in post-processing. 3. Keep the sensor cool—high heat increases noise.",
-                impact: "Clean, low-noise images allow for much better color grading and larger prints without the distracting 'sand' look of high-ISO grain.",
-                proTip: "Always shoot in RAW. RAW files allow noise-reduction software to work much more effectively than JPEG files."
+                fundamentals: "The Milky Way is faint. You need high sensitivity. But High ISO = High Noise (Grain).\n\nTHE BALANCE:\n- ISO 1600: Cleanest, but might be too dark.\n- ISO 3200: Standard standard for f/2.8 lenses.\n- ISO 6400: Often necessary, but noisy.\n\nNOISE REDUCTION STRATEGIES:\n1. Long Exposure Noise Reduction (In Camera): Takes a 'dark frame' after the shot to subtract hot pixels. Doubles shooting time.\n2. Stacking (Post): Take 10 identical photos and blend them in software (Sequator/Starry Landscape Stacker) to average out the random noise.",
+                impact: "Stacking is the pro standard. It allows you to shoot at ISO 6400 for detail, but end up with an image as clean as ISO 400. It produces exhibition-quality nightscapes.",
+                proTip: "Shoot RAW. Always. JPEG compression destroys star data and introduces blocky artifacts in the dark sky gradients."
             },
             { 
                 id: 18, title: "The Rule of 600 (Star Trails)", cat: "Astro", time: "12 min", 
-                fundamentals: "If you WANT star trails, you go in the opposite direction of the 500 Rule. You take very long exposures (minutes) or many short ones (stacking). To get circular trails, you must find Polaris (the North Star) and center your frame on it.",
-                impact: "It visualizes the rotation of the Earth, creating a mesmerizing, cosmic effect that looks otherworldly.",
-                proTip: "Take 100 x 30-second shots and merge them in software like 'StarStaX'. This is safer than one 50-minute shot, which would likely overheat your sensor or be ruined by a single car headlight."
+                fundamentals: "Star trails turn the Earth's rotation into art. Instead of freezing stars, we want to trace their path.\n\nMETHOD:\n1. Location: You need to find Polaris (North Star). All other stars rotate around this point.\n2. Settings: ISO 400, f/4, 30 seconds.\n3. Quantity: You need to take continuous shots for at least 1 hour (approx 120 photos).\n4. Intervalometer: Set your remote to take a photo every 31 seconds (giving 1 second for saving).\n5. Post: Software (StarStaX) layers them all into one image.",
+                impact: "It visualizes the passage of time. It works well in high light pollution areas (like towns) where static milky way shots are impossible, as the moving stars cut through the glow.",
+                proTip: "Check your battery! A cold night drains batteries fast. Put a fresh one in before starting a 2-hour trail sequence, or use a USB power bank dummy battery."
             },
             { 
                 id: 19, title: "Planning with Apps (PhotoPills)", cat: "Astro", time: "10 min", 
-                fundamentals: "The Milky Way isn't always visible. It changes position based on the time of year and time of night. Using apps like PhotoPills allows you to use Augmented Reality (AR) to see exactly where the Milky Way will rise behind Bamburgh Castle months in advance.",
-                impact: "It saves you from driving for hours only to find the Milky Way is behind you or blocked by a hill. Success in astro is 90% planning.",
-                proTip: "Look for the 'New Moon' phase. Any moonlight will wash out the fainter stars and the Milky Way core."
+                fundamentals: "The Milky Way Core is only visible at certain times. In Northumberland, it is best seen from March to September, but never in mid-summer (it doesn't get dark enough).\n\nUSING PHOTOPILLS:\n1. Planner: Drop a pin on Bamburgh Castle.\n2. Time: Scroll the timeline to 2 AM.\n3. Azimuth: Look for the grey dots (Milky Way). Align them with the castle.\n4. Moon: Ensure the Moon phase is near 0% (New Moon). A Full Moon will wash out the sky.",
+                impact: "Astro is 90% planning and 10% shooting. Apps save you from driving 2 hours to a location only to find the Milky Way is behind a mountain or obscured by the Moon.",
+                proTip: "Use the 'Night AR' mode. Hold your phone up to the sky during the day, and it will overlay the star positions for tonight, so you can compose your frame before it even gets dark."
             },
             { 
                 id: 20, title: "Nightscape Composition", cat: "Astro", time: "11 min", 
-                fundamentals: "Don't just point the camera up. The best astro shots have a strong 'Anchor' in the foreground. Use the silhouette of Dunstanburgh Castle or a lone tree on the Cheviots to give the sky context. \n\nADVICE: Keep the horizon low (bottom 20% of the frame) to let the sky dominate.",
-                impact: "An anchor provides a sense of scale, helping the viewer realize just how vast and magnificent the Northumberland night sky truly is.",
-                proTip: "Wait for the 'Blue Hour' just before total darkness to capture your foreground detail, then don't move the tripod and wait for the stars. You can blend them later for a perfect result."
+                fundamentals: "A photo of just stars is boring. It's just white dots. A 'Nightscape' connects the sky to the Earth.\n\nCOMPOSITIONAL ANCHORS:\n1. Silhouettes: Castles, trees, and hedges look striking against a starry sky.\n2. Reflections: Lakes (Cawfields) double the amount of stars in the frame.\n3. The Horizon: Keep it low. Dedicate 80% of the frame to the sky to emphasize the vastness of the universe.",
+                impact: "An anchor provides scale. Seeing the Milky Way rise over a familiar landmark (like Sycamore Gap or Dunstanburgh) triggers an emotional response that a generic star field cannot.",
+                proTip: "Shoot the foreground during 'Blue Hour' (just after sunset) at ISO 100 for high quality. Then, without moving the tripod, wait for dark and shoot the sky at ISO 3200. Blend the two in Photoshop for the ultimate quality image."
             }
         ];
 
@@ -203,14 +464,34 @@
             const mapInstanceRef = useRef(null);
 
             useEffect(() => {
-                if (activeTab === 'locations' && !mapInstanceRef.current) {
-                    mapInstanceRef.current = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.25, -2.0], 9);
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(mapInstanceRef.current);
-                    LOCATIONS.forEach(loc => {
-                        const marker = L.circleMarker([loc.lat, loc.lng], { radius: 8, fillColor: '#0ea5e9', color: "#fff", weight: 3, fillOpacity: 1 }).addTo(mapInstanceRef.current);
-                        marker.on('click', () => setSelectedLoc(loc));
-                    });
+                if (activeTab === 'locations') {
+                    // Check if there is an existing map instance and remove it to avoid conflicts
+                    if (mapInstanceRef.current) {
+                        mapInstanceRef.current.remove();
+                        mapInstanceRef.current = null;
+                    }
+
+                    // Initialize the map if the container exists
+                    if (mapContainerRef.current) {
+                        mapInstanceRef.current = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.35, -2.0], 9);
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; OpenStreetMap, &copy; CARTO'
+                        }).addTo(mapInstanceRef.current);
+                        
+                        LOCATIONS.forEach(loc => {
+                            const marker = L.circleMarker([loc.lat, loc.lng], { radius: 8, fillColor: '#0ea5e9', color: "#fff", weight: 3, fillOpacity: 1 }).addTo(mapInstanceRef.current);
+                            marker.on('click', () => setSelectedLoc(loc));
+                        });
+                    }
                 }
+
+                // Cleanup function: remove map when switching tabs or unmounting
+                return () => {
+                    if (mapInstanceRef.current) {
+                        mapInstanceRef.current.remove();
+                        mapInstanceRef.current = null;
+                    }
+                };
             }, [activeTab]);
 
             return (
@@ -251,9 +532,12 @@
                                                 <p className="text-sm text-slate-500">{selectedLoc.history}</p>
                                                 <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                                                     <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Field Advice</p>
-                                                    <p className="text-sm font-bold">{selectedLoc.desc}</p>
+                                                    <p className="text-sm font-bold whitespace-pre-line">{selectedLoc.desc}</p>
                                                 </div>
-                                                <p className="text-[11px] font-bold text-slate-400">PARKING: {selectedLoc.parking}</p>
+                                                <div className="flex justify-between items-center">
+                                                    <p className="text-[11px] font-bold text-slate-400">PARKING: {selectedLoc.parking}</p>
+                                                    {selectedLoc.best_time && <p className="text-[11px] font-bold text-sky-500">BEST TIME: {selectedLoc.best_time}</p>}
+                                                </div>
                                             </div>
                                         ) : <p className="text-slate-400 font-black uppercase tracking-widest text-xs text-center">Select a marker on the map to view scout details</p>}
                                     </div>
@@ -298,7 +582,7 @@
                                     </div>
                                 </div>
                                 <div className="mt-20 pt-10 border-t flex justify-center">
-                                     <button onClick={() => setSelectedTopic(null)} className="bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest">Back to Field Guide</button>
+                                    <button onClick={() => setSelectedTopic(null)} className="bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest">Back to Field Guide</button>
                                 </div>
                             </div>
                         </div>
