@@ -54,91 +54,198 @@
             );
         };
 
-        // --- UPDATED DATA WITH GPS & HISTORY ---
+        // --- UPDATED DATA (Sycamore Gap Removed, 15 New Added) ---
         const LOCATIONS = [
+            // --- ORIGINAL LOCATIONS (Kept) ---
             { 
                 id: 1, name: "Bamburgh Castle", type: "Landscape", lat: 55.6090, lng: -1.7120, 
-                desc: "The crown jewel of the coast. Capture reflections in the 'Black Rocks' pools at low tide.", 
+                desc: "The crown jewel. Capture reflections in the 'Black Rocks' pools at low tide.", 
                 parking: "NE69 7DF", difficulty: "Easy",
-                history: "Originally the Anglo-Saxon citadel of Bebbanburgh. It was the first castle in England to fall to gunpowder in 1464 during the Wars of the Roses.",
-                fact: "The castle has been owned by the Armstrong family since 1894."
+                history: "Originally the Anglo-Saxon citadel of Bebbanburgh. First castle in England to fall to gunpowder (1464).",
+                fact: "Owned by the Armstrong family since 1894."
             },
             { 
                 id: 2, name: "Dunstanburgh Castle", type: "Landscape", lat: 55.4915, lng: -1.5947, 
                 desc: "A haunting ruin accessible only by foot. Dramatic silhouettes at sunrise.", 
                 parking: "NE66 3TW", difficulty: "Moderate",
-                history: "Built in 1313 by Earl Thomas of Lancaster. It became a focus of fierce fighting during the Wars of the Roses and fell into ruin by the 16th century.",
-                fact: "J.M.W. Turner painted this castle multiple times, drawn to its melancholic isolation."
-            },
-            { 
-                id: 3, name: "Sycamore Gap", type: "Landscape", lat: 55.0035, lng: -2.3738, 
-                desc: "The famous dip in Hadrian's Wall. Though the tree is gone, the landscape remains iconic.", 
-                parking: "NE47 7AN", difficulty: "Moderate",
-                history: "Hadrian's Wall was built in AD 122 to separate the Roman province of Britannia from the barbarians to the north.",
-                fact: "This location was made world-famous by the film 'Robin Hood: Prince of Thieves'."
+                history: "Built in 1313. A major fortress during the Wars of the Roses.",
+                fact: "Turner painted this castle multiple times due to its melancholic isolation."
             },
             { 
                 id: 4, name: "Lindisfarne Castle", type: "Landscape", lat: 55.6694, lng: -1.7856, 
                 desc: "A 16th-century castle on Holy Island. Accessible only at low tide.", 
                 parking: "TD15 2RX", difficulty: "Easy",
-                history: "Lindisfarne Priory was the site of the first major Viking raid on Britain in 793 AD, marking the start of the Viking Age.",
-                fact: "The castle was renovated in the early 1900s by famous architect Sir Edwin Lutyens."
+                history: "Site of the first Viking raid in 793 AD.",
+                fact: "Renovated by Sir Edwin Lutyens in the early 1900s."
             },
             { 
                 id: 5, name: "St Mary's Island", lat: 55.0717, lng: -1.4496, type: "Landscape", 
-                desc: "White lighthouse on a tidal island. Use long exposure for misty water effects.", 
+                desc: "White lighthouse on a tidal island. Use long exposure for misty water.", 
                 parking: "NE26 4RS", difficulty: "Easy",
-                history: "The island was originally a medieval chapel dedicated to St. Helen. The lighthouse operated from 1898 until 1984.",
-                fact: "It is connected to the mainland by a concrete causeway that is submerged at high tide."
+                history: "Originally a medieval chapel. The lighthouse operated until 1984.",
+                fact: "Connected to the mainland by a concrete causeway submerged at high tide."
             },
             { 
                 id: 6, name: "Farne Islands", type: "Wildlife", lat: 55.6178, lng: -1.6314, 
-                desc: "Home to thousands of Puffins and Grey Seals. Telephoto lens essential.", 
-                parking: "Seahouses Harbor", difficulty: "Moderate",
-                history: "St. Cuthbert lived here as a hermit in the 7th century. It is also where Grace Darling launched her famous rescue in 1838.",
-                fact: "The islands host over 150,000 seabirds during the breeding season."
+                desc: "Home to thousands of Puffins. Telephoto lens essential.", 
+                parking: "Seahouses", difficulty: "Moderate",
+                history: "Home of St. Cuthbert (hermit) and Grace Darling's rescue (1838).",
+                fact: "Hosts over 150,000 seabirds during breeding season."
             },
             { 
                 id: 7, name: "Coquet Island", type: "Wildlife", lat: 55.3340, lng: -1.5372, 
                 desc: "Famous for the rare Roseate Tern. Boat trips from Amble required.", 
                 parking: "NE65 0AP", difficulty: "Moderate",
-                history: "Features the ruins of a medieval Benedictine cell. The lighthouse was built by the grandfather of author Robert Louis Stevenson.",
-                fact: "It holds 90% of the UK's Roseate Tern population."
+                history: "Features ruins of a Benedictine cell.",
+                fact: "Holds 90% of the UK's Roseate Tern population."
             },
             { 
                 id: 8, name: "Chillingham Park", type: "Wildlife", lat: 55.5262, lng: -1.9054, 
-                desc: "Home to the Wild Cattle of Chillingham, rarer than giant pandas.", 
+                desc: "Home to the Wild Cattle, rarer than giant pandas.", 
                 parking: "NE66 5NJ", difficulty: "Moderate",
-                history: "The park has been enclosed since the 13th century, keeping the bloodline of these ancient cattle pure for 800 years.",
-                fact: "They are the only wild cattle left in the world that have never been domesticated."
+                history: "Enclosed since the 13th century, keeping the bloodline pure.",
+                fact: "The only wild cattle in the world never domesticated."
             },
             { 
                 id: 9, name: "Kielder Water", type: "Wildlife", lat: 55.2330, lng: -2.5330, 
-                desc: "Look for Ospreys and Red Squirrels around the largest man-made lake in Northern Europe.", 
+                desc: "Look for Ospreys and Red Squirrels around the lake.", 
                 parking: "NE48 1BT", difficulty: "Easy",
-                history: "The valley was flooded in 1981 to create the reservoir. It sits within the largest man-made forest in England.",
-                fact: "Kielder is one of the last strongholds for the Red Squirrel in England."
+                history: "Valley flooded in 1981 to create Northern Europe's largest man-made lake.",
+                fact: "A major stronghold for the Red Squirrel."
             },
             { 
                 id: 11, name: "Kielder Observatory", type: "Astro", lat: 55.2369, lng: -2.6105, 
-                desc: "Gold-Tier Dark Sky Park. Best place in England for the Milky Way.", 
+                desc: "Gold-Tier Dark Sky Park. Best place for the Milky Way.", 
                 parking: "NE48 1EJ", difficulty: "Moderate",
-                history: "Opened in 2008, the observatory is a beacon for 'astro-tourism' designed to look like a ship sailing off a pier.",
-                fact: "Northumberland Dark Sky Park covers 579 square miles, making it the largest in Europe."
+                history: "Opened in 2008, designed to look like a ship sailing off a pier.",
+                fact: "Northumberland has the largest Dark Sky Park in Europe."
             },
             { 
                 id: 12, name: "Cawfields Quarry", type: "Astro", lat: 54.9967, lng: -2.4645, 
-                desc: "Dark Sky Discovery Site. The still water reflects the stars perfectly.", 
+                desc: "Dark Sky Discovery Site. The water reflects stars perfectly.", 
                 parking: "NE49 9PJ", difficulty: "Easy",
-                history: "A former dolerite quarry on the Whin Sill, the same geological formation that Hadrian's Wall is built upon.",
-                fact: "It is one of the best places to see the Andromeda Galaxy with the naked eye."
+                history: "A former dolerite quarry on the Whin Sill.",
+                fact: "Best place to see the Andromeda Galaxy with the naked eye."
             },
-             { 
+            { 
                 id: 15, name: "Dunstan Steads", type: "Astro", lat: 55.4988, lng: -1.6112, 
-                desc: "Low coastal light pollution. Prime spot for the Northern Lights (Aurora).", 
+                desc: "Prime spot for the Northern Lights (Aurora) looking North.", 
                 parking: "NE66 3SY", difficulty: "Moderate",
-                history: "The coastline here was heavily fortified during WWII against potential invasion.",
-                fact: "The Aurora Borealis is visible here during strong solar storms due to the clear northern horizon."
+                history: "Coastline heavily fortified during WWII.",
+                fact: "Clear northern horizon makes it ideal for Aurora hunting."
+            },
+
+            // --- 15 NEW LOCATIONS ADDED BELOW ---
+
+            // LANDSCAPE
+            { 
+                id: 16, name: "Alnwick Castle", type: "Landscape", lat: 55.4156, lng: -1.7059, 
+                desc: "The 'Harry Potter' castle. Shoot from the Lion Bridge for the best angle.", 
+                parking: "NE66 1YU", difficulty: "Easy",
+                history: "Seat of the Duke of Northumberland since 1309. The second largest inhabited castle in England.",
+                fact: "Used as Hogwarts in the first two Harry Potter films."
+            },
+            { 
+                id: 17, name: "Cragside House", type: "Landscape", lat: 55.3134, lng: -1.8845, 
+                desc: "Victorian architecture amidst massive rhododendrons. Use the Iron Bridge for framing.", 
+                parking: "NE65 7PX", difficulty: "Moderate",
+                history: "Built by Lord Armstrong, a Victorian inventor and industrialist.",
+                fact: "The first house in the world to be lit by hydroelectric power."
+            },
+            { 
+                id: 18, name: "Housesteads Roman Fort", type: "Landscape", lat: 55.0135, lng: -2.3283, 
+                desc: "The most complete Roman fort in Britain. Dramatic views along the Wall.", 
+                parking: "NE47 6NN", difficulty: "Moderate",
+                history: "Built around 124 AD, it housed 800 Roman soldiers.",
+                fact: "Features the best-preserved Roman latrines (toilets) in Britain."
+            },
+            { 
+                id: 19, name: "Blyth Beach Huts", type: "Landscape", lat: 55.1207, lng: -1.5034, 
+                desc: "Vibrant, colorful beach huts. Perfect for symmetrical, architectural shots.", 
+                parking: "NE24 3PL", difficulty: "Easy",
+                history: "Part of the modern regeneration of the Blyth coastline.",
+                fact: "The huts are named after local wildlife and historical figures."
+            },
+            { 
+                id: 20, name: "Northumberlandia", type: "Landscape", lat: 55.0934, lng: -1.6288, 
+                desc: "A massive human landform sculpture. Best shot with a drone or from the viewing point.", 
+                parking: "NE23 8AU", difficulty: "Moderate",
+                history: "Completed in 2012, designed by Charles Jencks.",
+                fact: "Made of 1.5 million tonnes of rock/soil, she is the 'Lady of the North'."
+            },
+            { 
+                id: 21, name: "Linhope Spout", type: "Landscape", lat: 55.4437, lng: -2.0634, 
+                desc: "A spectacular 18m chute waterfall. Requires a fast shutter to freeze, or slow to blur.", 
+                parking: "NE66 4LZ", difficulty: "Hard",
+                history: "Located in the Breamish Valley, an area rich in Bronze Age archaeology.",
+                fact: "Local legend claims the plunge pool is bottomless."
+            },
+            { 
+                id: 22, name: "Twizell Castle", type: "Landscape", lat: 55.6835, lng: -2.1895, 
+                desc: "An 18th-century unfinished 'folly'. Dramatic gothic arches.", 
+                parking: "TD15 2PS", difficulty: "Easy",
+                history: "Begun in 1770 but never completed. It sits on a bend of the River Till.",
+                fact: "It was built inside the walls of a genuine medieval castle."
+            },
+            { 
+                id: 23, name: "Simonside Hills", type: "Landscape", lat: 55.2890, lng: -1.9480, 
+                desc: "360-degree views of the Cheviots. Heather glows purple in late summer.", 
+                parking: "NE65 7NW", difficulty: "Moderate",
+                history: "Steeped in folklore, said to be the home of 'duergar' (dwarves).",
+                fact: "Offers one of the best sunset viewpoints in the entire county."
+            },
+
+            // WILDLIFE (New)
+            { 
+                id: 24, name: "Cresswell Pond", type: "Wildlife", lat: 55.2289, lng: -1.5434, 
+                desc: "A brackish lagoon. Excellent for Avocets and migrating waders.", 
+                parking: "NE61 5LF", difficulty: "Easy",
+                history: "Formed by mining subsidence, now a protected Northumberland Wildlife Trust reserve.",
+                fact: "Regularly hosts rare birds blown off course from America or Siberia."
+            },
+            { 
+                id: 25, name: "Holystone Woods", type: "Wildlife", lat: 55.3235, lng: -2.0678, 
+                desc: "Native oak woodland. Quiet patience yields Red Squirrels and Roe Deer.", 
+                parking: "NE65 7AJ", difficulty: "Moderate",
+                history: "Associated with St. Ninian and the early spread of Christianity.",
+                fact: "Managed by Forestry England specifically for Red Squirrel conservation."
+            },
+            { 
+                id: 26, name: "The Cheviot", type: "Wildlife", lat: 55.4795, lng: -2.1466, 
+                desc: "The highest point. Look for Mountain Hares in winter coats and Red Grouse.", 
+                parking: "NE71 6RJ", difficulty: "Hard",
+                history: "An extinct volcano that was active 390 million years ago.",
+                fact: "At 815m, it is the highest summit in Northumberland."
+            },
+            { 
+                id: 27, name: "Hareshaw Linn", type: "Wildlife", lat: 55.1557, lng: -2.2420, 
+                desc: "A damp, ancient ravine. Look for Dippers, Woodpeckers, and rare ferns.", 
+                parking: "NE48 2BZ", difficulty: "Moderate",
+                history: "Once the site of a busy ironworks, now reclaimed by nature.",
+                fact: "Home to over 300 species of lichen, moss, and liverwort."
+            },
+
+            // ASTRO (New)
+            { 
+                id: 28, name: "Elf Kirk Viewpoint", type: "Astro", lat: 55.2045, lng: -2.5367, 
+                desc: "Deep in Kielder Forest. A designated Dark Sky Discovery Site.", 
+                parking: "NE48 1HX", difficulty: "Easy",
+                history: "Named after the 'Elf Kirk' rock formation visible from the site.",
+                fact: "Offers panoramic views of the sky with almost zero light pollution."
+            },
+            { 
+                id: 29, name: "Wooler Common", type: "Astro", lat: 55.5412, lng: -2.0345, 
+                desc: "On the edge of the National Park. Great low horizons for Northern Lights.", 
+                parking: "NE71 6RL", difficulty: "Easy",
+                history: "An area of ancient common land used for grazing for centuries.",
+                fact: "A surprisingly dark site despite being close to the town of Wooler."
+            },
+            { 
+                id: 30, name: "Stonehaugh Pavilion", type: "Astro", lat: 55.0877, lng: -2.3166, 
+                desc: "A dedicated stargazing structure. Great foreground for star trails.", 
+                parking: "NE48 3DZ", difficulty: "Easy",
+                history: "Designed and built by architecture students from Newcastle University.",
+                fact: "The structure frames specific constellations depending on where you stand."
             }
         ];
 
@@ -172,31 +279,25 @@
             const markersRef = useRef({});
 
             useEffect(() => {
-                // Initialize Map
                 if (!mapInstanceRef.current) {
                     mapInstanceRef.current = L.map(mapContainerRef.current, {
                         zoomControl: false,
                         scrollWheelZoom: true,
-                    }).setView([55.35, -2.0], 9);
+                    }).setView([55.25, -2.0], 9);
 
-                    // Add Custom Map Overlay (CartoDB Voyager - Clean & Modern)
                     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                        attribution: '&copy; OpenStreetMap &copy; CARTO',
                         subdomains: 'abcd',
                         maxZoom: 19
                     }).addTo(mapInstanceRef.current);
                     
-                    // Add Zoom Control at bottom right
-                    L.control.zoom({
-                        position: 'bottomright'
-                    }).addTo(mapInstanceRef.current);
+                    L.control.zoom({ position: 'bottomright' }).addTo(mapInstanceRef.current);
                 }
 
                 // Add Markers
                 LOCATIONS.forEach(loc => {
                     if (!markersRef.current[loc.id]) {
                         const color = loc.type === 'Landscape' ? '#0ea5e9' : (loc.type === 'Wildlife' ? '#16a34a' : '#9333ea');
-                        
                         const circle = L.circleMarker([loc.lat, loc.lng], {
                             radius: 8,
                             fillColor: color,
@@ -212,23 +313,15 @@
                             offset: [0, -10]
                         });
 
-                        circle.on('click', () => {
-                            onSelect(loc);
-                        });
-                        
-                        // Store reference
+                        circle.on('click', () => onSelect(loc));
                         markersRef.current[loc.id] = circle;
                     }
                 });
+            }, []);
 
-            }, []); // Run once on mount
-
-            // Effect to fly to location when selected
             useEffect(() => {
                 if(selectedLoc && mapInstanceRef.current) {
-                    mapInstanceRef.current.flyTo([selectedLoc.lat, selectedLoc.lng], 11, {
-                        duration: 1.5
-                    });
+                    mapInstanceRef.current.flyTo([selectedLoc.lat, selectedLoc.lng], 11, { duration: 1.5 });
                 }
             }, [selectedLoc]);
 
@@ -243,7 +336,6 @@
 
             return (
                 <div className="min-h-screen bg-white">
-                    {/* NAV */}
                     <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-8">
                         <div className="flex items-center space-x-3 cursor-pointer group" onClick={() => setActiveTab('home')}>
                             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center transition-transform group-hover:rotate-6">
@@ -262,16 +354,15 @@
                     </nav>
 
                     <main className="pt-20">
-                        {/* HERO */}
                         {activeTab === 'home' && (
                             <section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-6 bg-slate-900 text-white relative overflow-hidden">
-                                <div className="absolute inset-0 opacity-20 map-bg" />
+                                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:30px_30px]" />
                                 <div className="relative z-10 max-w-4xl animate-in">
                                     <h1 className="text-7xl md:text-9xl font-black tracking-tighter leading-none mb-8">
                                         NORTHERN <br/> <span className="text-sky-500">EXPOSURE.</span>
                                     </h1>
                                     <p className="text-xl text-slate-400 max-w-2xl mx-auto mb-12">
-                                        The definitive guide for photographers. 15 iconic locations and 20+ masterclasses designed for the Northumberland wilderness.
+                                        The definitive guide for photographers. 29 iconic locations and 20+ masterclasses designed for the Northumberland wilderness.
                                     </p>
                                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                         <button onClick={() => setActiveTab('locations')} className="bg-white text-black px-10 py-5 rounded-full font-black uppercase text-xs tracking-widest hover:bg-sky-500 hover:text-white transition-all">Explore Map</button>
@@ -281,7 +372,6 @@
                             </section>
                         )}
 
-                        {/* LOCATIONS MAP SECTION */}
                         {activeTab === 'locations' && (
                             <section className="max-w-7xl mx-auto px-6 py-20 animate-in">
                                 <div className="mb-12">
@@ -290,15 +380,11 @@
                                 </div>
 
                                 <div className="grid lg:grid-cols-12 gap-12 h-[800px] lg:h-[600px]">
-                                    {/* INTERACTIVE MAP */}
                                     <div className="lg:col-span-8 h-full rounded-[3rem] overflow-hidden relative shadow-2xl">
                                         <LeafletMap onSelect={setSelectedLoc} selectedLoc={selectedLoc} />
-                                        <div className="absolute top-6 left-6 z-[400] bg-white/90 backdrop-blur px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">
-                                            Northumberland
-                                        </div>
+                                        <div className="absolute top-6 left-6 z-[400] bg-white/90 backdrop-blur px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest shadow-sm">Northumberland</div>
                                     </div>
 
-                                    {/* INFO PANEL */}
                                     <div className="lg:col-span-4 bg-white rounded-[3rem] p-10 border border-slate-100 shadow-xl flex flex-col justify-center h-full overflow-y-auto custom-scrollbar">
                                         {selectedLoc ? (
                                             <div className="space-y-6 animate-in">
@@ -308,7 +394,6 @@
                                                     </span>
                                                     <span className="text-[10px] font-black uppercase text-slate-400">Diff: {selectedLoc.difficulty}</span>
                                                 </div>
-                                                
                                                 <h3 className="text-4xl font-black tracking-tight">{selectedLoc.name}</h3>
                                                 
                                                 <div className="space-y-4">
@@ -346,7 +431,6 @@
                             </section>
                         )}
 
-                        {/* LEARNING HUB (Same as before) */}
                         {activeTab === 'learn' && (
                             <section className="max-w-7xl mx-auto px-6 py-20 animate-in">
                                 <div className="mb-16">
@@ -369,7 +453,6 @@
                         )}
                     </main>
 
-                    {/* MODAL (Same as before) */}
                     {selectedTopic && (
                         <div className="fixed inset-0 z-[100] bg-white overflow-y-auto animate-in custom-scrollbar">
                             <div className="max-w-4xl mx-auto px-8 py-20">
@@ -390,14 +473,14 @@
                                     <p className="text-lg text-slate-600 leading-relaxed mb-8">{selectedTopic.content}</p>
                                     <h4 className="text-xl font-black uppercase tracking-tight mb-4 text-slate-900">2. Real World Application</h4>
                                     <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                                        When you are out in the field in Northumberland—perhaps standing on the windswept dunes of Bamburgh or under the pitch-black skies of Kielder—this theory becomes reality. You need to adjust your settings based on the rapid shifts in weather. If the clouds break, your exposure values must change instantly. We recommend practicing this technique at least 50 times in different lighting conditions until it becomes muscle memory.
+                                        When you are out in the field in Northumberland... this theory becomes reality. You need to adjust your settings based on the rapid shifts in weather. If the clouds break, your exposure values must change instantly.
                                     </p>
                                     <h4 className="text-xl font-black uppercase tracking-tight mb-4 text-slate-900">3. Pro Tips for the North</h4>
                                     <ul className="space-y-4 text-lg text-slate-600 list-disc pl-6 mb-12">
-                                        <li>Always check your histogram after the first shot to ensure the bright North Sea sky hasn't lost all detail.</li>
-                                        <li>In high-wind areas like Dunstanburgh, lower your tripod's center of gravity to avoid micro-vibrations.</li>
-                                        <li>Use a remote shutter or the 2-second timer to ensure your hand touching the camera doesn't cause blur.</li>
-                                        <li>If shooting wildlife on the Farnes, keep your shutter speed twice as fast as you think you need.</li>
+                                        <li>Always check your histogram after the first shot.</li>
+                                        <li>In high-wind areas, lower your tripod's center of gravity.</li>
+                                        <li>Use a remote shutter to prevent blur.</li>
+                                        <li>Keep shutter speeds high for wildlife.</li>
                                     </ul>
                                 </div>
                                 <div className="pt-20 border-t border-slate-100 text-center">
@@ -409,7 +492,6 @@
                         </div>
                     )}
 
-                    {/* FOOTER */}
                     <footer className="py-20 border-t border-slate-100 bg-slate-50">
                         <div className="max-w-7xl mx-auto px-8 text-center space-y-4">
                             <div className="flex items-center justify-center space-x-2 text-slate-400">
