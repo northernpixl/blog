@@ -69,310 +69,240 @@
             { id: 27, name: "Hareshaw Linn", type: "Wildlife", lat: 55.1557, lng: -2.2420, desc: "Ancient ravine waterfall.", parking: "NE48 2BZ", history: "Once an ironworks site." },
             { id: 28, name: "Elf Kirk", type: "Astro", lat: 55.2045, lng: -2.5367, desc: "Deep forest dark sky site.", parking: "NE48 1HX", history: "Zero light pollution." },
             { id: 29, name: "Wooler Common", type: "Astro", lat: 55.5412, lng: -2.0345, desc: "Great low horizons.", parking: "NE71 6RL", history: "Ancient common land." },
-            { id: 30, name: "Stonehaugh", type: "Astro", lat: 55.0877, lng: -2.3166, desc: "Stargazing pavilion.", parking: "NE48 36DZ", history: "Architecture student project." }
+            { id: 30, name: "Stonehaugh", type: "Astro", lat: 55.0877, lng: -2.3166, desc: "Stargazing pavilion.", parking: "NE48 3DZ", history: "Architecture student project." }
         ];
 
         const GUIDES = [
-            {
-                id: 1, title: "Mastering Hyperfocal Distance", cat: "Landscape", time: "25 min",
-                fundamentals: "The hyperfocal distance is the mathematical 'sweet spot' for landscape photographers. It is defined as the closest distance at which a lens can be focused while keeping objects at infinity acceptably sharp. When you focus at this specific point, your depth of field extends from exactly half that distance all the way to infinity.\n\nWhy does this matter in Northumberland? Imagine standing on the 'Black Rocks' at Bamburgh. You have a detailed, mossy rock just 2 meters away, but you also want the castle, which is 500 meters away, to be perfectly crisp. If you focus on the castle, the rock will be a blur. If you focus on the rock, the castle will soften. Hyperfocal distance allows you to have both.\n\nTECHNICAL WORKFLOW:\n1. Choose your Aperture: Generally f/11 is the sweet spot. Going higher (f/22) introduces 'diffraction,' which actually makes the whole image softer.\n2. Know your Focal Length: A 24mm lens has a different hyperfocal point than a 16mm lens.\n3. Use a Calculator: Apps like PhotoPills or Depth of Field Calculator are essential. For a 24mm lens at f/11 on a full-frame camera, the hyperfocal distance is roughly 1.7 meters.\n4. Manual Focus: Switch your lens to MF. Set the focus scale to 1.7m. Do not focus on the castle!",
-                impact: "Maximizing front-to-back sharpness creates 'Immersive Scale.' It invites the viewer to step into the photo, feeling the texture of the foreground while admiring the grandeur of the background. Without this, your landscape feels like a flat postcard rather than a three-dimensional experience.",
-                proTip: "The 'Double the Distance' Rule: If you don't have an app, look for the closest object you want sharp. Estimate its distance (say, 3 meters). Focus at exactly double that distance (6 meters). This is a reliable field approximation for hyperfocal focusing."
+            { 
+                id: 1, title: "Hyperfocal Distance", cat: "Landscape", time: "15 min", 
+                fundamentals: "The hyperfocal distance is the closest distance at which a lens can be focused while keeping objects at infinity acceptably sharp. When you focus at the hyperfocal distance, your depth of field extends from half that distance to infinity. This is crucial for landscapes where you have a prominent foreground subject (like the rocks at Bamburgh) but also want the distant castle to stay crisp. To calculate this, you need to consider your focal length and aperture (e.g., 24mm at f/11). \n\nSTEPS: 1. Use an app or table to find the distance. 2. Switch to manual focus. 3. Set the distance on your lens's scale. 4. Use a tripod to ensure no movement during the longer shutter speed required by a small aperture.",
+                impact: "Maximizing sharpness across the entire frame creates a professional, immersive feel that draws the viewer's eye from the bottom of the photo to the horizon without any blurry 'dead zones'.",
+                proTip: "If you don't have an app, focus roughly one-third of the way into the scene; this is a reliable 'field rule' for achieving decent front-to-back sharpness."
             },
-            {
-                id: 2, title: "Advanced Long Exposure Artistry", cat: "Landscape", time: "30 min",
-                fundamentals: "Long exposure is the manipulation of time to create ethereal, painterly effects. By keeping the shutter open for 10, 30, or even 300 seconds, the camera averages out movement. In the North Sea, this transforms crashing, chaotic waves into a soft, dreamlike mist. At Kielder, it turns drifting clouds into long, streaking lines that point toward your subject.\n\nGEAR REQUIREMENTS:\n- A heavy-duty tripod is non-negotiable. Even a slight breeze during a 30-second exposure will ruin the shot.\n- Neutral Density (ND) Filters: These are 'sunglasses for your lens.' A 10-stop ND filter allows you to shoot a 30-second exposure in broad daylight.\n- Remote Shutter Release: Pressing the button with your finger causes 'shutter slap'—a tiny vibration that reduces sharpness.\n\nSTEP-BY-STEP FIELD EXECUTION:\n1. Compose and Focus: Set up your shot *before* putting the dark ND filter on. Lock your focus.\n2. Meter the Light: Take a test shot without the filter. Note the shutter speed (e.g., 1/125s).\n3. Calculate the New Speed: Adding a 10-stop filter changes 1/125s into an 8-second exposure.\n4. Cover the Viewfinder: On DSLRs, light can leak through the eyepiece during long exposures, causing purple streaks. Use a piece of black tape or the built-in shutter.",
-                impact: "Long exposure simplifies a busy scene. It removes the 'visual noise' of water and wind, allowing the viewer to focus on the textures of the rocks at Dunstanburgh or the architecture of St Mary's Lighthouse.",
-                proTip: "The 'Longest' Exposure: If you want water to look like ice, go for 30+ seconds. If you want to keep some texture in the waves (the 'streaky' look), aim for 0.5 to 2 seconds as the tide is retreating."
+            { 
+                id: 2, title: "Long Exposure Waterscapes", cat: "Landscape", time: "12 min", 
+                fundamentals: "Long exposure involves using a slow shutter speed (from 0.5 seconds to several minutes) to blur the movement of water or clouds. In Northumberland, this is essential for turning the North Sea into a smooth mist around the base of St Mary's Lighthouse. \n\nTECHNIQUE: 1. Secure your camera on a heavy tripod. 2. Use a Neutral Density (ND) filter to block light, allowing for slower speeds. 3. Use a remote shutter or the 2-second timer to prevent camera shake from your finger. 4. Shoot in Manual mode to maintain consistency across shots.",
+                impact: "It simplifies a busy, chaotic scene. By smoothing out waves, you emphasize the stationary, permanent structures of the landscape, creating a sense of peace and artistic abstraction.",
+                proTip: "Time your shots with the outgoing tide; the retreating water creates beautiful 'streaks' that lead the eye toward your subject."
             },
-            {
-                id: 3, title: "The NPF Rule & Pin-Sharp Stars", cat: "Astro", time: "20 min",
-                fundamentals: "The Earth is rotating at roughly 1,000 miles per hour. Because of this, stars are moving targets. If your shutter is open for too long, the stars will blur into 'trails' rather than looking like sharp points of light. \n\nTraditionally, photographers used the '500 Rule' (500 divided by focal length = max shutter speed). However, modern high-resolution sensors are so sensitive that they see movement much faster, making the 500 Rule obsolete. The NPF Rule is the new gold standard.\n\nTHE NPF FORMULA:\n(35 x Aperture + 30 x Pixel Pitch) / Focal Length. \n\nDon't worry about the math; apps like PhotoPills calculate this for you. For a 24mm f/2.8 lens on a high-res sensor, the 500 Rule might suggest a 20-second exposure, but the NPF Rule will tell you 8 seconds is the maximum for truly sharp stars.\n\nIN THE FIELD:\n1. Open your aperture to its widest (f/1.8, f/2.8).\n2. Set ISO high (3200-6400) to compensate for the shorter shutter speed.\n3. Use a sturdy tripod.\n4. Zoom in on your LCD to 100% after the first shot. If the stars look like tiny sausages, shorten your shutter speed.",
-                impact: "Pin-sharp stars make the Milky Way look crystalline and grand. Blurred stars look like a technical error and distract from the majesty of Northumberland's Dark Skies.",
-                proTip: "If your NPF calculation requires a shutter speed so short that the image is too dark, consider a 'Star Tracker.' This device moves the camera at the same speed as the Earth's rotation, allowing for 2-minute exposures at low ISO."
+            { 
+                id: 3, title: "The Rule of Thirds & Beyond", cat: "Landscape", time: "10 min", 
+                fundamentals: "Composition is the arrangement of elements in your frame. The Rule of Thirds suggests dividing the frame into a 3x3 grid and placing key elements on the lines or intersections. For Northumberland's vast skies, placing the horizon on the bottom third emphasizes the clouds. For the coast, placing the horizon on the top third emphasizes the beach textures. \n\nADVANCED: Consider the 'Golden Ratio' or 'Leading Lines' (like the pier at Blyth) to create a more natural flow for the eye.",
+                impact: "Good composition transforms a snapshot into a story. It creates balance and tension, guiding the viewer through the image in a deliberate way.",
+                proTip: "Break the rule for symmetry! If you're shooting the Blyth Beach Huts, center them perfectly to emphasize their rhythmic pattern."
             },
-            {
-                id: 4, title: "Wildlife: Back-Button Focus Mastery", cat: "Wildlife", time: "25 min",
-                fundamentals: "By default, your camera focuses when you press the shutter button halfway. This is a nightmare for wildlife. Imagine a Puffin on the Farne Islands: you focus on it, but then a seagull flies in front of it. Your camera will hunt for the seagull, losing the Puffin.\n\nBack-Button Focus (BBF) separates the focus action from the shutter action. You assign focus to a button on the back of the camera (usually AF-ON). \n\nHOW TO SETUP:\n1. Menu Settings: Go to 'Custom Key Settings' and disable AF from the shutter button.\n2. Mode: Set your camera to 'Continuous AF' (AI-Servo or AF-C).\n3. Operation: Hold the back button to track a moving animal. Release the button to lock focus (becoming manual). Press the shutter independently to take photos.\n\nADVANTAGES:\n- You never have to switch between Single-shot and Continuous AF again.\n- You can focus on a bird, release the button, recompose the shot, and the focus stays exactly where you left it.",
-                impact: "This technique increases your 'keeper rate' significantly. It allows you to react instantly to sudden movement without the lens 'hunting' for focus at the critical moment.",
-                proTip: "When using BBF for birds in flight, keep the AF-ON button held down the entire time you are tracking. The camera's computer is constantly recalculating the distance; releasing it for even a millisecond can result in a soft eye."
+            { 
+                id: 4, title: "Focus Stacking Techniques", cat: "Landscape", time: "18 min", 
+                fundamentals: "Sometimes, even at f/16, you cannot get a very close foreground and a distant background sharp in one shot. Focus stacking is the solution. You take multiple photos (usually 3-5) of the exact same scene, shifting the focus point from the closest object to the furthest. \n\nWORKFLOW: 1. Use a tripod—frames must align perfectly. 2. Shoot in Manual. 3. Take shot 1 focused on the immediate foreground. 4. Take shot 2 focused slightly further back. 5. Repeat until you reach infinity. 6. Merge in post-processing software.",
+                impact: "This allows you to use the 'sweet spot' of your lens (usually f/5.6 or f/8) where it is sharpest, rather than stopping down to f/22 and suffering from diffraction blur.",
+                proTip: "Check your first and last shots immediately on-screen to ensure you didn't miss the 'front' or 'back' of the focus range."
             },
-            {
-                id: 5, title: "Aurora Borealis: Hunting the Northern Lights", cat: "Astro", time: "40 min",
-                fundamentals: "Northumberland is one of the best places in England to see the Aurora, but capturing it requires more than just looking up. The Aurora is caused by solar wind hitting the Earth's atmosphere. To the naked eye, it often looks like a faint grey mist; the camera sensor, however, sees the vibrant greens and purples.\n\nPLANNING THE HUNT:\n1. Kp-Index: Watch for a Kp of 4 or higher. This indicates the strength of the geomagnetic storm.\n2. Bz Value: Look for a 'Negative Bz.' This means the solar wind is 'hooking' into Earth's magnetic field.\n3. Location: You must have a clear view of the Northern horizon. Dunstan Steads or Bamburgh Beach are perfect.\n\nCAMERA SETTINGS:\n- Aperture: Widest possible (f/1.4 - f/2.8).\n- ISO: 1600 to 3200.\n- Shutter Speed: This is the variable. If the Aurora is moving slowly, 10-15 seconds is fine. If it is 'dancing' (moving quickly), you need 2-5 seconds to capture the distinct 'curtains' or 'pillars.' A long exposure will just turn the whole sky into a green mush.",
-                impact: "Capturing the Aurora is the 'Holy Grail' of UK photography. It adds a cosmic, otherworldly dimension to the familiar Northumberland coastline.",
-                proTip: "White Balance is key! Set your WB manually to 'Tungsten' or 'Incandescent' (approx 3200K-3800K). If you leave it on Auto, the camera will try to 'fix' the green sky by making it look brown or grey."
+            { 
+                id: 5, title: "Polarizing for Clarity", cat: "Landscape", time: "11 min", 
+                fundamentals: "A Circular Polarizer is the most important filter for landscape work. It works by filtering out light that has been polarized by reflection. It reduces glare on wet rocks, removes reflections from the surface of the sea (revealing the 'Black Rocks' at Bamburgh), and increases color saturation in the sky. \n\nUSAGE: 1. Screw the filter onto the lens. 2. Rotate the outer ring while looking through the viewfinder. 3. You will see the reflections vanish and the blue of the sky deepen.",
+                impact: "It achieves an effect that is impossible to replicate in Photoshop. It adds 'punch' and clarity to images by removing the haze caused by reflected light.",
+                proTip: "Polarizers are most effective when the sun is at a 90-degree angle to your camera. Avoid using them on extreme wide-angle lenses (under 16mm) as they can cause uneven dark patches in the sky."
             },
-            {
-                id: 6, title: "Animal Eye AF & Tracking Logic", cat: "Wildlife", time: "15 min",
-                fundamentals: "Modern mirrorless cameras (Sony, Canon, Nikon) have AI-driven 'Eye-Autofocus.' This technology recognizes the shape of an animal and specifically locks onto the eye. In wildlife, if the eye isn't sharp, the photo is a failure.\n\nSETTINGS:\n1. Subject Detection: Set to 'Animal' or 'Bird.'\n2. AF Area: Use 'Wide' or 'Zone' tracking. Let the camera's brain find the eye within that zone.\n3. Priority: Ensure 'Eye Priority' is turned ON.\n\nLIMITATIONS:\nEye AF struggles in low light or when there is heavy brush between you and the animal (e.g., a Red Squirrel at Kielder). In these cases, you must override the AI with a 'Small Spot' focus point directly on the eye.",
-                impact: "Eye AF frees your mind to focus on composition and timing rather than fighting with focus points. It is the single biggest technological leap for wildlife photographers in a decade.",
-                proTip: "If the animal is facing away, the camera will usually lock onto the head. As soon as it turns even slightly, the Eye AF will 'snap' back. Be ready to fire a burst the moment that snap happens."
+            { 
+                id: 6, title: "Exposure Bracketing", cat: "Landscape", time: "10 min", 
+                fundamentals: "Northumberland sunrises often have a huge dynamic range—the sun is too bright and the shadows are too dark for the camera sensor to capture in one shot. Bracketing involves taking one 'normal' exposure, one underexposed (to save sky detail), and one overexposed (to save shadow detail). \n\nSETTINGS: Look for 'AEB' (Auto Exposure Bracketing) in your menu. Set it to 3 shots at 2-stop intervals.",
+                impact: "Ensures you never have 'blown out' white skies or 'crushed' black shadows, giving you all the data needed for a perfect edit.",
+                proTip: "Even if you don't intend to make an HDR (High Dynamic Range) image, bracketing is great 'insurance' to ensure you caught the best possible single exposure."
             },
-            {
-                id: 7, title: "Astro: Star Trail Geometry", cat: "Astro", time: "30 min",
-                fundamentals: "Star trails create a sense of the Earth's rotation. By taking hundreds of photos over several hours and stacking them, the stars appear as circles around the North Star (Polaris). \n\nTHE PROCESS:\n1. Find Polaris: Use a star app. Point your camera North for circles, or East/West for 'rain' effects.\n2. Intervalometer: Set your camera to take 30-second shots with a 1-second gap between them. Do this for at least 2 hours.\n3. Post-Processing: Use free software like 'StarStaX' to blend the images. It picks the brightest pixels from each frame and connects them.",
-                impact: "Trails create a surreal, abstract view of the night sky that tells a story of time passing—something a single frame cannot do.",
-                proTip: "Turn OFF 'Long Exposure Noise Reduction' in your camera menu. If it's on, the camera will take 30 seconds to 'process' after every 30-second shot, leaving huge gaps in your star trails."
+            { 
+                id: 7, title: "Wildlife: Shutter Priority Mastery", cat: "Wildlife", time: "14 min", 
+                fundamentals: "In wildlife photography, speed is everything. Movement is constant. Using Shutter Priority (Tv or S) allows you to lock in a speed that guarantees sharpness, while the camera adjusts the aperture. For large, slow animals like the Chillingham Cattle, 1/500s is enough. For fast-flying Puffins on the Farnes, you need 1/2500s or higher. \n\nCRITICAL STEP: Pair this with 'Auto-ISO' so that if the light drops (a cloud covers the sun), your speed remains fast enough to freeze the action.",
+                impact: "The difference between a blurry Puffin and one where you can see the individual feathers is purely down to shutter speed. It removes the risk of 'motion blur' ruining a once-in-a-lifetime moment.",
+                proTip: "If you have a very steady hand or a gimbal, try 'Panning' at 1/60s. Move the camera at the same speed as the animal to get a sharp subject against a blurred, artistic background."
             },
-            {
-                id: 8, title: "Composition: Leading Lines & Visual Flow", cat: "Landscape", time: "20 min",
-                fundamentals: "A photo is a 2D representation of a 3D world. To create depth, you must guide the viewer's eye. Leading lines are 'roads' for the eye to follow. \n\nEXAMPLES IN NORTHUMBERLAND:\n- The long wooden pier at Blyth Beach.\n- The 'Black Rocks' gullies leading to Bamburgh Castle.\n- The Hadrian's Wall path winding through the hills at Housesteads.\n\nHOW TO USE THEM:\nDon't just point at the subject. Position your tripod low so the line starts in the bottom corner of your frame and leads diagonally toward the main subject.",
-                impact: "Leading lines create a 'narrative' in the image. They give the viewer a starting point and a destination, making the image feel balanced and purposeful.",
-                proTip: "Lines don't have to be straight! 'S-curves' (like a winding river or path) are often more pleasing and keep the viewer's eye in the frame longer."
+            { 
+                id: 8, title: "Back-Button Focusing", cat: "Wildlife", time: "12 min", 
+                fundamentals: "By default, your camera focuses when you half-press the shutter. Back-button focus moves this function to a button on the back of the camera (usually AF-ON). This separates the act of focusing from the act of taking the picture. \n\nWHY IT WORKS: You can keep the button held down to track a moving bird (Continuous AF), or tap it once to lock focus on a stationary squirrel, and then fire the shutter multiple times without the lens 'hunting' for focus again.",
+                impact: "It gives you instant control over when to track and when to lock, drastically increasing your 'hit rate' for sharp images of unpredictable animals.",
+                proTip: "It takes about a week of practice to build the muscle memory for this, but once you do, you will never go back to shutter-focusing."
             },
-            {
-                id: 9, title: "Wildlife Fieldcraft & Ethics", cat: "Wildlife", time: "35 min",
-                fundamentals: "The best wildlife photo is one where the animal didn't even know you were there. Fieldcraft is the art of blending in. \n\nETHICS:\n- Never flush a bird (make it fly) just for a 'wings spread' shot. This wastes the bird's vital energy.\n- Keep your distance. If the animal changes its behavior (stops eating, looks at you), you are too close.\n- Use a 'Long Lens' (400mm+) to bridge the gap.\n\nCLOTHING & MOVEMENT:\n- Avoid 'Blue.' Most animals see blue very clearly. Earth tones (browns, greens) are best.\n- Move only when the animal is looking away or eating. Freeze when they look up.",
-                impact: "Respecting wildlife ensures these animals return year after year. It also results in more natural photos of animals behaving normally, rather than looking stressed or frightened.",
-                proTip: "Use your car as a 'Mobile Hide.' Animals in Northumberland (like those at Kielder) are often used to cars. They will let a car get much closer than a walking human."
+            { 
+                id: 9, title: "Ethics of Wildlife Photography", cat: "Wildlife", time: "20 min", 
+                fundamentals: "The welfare of the subject must always come before the photograph. Northumberland is home to rare and sensitive species; our presence must be invisible. \n\nDO'S: 1. Use a long telephoto lens (300mm+) to maintain a safe distance. 2. Approach slowly and avoid direct eye contact, which animals perceive as a threat. 3. Learn the animal's behavior to recognize stress signs (e.g., stopping feeding, 'freezing', or alarm calls). 4. Use a silent/electronic shutter to avoid startling animals with 'clack' sounds. \n\nDON'TS: 1. Never 'flush' an animal (forcing it to fly/run) just for an action shot. 2. Do not use playback bird calls to lure species during breeding season. 3. Never bait animals with food. 4. Do not disturb nests or burrows. \n\nLEGALITIES: You MUST stay on Public Rights of Way (designated footpaths/bridleways). Do not climb over fences or walls. Trespassing on private land is illegal and damages the reputation of all photographers. Always respect 'Private Land' and 'No Entry' signage.",
+                impact: "Ethical practice ensures that wildlife continues to thrive and that access to these beautiful locations remains open for future generations of photographers.",
+                proTip: "If an animal looks directly at your lens and stops what it's doing for more than a few seconds, you are too close. Back away slowly and immediately."
             },
-            {
-                id: 10, title: "Exposure Bracketing (HDR) for High Contrast", cat: "Landscape", time: "20 min",
-                fundamentals: "Digital sensors cannot see as much detail in the shadows and highlights as the human eye can. On a bright sunrise at Dunstanburgh, if you expose for the dark castle, the sky will turn pure white ('blown out'). If you expose for the sun, the castle will be pure black.\n\nBracketing is the solution: taking multiple shots at different exposure levels.\n\nWORKFLOW:\n1. Set camera to 'AEB' (Auto Exposure Bracketing).\n2. Set to 3 or 5 shots at 2-stop intervals.\n3. The camera will fire a sequence: -2 (dark), 0 (normal), +2 (bright).\n4. In Lightroom/Photoshop, select all shots and use 'Photo Merge > HDR.'",
-                impact: "This creates a 'professional dynamic range' where you can see the detail in the dark rocks *and* the vibrant colors in the clouds simultaneously.",
-                proTip: "You don't always need HDR software. Often, just taking the -2 (dark) exposure and 'lifting the shadows' in a single RAW file is enough. Only use the full bracket if the 'Highlight Alert' (blinkies) shows on your screen."
+            { 
+                id: 10, title: "Background Separation (Bokeh)", cat: "Wildlife", time: "13 min", 
+                fundamentals: "A 'busy' background (lots of branches or grass) distracts from the animal. To get a creamy, blurred background, you need a shallow depth of field. This is achieved by: 1. Using a wide aperture (e.g., f/4). 2. Increasing the distance between the subject and the background. 3. Getting as close to the subject as safely possible. \n\nPHYSICS: The longer your lens (e.g., 500mm), the thinner the plane of focus becomes.",
+                impact: "Isolating the subject makes the animal 'pop' out of the frame, creating a portrait-like quality that emphasizes the character and eyes of the creature.",
+                proTip: "Get down to eye level! Shooting from a high angle (looking down) makes the ground the background. Shooting from eye level puts the distant trees in the background, which blurs much better."
             },
-            {
-                id: 11, title: "Burst Mode & Drive Logic", cat: "Wildlife", time: "15 min",
-                fundamentals: "Wildlife happens in split seconds. A Puffin's wings beat 400 times per minute. If you take one photo, you are gambling. Burst mode (High-Speed Continuous) is your insurance policy.\n\nWHEN TO USE:\n- Birds in flight (obviously).\n- Animal interactions (fighting, feeding).\n- Moving water (to catch the perfect 'splash' shape).\n\nCAUTION: Your camera has a 'Buffer.' If you hold the shutter for 10 seconds, the camera will stop to 'write' to the card. Learn to fire in short 1-2 second bursts.",
-                impact: "Burst mode allows you to pick the 'hero frame'—the exact moment the wings are in the perfect 'V' shape or the seal's head is tilted just right.",
-                proTip: "Check your SD card speed! You need a 'V60' or 'V90' card for wildlife. Slow cards will 'choke' your camera, making it lock up during the best action."
+            { 
+                id: 11, title: "Animal Eye Auto-Focus", cat: "Wildlife", time: "10 min", 
+                fundamentals: "Modern mirrorless cameras have specific 'Animal Eye AF' modes. The camera uses AI to recognize the eye of a bird, dog, or cat and locks the focus point onto it instantly. \n\nSETUP: Ensure your camera is in 'Subject Detection: Animal' and 'Continuous AF' (Servo).",
+                impact: "In wildlife, if the eye isn't sharp, the whole photo is a failure. This technology removes the human error of trying to manually move a focus point while a bird is fluttering.",
+                proTip: "In very thick brush, the camera might get confused by twigs. Be ready to switch to a 'Small Spot' focus point to manually guide the AF to the eye."
             },
-            {
-                id: 12, title: "Milky Way Fundamentals", cat: "Astro", time: "25 min",
-                fundamentals: "The Milky Way isn't visible all year. In Northumberland, 'Milky Way Season' is from late February to October. During winter, the bright 'Galactic Center' is below the horizon.\n\nLOCATING IT:\nUse 'Stellarium' or 'PhotoPills.' Look for the 'Core' in the Southern sky. \n\nSETTINGS:\n- Focus: You MUST use Manual Focus. Use 'Live View,' zoom in on a bright star, and turn the ring until the star is a tiny, sharp dot.\n- ISO: Don't be afraid of 6400. Modern noise reduction software is incredible.",
-                impact: "Capturing the 'Great Rift' of our galaxy over a landmark like Cawfields Quarry creates a profound, humbling image of our place in the universe.",
-                proTip: "Wait for the 'New Moon.' If the moon is more than 25% bright, it will wash out the faint light of the Milky Way, making the sky look blue/grey rather than black/nebula-filled."
+            { 
+                id: 12, title: "Stealth & Fieldcraft", cat: "Wildlife", time: "15 min", 
+                fundamentals: "Photography is only 20% of the job; fieldcraft is the other 80%. This involves understanding wind direction (so animals don't smell you), using natural cover (hedges/walls), and wearing neutral colors. \n\nADVICE: Move 'one step at a time'. Walk when the animal is busy feeding; stop when it looks up.",
+                impact: "Better fieldcraft allows you to get closer to the animal naturally without causing stress, resulting in more relaxed and 'intimate' behaviors on camera.",
+                proTip: "Avoid wearing 'loud' fabrics like crinkly waterproofs. Soft fleece or wool is much quieter when you're moving through the woods."
             },
-            {
-                id: 13, title: "ISO & Noise Management", cat: "Wildlife", time: "20 min",
-                fundamentals: "In the woods of Kielder or on a cloudy day at the Farnes, you will often find yourself with 'low light.' To keep your shutter speed fast (e.g., 1/1000s), you have to raise your ISO. Higher ISO creates 'Noise' (grain).\n\nTHE GOLDEN RULE:\n'A noisy sharp photo is better than a clean blurry photo.' You can fix noise in Lightroom, but you can't fix a blurry bird.\n\nMODERN FIXES:\nTools like 'Topaz Photo AI' or 'Lightroom Denoise' can almost completely remove noise from ISO 12,800 images. Don't be afraid of the high numbers!",
-                impact: "Mastering ISO allows you to keep shooting long after other photographers have packed up because 'the light is too low.'",
-                proTip: "The 'Expose to the Right' (ETTR) technique: If you can, make your photo slightly brighter than it needs to be (without blowing highlights). Noise lives in the dark shadows. If you brighten a dark photo in post, noise explodes. If you darken a bright photo, noise disappears."
+            { 
+                id: 13, title: "Understanding Animal Behavior", cat: "Wildlife", time: "12 min", 
+                fundamentals: "Predicting the shot is better than reacting to it. Spend time watching your subject without the camera. Do the birds always land on the same branch? Does the deer move toward the water at a specific time? \n\nKNOWLEDGE: Research your target species' habits—breeding seasons, feeding times, and preferred habitats in Northumberland.",
+                impact: "Predictive shooting leads to much better compositions because you can set up your frame in advance and wait for the animal to walk into it.",
+                proTip: "The best wildlife photos happen at the 'edges' of the day (dawn/dusk). Most animals are crepuscular, meaning they are most active during these low-light periods."
             },
-            {
-                id: 14, title: "Polarizing Filters: Beyond the Sky", cat: "Landscape", time: "20 min",
-                fundamentals: "A Circular Polarizer (CPL) is the only filter that cannot be truly mimicked in Photoshop. It works by blocking light waves that are vibrating at certain angles—specifically light reflected off non-metallic surfaces.\n\nUSES IN THE FIELD:\n1. Removing Glare: Wet rocks at the beach often have white 'hotspots' from reflections. A CPL removes them, revealing the true color/texture of the rock.\n2. Looking through Water: It removes the surface reflection of the sea, letting you see the sand and seaweed beneath.\n3. Foliage: In Holystone Woods, a CPL removes the 'shine' on leaves, making the forest look much deeper green.",
-                impact: "It adds 'punch' and saturation. It clears up the atmosphere by removing 'haze' caused by scattered light in the air.",
-                proTip: "Maximum polarization happens at a 90-degree angle to the sun. If you are pointing directly at or away from the sun, the filter won't do much. Watch the sky in your viewfinder as you rotate it; it will 'blink' dark when it hits the sweet spot."
+            { 
+                id: 14, title: "The 500 Rule for Stars", cat: "Astro", time: "11 min", 
+                fundamentals: "Because the Earth rotates, stars will 'streak' across your frame if your exposure is too long. The 500 Rule helps you find the longest shutter speed you can use before stars start to blur. \n\nFORMULA: 500 ÷ Focal Length = Max Seconds. (e.g., 500 ÷ 20mm = 25 seconds). If you have a 'crop sensor' camera, you must multiply the focal length first (e.g., 20mm x 1.5 = 30mm; 500 ÷ 30 = 16 seconds).",
+                impact: "This ensures the stars appear as sharp, brilliant pinpricks of light rather than blurry white lines, which is the mark of a high-quality astro-photo.",
+                proTip: "Modern high-resolution sensors are very sensitive; many pros now use the '400 Rule' or even '300 Rule' to be extra safe for large prints."
             },
-            {
-                id: 15, title: "Focus Stacking for Macro & Landscape", cat: "Landscape", time: "30 min",
-                fundamentals: "Sometimes, physics won't allow you to get everything sharp. This is common in macro (close-ups of flowers) or landscapes with a subject inches from the lens. \n\nTECHNIQUE:\n1. Tripod is mandatory.\n2. Manual Mode: Every shot must have the same exposure.\n3. Take Shot 1 focused on the very front. \n4. Rotate focus ring slightly. Take Shot 2.\n5. Repeat until you reach the background. (Usually 5-15 shots).\n6. Combine in Photoshop using 'Auto-Align Layers' and 'Auto-Blend Layers.'",
-                impact: "This results in 'Impossible Sharpness'—images that look hyper-real and capture detail that the human eye usually misses.",
-                proTip: "Check for movement! If the grass is blowing in the wind between shots, the 'stack' will have blurry ghosts. Only stack on still days or with solid subjects like rocks and castles."
+            { 
+                id: 15, title: "Astro: Manual Focus in the Dark", cat: "Astro", time: "13 min", 
+                fundamentals: "Your camera cannot autofocus on the dark sky. You must use manual focus. 1. Turn on 'Live View' on your screen. 2. Find the brightest star or a distant light. 3. Use the digital zoom (10x) on your screen to look closely at that star. 4. Rotate the focus ring until the star is the smallest possible dot. 5. If the star looks like a 'donut' or a large blob, you are out of focus.",
+                impact: "In astro-photography, focus is the hardest part. If it's off by even a millimeter, the entire night's work is wasted. Precise focus brings out the true colors of stars.",
+                proTip: "Once you have found perfect focus, use a small piece of electrical tape to secure the focus ring so it doesn't move during the night."
             },
-            {
-                id: 16, title: "The Rule of Thirds & Dynamic Balance", cat: "Landscape", time: "15 min",
-                fundamentals: "The Rule of Thirds is a guide for placing subjects. Imagine a 3x3 grid over your frame. \n\nPLACEMENT:\n- Place the horizon on the bottom third to emphasize a dramatic sky (common at Lindisfarne).\n- Place the horizon on the top third to emphasize the foreground (common at Bamburgh).\n- Place your subject (a lighthouse, a seal) at one of the four 'intersections.'",
-                impact: "It prevents 'Static Images.' A subject in the dead center often feels boring or 'trapped.' Moving it to a third creates 'Energy' and 'Flow.'",
-                proTip: "The 'Rule of Space': If your subject is moving (like a bird flying) or looking in a direction, give them more 'empty' space in the direction they are moving/looking. This prevents the photo from feeling 'cramped.'"
+            { 
+                id: 16, title: "Light Painting for Foregrounds", cat: "Astro", time: "10 min", 
+                fundamentals: "In a 25-second astro exposure, the sky will be bright but the ground (like the Roman wall) will be a black silhouette. Light painting involves using a low-power torch or your phone screen to 'brush' light onto the foreground during the exposure. \n\nTECHNIQUE: Don't point the light directly at the subject for the whole time. Just 'sweep' it across for 1-2 seconds from a side angle to create depth and shadows.",
+                impact: "It brings a sense of place and scale to the stars, making the image a 'Landscape-Astro' hybrid rather than just a photo of the sky.",
+                proTip: "Use a 'warm' light source or a gel. Standard LED torches are very blue and look unnatural in a night scene."
             },
-            {
-                id: 17, title: "Astro: Focusing in the Dark", cat: "Astro", time: "15 min",
-                fundamentals: "Autofocus does not work in the dark. If you rely on it, your stars will be blurry blobs. \n\nTHE METHOD:\n1. Turn off Autofocus (on the lens or in camera).\n2. Turn on 'Live View' and find the brightest star or a distant light (like a lighthouse).\n3. Zoom into that star on the LCD screen to maximum (usually 10x).\n4. Slowly turn the focus ring until the star is as small and 'tight' as possible. If it starts getting bigger, you've gone too far.",
-                impact: "Sharp focus is the difference between a 'Work of Art' and a 'Discarded Shot.' In Astro, there is no middle ground.",
-                proTip: "Once you have perfect focus, use a piece of 'Gaffer Tape' to tape the focus ring down. It's very easy to accidentally bump it in the dark."
+            { 
+                id: 17, title: "ISO & Noise Management", cat: "Astro", time: "14 min", 
+                fundamentals: "To capture the Milky Way, you need a high ISO (usually 3200 or 6400). This introduces 'noise' (grain). Understanding your camera's limits is key. \n\nMITIGATION: 1. Turn off 'Long Exposure Noise Reduction' in camera (it doubles your wait time). 2. Use 'Long Exposure Stacking' in post-processing. 3. Keep the sensor cool—high heat increases noise.",
+                impact: "Clean, low-noise images allow for much better color grading and larger prints without the distracting 'sand' look of high-ISO grain.",
+                proTip: "Always shoot in RAW. RAW files allow noise-reduction software to work much more effectively than JPEG files."
             },
-            {
-                id: 18, title: "Wildlife Composition: Level with the Eye", cat: "Wildlife", time: "20 min",
-                fundamentals: "The most common mistake in wildlife photography is shooting from a standing height. When you look down at a seal or a duck, you look like a 'predator' and the photo looks like a 'snapshot.'\n\nTHE SOLUTION:\nGet on their level. If the animal is on the ground, you should be lying in the mud. \n\nWHY IT WORKS:\n1. It creates an intimate 'connection' with the viewer.\n2. It creates 'Foreground Blur' and 'Background Blur' (Bokeh), making the animal pop off the page.\n3. It makes the animal look heroic rather than small.",
-                impact: "Lying down transforms a simple photo of a bird into a 'portrait' that conveys personality and emotion.",
-                proTip: "Bring a 'Bean Bag' or a 'Ground Pod.' Holding a heavy 500mm lens while lying flat on your stomach is exhausting. A beanbag on the ground provides a perfect, stable base."
+            { 
+                id: 18, title: "The Rule of 600 (Star Trails)", cat: "Astro", time: "12 min", 
+                fundamentals: "If you WANT star trails, you go in the opposite direction of the 500 Rule. You take very long exposures (minutes) or many short ones (stacking). To get circular trails, you must find Polaris (the North Star) and center your frame on it.",
+                impact: "It visualizes the rotation of the Earth, creating a mesmerizing, cosmic effect that looks otherworldly.",
+                proTip: "Take 100 x 30-second shots and merge them in software like 'StarStaX'. This is safer than one 50-minute shot, which would likely overheat your sensor or be ruined by a single car headlight."
             },
-            {
-                id: 19, title: "Astro: Post-Processing Workflow", cat: "Astro", time: "30 min",
-                fundamentals: "An Astro photo straight out of the camera looks grey and flat. The 'magic' happens in the edit.\n\nLIGHTROOM STEPS:\n1. White Balance: Set to 'Cool' (blue). \n2. Dehaze: This is the secret weapon for Astro. It removes the atmospheric glow and reveals the stars.\n3. Contrast/Whites: Push these up to make the stars 'pop.'\n4. Noise Reduction: Use 'Color Noise Reduction' first to get rid of the purple/green speckles.",
-                impact: "Editing allows you to reveal the colors of the nebulae and the dust clouds of the Milky Way that are physically present in the RAW data but invisible to the naked eye.",
-                proTip: "Don't over-process the 'Blacks.' Space isn't actually pure black; it's a deep, dark blue/brown. If you 'Crush the Blacks' to 0, you lose the natural depth of the night sky."
+            { 
+                id: 19, title: "Planning with Apps (PhotoPills)", cat: "Astro", time: "10 min", 
+                fundamentals: "The Milky Way isn't always visible. It changes position based on the time of year and time of night. Using apps like PhotoPills allows you to use Augmented Reality (AR) to see exactly where the Milky Way will rise behind Bamburgh Castle months in advance.",
+                impact: "It saves you from driving for hours only to find the Milky Way is behind you or blocked by a hill. Success in astro is 90% planning.",
+                proTip: "Look for the 'New Moon' phase. Any moonlight will wash out the fainter stars and the Milky Way core."
             },
-            {
-                id: 20, title: "Planning: Weather, Tide & Light", cat: "Landscape", time: "25 min",
-                fundamentals: "Great photography is 80% planning and 20% clicking the shutter. In Northumberland, three factors dictate everything.\n\n1. THE TIDE: Some spots (Bamburgh's pools) only exist at low tide. Others (St Mary's Island) are cut off at high tide. Use the 'AnyTide' app.\n2. THE SUN: Use 'The Photographer's Ephemeris' to see exactly where the sun will rise. Does it hit the castle face? Or is it behind the castle?\n3. CLOUD COVER: Use 'Clear Outside.' You want 30-50% 'High Cloud' for a colorful sunset. You want 0% cloud for Astro.",
-                impact: "Planning ensures you aren't disappointed. There is nothing worse than driving 2 hours to a location only to find the subject is in shadow or underwater.",
-                proTip: "Check the 'Blue Hour.' The 30 minutes *before* sunrise and *after* sunset often have much more interesting, soft, blue/purple light than the 'Golden Hour' itself."
+            { 
+                id: 20, title: "Nightscape Composition", cat: "Astro", time: "11 min", 
+                fundamentals: "Don't just point the camera up. The best astro shots have a strong 'Anchor' in the foreground. Use the silhouette of Dunstanburgh Castle or a lone tree on the Cheviots to give the sky context. \n\nADVICE: Keep the horizon low (bottom 20% of the frame) to let the sky dominate.",
+                impact: "An anchor provides a sense of scale, helping the viewer realize just how vast and magnificent the Northumberland night sky truly is.",
+                proTip: "Wait for the 'Blue Hour' just before total darkness to capture your foreground detail, then don't move the tripod and wait for the stars. You can blend them later for a perfect result."
             }
         ];
 
         const App = () => {
-            const [view, setView] = useState('map');
+            const [activeTab, setActiveTab] = useState('home');
+            const [selectedLoc, setSelectedLoc] = useState(null);
             const [selectedTopic, setSelectedTopic] = useState(null);
-            const mapRef = useRef(null);
-            const leafletMap = useRef(null);
+            const mapContainerRef = useRef(null);
+            const mapInstanceRef = useRef(null);
 
             useEffect(() => {
-                if (view === 'map' && !leafletMap.current && mapRef.current) {
-                    leafletMap.current = L.map(mapRef.current, {
-                        center: [55.3, -1.9],
-                        zoom: 9,
-                        zoomControl: false
-                    });
-
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-                        attribution: '©OpenStreetMap'
-                    }).addTo(leafletMap.current);
-
+                if (activeTab === 'locations' && !mapInstanceRef.current) {
+                    mapInstanceRef.current = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.25, -2.0], 9);
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png').addTo(mapInstanceRef.current);
                     LOCATIONS.forEach(loc => {
-                        const color = loc.type === 'Landscape' ? '#0f172a' : loc.type === 'Wildlife' ? '#16a34a' : '#7c3aed';
-                        const markerHtml = `
-                            <div style="
-                                background-color: ${color};
-                                width: 12px;
-                                height: 12px;
-                                border: 2px solid white;
-                                border-radius: 50%;
-                                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-                            "></div>
-                        `;
-
-                        const customIcon = L.divIcon({
-                            html: markerHtml,
-                            className: 'custom-marker',
-                            iconSize: [12, 12]
-                        });
-
-                        L.marker([loc.lat, loc.lng], { icon: customIcon })
-                            .addTo(leafletMap.current)
-                            .bindPopup(`
-                                <div style="font-family: 'Inter', sans-serif; padding: 4px;">
-                                    <strong style="display:block; font-size:14px;">${loc.name}</strong>
-                                    <span style="color:#64748b; font-size:11px; text-transform:uppercase; font-weight:bold;">${loc.type}</span>
-                                    <p style="margin: 8px 0; font-size:12px; line-height:1.4;">${loc.desc}</p>
-                                    <div style="background:#f1f5f9; padding:6px; border-radius:4px; font-size:10px;">
-                                        <strong>Parking:</strong> ${loc.parking}<br/>
-                                        <strong>History:</strong> ${loc.history}
-                                    </div>
-                                </div>
-                            `);
+                        const marker = L.circleMarker([loc.lat, loc.lng], { radius: 8, fillColor: '#0ea5e9', color: "#fff", weight: 3, fillOpacity: 1 }).addTo(mapInstanceRef.current);
+                        marker.on('click', () => setSelectedLoc(loc));
                     });
                 }
-            }, [view]);
-
-            if (selectedTopic) {
-                return (
-                    <div className="min-h-screen bg-white animate-in">
-                        <div className="max-w-4xl mx-auto px-6 py-20">
-                            <button onClick={() => setSelectedTopic(null)} className="flex items-center space-x-2 text-slate-400 hover:text-slate-900 transition-colors mb-12 group">
-                                <Icon name="x" size={20} className="group-hover:rotate-90 transition-transform" />
-                                <span className="font-bold uppercase tracking-widest text-xs">Close Manual</span>
-                            </button>
-
-                            <div className="space-y-4 mb-12">
-                                <span className="bg-slate-100 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-500">{selectedTopic.cat}</span>
-                                <h1 className="text-6xl font-black tracking-tighter leading-none italic">{selectedTopic.title}</h1>
-                                <p className="text-slate-400 font-medium">Estimated Reading & Practice Time: {selectedTopic.time}</p>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-                                <div className="md:col-span-2 space-y-12">
-                                    <section>
-                                        <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Subject Manual</h3>
-                                        <div className="text-xl leading-relaxed text-slate-700 whitespace-pre-line font-medium">
-                                            {selectedTopic.fundamentals}
-                                        </div>
-                                    </section>
-                                    <section>
-                                        <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-6">Visual Impact</h3>
-                                        <p className="text-xl leading-relaxed text-slate-700 font-medium">
-                                            {selectedTopic.impact}
-                                        </p>
-                                    </section>
-                                </div>
-                                <div className="space-y-8">
-                                    <div className="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl">
-                                        <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Pro Field Tip</h3>
-                                        <p className="text-lg leading-snug font-bold italic">"{selectedTopic.proTip}"</p>
-                                    </div>
-                                    <div className="border-2 border-slate-100 p-8 rounded-3xl">
-                                        <h3 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Required Gear</h3>
-                                        <ul className="text-sm font-bold space-y-3 uppercase tracking-tight">
-                                            <li>• Manual Capability</li>
-                                            <li>• RAW Format Enabled</li>
-                                            <li>• Steady Support</li>
-                                            <li>• Local Knowledge</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div className="mt-20 pt-10 border-t flex justify-center">
-                                <button onClick={() => setSelectedTopic(null)} className="bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest">Back to Field Guide</button>
-                            </div>
-                        </div>
-                    </div>
-                );
-            }
+            }, [activeTab]);
 
             return (
-                <div className="h-screen flex flex-col md:flex-row p-4 gap-4 overflow-hidden animate-in">
-                    {/* Sidebar / Navigation */}
-                    <div className="w-full md:w-24 bg-slate-900 rounded-[3rem] flex md:flex-col items-center justify-between p-6 z-50">
-                        <div className="text-white">
-                            <Icon name="camera" size={28} className="fill-current" />
+                <div className="min-h-screen bg-white">
+                    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-8">
+                        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => setActiveTab('home')}>
+                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center"><Icon name="camera" className="text-white" size={18} /></div>
+                            <span className="font-black text-xl tracking-tighter uppercase">NorthernPixl</span>
                         </div>
-                        <div className="flex md:flex-col gap-6">
-                            <button onClick={() => setView('map')} className={`p-4 rounded-3xl transition-all ${view === 'map' ? 'bg-white text-slate-900 scale-110 shadow-xl' : 'text-slate-500 hover:text-white'}`}>
-                                <Icon name="mapPin" size={24} />
-                            </button>
-                            <button onClick={() => setView('learn')} className={`p-4 rounded-3xl transition-all ${view === 'learn' ? 'bg-white text-slate-900 scale-110 shadow-xl' : 'text-slate-500 hover:text-white'}`}>
-                                <Icon name="book" size={24} />
-                            </button>
+                        <div className="flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                            {['locations', 'learn'].map(t => (
+                                <button key={t} onClick={() => setActiveTab(t)} className={`hover:text-black ${activeTab === t ? 'text-black' : ''}`}>{t}</button>
+                            ))}
                         </div>
-                        <div className="hidden md:block w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-emerald-400"></div>
-                    </div>
+                    </nav>
 
-                    {/* Main Content Area */}
-                    <div className="flex-1 bg-slate-50 rounded-[3rem] relative overflow-hidden">
-                        {view === 'map' ? (
-                            <div className="h-full w-full relative">
-                                <div ref={mapRef} className="absolute inset-0 z-10" />
-                                <div className="absolute top-10 left-10 z-20 bg-white/90 backdrop-blur-md p-8 rounded-[2.5rem] shadow-2xl border border-white max-w-sm">
-                                    <h1 className="text-4xl font-black tracking-tighter mb-2 italic">NORTHERN PIXL</h1>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Northumberland Field Guide</p>
-                                    <div className="space-y-4">
-                                        <div className="flex items-center gap-4 text-sm font-bold text-slate-600 uppercase tracking-tight">
-                                            <div className="w-3 h-3 rounded-full bg-slate-900"></div> Landscape
-                                        </div>
-                                        <div className="flex items-center gap-4 text-sm font-bold text-slate-600 uppercase tracking-tight">
-                                            <div className="w-3 h-3 rounded-full bg-emerald-500"></div> Wildlife
-                                        </div>
-                                        <div className="flex items-center gap-4 text-sm font-bold text-slate-600 uppercase tracking-tight">
-                                            <div className="w-3 h-3 rounded-full bg-violet-500"></div> Astro
-                                        </div>
-                                    </div>
+                    <main className="pt-20">
+                        {activeTab === 'home' && (
+                            <section className="h-[90vh] flex flex-col items-center justify-center text-center px-6 bg-slate-900 text-white">
+                                <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-8">NORTHERN <br/><span className="text-sky-500">EXPOSURE.</span></h1>
+                                <p className="text-xl text-slate-400 max-w-2xl mb-12">The definitive field guide for Northumberland photographers. 20 masterclasses for the wilderness.</p>
+                                <div className="flex gap-4">
+                                    <button onClick={() => setActiveTab('locations')} className="bg-white text-black px-10 py-5 rounded-full font-black uppercase text-xs tracking-widest">Explore Map</button>
+                                    <button onClick={() => setActiveTab('learn')} className="bg-slate-800 text-white border border-white/10 px-10 py-5 rounded-full font-black uppercase text-xs tracking-widest">Start Learning</button>
                                 </div>
-                            </div>
-                        ) : (
-                            <div className="h-full p-10 overflow-y-auto custom-scrollbar">
-                                <div className="max-w-6xl mx-auto">
-                                    <header className="mb-16">
-                                        <h2 className="text-7xl font-black tracking-tighter italic leading-none mb-4">THE LEARNING<br/>ARCHIVE.</h2>
-                                        <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">20 Technical Techniques for the Northern Photographer</p>
-                                    </header>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {GUIDES.map(guide => (
-                                            <div key={guide.id} onClick={() => setSelectedTopic(guide)} className="group bg-white p-8 rounded-[2.5rem] shadow-sm hover:shadow-2xl transition-all cursor-pointer border border-transparent hover:border-slate-100 flex flex-col justify-between min-h-[320px]">
-                                                <div>
-                                                    <div className="flex justify-between items-start mb-6">
-                                                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-3 py-1 rounded-full">{guide.cat}</span>
-                                                        <span className="text-[10px] font-bold text-slate-300">{guide.time}</span>
-                                                    </div>
-                                                    <h3 className="text-3xl font-black tracking-tighter leading-tight group-hover:text-indigo-600 transition-colors">{guide.title}</h3>
-                                                </div>
-                                                <div className="pt-6 border-t border-slate-50 flex items-center justify-between">
-                                                    <span className="text-xs font-bold uppercase tracking-widest text-slate-400">Open Manual</span>
-                                                    <div className="w-10 h-10 rounded-full bg-slate-900 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                                                        <Icon name="book" size={16} />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
+                            </section>
                         )}
-                    </div>
+
+                        {activeTab === 'locations' && (
+                            <section className="max-w-7xl mx-auto px-6 py-20">
+                                <div className="grid lg:grid-cols-12 gap-12 h-[600px]">
+                                    <div className="lg:col-span-8 h-full rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl" ref={mapContainerRef}></div>
+                                    <div className="lg:col-span-4 bg-white rounded-[3rem] p-10 border border-slate-100 flex flex-col justify-center overflow-y-auto custom-scrollbar">
+                                        {selectedLoc ? (
+                                            <div className="animate-in space-y-6">
+                                                <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-sky-500 text-white">{selectedLoc.type}</span>
+                                                <h3 className="text-4xl font-black">{selectedLoc.name}</h3>
+                                                <p className="text-sm text-slate-500">{selectedLoc.history}</p>
+                                                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                                    <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Field Advice</p>
+                                                    <p className="text-sm font-bold">{selectedLoc.desc}</p>
+                                                </div>
+                                                <p className="text-[11px] font-bold text-slate-400">PARKING: {selectedLoc.parking}</p>
+                                            </div>
+                                        ) : <p className="text-slate-400 font-black uppercase tracking-widest text-xs text-center">Select a marker on the map to view scout details</p>}
+                                    </div>
+                                </div>
+                            </section>
+                        )}
+
+                        {activeTab === 'learn' && (
+                            <section className="max-w-7xl mx-auto px-6 py-20">
+                                <div className="mb-12"><h2 className="text-5xl font-black uppercase tracking-tighter">Field Guides</h2><p className="text-slate-400">20 Detailed technical modules for Astro, Wildlife, and Landscape.</p></div>
+                                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {GUIDES.map(guide => (
+                                        <div key={guide.id} onClick={() => setSelectedTopic(guide)} className="bg-white border border-slate-100 p-10 rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer">
+                                            <span className="text-[10px] font-black uppercase text-sky-500 mb-4 block tracking-widest">{guide.cat} • {guide.time}</span>
+                                            <h3 className="text-2xl font-black mb-4">{guide.title}</h3>
+                                            <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">{guide.impact}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </main>
+
+                    {selectedTopic && (
+                        <div className="fixed inset-0 z-[100] bg-white overflow-y-auto p-8 md:p-20 animate-in custom-scrollbar">
+                            <div className="max-w-3xl mx-auto">
+                                <button onClick={() => setSelectedTopic(null)} className="mb-12 flex items-center space-x-2 text-slate-400 font-black uppercase text-[10px] tracking-widest"><Icon name="x" size={14} /> <span>Close Module</span></button>
+                                <span className="text-sky-500 font-black uppercase text-xs tracking-[0.3em] mb-4 block">{selectedTopic.cat}</span>
+                                <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-12 leading-none">{selectedTopic.title}</h2>
+                                <div className="space-y-12">
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6 pb-2 border-b">1. Detailed Technical Explanation</h4>
+                                        <p className="text-lg text-slate-700 leading-relaxed whitespace-pre-line">{selectedTopic.fundamentals}</p>
+                                    </div>
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-6 pb-2 border-b">2. Why This Matters</h4>
+                                        <p className="text-lg text-slate-700 leading-relaxed">{selectedTopic.impact}</p>
+                                    </div>
+                                    <div className="bg-sky-50 p-10 rounded-[3rem] border border-sky-100">
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-sky-600 mb-4">Field Pro Tip</h4>
+                                        <p className="text-2xl font-bold text-slate-800 italic leading-snug">"{selectedTopic.proTip}"</p>
+                                    </div>
+                                </div>
+                                <div className="mt-20 pt-10 border-t flex justify-center">
+                                     <button onClick={() => setSelectedTopic(null)} className="bg-slate-900 text-white px-12 py-5 rounded-full font-black uppercase text-xs tracking-widest">Back to Field Guide</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         };
