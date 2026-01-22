@@ -420,8 +420,8 @@
                     <main className="pt-20">
                         {activeTab === 'home' && (
                             <section className="h-[90vh] flex flex-col items-center justify-center text-center px-6 bg-slate-900 text-white">
-                                <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-8">NORTHERN <br/><span className="text-sky-500">EXPOSURE.</span></h1>
-                                <p className="text-xl text-slate-400 max-w-2xl mb-12">The definitive field guide for Northumberland photographers & hikers. Masterclasses, maps, and trails for the wilderness.</p>
+                                <h1 className="text-7xl md:text-9xl font-black tracking-tighter mb-8">NORTHUMBERLAND <br/><span className="text-sky-500">EXPOSURE.</span></h1>
+                                <p className="text-xl text-slate-400 max-w-2xl mb-12">A beginners guide for Northumberland photographers & hikers. Tips, maps, and trails for your journey in the wilderness.</p>
                                 <div className="flex gap-4">
                                     <button onClick={() => setActiveTab('learn')} className="bg-white text-black px-10 py-5 rounded-full font-black uppercase text-xs tracking-widest hover:bg-slate-200 transition-colors">Start Learning</button>
                                     <button onClick={() => setActiveTab('locations')} className="bg-slate-800 text-white border border-white/10 px-10 py-5 rounded-full font-black uppercase text-xs tracking-widest hover:bg-slate-700 transition-colors">Explore Map</button>
@@ -475,7 +475,7 @@
                                     <>
                                         <div className="mb-12 text-center">
                                             <h2 className="text-5xl font-black uppercase tracking-tighter mb-4">Hiking Routes</h2>
-                                            <p className="text-slate-400 mb-8">30 curated trails across the National Park and Coast.</p>
+                                            <p className="text-slate-400 mb-8">30 suggested routes across the National Park and Coast.</p>
                                             
                                             <div className="flex justify-center items-center gap-4 mb-8">
                                                 <div className="inline-flex bg-slate-100 p-1 rounded-full">
@@ -546,8 +546,8 @@
                                                 </div>
                                                 
                                                 <div className="mt-auto bg-amber-50 p-6 rounded-3xl border border-amber-100">
-                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Important</h4>
-                                                    <p className="text-amber-900 text-xs font-bold leading-relaxed">Always carry a physical map (OS Explorer OL16/OL332). GPS signals in Northumberland are unreliable. Weather changes rapidly on high ground.</p>
+                                                    <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Top Tips</h4>
+                                                    <p className="text-amber-900 text-xs font-bold leading-relaxed">Carry a physical OS map for the location you visit. GPS signals in Northumberland are unreliable. Weather changes rapidly on high ground so be prepared. Always stick to public footpaths and don't park blocking access for farms etc.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -560,8 +560,8 @@
                             <section className="max-w-7xl mx-auto px-6 py-20">
                                 <div className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
                                     <div>
-                                        <h2 className="text-5xl font-black uppercase tracking-tighter mb-2">Field Guides</h2>
-                                        <p className="text-slate-400">20 Detailed technical modules.</p>
+                                        <h2 className="text-5xl font-black uppercase tracking-tighter mb-2">Photography Guides</h2>
+                                        <p className="text-slate-400">20 suggested topics.</p>
                                     </div>
                                     <div className="flex bg-slate-100 p-1 rounded-full">
                                         {['All', 'Wildlife', 'Astro', 'Landscape'].map(cat => (
