@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthernPixl | Locations</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+        .animate-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 1.5rem; z-index: 0; }
+        @media (min-width: 1024px) { .leaflet-container { border-radius: 3rem; } }
+    </style>
+</head>
+<body class="bg-white text-slate-900 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // --- ICONS COMPONENT ---
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const icons = {
+                camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
+                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
+                arrowLeft: <><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></>,
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name] || null}
+                </svg>
+            );
+        };
+
+        // --- DATA ---
+        const LOCATIONS = [
+            { id: 1, name: "Bamburgh Castle", type: "Landscape", lat: 55.6090, lng: -1.7120, desc: "This is arguably the most iconic view in the county. At low tide, head north of the castle to the 'Black Rocks' (part of the Whin Sill). These volcanic pools act as perfect mirrors. \n\nCOMPOSITION: Use a wide-angle lens (16-24mm) to get close to the green, mossy rocks in the foreground while keeping the castle imposing in the background. Watch for the 'Stag Rock' painted white for an alternative angle further north.", parking: "NE69 7DF (Links Car Park)", best_time: "Sunrise (Winter) / Sunset (Summer)", top_tip: "Wellingtons are mandatory! The best compositions often require standing in 6 inches of seawater to get the reflection just right.", history: "The Royal Seat of the Kings of Northumbria. It has stood guard here for over 1,400 years, originally a wooden fort destroyed by Vikings in 993, then rebuilt by Normans. Restored to its current glory by industrialist Lord Armstrong." },
+            { id: 2, name: "Dunstanburgh Castle", type: "Landscape", lat: 55.4915, lng: -1.5947, desc: "The approach from Craster is a 1.3-mile walk, but the photographic rewards are immense. The classic shot is from the 'Greystones' (round boulders) on the north side at Embleton Bay. \n\nCOMPOSITION: Long exposure (1-2 seconds) is essential here to smooth the often rough water washing over the round stones. The castle ruins form a jagged silhouette that looks best when backlit at sunrise.", parking: "NE66 3TW (Craster Quarry)", best_time: "Sunrise (Year-round)", top_tip: "The round stones are incredibly slippery when wet. Wear spikes or move very slowly to avoid a camera-breaking fall.", history: "Built in 1313 by Earl Thomas of Lancaster on a magnificent scale, seemingly to defy King Edward II. It fell into ruin after the Wars of the Roses and was captured twice by Yorkist forces." },
+            { id: 4, name: "Lindisfarne Castle", type: "Landscape", lat: 55.6694, lng: -1.7856, desc: "Situated on Holy Island, access is dictated by the tide tables—do not get cut off. The castle sits atop a volcanic mound (Beblowe Crag). \n\nCOMPOSITION: The most popular angle is from the row of upturned fishing boats in the harbor (The Ouse). These provide fantastic leading lines. Another option is the small stone jetty which points directly at the castle.", parking: "TD15 2RX (Chare Ends)", best_time: "Sunrise or Golden Hour", top_tip: "Always check the safe crossing times on the gov.uk website. The causeway floods rapidly and cars get stranded every year.", history: "A 16th-century fort built using stones from the dissolved priory. It was famously renovated by Arts and Crafts architect Edwin Lutyens in 1901. This island saw the first major Viking raid in 793 AD." },
+            { id: 5, name: "St Mary's Island", lat: 55.0717, lng: -1.4496, type: "Landscape", desc: "A tidal island linked by a short causeway. The white lighthouse is a stark contrast to the dark rocks. \n\nCOMPOSITION: The causeway itself is a perfect leading line. Photograph it as the tide is just starting to cover it (ensure you are on the mainland side!). Long exposures work beautifully here to turn the North Sea into a milky mist around the concrete walkway.", parking: "NE26 4RS", best_time: "High Tide (for long exposure)", top_tip: "Arrive 1 hour before high tide to capture the causeway just as it gets submerged, creating the 'floating island' effect.", history: "The lighthouse was built in 1898 on the site of an 11th-century monastic chapel. It was decommissioned in 1984 but remains a beacon for photographers and birdwatchers." },
+            { id: 6, name: "Farne Islands", type: "Wildlife", lat: 55.6178, lng: -1.6314, desc: "Accessible only by boat from Seahouses. Inner Farne is the main landing site. \n\nGEAR: You need a telephoto lens (300mm-500mm). The Arctic Terns will dive-bomb you (wear a hat!). The Puffins are fast—use a shutter speed of at least 1/2000s to freeze their wings. For seals, take a boat that circles the outer islands.", parking: "Seahouses Harbor", best_time: "May - July (Puffin Season)", top_tip: "Wear a wide-brimmed hat. The Arctic Terns are aggressive defenders of their nests and will peck the highest point of you (your head).", history: "Famed as the hermitage of St. Cuthbert who died here in 687 AD. Also the site of Grace Darling's heroic rescue of the SS Forfarshire survivors in 1838." },
+            { id: 7, name: "Coquet Island", type: "Wildlife", lat: 55.3340, lng: -1.5372, desc: "This is an RSPB reserve and landing is prohibited, but boat tours from Amble offer incredible proximity. \n\nSPECIES: It is the UK's only stronghold for the Roseate Tern. It also hosts thousands of Puffins. Because you are on a moving boat, image stabilization (IS/VR) is critical. Keep your shutter speed high.", parking: "NE65 0AP (Amble)", best_time: "Summer Breeding Season", top_tip: "Use a high shutter speed (1/1000s+) even for static shots, as the boat engine vibration will blur your images at slower speeds.", history: "Home to the ruins of a medieval Benedictine cell. The lighthouse was built in 1841 and is now automated. The island has been a sanctuary since the 7th century." },
+            { id: 8, name: "Chillingham Park", type: "Wildlife", lat: 55.5262, lng: -1.9054, desc: "Home to the famous Wild Cattle, the only survivors of the ancient wild herds of Britain. They are dangerous and must be viewed with a warden. \n\nCOMPOSITION: The park is a mix of woodland and open pasture. Try to capture the cattle interacting—locking horns or nursing calves. The ancient trees in the park also make for spooky atmospheric shots.", parking: "NE66 5NJ", best_time: "Early Morning (Mist)", top_tip: "Never approach the cattle on foot without the warden. They are wild animals and can charge without warning. Use a long lens.", history: "The herd has been enclosed here since the 13th century, remaining genetically isolated for hundreds of years. They are considered rarer than the giant panda." },
+            { id: 9, name: "Kielder Water", type: "Wildlife", lat: 55.2330, lng: -2.5330, desc: "A massive area offering Ospreys (Bakethin Hide is best) and Red Squirrels. \n\nSTRATEGY: For squirrels, patience is key. Sit quietly near the feeders at the hides. For Ospreys, you need a very long lens (600mm ideally) and a tripod with a gimbal head to track their flight over the water.", parking: "NE48 1BT (Tower Knowe)", best_time: "April - August (Ospreys)", top_tip: "In summer, the midges are ferocious. Bring a head net and Smidge repellent, or you won't be able to stand still long enough for a shot.", history: "Europe's largest man-made lake, created in 1981. The valley holds a submerged history of farms and schools that were flooded to create the reservoir." },
+            { id: 11, name: "Kielder Observatory", type: "Astro", lat: 55.2369, lng: -2.6105, desc: "Located in the heart of the Gold-Tier Dark Sky Park. While you can't always shoot through their telescopes, the architecture of the observatory itself makes a stunning foreground for wide-angle Milky Way shots. \n\nTECH: Use a fast wide angle (14mm f/2.8). The deck faces South, perfect for the galactic core.", parking: "NE48 1EJ (Permit required at night)", best_time: "New Moon (Winter)", top_tip: "Use a red headtorch. White light ruins your night vision (and everyone else's) for 20 minutes. It's considered very rude in astro circles.", history: "Opened in 2008, this timber structure is designed to look like a 'landship' moored on the hillside. It is a beacon for astronomy education in the UK." },
+            { id: 12, name: "Cawfields Quarry", type: "Astro", lat: 54.9967, lng: -2.4645, desc: "One of the most accessible Dark Sky sites. A deep lake sits in a former quarry with steep cliffs blocking light pollution. \n\nCOMPOSITION: The lake is incredibly still at night, offering perfect star reflections. Hadrian's Wall runs along the top of the crags—try illuminating it gently with a torch (light painting) during your exposure.", parking: "NE49 9PJ", best_time: "Clear Winter Nights", top_tip: "It's very exposed. Hang your camera bag on your tripod hook to weigh it down and prevent wind-shake during long exposures.", history: "A former dolerite quarry cut directly into the Whin Sill. The dark igneous rock provides a dramatic, stark contrast to the night sky." },
+            { id: 15, name: "Dunstan Steads", type: "Astro", lat: 55.4988, lng: -1.6112, desc: "A prime location for the Aurora Borealis (Northern Lights). It has a clear, unobstructed view North over the ocean. \n\nADVICE: Monitor solar activity apps (like Glendale). When the Kp index hits 5 or 6, head here. You need a 10-15 second exposure at ISO 1600+ to bring out the colors that the naked eye might miss.", parking: "NE66 3SY", best_time: "Aurora Forecast > Kp5", top_tip: "Aurora alerts are often delayed. If the forecast is good, stay out until 2 AM. The best displays often happen in short, sudden bursts.", history: "The coastline here is dotted with World War II concrete pillboxes, constructed to defend against a potential German invasion from Norway." },
+            { id: 16, name: "Alnwick Castle", type: "Landscape", lat: 55.4156, lng: -1.7059, desc: "Famous as Hogwarts in Harry Potter. The best view for photographers is not from the entrance, but from the 'Lion Bridge' across the River Aln. \n\nCOMPOSITION: Frame the castle through the arches of the bridge or use the river as a leading line. The daffodils on the bank in spring create a yellow carpet foreground.", parking: "NE66 1YU", best_time: "Late Afternoon / Golden Hour", top_tip: "Arrive very early (pre-9 AM) or stay late. During the day, the bridge is full of tourists which makes clean architectural shots impossible.", history: "The seat of the Duke of Northumberland and the Percy family for over 700 years. It is the second largest inhabited castle in England after Windsor." },
+            { id: 17, name: "Cragside House", type: "Landscape", lat: 55.3134, lng: -1.8845, desc: "A Victorian fantasy house nestled in a forest of rhododendrons. \n\nCOMPOSITION: The Iron Bridge offers a fantastic view of the house towering above the gorge. In Autumn, the colors here are riotous. Use a polarizing filter to cut glare on the wet leaves and pop the red/orange foliage.", parking: "NE65 7PX", best_time: "Autumn (Oct-Nov)", top_tip: "Visit in late May/early June for the full bloom. The purple rhododendrons frame the house perfectly from the other side of the valley.", history: "Built by Lord Armstrong, it was the first house in the world to be lit by hydroelectricity. It is a masterpiece of Victorian engineering and innovation." },
+            { id: 18, name: "Housesteads", type: "Landscape", lat: 55.0135, lng: -2.3283, desc: "The most complete Roman Fort on Hadrian's Wall. It sits high on an exposed escarpment. \n\nCOMPOSITION: This is a location for drama. Turbulent clouds and moody lighting suit the ruins. Shoot from the east looking west along the wall to capture the undulations of the landscape.", parking: "NE47 6NN", best_time: "Stormy/Moody Weather", top_tip: "It's a steep hike up. Pack light. You don't want to be hauling a heavy gear bag up the escarpment only to be too tired to shoot.", history: "Vercovicium (Housesteads) was built around 124 AD. It housed 800 infantry soldiers and is one of the best-preserved frontiers of the Roman Empire." },
+            { id: 19, name: "Blyth Beach Huts", type: "Landscape", lat: 55.1207, lng: -1.5034, desc: "A row of vibrantly colored wooden beach huts. \n\nCOMPOSITION: This is an exercise in symmetry and color. Use a longer focal length (50mm-85mm) and stand back to compress the perspective. Shoot straight on to create a graphic, abstract image consisting of just vertical lines and bold colors.", parking: "NE24 3PL", best_time: "Overcast (for even light)", top_tip: "Don't change lenses on the beach if it's windy. The fine sand will get into your sensor immediately. Pick a focal length and stick with it.", history: "Part of the modern regeneration of the Blyth coastline. These huts have become a contemporary icon of the Northumberland coast, distinct from the ancient castles." },
+            { id: 20, name: "Northumberlandia", type: "Landscape", lat: 55.0934, lng: -1.6288, desc: "Assuming the form of a reclining woman, this is the world's largest human landform sculpture. \n\nCOMPOSITION: From the ground, it's hard to capture the shape. Walk to the highest point (the head) for panoramic views of the Shotton Surface Mine, or use the winding paths as geometric leading lines.", parking: "NE23 8AU", best_time: "Sunset", top_tip: "The best shots are often silhouettes from the bottom looking up, catching people walking along the ridge of the sculpture.", history: "Completed in 2012, designed by Charles Jencks. It was built using 1.5 million tonnes of rock, clay, and soil from the neighboring open-cast mine." },
+            { id: 21, name: "Linhope Spout", type: "Landscape", lat: 55.4437, lng: -2.0634, desc: "A spectacular 18m chute waterfall in the Breamish Valley. It requires a 1.5-mile walk to reach. \n\nCOMPOSITION: You need a tripod and an ND filter. A shutter speed of 0.5s to 1s is perfect to blur the water while keeping texture. There is a plunge pool at the bottom that swirls—great for long exposure spirals.", parking: "NE66 4LZ (Hartside Farm)", best_time: "Overcast / After Rain", top_tip: "The path can be boggy. Hiking boots are essential. Also, bring a polarizing filter to cut the glare on the wet rocks.", history: "A popular Victorian picnic spot. The deep plunge pool is bottomless according to local folklore (though actually about 5m deep)." },
+            { id: 22, name: "Twizell Castle", type: "Landscape", lat: 55.6835, lng: -2.1895, desc: "An unfinished Gothic folly that stands eerily empty. It has a 'shell' quality that is haunting. \n\nCOMPOSITION: Frame the castle with the ancient trees surrounding it. It sits high above the River Till. The bridge below (Twizell Bridge) is also medieval and worth a shot.", parking: "TD15 2PS", best_time: "Mist/Fog", top_tip: "It looks best in black and white. The stark stone walls and empty windows lend themselves to a high-contrast, moody monochrome edit.", history: "Begun in 1770 by Sir Francis Blake, but never completed. It was designed to be a five-story mansion but remains a grand, empty stone skeleton." },
+            { id: 23, name: "Simonside Hills", type: "Landscape", lat: 55.2890, lng: -1.9480, desc: "A sandstone ridge offering 360-degree views. \n\nCOMPOSITION: The heather here turns the hills purple in late summer. Use the stone cairns on the summit as foreground interest. The view looks straight towards the Cheviot Massif.", parking: "NE65 7NW", best_time: "August (Heather Season)", top_tip: "This is the best sunset spot in the county. The sun sets directly over the Cheviots, silhouetting the distant hills.", history: "Known in folklore as the home of the 'Duergar' (dark dwarves) who would lure travelers into bogs. The hills have spiritual significance dating back to the Bronze Age." },
+            { id: 24, name: "Cresswell Pond", type: "Wildlife", lat: 55.2289, lng: -1.5434, desc: "A brackish lagoon right next to the beach. \n\nSPECIES: Excellent for wading birds like Avocets, Redshanks, and migrating geese. The hide is well-positioned. You need a long lens (400mm+) as the birds can be in the center of the pond. Early morning light is best to avoid heat haze.", parking: "NE61 5LF", best_time: "High Tide (pushes birds closer)", top_tip: "Stay low and quiet in the hide. The Avocets are skittish. Use 'Silent Shutter' mode if your camera has it.", history: "Formed by mining subsidence, this accidental nature reserve is now a permanent feature of Druridge Bay's ecology." },
+            { id: 25, name: "Holystone Woods", type: "Wildlife", lat: 55.3235, lng: -2.0678, desc: "Ancient semi-natural oak woodland. \n\nSPECIES: Great for Red Squirrels, Pied Flycatchers, and Wood Warblers. It is dense and dark, so you will need a higher ISO (800-1600) to get fast shutter speeds. Look for the 'Lady's Well'—a clear pool surrounded by trees.", parking: "NE65 7AJ", best_time: "Spring (Bluebells)", top_tip: "Tuck your trousers into your socks. This is prime tick territory in the long grass and ferns.", history: "Associated with St. Ninian, who is said to have baptized early Christians in the Lady's Well here in the 5th century." },
+            { id: 26, name: "The Cheviot", type: "Wildlife", lat: 55.4795, lng: -2.1466, desc: "The highest point in Northumberland (815m). It is a bleak, peat-bog plateau. \n\nSPECIES: Look for Red Grouse bursting out of the heather (keep your autofocus on continuous). You may also see Mountain Hares in their white winter coats if you are lucky.", parking: "NE71 6RJ (Langleeford)", best_time: "Winter (Snow)", top_tip: "The weather changes instantly on the plateau. Always carry a map and compass/GPS. White-outs can happen even in spring.", history: "An extinct volcano that was active 390 million years ago. It has been eroded down to the granite stump we hike today." },
+            { id: 27, name: "Hareshaw Linn", type: "Wildlife", lat: 55.1557, lng: -2.2420, desc: "A deep, damp ravine leading to a waterfall. \n\nSPECIES: The damp conditions are perfect for ferns, mosses, and fungi (macro photography paradise). Look for Dippers bobbing on the rocks in the stream and Spotted Flycatchers in the canopy.", parking: "NE48 2BZ (Bellingham)", best_time: "Overcast days", top_tip: "The waterfall creates a lot of spray. Keep a microfiber cloth handy to wipe your lens front element between every shot.", history: "Surprisingly, this was the site of a noisy ironworks in the 19th century. Nature has completely reclaimed the industrial spoil heaps." },
+            { id: 28, name: "Elf Kirk", type: "Astro", lat: 55.2045, lng: -2.5367, desc: "A clearing in Kielder Forest. It is incredibly dark (Bortle Class 2). \n\nCOMPOSITION: The tall pine trees frame the sky beautifully, creating a 'window' to the stars. It feels very enclosed and private. Great for vertical panoramic shots of the Milky Way arching overhead.", parking: "NE48 1HX", best_time: "Moonless Nights", top_tip: "Turn off your car headlights immediately upon parking. Let your eyes adjust for 20 minutes to see the full majesty of the Milky Way.", history: "The name implies a 'Church of the Elves', hinting at the magical atmosphere of this remote forest clearing." },
+            { id: 29, name: "Wooler Common", type: "Astro", lat: 55.5412, lng: -2.0345, desc: "Great for those who want big skies without the drive to Kielder. \n\nCOMPOSITION: The horizon is low and distant, meaning you can see stars almost down to 0 degrees elevation. There are small ponds on the common that can reflect the brightest stars (like Sirius or Jupiter).", parking: "NE71 6RL", best_time: "Meteor Showers", top_tip: "Use the gorse bushes as foreground interest. When illuminated with a low-level light, their yellow flowers pop against the blue night sky.", history: "Ancient common land that has been grazed for centuries. It sits on the edge of the Northumberland National Park." },
+            { id: 30, name: "Stonehaugh", type: "Astro", lat: 55.0877, lng: -2.3166, desc: "Home to the 'Stargazing Pavilion', a concrete structure designed for lying back and watching the sky. \n\nUSAGE: The pavilion blocks the wind and gives you a comfortable concrete recliner. It is excellent for star trail photography—set your camera up on the structure and let it run for an hour.", parking: "NE48 3DZ", best_time: "Winter (Gemini Meteor Shower)", top_tip: "Bring a sleeping bag/blanket. Lying on the concrete pavilion is cold, even in summer. Comfort equals patience!", history: "The village was built in the 1950s for forestry workers. The pavilion was a project by architecture students from Newcastle University." }
+        ];
+
+        // --- COMPONENTS ---
+        const Navbar = () => (
+            <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-4 md:px-8">
+                <a href="index.html" className="flex items-center space-x-3 cursor-pointer">
+                    <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center"><Icon name="camera" className="text-white" size={18} /></div>
+                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NP</span>
+                </a>
+                <div className="flex space-x-4 md:space-x-10 text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-400">
+                    <a href="learn.html" className="hover:text-black transition-colors">Learn</a>
+                    <a href="explore.html" className="text-black transition-colors">Locations</a>
+                    <a href="routes.html" className="hover:text-black transition-colors">Routes</a>
+                </div>
+            </nav>
+        );
+
+        const App = () => {
+            const [selectedLoc, setSelectedLoc] = useState(null);
+            const mapContainerRef = useRef(null);
+            const mapInstanceRef = useRef(null);
+
+            useEffect(() => {
+                const timer = setTimeout(() => {
+                    if (mapContainerRef.current) {
+                        const map = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.35, -2.0], 9);
+                        mapInstanceRef.current = map;
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; OpenStreetMap, &copy; CARTO'
+                        }).addTo(map);
+                        
+                        LOCATIONS.forEach(loc => {
+                            const marker = L.circleMarker([loc.lat, loc.lng], { radius: 8, fillColor: '#0ea5e9', color: "#fff", weight: 3, fillOpacity: 1 }).addTo(map);
+                            marker.on('click', () => setSelectedLoc(loc));
+                        });
+                        
+                        if (selectedLoc) {
+                            map.setView([selectedLoc.lat, selectedLoc.lng], 14);
+                        }
+                    }
+                }, 100);
+
+                return () => {
+                    clearTimeout(timer);
+                    if (mapInstanceRef.current) {
+                        mapInstanceRef.current.remove();
+                        mapInstanceRef.current = null;
+                    }
+                };
+            }, []);
+
+            useEffect(() => {
+                if (mapInstanceRef.current) {
+                    if (selectedLoc) {
+                        mapInstanceRef.current.flyTo([selectedLoc.lat, selectedLoc.lng], 14, { duration: 1.5 });
+                    } else {
+                        mapInstanceRef.current.flyTo([55.35, -2.0], 9, { duration: 1.5 });
+                    }
+                }
+            }, [selectedLoc]);
+
+            return (
+                <div className="min-h-screen bg-white">
+                    <Navbar />
+                    <main className="pt-20">
+                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-20 h-[calc(100vh-80px)] md:h-auto">
+                            <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 h-full lg:h-[800px]">
+                                <div className="w-full h-[45vh] lg:h-full lg:col-span-7 rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative order-1 lg:order-1">
+                                    <div ref={mapContainerRef} className="w-full h-full"></div>
+                                </div>
+                                <div className="w-full lg:col-span-5 bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-12 border border-slate-100 flex flex-col overflow-y-auto custom-scrollbar shadow-xl order-2 lg:order-2 flex-1 lg:flex-none">
+                                    {selectedLoc ? (
+                                        <div className="animate-in space-y-6">
+                                            <button onClick={() => setSelectedLoc(null)} className="flex items-center text-slate-400 hover:text-black font-bold text-xs uppercase tracking-widest mb-4 p-2 -ml-2">
+                                                <Icon name="arrowLeft" size={14} className="mr-2" /> Back to Map
+                                            </button>
+                                            <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-sky-500 text-white">{selectedLoc.type}</span>
+                                            <h3 className="text-3xl md:text-4xl font-black">{selectedLoc.name}</h3>
+                                            <p className="text-sm text-slate-500">{selectedLoc.history}</p>
+                                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                                <p className="text-[9px] font-black uppercase text-slate-400 mb-1">General Advice</p>
+                                                <p className="text-sm font-bold whitespace-pre-line">{selectedLoc.desc}</p>
+                                            </div>
+                                            {selectedLoc.top_tip && (
+                                                <div className="bg-sky-50 p-4 rounded-2xl border border-sky-100">
+                                                    <p className="text-[9px] font-black uppercase text-sky-500 mb-1">Top Tip</p>
+                                                    <p className="text-sm font-bold text-sky-900">{selectedLoc.top_tip}</p>
+                                                </div>
+                                            )}
+                                            <div className="flex flex-col gap-2 pb-6">
+                                                <p className="text-[11px] font-bold text-slate-400">PARKING: {selectedLoc.parking}</p>
+                                                {selectedLoc.best_time && <p className="text-[11px] font-bold text-sky-500">BEST TIME: {selectedLoc.best_time}</p>}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center justify-center h-full text-slate-300 py-12 lg:py-0">
+                                            <Icon name="mapPin" size={48} className="mb-4 opacity-50"/>
+                                            <p className="font-black uppercase tracking-widest text-xs text-center">Select a marker on the map to view details</p>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
