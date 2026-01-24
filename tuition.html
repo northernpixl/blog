@@ -165,23 +165,38 @@
             </nav>
         );
 
-        const Bio = () => (
-            <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 md:p-12 mb-12 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
-                <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-200 rounded-full flex-shrink-0 overflow-hidden relative">
-                    <img src="IMG-20260116-WA0002.jpg" alt="Stephen" className="w-full h-full object-cover" />
+        const Bio = () => {
+            const [imgError, setImgError] = useState(false);
+            
+            return (
+                <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 md:p-12 mb-12 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
+                    <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-200 rounded-full flex-shrink-0 overflow-hidden relative">
+                        {!imgError ? (
+                            <img 
+                                src="IMG-20260116-WA0002.jpg" 
+                                alt="Stephen" 
+                                className="w-full h-full object-cover" 
+                                onError={() => setImgError(true)}
+                            />
+                        ) : (
+                            <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                                <Icon name="user" size={40} />
+                            </div>
+                        )}
+                    </div>
+                    <div>
+                        <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">About Me</span>
+                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">Hi! I'm Stephen.</h3>
+                        <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
+                            I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, a huge part of my life revolves around capturing the wild beauty of Northumberland—from the crashing waves of the North Sea to the faint glow of the Aurora Borealis and even the extraordinary wildlife Northumberland has to offer.
+                        </p>
+                        <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base mt-4">
+                            I absolutely love sharing my work and I'm fortunate to have been featured nationally and internationally, however my true passion lies in teaching. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are a completely new to photography or an experienced photographer looking for local knowledge, my goal is to help you take your best ever images.
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">About Me</span>
-                    <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">Hi! I'm Stephen.</h3>
-                    <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
-                        I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, a huge part of my life revolves around capturing the wild beauty of Northumberland—from the crashing waves of the North Sea to the faint glow of the Aurora Borealis and even the extraordinary wildlife Northumberland has to offer.
-                    </p>
-                    <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base mt-4">
-                        I absolutely love sharing my work and I'm fortunate to have been featured nationally and internationally, however my true passion lies in teaching. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are a completely new to photography or an experienced photographer looking for local knowledge, my goal is to help you take your best ever images.
-                    </p>
-                </div>
-            </div>
-        );
+            );
+        };
 
         const App = () => {
             const [selectedWorkshop, setSelectedWorkshop] = useState(null);
