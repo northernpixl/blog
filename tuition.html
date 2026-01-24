@@ -168,9 +168,7 @@
         const Bio = () => (
             <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 md:p-12 mb-12 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
                 <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-200 rounded-full flex-shrink-0 overflow-hidden relative">
-                     <div className="absolute inset-0 flex items-center justify-center text-slate-400">
-                        <Icon name="user" size={40} />
-                     </div>
+                    <img src="IMG-20260116-WA0002.jpg" alt="Stephen" className="w-full h-full object-cover" />
                 </div>
                 <div>
                     <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">About Me</span>
@@ -191,7 +189,7 @@
             const handleContactClick = (workshop) => {
                 const subject = `Tuition Enquiry: ${workshop.title}`;
                 const body = `Hi Stephen,%0D%0A%0D%0AI'm interested in booking the ${workshop.title} (${workshop.duration}).%0D%0A%0D%0AMy Details:%0D%0A- Preferred Dates: [Enter dates]%0D%0A- Experience Level: [Beginner/Intermediate/Pro]%0D%0A- Current Camera Gear: [e.g. Canon R5, 24-70mm]%0D%0A- Mobility/Fitness Level: [e.g. Comfortable walking 3 miles]%0D%0A- Specific Learning Goals: [What do you want to achieve?]%0D%0A%0D%0AThanks!`;
-                
+               
                 window.location.href = `mailto:northernpixl@gmail.com?subject=${subject}&body=${body}`;
             };
 
@@ -206,7 +204,7 @@
                             </div>
 
                             <Bio />
-                            
+                           
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {WORKSHOPS.map(workshop => (
                                     <div key={workshop.id} onClick={() => setSelectedWorkshop(workshop)} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200 flex flex-col justify-between h-full">
@@ -235,7 +233,7 @@
                         <div className="fixed inset-0 z-[100] bg-white overflow-y-auto p-6 md:p-20 animate-in custom-scrollbar">
                             <div className="max-w-3xl mx-auto pt-10 md:pt-0">
                                 <button onClick={() => setSelectedWorkshop(null)} className="mb-8 md:mb-12 flex items-center space-x-2 text-slate-400 font-black uppercase text-[10px] tracking-widest hover:text-black transition-colors p-2 -ml-2"><Icon name="x" size={14} /> <span>Close</span></button>
-                                
+                             
                                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b pb-8">
                                     <div>
                                         <span className="text-sky-500 font-black uppercase text-xs tracking-[0.3em] mb-4 block">{selectedWorkshop.cat} Tuition</span>
