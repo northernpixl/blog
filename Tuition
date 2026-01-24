@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NorthernPixl | Tuition & Workshops</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+        .animate-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-white text-slate-900 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const icons = {
+                camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
+                x: <><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>,
+                mail: <><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></>,
+                check: <><polyline points="20 6 9 17 4 12"/></>,
+                user: <><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name] || null}
+                </svg>
+            );
+        };
+
+        const WORKSHOPS = [
+            { 
+                id: 1, 
+                title: "1-to-1 Masterclass (Full Day)", 
+                price: "£295", 
+                duration: "8 Hours",
+                cat: "Private",
+                description: "A completely bespoke day tailored to your specific needs. Whether you want to master long exposure seascapes at Bamburgh, track wildlife in the Cheviots, or finally understand manual mode, this day is yours. We will cover technical camera skills, composition theory, and fieldcraft.",
+                itinerary: [
+                    "09:00 - Coffee & Equipment Check/Setup",
+                    "10:00 - Location 1: Technical Foundations (Exposure/Focus)",
+                    "13:00 - Lunch (Included at a local pub)",
+                    "14:00 - Location 2: Advanced Composition & Filters",
+                    "16:00 - Location 3: Golden Hour/Sunset Shoot",
+                    "17:00 - Debrief & Editing Workflow Talk"
+                ],
+                requirements: "DSLR or Mirrorless camera, Tripod, Walking boots. Filters recommended but loaners available.",
+                idealFor: "Photographers of any level who want rapid improvement through dedicated personal attention."
+            },
+            { 
+                id: 2, 
+                title: "1-to-1 Masterclass (Half Day)", 
+                price: "£165", 
+                duration: "4 Hours",
+                cat: "Private",
+                description: "Perfect for focusing on a single specific skill or location. We can spend 4 hours perfecting your bird-in-flight settings, or chasing the perfect seascape at Dunstanburgh Castle. Intense, focused, and highly educational.",
+                itinerary: [
+                    "Hour 1: Theory & Camera Setup",
+                    "Hour 2: Guided Shooting (Location 1)",
+                    "Hour 3: Guided Shooting (Location 2)",
+                    "Hour 4: Image Review & Feedback"
+                ],
+                requirements: "Camera, Charged Battery, Empty Memory Card.",
+                idealFor: "Those with a busy schedule or a specific technical hurdle they need to overcome."
+            },
+            { 
+                id: 3, 
+                title: "Coastal Group Walk", 
+                price: "£125", 
+                duration: "6 Hours",
+                cat: "Group",
+                description: "Join a small group (max 4 people) for a social and educational photo walk along the stunning Northumberland Coast. We will tackle the classic locations: Bamburgh, Dunstanburgh, or Howick. Learn from the tutor and your peers in a relaxed environment.",
+                itinerary: [
+                    "Meet at designated car park",
+                    "Briefing on tide times and safety",
+                    "Walk to location (approx 1-2 miles)",
+                    "Group shooting session with rotating 1-to-1 advice",
+                    "Packed lunch break (bring your own)",
+                    "Final location shoot"
+                ],
+                requirements: "Moderate fitness required (walking on sand/rocks). Waterproof clothing.",
+                idealFor: "Social photographers who want to discover new locations safely."
+            },
+            { 
+                id: 4, 
+                title: "Astro & Nightscape Intro", 
+                price: "£195", 
+                duration: "5 Hours",
+                cat: "Specialist",
+                description: "Discover the dark skies of Northumberland. We will meet after sunset to learn the art of night photography. Topics include focusing in the dark, the '500 Rule' for sharp stars, ISO invariance, and light painting foregrounds.",
+                itinerary: [
+                    "20:00 - Meet & Theory (Warm clothes essential)",
+                    "21:00 - Blue Hour compositions",
+                    "22:00 - Milky Way / Star Trail setup",
+                    "23:30 - Light Painting techniques",
+                    "01:00 - Finish"
+                ],
+                requirements: "Wide angle lens (f/2.8 preferred), Sturdy Tripod, Headtorch (Red light mode).",
+                idealFor: "Anyone wanting to capture the Milky Way or Aurora Borealis."
+            },
+            { 
+                id: 5, 
+                title: "Post-Processing Zoom Session", 
+                price: "£75", 
+                duration: "2 Hours",
+                cat: "Online",
+                description: "Taking the photo is only 50% of the work. Join me for a screen-share session where we edit YOUR photos together using Adobe Lightroom or Photoshop. Learn how to recover shadows, color grade, and sharpen for print.",
+                itinerary: [
+                    "Review of your RAW files",
+                    "Culling and selection workflow",
+                    "Global adjustments (Lightroom)",
+                    "Local adjustments (Masking/Dodging & Burning)",
+                    "Export settings for Web vs Print"
+                ],
+                requirements: "Computer with Zoom and Lightroom/Photoshop installed.",
+                idealFor: "Photographers struggling to make their RAW files look like what they saw with their eyes."
+            },
+            { 
+                id: 6, 
+                title: "Wildlife Fieldcraft Basics", 
+                price: "£185", 
+                duration: "5 Hours",
+                cat: "Specialist",
+                description: "Learn how to get close to wildlife without disturbing it. We will cover camouflage, wind direction, stalking techniques, and camera settings for fast action. We will target local species like Hares, Roe Deer, or Seabirds depending on the season.",
+                itinerary: [
+                    "Understanding animal behavior",
+                    "Fieldcraft & Stealth techniques",
+                    "Shutter speed mastery for action",
+                    "Back-button focus setup",
+                    "Ethical considerations"
+                ],
+                requirements: "Telephoto lens (300mm+ recommended), quiet clothing (no rustling nylon).",
+                idealFor: "Nature lovers who want to move beyond 'snapshot' wildlife photos."
+            }
+        ];
+
+        const Navbar = () => (
+            <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-4 md:px-8">
+                <a href="index.html" className="flex items-center space-x-3 cursor-pointer">
+                    <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center"><Icon name="camera" className="text-white" size={18} /></div>
+                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NP</span>
+                </a>
+                <div className="flex space-x-4 md:space-x-10 text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-400">
+                    <a href="index.html" className="hover:text-black transition-colors">Home</a>
+                    <a href="learn.html" className="hover:text-black transition-colors">Learn</a>
+                    <a href="tuition.html" className="text-black transition-colors">Tuition</a>
+                    <a href="explore.html" className="hover:text-black transition-colors">Locations</a>
+                </div>
+            </nav>
+        );
+
+        const Bio = () => (
+            <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 md:p-12 mb-12 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
+                <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-200 rounded-full flex-shrink-0 overflow-hidden relative">
+                     <div className="absolute inset-0 flex items-center justify-center text-slate-400">
+                        <Icon name="user" size={40} />
+                     </div>
+                     {/* Placeholder for real image: <img src="me.jpg" className="w-full h-full object-cover" /> */}
+                </div>
+                <div>
+                    <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">The Instructor</span>
+                    <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">Hi, I'm Stephen.</h3>
+                    <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
+                        I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, I have dedicated my life to capturing the wild beauty of Northumberland—from the crashing waves of the North Sea to the faint glow of the Aurora Borealis over Hadrian's Wall.
+                    </p>
+                    <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base mt-4">
+                        My work has been featured internationally, but my true passion lies in teaching. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are a complete beginner or an experienced shooter looking for local knowledge, my goal is to help you take your best ever images.
+                    </p>
+                </div>
+            </div>
+        );
+
+        const App = () => {
+            const [selectedWorkshop, setSelectedWorkshop] = useState(null);
+
+            const handleContactClick = (workshop) => {
+                const subject = `Tuition Enquiry: ${workshop.title}`;
+                const body = `Hi Stephen,%0D%0A%0D%0AI'm interested in booking the ${workshop.title} (${workshop.duration}).%0D%0A%0D%0AMy Details:%0D%0A- Preferred Dates: [Enter dates]%0D%0A- Experience Level: [Beginner/Intermediate/Pro]%0D%0A- Current Camera Gear: [e.g. Canon R5, 24-70mm]%0D%0A- Mobility/Fitness Level: [e.g. Comfortable walking 3 miles]%0D%0A- Specific Learning Goals: [What do you want to achieve?]%0D%0A%0D%0AThanks!`;
+                
+                window.location.href = `mailto:hello@northernpixl.co.uk?subject=${subject}&body=${body}`;
+            };
+
+            return (
+                <div className="min-h-screen bg-white">
+                    <Navbar />
+                    <main className="pt-20">
+                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-20">
+                            
+                            <div className="mb-12">
+                                <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">Tuition &<br/>Workshops</h2>
+                                <p className="text-slate-400 max-w-xl">Master your camera in the heart of Northumberland. Choose from 1-to-1 private tuition or small group adventures.</p>
+                            </div>
+
+                            <Bio />
+                            
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                                {WORKSHOPS.map(workshop => (
+                                    <div key={workshop.id} onClick={() => setSelectedWorkshop(workshop)} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200 flex flex-col justify-between h-full">
+                                        <div>
+                                            <div className="flex justify-between items-start mb-6">
+                                                <span className="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">{workshop.cat}</span>
+                                                <div className="text-right">
+                                                    <span className="block font-black text-xl md:text-2xl text-slate-900">{workshop.price}</span>
+                                                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">{workshop.duration}</span>
+                                                </div>
+                                            </div>
+                                            <h3 className="text-xl md:text-2xl font-black mb-4 group-hover:text-sky-600 transition-colors leading-tight">{workshop.title}</h3>
+                                            <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">{workshop.description}</p>
+                                        </div>
+                                        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-sky-500 font-black text-[10px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">
+                                            <span>View Itinerary</span>
+                                            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    </main>
+
+                    {selectedWorkshop && (
+                        <div className="fixed inset-0 z-[100] bg-white overflow-y-auto p-6 md:p-20 animate-in custom-scrollbar">
+                            <div className="max-w-3xl mx-auto pt-10 md:pt-0">
+                                <button onClick={() => setSelectedWorkshop(null)} className="mb-8 md:mb-12 flex items-center space-x-2 text-slate-400 font-black uppercase text-[10px] tracking-widest hover:text-black transition-colors p-2 -ml-2"><Icon name="x" size={14} /> <span>Close</span></button>
+                                
+                                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b pb-8">
+                                    <div>
+                                        <span className="text-sky-500 font-black uppercase text-xs tracking-[0.3em] mb-4 block">{selectedWorkshop.cat} Tuition</span>
+                                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-none mb-2">{selectedWorkshop.title}</h2>
+                                    </div>
+                                    <div className="text-left md:text-right flex-shrink-0 bg-slate-50 p-4 rounded-2xl">
+                                        <span className="block font-black text-3xl text-slate-900">{selectedWorkshop.price}</span>
+                                        <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest">{selectedWorkshop.duration}</span>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-10 md:space-y-12">
+                                    <div>
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">About this Workshop</h4>
+                                        <p className="text-base md:text-lg text-slate-700 leading-relaxed">{selectedWorkshop.description}</p>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 gap-10">
+                                        <div>
+                                            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Typical Itinerary</h4>
+                                            <ul className="space-y-3">
+                                                {selectedWorkshop.itinerary.map((item, i) => (
+                                                    <li key={i} className="flex items-start text-sm text-slate-600">
+                                                        <span className="mr-3 mt-1 text-sky-500"><Icon name="check" size={12} /></span>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className="space-y-8">
+                                            <div>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Ideal For</h4>
+                                                <p className="text-sm text-slate-600">{selectedWorkshop.idealFor}</p>
+                                            </div>
+                                            <div>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Requirements</h4>
+                                                <p className="text-sm text-slate-600">{selectedWorkshop.requirements}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-slate-900 text-white p-8 rounded-[2rem] text-center mt-12">
+                                        <h3 className="text-xl font-bold mb-4">Ready to book?</h3>
+                                        <p className="text-slate-400 text-sm mb-6 max-w-md mx-auto">Click below to open your email client. The email will automatically include a template with the details I need (Dates, Gear, Experience) to plan your session.</p>
+                                        <button 
+                                            onClick={() => handleContactClick(selectedWorkshop)}
+                                            className="bg-white text-slate-900 hover:bg-sky-500 hover:text-white transition-colors px-8 py-4 rounded-full font-black uppercase text-xs tracking-widest inline-flex items-center gap-3"
+                                        >
+                                            <Icon name="mail" size={16} />
+                                            <span>Enquire via Email</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
