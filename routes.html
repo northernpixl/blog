@@ -100,7 +100,7 @@
             },
             { 
                 id: 109, category: "1-4", name: "Hareshaw Linn", length: "3 miles", difficulty: "Moderate", elevation: "100m", lat: 55.149, lng: -2.222, 
-                desc: "A 'there and back' walk up a magical wooded dene to a spectacular 30ft waterfall. Requires crossing several small bridges.", 
+                desc: "A 'there and back' walk up to a magical wooded dene to a spectacular 30ft waterfall. Requires crossing several small bridges.", 
                 highlights: "Hareshaw Linn waterfall, ancient woodland, Douglas Firs.",
                 route: [[55.145889, -2.253043],[55.146602, -2.253686],[55.147314, -2.252313],[55.147744, -2.251111],[55.148113, -2.249781],[55.148116, -2.248533],[55.148791, -2.248146],[55.149576, -2.248179],[55.150032, -2.247674],[55.150232, -2.246982],[55.150419, -2.246934],[55.150603, -2.246709],[55.151271, -2.246698],[55.15239, -2.247653],[55.153724, -2.247299],[55.15494, -2.247417],[55.156095, -2.2482],[55.157201, -2.248232],[55.157815, -2.248264],[55.158564, -2.248382],[55.159338, -2.248983],[55.159952, -2.248918],[55.160652, -2.248961],[55.161426, -2.24851],[55.161672, -2.248038],[55.161942, -2.247448]] 
             },
@@ -412,7 +412,7 @@
                                                                 className="font-bold text-xs font-mono pt-1 text-sky-600 hover:text-sky-800 underline decoration-sky-300 underline-offset-2 transition-colors block truncate"
                                                                 title="Open in Google Maps"
                                                             >
-                                                                {startPoint[0].toFixed(5)}, {startPoint[1].toFixed(5)} <Icon name="externalLink" size={10} className="inline ml-1" />
+                                                                Click Here <Icon name="externalLink" size={10} className="inline ml-1" />
                                                             </a>
                                                         )}
                                                     </div>
@@ -431,6 +431,13 @@
                                                 <p className="text-amber-900 text-xs font-bold leading-relaxed italic">
                                                     "Always carry a physical OS map. GPS signals in the park are unreliable. Stick to public footpaths."
                                                 </p>
+                                            </div>
+                                            
+                                            {/* New Back Button */}
+                                            <div className="pt-4 flex justify-center md:justify-start">
+                                                <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+                                                    <Icon name="arrowLeft" size={14} className="mr-2" /> Back to Routes
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
