@@ -23,7 +23,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useEffect } = React;
 
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
@@ -96,6 +96,14 @@
             const [selectedTopic, setSelectedTopic] = useState(null);
             const [learnFilter, setLearnFilter] = useState('All');
 
+            useEffect(() => {
+                const onPopState = () => {
+                    setSelectedTopic(null);
+                };
+                window.addEventListener('popstate', onPopState);
+                return () => window.removeEventListener('popstate', onPopState);
+            }, []);
+
             const filteredGuides = learnFilter === 'All' ? GUIDES : GUIDES.filter(g => g.cat === learnFilter);
 
             return (
@@ -119,7 +127,7 @@
                             
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {filteredGuides.map(guide => (
-                                    <div key={guide.id} onClick={() => setSelectedTopic(guide)} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200">
+                                    <div key={guide.id} onClick={() => { setSelectedTopic(guide); window.history.pushState({}, ""); }} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200">
                                         <span className="text-[10px] font-black uppercase text-sky-500 mb-4 block tracking-widest">{guide.cat} • {guide.time}</span>
                                         <h3 className="text-xl md:text-2xl font-black mb-4 group-hover:text-sky-600 transition-colors">{guide.title}</h3>
                                         <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">{guide.impact}</p>
