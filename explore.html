@@ -139,6 +139,14 @@
             const mapInstanceRef = useRef(null);
 
             useEffect(() => {
+                const onPopState = () => {
+                    setSelectedLoc(null);
+                };
+                window.addEventListener('popstate', onPopState);
+                return () => window.removeEventListener('popstate', onPopState);
+            }, []);
+
+            useEffect(() => {
                 const timer = setTimeout(() => {
                     if (mapContainerRef.current) {
                         const map = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.35, -2.0], 9);
@@ -149,7 +157,10 @@
                         
                         LOCATIONS.forEach(loc => {
                             const marker = L.circleMarker([loc.lat, loc.lng], { radius: 8, fillColor: '#0ea5e9', color: "#fff", weight: 3, fillOpacity: 1 }).addTo(map);
-                            marker.on('click', () => setSelectedLoc(loc));
+                            marker.on('click', () => {
+                                setSelectedLoc(loc);
+                                window.history.pushState({}, "");
+                            });
                         });
                         
                         if (selectedLoc) {
