@@ -24,7 +24,7 @@
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState } = React;
+        const { useState, useEffect } = React;
 
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
@@ -201,6 +201,14 @@
         const App = () => {
             const [selectedWorkshop, setSelectedWorkshop] = useState(null);
 
+            useEffect(() => {
+                const onPopState = () => {
+                    setSelectedWorkshop(null);
+                };
+                window.addEventListener('popstate', onPopState);
+                return () => window.removeEventListener('popstate', onPopState);
+            }, []);
+
             const handleContactClick = (workshop) => {
                 const subject = `Tuition Enquiry: ${workshop.title}`;
                 const body = `Hi Stephen,%0D%0A%0D%0AI'm interested in booking the ${workshop.title} (${workshop.duration}).%0D%0A%0D%0AMy Details:%0D%0A- Preferred Dates: [Enter dates]%0D%0A- Experience Level: [Beginner/Intermediate/Pro]%0D%0A- Current Camera Gear: [e.g. Canon R5, 24-70mm]%0D%0A- Mobility/Fitness Level: [e.g. Comfortable walking 3 miles]%0D%0A- Specific Learning Goals: [What do you want to achieve?]%0D%0A%0D%0AThanks!`;
@@ -222,7 +230,7 @@
                            
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {WORKSHOPS.map(workshop => (
-                                    <div key={workshop.id} onClick={() => setSelectedWorkshop(workshop)} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200 flex flex-col justify-between h-full">
+                                    <div key={workshop.id} onClick={() => { setSelectedWorkshop(workshop); window.history.pushState({}, ""); }} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200 flex flex-col justify-between h-full">
                                         <div>
                                             <div className="flex justify-between items-start mb-6">
                                                 <span className="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">{workshop.cat}</span>
