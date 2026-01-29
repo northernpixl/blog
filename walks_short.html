@@ -76,6 +76,18 @@
                 return () => window.removeEventListener('popstate', onPopState);
             }, []);
 
+            // Deep Linking Logic
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                const walkId = params.get('id');
+                if (walkId) {
+                    const foundWalk = WALKS.find(w => w.id === parseInt(walkId));
+                    if (foundWalk) {
+                        setSelectedWalk(foundWalk);
+                    }
+                }
+            }, []);
+
             useEffect(() => {
                 if (selectedWalk) {
                     setTimeout(() => {
