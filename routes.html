@@ -143,7 +143,7 @@
 
                         // Link logic
                         const linkUrl = walk.category === '1-4' ? 'walks_short.html' :
-                                      walk.category === '4-7' ? 'medium_walks.html' :
+                                      walk.category === '4-7' ? 'walks_medium.html' :
                                       'walks_long.html';
 
                         const popupContent = `
@@ -198,7 +198,7 @@
                                 <a 
                                     href={
                                         activeFilter === '1-4' ? 'walks_short.html' :
-                                        activeFilter === '4-7' ? 'medium_walks.html' :
+                                        activeFilter === '4-7' ? 'walks_medium.html' :
                                         'walks_long.html'
                                     }
                                     className="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-900 flex items-center justify-between group hover:bg-slate-800 transition-all no-underline"
