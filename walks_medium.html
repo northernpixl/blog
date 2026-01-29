@@ -71,12 +71,22 @@
             const filteredWalks = useMemo(() => WALKS.filter(w => w.category === '4-7'), []);
 
             useEffect(() => {
+                // Check for ID in URL on load
+                const params = new URLSearchParams(window.location.search);
+                const walkId = params.get('id');
+                if (walkId) {
+                    const walk = filteredWalks.find(w => w.id === parseInt(walkId));
+                    if (walk) {
+                        setSelectedWalk(walk);
+                    }
+                }
+
                 const onPopState = () => {
                     setSelectedWalk(null);
                 };
                 window.addEventListener('popstate', onPopState);
                 return () => window.removeEventListener('popstate', onPopState);
-            }, []);
+            }, [filteredWalks]);
 
             useEffect(() => {
                 if (selectedWalk) {
