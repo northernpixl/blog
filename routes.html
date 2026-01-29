@@ -51,7 +51,7 @@
         };
 
         const WALKS = [
-            { id: 101, category: "4-7", name: "Drake Stone Walk", length: "4 miles", difficulty: "Moderate", elevation: "150m", lat: 55.337, lng: -2.105, desc: "A mystical walk up to a massive sandstone boulder believed to have healing powers.", highlights: "The massive Drake Stone boulder, Harbottle Lake nature reserve.", route: [[55.3378100, -2.1179200]] },
+            { id: 101, category: "1-4", name: "Drake Stone Walk", length: "4 miles", difficulty: "Moderate", elevation: "150m", lat: 55.337, lng: -2.105, desc: "A mystical walk up to a massive sandstone boulder believed to have healing powers.", highlights: "The massive Drake Stone boulder, Harbottle Lake nature reserve.", route: [[55.3378100, -2.1179200]] },
             { id: 102, category: "1-4", name: "Yeavering Bell", length: "3.6 miles", difficulty: "Strenuous", elevation: "361m", lat: 55.545, lng: -2.112, desc: "A short but sharp climb to the summit of an Iron Age hillfort.", highlights: "Largest Iron Age hillfort in the region, wild Cheviot goats.", route: [[55.5679200, -2.1171600]] },
             { id: 103, category: "1-4", name: "Bamburgh Castle Circular", length: "3 miles", difficulty: "Easy", elevation: "20m", lat: 55.609, lng: -1.712, desc: "A classic coastal loop. Walk along the beach with the castle towering above you.", highlights: "Bamburgh Castle from the beach, The Wynding dunes.", route: [[55.6043500, -1.6970100]] },
             { id: 104, category: "1-4", name: "Berwick Walls", length: "1.5 miles", difficulty: "Easy", elevation: "10m", lat: 55.770, lng: -2.005, desc: "A complete circuit of the Elizabethan town walls.", highlights: "Elizabethan fortifications, Royal Border Bridge.", route: [[55.7722693, -2.0040788]] },
@@ -141,10 +141,12 @@
                             fillOpacity: 1
                         });
 
-                        // Link logic
-                        const linkUrl = walk.category === '1-4' ? 'walks_short.html' :
+                        // Link logic - UPDATED TO INCLUDE ID
+                        const baseUrl = walk.category === '1-4' ? 'walks_short.html' :
                                       walk.category === '4-7' ? 'walks_medium.html' :
                                       'walks_long.html';
+                        
+                        const linkUrl = `${baseUrl}?id=${walk.id}`;
 
                         const popupContent = `
                             <div class="custom-popup">
