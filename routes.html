@@ -15,10 +15,13 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        /* Critical for map rendering: ensure container has height */
         html, body, #root { height: 100%; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        /* Map container needs explicit relative positioning and z-index for stacking context */
         .leaflet-container { width: 100%; height: 100%; background: #f8fafc; z-index: 0; position: relative; }
         
+        /* Custom Popup Styles */
         .leaflet-popup-content-wrapper { border-radius: 1rem; padding: 0.5rem; }
         .leaflet-popup-content { margin: 0.5rem; width: 200px !important; }
         .custom-popup .title { font-weight: 900; font-size: 1rem; line-height: 1.2; margin-bottom: 0.25rem; }
@@ -88,14 +91,17 @@
 
             const filteredWalks = useMemo(() => {
                 if (activeFilter === 'all') return WALKS;
-                return WALKS.filter(w => w.category === activeFilter);
+                if (activeFilter === '1-4') return WALKS.filter(w => w.category === '1-4');
+                if (activeFilter === '4-7') return WALKS.filter(w => w.category === '4-7');
+                if (activeFilter === '7+') return WALKS.filter(w => w.category === '7+');
+                return WALKS;
             }, [activeFilter]);
 
             useEffect(() => {
                 if (mapContainerRef.current && !mapInstanceRef.current) {
                     const map = L.map(mapContainerRef.current, { 
                         zoomControl: false,
-                        center: [55.35, -2.0], 
+                        center: [55.35, -2.0], // Center roughly on Northumberland
                         zoom: 9 
                     });
                     
@@ -106,6 +112,7 @@
                     mapInstanceRef.current = map;
                     markersLayerRef.current = L.layerGroup().addTo(map);
 
+                    // Fix for map loading correctly
                     setTimeout(() => {
                         map.invalidateSize();
                     }, 100);
@@ -115,12 +122,14 @@
             useEffect(() => {
                 if (!mapInstanceRef.current || !markersLayerRef.current) return;
 
+                // Clear existing markers
                 markersLayerRef.current.clearLayers();
 
+                // Add filtered markers
                 filteredWalks.forEach(walk => {
-                    const color = walk.category === '1-4' ? '#22c55e' : 
-                                  walk.category === '4-7' ? '#f59e0b' : 
-                                  '#ef4444'; 
+                    const color = walk.category === '1-4' ? '#22c55e' : // Green
+                                  walk.category === '4-7' ? '#f59e0b' : // Orange
+                                  '#ef4444'; // Red
                     
                     if (walk.route && walk.route.length > 0) {
                         const startPoint = walk.route[0];
@@ -132,12 +141,11 @@
                             fillOpacity: 1
                         });
 
-                        const pageFile = walk.category === '1-4' ? 'walks_short.html' :
-                                         walk.category === '4-7' ? 'walks_medium.html' :
-                                         'walks_long.html';
-                        
-                        // Updated link logic to include ID
-                        const linkUrl = `${pageFile}?id=${walk.id}`;
+                        // Link logic with Deep Linking ID
+                        const baseUrl = walk.category === '1-4' ? 'walks_short.html' :
+                                        walk.category === '4-7' ? 'walks_medium.html' :
+                                        'walks_long.html';
+                        const linkUrl = `${baseUrl}?id=${walk.id}`;
 
                         const popupContent = `
                             <div class="custom-popup">
@@ -175,7 +183,10 @@
                     <main className="flex-1 pt-20 relative">
                         <div ref={mapContainerRef} className="w-full h-full" />
                         
+                        {/* Legend Overlay & Filter */}
                         <div className="absolute bottom-8 left-8 z-[400] flex flex-col gap-4">
+                            
+                            {/* Filter Controls */}
                             <div className="bg-white p-2 rounded-2xl shadow-xl border border-slate-100 flex gap-2">
                                 <button onClick={() => setActiveFilter('all')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === 'all' ? 'active' : 'hover:bg-slate-200'}`}>All</button>
                                 <button onClick={() => setActiveFilter('1-4')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '1-4' ? 'active' : 'hover:bg-slate-200'}`}>Short</button>
@@ -183,6 +194,7 @@
                                 <button onClick={() => setActiveFilter('7+')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '7+' ? 'active' : 'hover:bg-slate-200'}`}>Long</button>
                             </div>
 
+                            {/* New Group Link Button */}
                             {activeFilter !== 'all' && (
                                 <a 
                                     href={
