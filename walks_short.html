@@ -40,7 +40,8 @@
                 arrowLeft: <><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></>,
                 footprints: <><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 11 3.8 11 8c0 1.25-.38 2-1 3 0 0-1.63 2.06-2 3"/><path d="M14 16v-2.38C14 11.5 12.97 10.5 13 8c.03-2.72 1.49-6 4.5-6C19.37 2 21 3.8 21 8c0 1.25-.38 2-1 3 0 0-1.63 2.06-2 3"/><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 0-.5-.5 1 1 0 0 0-1 1 2 2 0 0 0 2 2"/><path d="M7 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 0-.5-.5 1 1 0 0 0-1 1 2 2 0 0 0 2 2"/></>,
                 download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
-                externalLink: <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>
+                externalLink: <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>,
+                chevronDown: <><path d="m6 9 6 6 6-6"/></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -65,6 +66,7 @@
             const [selectedWalk, setSelectedWalk] = useState(null);
             const walkMapContainerRef = useRef(null);
             const walkMapInstanceRef = useRef(null);
+            const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
             useEffect(() => {
                 const onPopState = () => {
@@ -126,18 +128,18 @@
                 if (walk.difficulty === 'Moderate') speed = 2.4;
                 if (walk.difficulty === 'Strenuous') speed = 2.0;
                 if (walk.difficulty === 'Very Strenuous') speed = 1.5;
-               
+                
                 const hours = miles / speed;
                 const elev = parseInt(walk.elevation) || 0;
                 const elevTime = elev / 600;
-               
+                
                 const totalHours = hours + elevTime;
                 const h = Math.floor(totalHours);
                 const m = Math.round((totalHours - h) * 60);
-               
+                
                 const timeStr = `${h}h ${m > 0 ? m + 'm' : ''}`;
                 const steps = Math.round(miles * 2200);
-               
+                
                 return { time: timeStr, steps: steps.toLocaleString() };
             };
 
@@ -169,12 +171,37 @@
                                         <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4">Short Walks (1-4 Miles)</h2>
                                         <p className="text-sm md:text-base text-slate-400 mb-8">Perfect for families, quick outings, and leisurely strolls.</p>
                                         
-                                        <div className="flex justify-center items-center gap-2 mb-8 overflow-x-auto pb-4 px-2">
+                                        {/* Desktop Filters */}
+                                        <div className="hidden md:flex justify-center items-center gap-2 mb-8 overflow-x-auto pb-4 px-2">
                                             <div className="inline-flex bg-slate-100 p-1 rounded-full">
-                                                <a href="#" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white shadow-md text-black transition-all">1-4 Miles</a>
-                                                <a href="walks_medium.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">4-7 Miles</a>
-                                                <a href="walks_long.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">7+ Miles</a>
+                                                <a href="#" className="px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest bg-white shadow-md text-black transition-all">1-4 Miles</a>
+                                                <a href="walks_medium.html" className="px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">4-7 Miles</a>
+                                                <a href="walks_long.html" className="px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">7+ Miles</a>
                                             </div>
+                                        </div>
+
+                                        {/* Mobile Dropdown Filter */}
+                                        <div className="md:hidden relative inline-block text-left mb-8 z-10">
+                                            <div>
+                                                <button 
+                                                    type="button" 
+                                                    className="inline-flex justify-between items-center w-48 px-4 py-3 bg-white border border-slate-200 rounded-xl shadow-sm text-xs font-black uppercase tracking-widest text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200"
+                                                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                                                >
+                                                    1-4 Miles (Short)
+                                                    <Icon name="chevronDown" size={16} className={`ml-2 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                                                </button>
+                                            </div>
+
+                                            {isDropdownOpen && (
+                                                <div className="origin-top absolute right-0 mt-2 w-48 rounded-xl shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-20 overflow-hidden">
+                                                    <div className="py-1" role="menu" aria-orientation="vertical">
+                                                        <a href="#" className="block px-4 py-3 text-xs font-black uppercase tracking-widest text-white bg-slate-900">1-4 Miles (Short)</a>
+                                                        <a href="walks_medium.html" className="block px-4 py-3 text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-slate-50 hover:text-slate-900">4-7 Miles (Med)</a>
+                                                        <a href="walks_long.html" className="block px-4 py-3 text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-slate-50 hover:text-slate-900">7+ Miles (Long)</a>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
