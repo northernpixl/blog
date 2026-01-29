@@ -41,6 +41,7 @@
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
                 camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
+                arrowRight: <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -183,13 +184,30 @@
                         {/* Legend Overlay & Filter */}
                         <div className="absolute bottom-8 left-8 z-[400] flex flex-col gap-4">
                             
-                             {/* Filter Controls */}
+                            {/* Filter Controls */}
                             <div className="bg-white p-2 rounded-2xl shadow-xl border border-slate-100 flex gap-2">
                                 <button onClick={() => setActiveFilter('all')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === 'all' ? 'active' : 'hover:bg-slate-200'}`}>All</button>
                                 <button onClick={() => setActiveFilter('1-4')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '1-4' ? 'active' : 'hover:bg-slate-200'}`}>Short</button>
                                 <button onClick={() => setActiveFilter('4-7')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '4-7' ? 'active' : 'hover:bg-slate-200'}`}>Med</button>
                                 <button onClick={() => setActiveFilter('7+')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '7+' ? 'active' : 'hover:bg-slate-200'}`}>Long</button>
                             </div>
+
+                            {/* New Group Link Button */}
+                            {activeFilter !== 'all' && (
+                                <a 
+                                    href={
+                                        activeFilter === '1-4' ? 'walks_short.html' :
+                                        activeFilter === '4-7' ? 'medium_walks.html' :
+                                        'walks_long.html'
+                                    }
+                                    className="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-900 flex items-center justify-between group hover:bg-slate-800 transition-all no-underline"
+                                >
+                                    <span className="font-bold text-xs uppercase tracking-widest mr-3">
+                                        View {activeFilter === '1-4' ? 'Short' : activeFilter === '4-7' ? 'Medium' : 'Long'} Walks
+                                    </span>
+                                    <Icon name="arrowRight" size={16} />
+                                </a>
+                            )}
 
                             <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
                                 <h3 className="font-black text-xs uppercase tracking-widest mb-3">Route Key</h3>
