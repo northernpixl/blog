@@ -160,9 +160,9 @@
 
                             <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
                                 <a href="routes.html" className="hover:text-black transition-colors">Routes Map</a>
-                                <a href="walks_short.html" className="hover:text-black transition-colors">Short Walks</a>
-                                <span className="text-black border-b-2 border-black">Medium Walks</span>
-                                <a href="walks_long.html" className="hover:text-black transition-colors">Long Walks</a>
+                                <a href="walks_short.html" className="hover:text-black transition-colors">Short</a>
+                                <span className="text-black border-b-2 border-black">Medium</span>
+                                <a href="walks_long.html" className="hover:text-black transition-colors">Long</a>
                             </div>
 
                             <button className="md:hidden text-slate-900 z-50 p-2" onClick={() => setIsNavOpen(!isNavOpen)}>
@@ -173,9 +173,9 @@
                         {isNavOpen && (
                             <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center space-y-8 pt-20 z-40">
                                 <a href="routes.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Routes Map</a>
-                                <a href="walks_short.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Short Walks</a>
-                                <span className="text-xl font-black uppercase tracking-widest text-amber-500">Medium Walks</span>
-                                <a href="walks_long.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Long Walks</a>
+                                <a href="walks_short.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Short</a>
+                                <span className="text-xl font-black uppercase tracking-widest text-amber-500">Medium</span>
+                                <a href="walks_long.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Long</a>
                                 <a href="index.html" className="text-sm font-black uppercase tracking-widest text-slate-400 pt-8" onClick={() => setIsNavOpen(false)}>Back Home</a>
                             </div>
                         )}
