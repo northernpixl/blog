@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medium Walks | NorthernPixl</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
@@ -18,11 +21,14 @@
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 1.5rem; z-index: 0; }
-        @media (min-width: 1024px) { .leaflet-container { border-radius: 3rem; } }
+        @media (min-width: 1024px) {
+            .leaflet-container { border-radius: 3rem; }
+        }
     </style>
 </head>
 <body class="bg-white text-slate-900 overflow-x-hidden">
     <div id="root"></div>
+
     <script type="text/babel">
         const { useState, useEffect, useRef, useMemo } = React;
 
@@ -62,14 +68,12 @@
             const walkMapContainerRef = useRef(null);
             const walkMapInstanceRef = useRef(null);
 
+            const filteredWalks = useMemo(() => WALKS.filter(w => w.category === '4-7'), []);
+
             useEffect(() => {
-                const params = new URLSearchParams(window.location.search);
-                const id = params.get('id');
-                if (id) {
-                    const walk = WALKS.find(w => w.id.toString() === id);
-                    if (walk) setSelectedWalk(walk);
-                }
-                const onPopState = () => setSelectedWalk(null);
+                const onPopState = () => {
+                    setSelectedWalk(null);
+                };
                 window.addEventListener('popstate', onPopState);
                 return () => window.removeEventListener('popstate', onPopState);
             }, []);
@@ -77,79 +81,210 @@
             useEffect(() => {
                 if (selectedWalk) {
                     setTimeout(() => {
-                        if (walkMapInstanceRef.current) walkMapInstanceRef.current.remove();
+                        if (walkMapInstanceRef.current) {
+                            walkMapInstanceRef.current.remove();
+                        }
+                        
                         if (walkMapContainerRef.current) {
                             const map = L.map(walkMapContainerRef.current, { zoomControl: false });
                             walkMapInstanceRef.current = map;
-                            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap' }).addTo(map);
+
+                            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                                attribution: '&copy; OpenStreetMap'
+                            }).addTo(map);
+
                             const polyline = L.polyline(selectedWalk.route, {color: '#f59e0b', weight: 5}).addTo(map);
                             L.circleMarker(selectedWalk.route[0], { radius: 6, fillColor: '#000', color: "#fff", weight: 2, fillOpacity: 1 }).addTo(map);
+                            
                             map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
                         }
                     }, 100);
                 }
             }, [selectedWalk]);
 
-            const clearSelection = () => {
-                setSelectedWalk(null);
-                window.history.replaceState({}, '', window.location.pathname);
-            };
-
             const downloadGPX = (walk) => {
-                const gpxContent = `<?xml version="1.0" encoding="UTF-8"?><gpx version="1.1" creator="NorthernPixl"><trk><name>${walk.name}</name><trkseg>${walk.route.map(pt => `<trkpt lat="${pt[0]}" lon="${pt[1]}"></trkpt>`).join('')}</trkseg></trk></gpx>`;
+                if (!walk) return;
+                const gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="NorthernPixl">
+  <trk>
+    <name>${walk.name}</name>
+    <trkseg>
+      ${walk.route.map(pt => `<trkpt lat="${pt[0]}" lon="${pt[1]}"></trkpt>`).join('')}
+    </trkseg>
+  </trk>
+</gpx>`;
                 const blob = new Blob([gpxContent], { type: 'application/gpx+xml' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                link.href = url; link.download = `${walk.name.replace(/\s+/g, '_')}.gpx`;
-                document.body.appendChild(link); link.click(); document.body.removeChild(link);
+                link.href = url;
+                link.download = `${walk.name.replace(/\s+/g, '_')}.gpx`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
             };
+
+            const getStats = (walk) => {
+                const miles = parseFloat(walk.length);
+                let speed = 2.5; 
+                if (walk.difficulty === 'Moderate') speed = 2.4;
+                if (walk.difficulty === 'Strenuous') speed = 2.0;
+                if (walk.difficulty === 'Very Strenuous') speed = 1.5;
+                
+                const hours = miles / speed;
+                const elev = parseInt(walk.elevation) || 0;
+                const elevTime = elev / 600;
+                
+                const totalHours = hours + elevTime;
+                const h = Math.floor(totalHours);
+                const m = Math.round((totalHours - h) * 60);
+                
+                const timeStr = `${h}h ${m > 0 ? m + 'm' : ''}`;
+                const steps = Math.round(miles * 2200);
+                
+                return { time: timeStr, steps: steps.toLocaleString() };
+            };
+
+            const startPoint = selectedWalk?.route[0];
 
             return (
                 <div className="min-h-screen bg-white">
-                    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
-                        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
-                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center"><Icon name="camera" className="text-white" size={18} /></div>
-                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase inline">NorthernPixl</span>
+                    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                        <div className="h-20 flex items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+                            <div className="flex items-center space-x-3 cursor-pointer z-50" onClick={() => window.location.href='index.html'}>
+                                <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                    <Icon name="camera" className="text-white" size={18} />
+                                </div>
+                                <span className="font-black text-lg md:text-xl tracking-tighter uppercase inline">NorthernPixl</span>
+                            </div>
+
+                            <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                                <a href="routes.html" className="hover:text-black transition-colors">Routes Map</a>
+                                <a href="walks_short.html" className="hover:text-black transition-colors">Short</a>
+                                <span className="text-black border-b-2 border-black">Medium</span>
+                                <a href="walks_long.html" className="hover:text-black transition-colors">Long</a>
+                            </div>
+
+                            <button className="md:hidden text-slate-900 z-50 p-2" onClick={() => setIsNavOpen(!isNavOpen)}>
+                                <Icon name={isNavOpen ? 'x' : 'menu'} size={24} />
+                            </button>
                         </div>
-                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
-                            <a href="routes.html" className="hover:text-black">Routes Map</a>
-                            <a href="walks_short.html" className="hover:text-black">Short</a>
-                            <span className="text-black border-b-2 border-black">Medium</span>
-                            <a href="walks_long.html" className="hover:text-black">Long</a>
-                        </div>
-                        <button className="md:hidden p-2" onClick={() => setIsNavOpen(!isNavOpen)}><Icon name={isNavOpen ? 'x' : 'menu'} size={24} /></button>
+
+                        {isNavOpen && (
+                            <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center space-y-8 pt-20 z-40">
+                                <a href="routes.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Routes Map</a>
+                                <a href="walks_short.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Short</a>
+                                <span className="text-xl font-black uppercase tracking-widest text-amber-500">Medium</span>
+                                <a href="walks_long.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Long</a>
+                                <a href="index.html" className="text-sm font-black uppercase tracking-widest text-slate-400 pt-8" onClick={() => setIsNavOpen(false)}>Back Home</a>
+                            </div>
+                        )}
                     </nav>
 
                     <main className="pt-20">
-                        <section className="max-w-7xl mx-auto px-4 py-12">
+                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
                             {!selectedWalk ? (
                                 <div className="animate-in">
-                                    <div className="mb-12 text-center">
-                                        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4">Medium Walks (4-7 Miles)</h2>
-                                        <div className="flex justify-center items-center gap-2 mb-8 bg-slate-100 p-1 rounded-full w-fit mx-auto">
-                                            <a href="walks_short.html" className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400">1-4 Miles</a>
-                                            <span className="px-8 py-3 rounded-full text-xs font-black uppercase tracking-widest bg-white shadow-md text-black">4-7 Miles</span>
-                                            <a href="walks_long.html" className="px-8 py-3 text-xs font-black uppercase tracking-widest text-slate-400">7+ Miles</a>
+                                    <div className="mb-8 md:mb-12 text-center">
+                                        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-slate-900">Medium Walks (4-7 Miles)</h2>
+                                        <p className="text-sm md:text-base text-slate-400 mb-8">A balance of distance and scenery, suitable for a decent adventure!</p>
+                                        
+                                        <div className="flex justify-center items-center gap-2 mb-8 overflow-x-auto pb-4 px-2">
+                                            <div className="inline-flex bg-slate-100 p-1 rounded-full">
+                                                <a href="walks_short.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">1-4 Miles</a>
+                                                <a href="#" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white shadow-md text-black transition-all">4-7 Miles</a>
+                                                <a href="walks_long.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">7+ Miles</a>
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {WALKS.map(walk => (
-                                            <div key={walk.id} onClick={() => { setSelectedWalk(walk); window.history.pushState({}, ""); }} className="group bg-white border border-slate-100 p-8 rounded-[2rem] hover:shadow-xl transition-all cursor-pointer">
-                                                <div className="flex justify-between items-start mb-6"><span className="px-3 py-1 rounded-full text-[10px] font-black uppercase bg-yellow-100 text-yellow-700">{walk.difficulty}</span><span className="text-slate-400 text-xs font-bold">{walk.length}</span></div>
-                                                <h3 className="text-xl font-black mb-2 group-hover:text-amber-500">{walk.name}</h3>
+                                        {filteredWalks.map(walk => (
+                                            <div key={walk.id} onClick={() => { setSelectedWalk(walk); window.history.pushState({}, ""); }} className="group bg-white border border-slate-100 p-6 md:p-8 rounded-[2rem] hover:shadow-xl transition-all cursor-pointer active:scale-95 duration-200">
+                                                <div className="flex justify-between items-start mb-6">
+                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                                                        walk.difficulty === 'Easy' ? 'bg-green-100 text-green-700' : 
+                                                        walk.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' : 
+                                                        'bg-red-100 text-red-700'
+                                                    }`}>{walk.difficulty}</span>
+                                                    <span className="text-slate-400 text-xs font-bold">{walk.length}</span>
+                                                </div>
+                                                <h3 className="text-xl font-black mb-2 group-hover:text-amber-500 transition-colors">{walk.name}</h3>
                                                 <p className="text-slate-400 text-xs line-clamp-2">{walk.desc}</p>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             ) : (
-                                <div className="animate-in flex flex-col lg:grid lg:grid-cols-12 gap-8 h-full lg:h-[80vh]">
-                                    <div className="w-full h-[40vh] lg:h-full lg:col-span-8 rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative"><div ref={walkMapContainerRef} className="w-full h-full"></div></div>
-                                    <div className="w-full lg:col-span-4 bg-white rounded-[3rem] p-10 border border-slate-100 overflow-y-auto custom-scrollbar shadow-xl flex flex-col">
-                                        <div className="flex justify-between items-start mb-8"><button onClick={clearSelection} className="flex items-center text-slate-400 hover:text-black uppercase text-[10px] font-black"><Icon name="arrowLeft" size={14} className="mr-2" /> Back</button><button onClick={() => downloadGPX(selectedWalk)} className="flex items-center text-amber-500 uppercase text-[10px] font-black"><Icon name="download" size={14} className="mr-2" /> GPX</button></div>
-                                        <h2 className="text-3xl font-black mb-6">{selectedWalk.name}</h2>
-                                        <p className="text-amber-600 font-bold mb-4">{selectedWalk.highlights}</p>
-                                        <p className="text-slate-600 text-sm leading-relaxed">{selectedWalk.desc}</p>
+                                <div className="animate-in flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 h-full lg:h-[80vh]">
+                                    <div className="w-full h-[40vh] lg:h-full lg:col-span-8 rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative">
+                                        <div ref={walkMapContainerRef} className="w-full h-full"></div>
+                                    </div>
+                                    <div className="w-full lg:col-span-4 bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-slate-100 overflow-y-auto custom-scrollbar shadow-xl flex flex-col">
+                                        <div className="flex justify-between items-start mb-6 md:mb-8">
+                                            <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+                                                <Icon name="arrowLeft" size={14} className="mr-2" /> Back to List
+                                            </button>
+                                            <button onClick={() => downloadGPX(selectedWalk)} className="flex items-center text-amber-500 hover:text-amber-600 font-black uppercase text-[10px] tracking-widest p-2">
+                                                <Icon name="download" size={14} className="mr-2" /> Download GPX
+                                            </button>
+                                        </div>
+                                        
+                                        <span className="text-amber-500 font-black uppercase text-xs tracking-[0.3em] mb-2 block">{selectedWalk.length} • {selectedWalk.difficulty}</span>
+                                        <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-6">{selectedWalk.name}</h2>
+                                        
+                                        <div className="space-y-6">
+                                            <div className="bg-slate-50 p-6 rounded-3xl">
+                                                <div className="grid grid-cols-2 gap-6">
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Elevation</p>
+                                                        <p className="font-bold text-lg">{selectedWalk.elevation}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Est. Time</p>
+                                                        <p className="font-bold text-lg">{getStats(selectedWalk).time}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Est. Steps</p>
+                                                        <p className="font-bold text-lg">{getStats(selectedWalk).steps}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Start Point</p>
+                                                        {startPoint && (
+                                                            <a 
+                                                                href={`https://www.google.com/maps/search/?api=1&query=${startPoint[0]},${startPoint[1]}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="font-bold text-sm pt-1 text-amber-500 hover:text-amber-700 underline decoration-amber-300 underline-offset-2 transition-colors block truncate"
+                                                                title="Open in Google Maps"
+                                                            >
+                                                                Click Here <Icon name="externalLink" size={10} className="inline ml-1" />
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Highlights</h4>
+                                                <p className="text-amber-600 font-bold leading-relaxed text-sm mb-4">{selectedWalk.highlights}</p>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Route Description</h4>
+                                                <p className="text-slate-600 leading-relaxed text-sm">{selectedWalk.desc}</p>
+                                            </div>
+                                            
+                                            <div className="mt-auto bg-amber-50 p-6 rounded-3xl border border-amber-100">
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Trail Advice</h4>
+                                                <p className="text-amber-900 text-xs font-bold leading-relaxed italic">
+                                                    "Always carry a physical OS map. GPS signals in the park are unreliable. Stick to public footpaths."
+                                                </p>
+                                            </div>
+                                            
+                                            <div className="pt-4 flex justify-center md:justify-start">
+                                                <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+                                                    <Icon name="arrowLeft" size={14} className="mr-2" /> Back to List
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             )}
@@ -158,6 +293,7 @@
                 </div>
             );
         };
+
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
