@@ -17,6 +17,9 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* Animation utilities for menu */
+        .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-white text-slate-900 overflow-x-hidden">
@@ -28,7 +31,8 @@
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
                 camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
-                x: <><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>,
+                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
+                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -38,542 +42,111 @@
         };
 
         const GUIDES = [
-            // --- LANDSCAPE ---
-            { 
-                id: 1, 
-                title: "Hyperfocal Distance", 
-                cat: "Landscape", 
-                fundamentals: "Hyperfocal distance is the mathematical calculation for maximum depth of field. It defines the closest distance at which a lens can be focused while keeping objects at 'infinity' acceptably sharp. When you focus at the hyperfocal distance, your depth of field extends from exactly half that distance all the way to the horizon. \n\nWHY IT MATTERS: In landscape photography, you often have a foreground element (like rocks or flowers) and a background element (like a castle or mountain). If you focus on the horizon, your foreground will be soft. If you focus on the rocks, the castle will be blurry. Hyperfocal is the only way to get both sharp in a single frame without focus stacking.\n\nDETAILED STEPS:\n1. Compose your shot.\n2. Determine your focal length (e.g., 24mm) and aperture (e.g., f/11).\n3. Use an app (PhotoPills) to find the hyperfocal distance number (e.g., 1.7 meters).\n4. Switch your lens to Manual Focus.\n5. Focus on an object roughly 1.7m away (or use the distance scale on the lens).\n6. Verify: Check that the distant horizon is sharp. If it's slightly soft, nudge focus slightly further away.", 
-                impact: "Maximizing sharpness across the entire frame creates a professional, immersive feel. It guides the viewer's eye from the grass at their feet to the clouds in the sky without hitting any blurry 'dead zones'.", 
-                proTip: "No app? The 'Double Distance' rule works well: Estimate how far away your closest subject is (e.g., 2 meters). Focus at double that distance (4 meters). Check your review screen and zoom in to verify." 
-            },
-            { 
-                id: 2, 
-                title: "Long Exposure Waterscapes", 
-                cat: "Landscape", 
-                fundamentals: "Long exposure involves using a slow shutter speed to blur the movement of water or clouds. In Northumberland, this is the signature style for coastlines. \n\nGEAR NEEDED:\n1. A sturdy tripod (essential; hand-holding is impossible).\n2. A remote shutter release (to prevent shake when pressing the button).\n3. Neutral Density (ND) filters: A 6-stop (Little Stopper) for low light or a 10-stop (Big Stopper) for bright sun.\n\nSETTINGS GUIDE:\n- 0.5 to 1 second: Retains texture and energy in the water (good for crashing waves and 'streaks').\n- 30 seconds: Creates a flat, misty, ethereal surface (good for calm minimalism).\n- 2 minutes+: Totally flattens the sea and streaks the clouds into ribbons.", 
-                impact: "It simplifies a busy, chaotic scene. By smoothing out random wave patterns, you emphasize the stationary, permanent structures (rocks, lighthouses), creating a sense of peace and artistic abstraction.", 
-                proTip: "Cover your viewfinder! On DSLR cameras, light can leak in through the viewfinder during long exposures and cause purple banding or strange artifacts on your image. Use the provided rubber cover or black tape." 
-            },
-            { 
-                id: 3, 
-                title: "The Rule of Thirds & Beyond", 
-                cat: "Landscape", 
-                fundamentals: "Composition is the arrangement of elements. The Rule of Thirds divides the frame into a 3x3 grid using two horizontal and two vertical lines. \n\nAPPLICATION:\n- Horizon: Place it on the top line to emphasize the foreground (rocks/beach). Place it on the bottom line to emphasize a dramatic sky.\n- Intersections: Place your main subject (e.g., a castle) where the grid lines cross (the 'power points').\n\nADVANCED CONCEPTS:\n- Leading Lines: Use the pier at Blyth or a wall at Housesteads to physically point towards your subject.\n- Negative Space: Don't be afraid of empty sky. It creates a sense of scale and isolation.", 
-                impact: "Good composition transforms a snapshot into a story. It creates balance and tension, guiding the viewer through the image in a deliberate way rather than letting their eye wander aimlessly.", 
-                proTip: "Break the rule for symmetry! If you're shooting the Blyth Beach Huts or a reflection in a still lake, center the horizon perfectly to emphasize the geometric mirror effect." 
-            },
-            { 
-                id: 4, 
-                title: "Focus Stacking Techniques", 
-                cat: "Landscape", 
-                fundamentals: "Sometimes, physics defeats you. Even at f/16, you cannot get a flower 10cm from the lens and a mountain 10km away both sharp. Focus stacking solves this by combining multiple images focused at different distances.\n\nFIELD WORKFLOW:\n1. Lock your camera on a tripod. Composition must not change.\n2. Exposure: Manual mode (constant aperture/shutter/ISO).\n3. Shot 1: Focus on the absolute closest object.\n4. Shot 2: Focus on the middle ground.\n5. Shot 3: Focus on the background/infinity.\n6. Check: Ensure images overlap in focus zones.\n\nPOST-PROCESSING: Use Photoshop (Edit > Auto-Align, then Edit > Auto-Blend) or Helicon Focus to stitch them.", 
-                impact: "This allows you to use the 'sweet spot' of your lens (usually f/5.6 or f/8) where it is sharpest, rather than stopping down to f/22 and suffering from diffraction blur (softness caused by light bending).", 
-                proTip: "Watch out for wind! If the grass in the foreground moves between shot 1 and shot 2, the blending software will fail. Wait for a lull in the breeze." 
-            },
-            { 
-                id: 5, 
-                title: "Polarizing for Clarity", 
-                cat: "Landscape", 
-                fundamentals: "A Circular Polarizer (CPL) is the one filter that software cannot mimic. It physically filters out scattered light waves coming from specific angles.\n\nPRIMARY USES:\n1. Removing Glare: It lets you see *through* the water in rock pools, revealing colored pebbles instead of white sky reflection.\n2. Darkening Skies: It deepens the blue of the sky, making white clouds pop.\n3. Foliage: It removes the white sheen from wet leaves in forests (like Cragside), increasing color saturation.\n\nHOW TO USE: Screw it on and rotate the outer ring while looking through the viewfinder. The effect will cycle from min to max.", 
-                impact: "It adds 'punch' and clarity to images instantly. It turns a flat, hazy image into a vibrant, three-dimensional scene with rich contrast.", 
-                proTip: "The '90-Degree Rule': Polarizers work best when the sun is at a 90-degree angle to your lens (i.e., over your shoulder). If shooting directly into the sun, they do nothing." 
-            },
-            { 
-                id: 6, 
-                title: "Exposure Bracketing (HDR)", 
-                cat: "Landscape", 
-                fundamentals: "Northumberland sunrises have high dynamic range (bright sun, dark rocks). A single sensor often can't capture both without clipping data.\n\nTECHNIQUE (AEB):\n1. Find 'Auto Exposure Bracketing' in your menu.\n2. Set it to 3 shots with a 2-stop interval (-2, 0, +2).\n3. Set drive mode to 'High Speed Continuous'.\n4. Hold the button: The camera will take 3 rapid fire shots.\n- Shot 1 (Dark): Captures details in the bright sun/clouds.\n- Shot 2 (Normal): General exposure.\n- Shot 3 (Bright): Captures details in the deep shadows.", 
-                impact: "Ensures you never have 'blown out' white skies or 'crushed' black shadows. You can merge these later into an HDR image or manually blend them for a natural look.", 
-                proTip: "Even if you don't plan to blend them, shooting brackets is great 'insurance'. Sometimes the -2 underexposed shot is actually the moody, dramatic one you end up using." 
-            },
-            { 
-                id: 21, 
-                title: "Understanding the Histogram", 
-                cat: "Landscape", 
-                fundamentals: "The LCD screen on your camera lies—its brightness depends on the ambient light and screen settings. The Histogram is the only true mathematical representation of exposure.\n\nHOW TO READ IT:\n- The Graph: Represents pixels. Height = quantity.\n- Left Side: Shadow data (Blacks).\n- Right Side: Highlight data (Whites).\n- Middle: Midtones.\n- The Goal: Generally a 'bell curve' in the middle. \n- WARNING: If the graph hits the right wall ('clipping'), your white clouds are blown out and unrecoverable. If it hits the left wall, your shadows are dead black.", 
-                impact: "Mastering the histogram ensures you capture all the data in the scene. It prevents you from getting home and realizing your sky is just a white blob.", 
-                proTip: "Expose to the Right (ETTR). Push the graph as far right as possible without touching the wall. This gathers maximum light and reduces noise in the shadows when you darken it later." 
-            },
-            { 
-                id: 22, 
-                title: "Golden Hour vs. Blue Hour", 
-                cat: "Landscape", 
-                fundamentals: "Not all daylight is equal. The angle of the sun drastically changes the color and hardness of the light.\n\nGOLDEN HOUR: The hour after sunrise and before sunset. The light is warm (orange/gold), soft, and directional, creating long shadows and texture. Best for: Dunes, beaches, rolling hills.\n\nBLUE HOUR: The hour before sunrise and after sunset. The sun is below the horizon. The light is cool (blue/magenta), shadowless, and soft. It balances perfectly with city lights or warm window glows.", 
-                impact: "Shooting at noon (harsh white light) makes landscapes look flat. Shooting at the edges of the day adds emotion, color contrast, and three-dimensionality.", 
-                proTip: "Don't pack up when the sun sets! The best color in the sky often happens 20 minutes AFTER sunset during the 'civil twilight' phase." 
-            },
-            { 
-                id: 23, 
-                title: "Tripod Mechanics & Stability", 
-                cat: "Landscape", 
-                fundamentals: "A tripod isn't just a stand; it's an anchor. Misusing it causes blurry long exposures, especially in wind.\n\nPROTOCOL:\n1. Turn off Image Stabilization (IS/VR): If the camera is on a tripod, IS systems can get confused by the lack of movement and create shake.\n2. Extend legs from the top down: The thicker leg sections are more stable.\n3. Use the hook: Hang your camera bag on the center column hook to add mass and dampen vibrations.\n4. Avoid the center column: Raising the center column is like putting your camera on a monopod—it wobbles.", 
-                impact: "A rock-solid tripod allows for pin-sharp images even in the 40mph winds typical of the Northumberland coast.", 
-                proTip: "Push down firmly on the tripod shoulders before mounting the camera to ensure the feet have sunk through the sand/mud to the solid ground beneath." 
-            },
-            { 
-                id: 24, 
-                title: "Aperture Diffraction", 
-                cat: "Landscape", 
-                fundamentals: "Beginners often think 'f/22 = maximum sharpness'. This is false physics. When you close the aperture hole too small, light waves bend (diffract) around the edges of the diaphragm blades, interfering with each other and causing the entire image to become soft.\n\nTHE SWEET SPOT: Most lenses are sharpest between f/8 and f/11. Beyond f/16, you are losing resolution significantly.\n\nSOLUTION: If you need more depth of field than f/11 provides, use 'Focus Stacking' instead of stopping down to f/22.", 
-                impact: "Understanding diffraction prevents you from taking photos that look sharp on the LCD but soft and fuzzy on a computer monitor.", 
-                proTip: "Test your lens! Put your camera on a tripod and shoot a detailed wall at f/8, f/11, f/16, and f/22. Zoom in on a computer to see exactly where softness begins." 
-            },
-            { 
-                id: 25, 
-                title: "Shooting RAW vs. JPEG", 
-                cat: "Landscape", 
-                fundamentals: "A JPEG is a finished cake. A RAW file is the ingredients.\n\nJPEG: The camera processes the image (adds contrast, saturation, sharpening) and throws away the unused data to save space. You cannot easily change the white balance or recover shadows later.\n\nRAW: It saves all the data directly from the sensor. It looks flat and grey initially, but it holds massive amounts of hidden detail in the highlights and shadows. It requires 'developing' in software like Lightroom.", 
-                impact: "Shooting RAW allows you to recover a sky that looks white or a shadow that looks black. It gives you the dynamic range needed for high-quality landscape printing.", 
-                proTip: "Shoot 'RAW + JPEG'. This gives you a finished image to share on your phone immediately via Wi-Fi, but keeps the RAW file safe for your main edit later." 
-            },
-            {
-                id: 36,
-                title: "Graduated ND Filters",
-                cat: "Landscape",
-                fundamentals: "Sometimes the sky is 4 stops brighter than the land. If you expose for the land, the sky turns white. If you expose for the sky, the land turns black. A Graduated Neutral Density (Grad ND) filter is a piece of glass that is dark at the top and clear at the bottom.\n\nTYPES:\n- Soft Edge: The transition from dark to clear is gradual. Use for uneven horizons (mountains, trees).\n- Hard Edge: The transition is abrupt. Use for flat horizons (sea).\n- Reverse Grad: Darkest in the middle, lighter at the top. Specifically for sunsets where the sun is on the horizon.",
-                impact: "It balances exposure in-camera, preserving color in the sky and detail in the foreground without needing HDR software.",
-                proTip: "Slide the filter up and down while holding the depth-of-field preview button to see exactly where the transition line falls."
-            },
-            {
-                id: 37,
-                title: "The Orton Effect",
-                cat: "Landscape",
-                fundamentals: "This is a post-processing technique used to create a dreamy, ethereal glow, often seen in woodland or fine-art coastal photography. It involves blending a sharp image with a blurred, overexposed version of itself.\n\nMANUAL METHOD (Photoshop):\n1. Duplicate your layer.\n2. Apply 'Gaussian Blur' (approx 20px radius).\n3. Use 'Levels' to increase contrast and brightness of the blurred layer.\n4. Set blend mode to 'Soft Light' or 'Screen'.\n5. Reduce Opacity to 10-15%.",
-                impact: "It adds a romantic, painterly quality to the light, smoothing out harsh micro-contrast while keeping main edges sharp.",
-                proTip: "Don't apply it globally! Use a layer mask to paint the effect only into the highlights/midtones. Applying it to shadows makes the image look muddy."
-            },
-            {
-                id: 38,
-                title: "Leading Lines & Visual Flow",
-                cat: "Landscape",
-                fundamentals: "A viewer's eye needs a path. Leading lines are physical elements that draw the eye from the edge of the frame directly to the subject.\n\nEXAMPLES IN NORTHUMBERLAND:\n- Fences/Walls: The Hadrian's Wall path is the ultimate leading line.\n- Coastline: The sweep of the water's edge at Embleton Bay.\n- Rocks: Cracks in the dolerite whinstone pointing toward Dunstanburgh Castle.\n\nTHE Z-SHAPE: Look for lines that zigzag through the frame (foreground to middle to back) rather than straight lines, which can be too fast.",
-                impact: "It creates depth (3D feel on a 2D screen) and ensures the viewer looks exactly where you want them to look.",
-                proTip: "Get low! Lowering your tripod accentuates foreground lines, making them appear to stretch further into the distance."
-            },
-            {
-                id: 39,
-                title: "Minimalist Composition",
-                cat: "Landscape",
-                fundamentals: "Minimalism is the art of subtraction. It is about removing everything that is not essential to the story. \n\nTECHNIQUES:\n- Negative Space: Use large areas of empty sky, fog, or smooth water to isolate a small subject (e.g., a single boat or post).\n- High Key: Overexpose slightly to create a white, clean background.\n- Color Palettes: Stick to 2-3 analogous colors (e.g., blue, grey, white) rather than a chaotic mix.",
-                impact: "Minimalist images are calming and sophisticated. They stand out on social media feeds because they offer 'visual rest' amidst the noise.",
-                proTip: "Fog is your best friend. It naturally hides background clutter (trees, pylons), instantly simplifying your composition."
-            },
-            {
-                id: 40,
-                title: "Sunstars",
-                cat: "Landscape",
-                fundamentals: "Sunstars are those brilliant, multi-pointed starbursts that appear when shooting into the sun. They are not added in Photoshop; they are created by the aperture blades of your lens.\n\nHOW TO GET THEM:\n1. Aperture: Set to f/16 or f/22.\n2. Positioning: Partially obscure the sun behind a hard edge (e.g., the edge of a rock, a tree trunk, or the horizon). The sun should just be 'peeking' out.\n3. The Lens: High-quality lenses with an *odd* number of aperture blades produce double the number of sunstar points (e.g., 9 blades = 18 points).",
-                impact: "A sharp sunstar adds a dazzling focal point and implies brilliance/heat, turning a standard sunset shot into a dramatic masterpiece.",
-                proTip: "Remove your filters! UV filters or cheap ND filters will cause horrific lens flare (green blobs) when shooting into the sun. Shoot with bare glass."
-            },
-            {
-                id: 41,
-                title: "Aspect Ratios",
-                cat: "Landscape",
-                fundamentals: "Your camera shoots in 3:2 by default. But that isn't always the best shape for the scene.\n\nCOMMON RATIOS:\n- 3:2: Classic 35mm look. Good for horizontal landscapes.\n- 4:5: The 'Instagram Portrait'. Maximizes screen real estate on phones. Ideal for compositions with tall foregrounds.\n- 1:1 (Square): Perfect for symmetrical or minimalist subjects.\n- 16:9: Cinematic/Panoramic. Crops the top and bottom. Great for emphasizing vast horizons.",
-                impact: "Cropping to a specific ratio changes the balance of the image. Don't be afraid to crop in post-production to remove distracting edges.",
-                proTip: "Many cameras allow you to set the aspect ratio on the screen (e.g., shoot in 1:1). The RAW file will still be full size, but the preview helps you compose for the final output."
-            },
-            {
-                id: 42,
-                title: "Panoramas & Parallax",
-                cat: "Landscape",
-                fundamentals: "When a wide-angle lens isn't wide enough, you stitch images. But simply rotating the camera on the tripod head causes 'Parallax Error'—where foreground objects shift position relative to the background, making stitching impossible.\n\nTHE NODAL POINT: You must rotate the lens around its 'No-Parallax Point' (usually near the front element), not the camera body.\n\ntechnique:\n1. Level the tripod base (essential).\n2. Overlap each shot by 30-50%.\n3. Lock focus and exposure (Manual Mode) so they don't change between frames.\n4. Shoot in portrait orientation (vertical) to get more height in your panorama.",
-                impact: "Panoramas allow you to create gigapixel images with massive detail and a field of view wider than the human eye.",
-                proTip: "Photograph your hand covering the lens before and after the panorama sequence. This tells you where the sequence starts and ends when you are reviewing hundreds of thumbnails later."
-            },
-            {
-                id: 43,
-                title: "Dodging and Burning",
-                cat: "Landscape",
-                fundamentals: "A darkroom technique adapted for digital. 'Dodging' means lightening specific areas; 'Burning' means darkening them.\n\nTHE PHILOSOPHY: The eye is naturally drawn to the brightest part of an image. You can guide the viewer by:\n1. Burning (Darkening) the corners (vignette) to keep the eye in the frame.\n2. Dodging (Lightening) the main subject or the path leading to it.\n3. Burning the sky slightly to add drama.",
-                impact: "It adds 3D depth. A flat image looks flat because the lighting is uniform. Sculpting the light creates shape and volume.",
-                proTip: "Use a brush with low 'Flow' (e.g., 5%) in Lightroom. Build up the effect gradually with multiple strokes rather than one heavy click."
-            },
-            {
-                id: 44,
-                title: "Chromatic Aberration",
-                cat: "Landscape",
-                fundamentals: "Chromatic Aberration (CA) appears as purple or green fringing along high-contrast edges (e.g., tree branches against a bright sky). It is caused by the lens failing to focus all colors of light at the exact same point.\n\nTHE FIX:\n1. In Camera: Many modern cameras have 'Lens Correction' built-in for JPEGs.\n2. Lightroom: In the 'Lens Corrections' panel, simply check 'Remove Chromatic Aberration'. This fixes 90% of cases.\n3. Manual: If the auto checkbox fails, use the 'Defringe' eyedropper tool to sample the purple color and desaturate it.",
-                impact: "Removing CA is a sign of polish. Purple fringes look cheap and digital. A clean edge looks natural and professional.",
-                proTip: "It is most common at wide apertures (f/2.8) and in the corners of the frame. Check these areas at 100% zoom before exporting."
-            },
-            {
-                id: 45,
-                title: "Seascape Safety & Tides",
-                cat: "Landscape",
-                fundamentals: "The Northumberland coast is treacherous. Photography distracts you from reality, and tides move faster than you think.\n\nRULES:\n1. Tide Times: Check an app (MyTideTimes) before leaving home. Know when High Tide is.\n2. The Cut-Off: Locations like Holy Island (Lindisfarne) causeway flood entirely. Walking out to rocky outcrops can leave you stranded as water fills the channels behind you.\n3. The 12th Wave: Waves are not uniform. You might be safe for 10 minutes, and then a larger 'set' arrives.",
-                impact: "No photo is worth your life. Being tide-savvy allows you to predict where the water line will be for composition, ensuring safety and better shots.",
-                proTip: "Photograph the tide while it is *falling* (outgoing). This leaves wet, reflective sand that acts as a mirror, and ensures the water is moving away from you, not chasing you."
-            },
-
-            // --- WILDLIFE ---
-            { 
-                id: 7, 
-                title: "Shutter Priority Mastery", 
-                cat: "Wildlife", 
-                fundamentals: "In wildlife, sharpness is dictated by Shutter Speed. You must control this directly using Shutter Priority (Tv or S) mode or Manual Mode.\n\nSPEED GUIDE:\n- 1/2500s+: Puffins in flight (they flap 400 times a minute!).\n- 1/1250s: Birds taking off, landing, or fighting.\n- 1/500s: Walking animals (deer/cattle) or large gliding birds.\n- 1/60s: Panning shots (artistic blur of movement).\n\nAUTO-ISO STRATEGY: In Manual Mode, set Aperture to f/4 (for light) and Shutter to 1/1000s. Set ISO to 'Auto'. The camera will adjust brightness automatically, letting you guarantee the speed.", 
-                impact: "The difference between a blurry, unusable photo and a sharp shot is purely shutter speed. It removes motion blur entirely.", 
-                proTip: "For panning (e.g., a deer running), drop to 1/40s and move your camera in perfect sync with the animal. The legs will blur, but the head will be sharp. High risk, high reward!" 
-            },
-            { 
-                id: 8, 
-                title: "Back-Button Focusing", 
-                cat: "Wildlife", 
-                fundamentals: "Standard cameras focus when you half-press the shutter. This is bad for wildlife because every time you lift your finger to take a shot, the camera tries to refocus, often jumping to the background.\n\nTHE SOLUTION: Disable shutter AF. Assign AF-ON (back button) to focus.\n\nSCENARIO:\n1. You hold the back button to track a flying bird (Continuous AF).\n2. The bird lands. You release the back button. Focus locks instantly.\n3. You can now recompose and shoot freely without the lens hunting.\n\nIt merges Single AF and Continuous AF into one button.", 
-                impact: "It drastically increases your 'hit rate'. You stop fighting the camera's autofocus system and gain total control over when to track and when to lock.", 
-                proTip: "It takes about 3 days of frustration to retrain your muscle memory. Stick with it. Once you adapt, you will never go back." 
-            },
-            { 
-                id: 9, 
-                title: "Ethics of Wildlife Photography", 
-                cat: "Wildlife", 
-                fundamentals: "Northumberland hosts fragile ecosystems. Your shot is never worth an animal's welfare.\n\nTHE CODE:\n1. Disturbance: If an animal changes its behavior (stops eating, looks at you, moves away), you are too close. Back off.\n2. Nests: Never photograph active nests. It reveals the location to predators (crows/foxes) and can cause parents to abandon eggs.\n3. Baiting: Never use live bait. It alters natural hunting behaviors.\n4. Callbacks: Do not use tape lures (birdsong apps) to attract birds during breeding season. It stresses them out thinking a rival is in their territory.", 
-                impact: "Ethical practice ensures that wildlife continues to thrive. It also prevents locations from being closed off to photographers by angry landowners or conservation trusts.", 
-                proTip: "Fieldcraft beats focal length. Sitting still in camouflage gear for 20 minutes will get you closer to a hare than walking towards it with a 600mm lens ever will." 
-            },
-            { 
-                id: 10, 
-                title: "Background Separation (Bokeh)", 
-                cat: "Wildlife", 
-                fundamentals: "A 'busy' background (twigs, fences, bright spots) ruins a wildlife shot. You want a smooth, creamy wash of color to isolate the subject.\n\nHOW TO ACHIEVE IT:\n1. Aperture: Use the widest available (f/2.8 - f/5.6).\n2. Distance Ratio: This is key. You want the distance between 'Subject and Background' to be MUCH larger than the distance between 'Camera and Subject'.\n3. Angle: Move your feet. If a branch is behind the bird's head, step six inches to the right.", 
-                impact: "Isolating the subject makes the animal 'pop' out of the frame. It creates that high-end, studio-portrait look in the wild, emphasizing the character and eyes.", 
-                proTip: "Get low! Shooting from standing height points your camera at the ground (which is close). Shooting from eye-level (lying down) points your camera at the distant trees/horizon (which are far away), creating much better blur." 
-            },
-            { 
-                id: 11, 
-                title: "Animal Eye Auto-Focus", 
-                cat: "Wildlife", 
-                fundamentals: "Mirrorless cameras (Canon R5, Sony A7, Nikon Z8) have revolutionized wildlife photography with AI-based Eye Tracking.\n\nSETUP GUIDE:\n1. Menu > AF Method > Face/Eye Detection.\n2. Subject to Detect > Animals.\n3. AF Case > 'Sticky' (locked on).\n\nUSAGE: The camera will find the eye and draw a box around it. It will track that eye even if the bird turns its head or flies behind a tree trunk briefly. If the eye is not visible, it falls back to the head, then the body.", 
-                impact: "It removes the technical burden of moving focus points. You can focus entirely on composition and timing, knowing the eye will be tack sharp.", 
-                proTip: "In snow or heavy rain, the AI can get confused. Map a button to instantly switch back to 'Single Point' AF so you can manually override if the camera starts focusing on snowflakes." 
-            },
-            { 
-                id: 12, 
-                title: "Stealth & Fieldcraft", 
-                cat: "Wildlife", 
-                fundamentals: "You cannot photograph what you cannot see. Fieldcraft is the art of blending in.\n\nTECHNIQUES:\n1. Shape Breaking: Animals fear the human silhouette (head and shoulders). Sit against a tree or rock to break your outline. Wear a ghillie suit or 3D leaf camo.\n2. Movement: Animals see movement, not detail. Move only when the animal is feeding or looking away. When it looks up, freeze completely. Do not blink.\n3. Noise: Silence your gear. Turn off the 'beep' focus confirmation. Use 'Silent Shutter' (electronic) mode.", 
-                impact: "Better fieldcraft allows you to witness natural behaviors—grooming, sleeping, playing—rather than just photos of animals running away in fear.", 
-                proTip: "Cover your hands and face. White skin flashes like a beacon in a dark forest. Wear gloves and a face buff." 
-            },
-            { 
-                id: 13, 
-                title: "Understanding Animal Behavior", 
-                cat: "Wildlife", 
-                fundamentals: "Predicting the shot is superior to reacting to it. Photography is 10% shooting and 90% observation.\n\nEXAMPLES:\n- Ducks: Before a duck flies, it often dips its head rapidly and shakes its body.\n- Raptors: Birds of prey (Ospreys) usually poop immediately before taking off. If you see this, get your finger on the shutter!\n- Hares: In March, they 'box'. This usually happens when a male chases a female and she turns to rebuff him.", 
-                impact: "Predictive shooting leads to action shots (take-offs, fights) rather than static portraits. It puts you a split-second ahead of the action.", 
-                proTip: "Learn the local tides. Wading birds feed on the falling tide (when mud is exposed) and roost on the rising tide (when pushed up the beach). The 'Roost' is often the best time to get flock shots." 
-            },
-            { 
-                id: 26, 
-                title: "Burst Mode & Buffer", 
-                cat: "Wildlife", 
-                fundamentals: "Wildlife moves fast. Single shot mode will miss the peak action.\n\nSETTINGS:\n1. Drive Mode: High Speed Continuous (H+).\n2. The Buffer: Your camera has a temporary memory (buffer). If you hold the button down for 10 seconds, the buffer fills and the camera slows down to a crawl.\n3. Technique: Don't 'spray and pray'. Wait for the moment, then fire short, controlled bursts of 3-5 shots.", 
-                impact: "It allows you to capture the exact millisecond a puffin's wings are fully extended or a red squirrel jumps, rather than the split-second after.", 
-                proTip: "Use a fast SD/CFexpress card. The write speed of your card dictates how fast the buffer clears. A slow card will leave you paralyzed while the action continues." 
-            },
-            { 
-                id: 27, 
-                title: "Backlighting & Rim Light", 
-                cat: "Wildlife", 
-                fundamentals: "Most beginners shoot with the sun behind them. Pros often shoot facing the sun (backlighting).\n\nTHE EFFECT: When the sun is low and behind a furry or feathered subject (like a deer or rabbit), the light shines *through* the edges of the animal. This creates a glowing 'halo' or rim light that outlines the shape in gold.\n\nEXPOSURE: You must underexpose the background (make it dark) to let the rim light pop. Use Exposure Compensation -1 or -2.", 
-                impact: "It separates the subject from a dark background and adds a magical, ethereal quality that flat front-lighting lacks.", 
-                proTip: "Look for dark backgrounds. Rim light only shows up if there is something dark (like a shadowed forest) behind the glowing animal." 
-            },
-            { 
-                id: 28, 
-                title: "The Focus Limiter Switch", 
-                cat: "Wildlife", 
-                fundamentals: "Telephoto lenses often have a switch on the side labeled 'Full / ∞-3m'. This is the Focus Limiter.\n\nHOW IT WORKS: It tells the lens NOT to look for focus close up. If you are photographing birds in the sky, switch it to the 'Far' range (e.g., 10m to Infinity).\n\nWHY: If the lens loses focus, it won't hunt all the way back to the minimum focus distance and back out again. It restricts the search range, making recovery instant.", 
-                impact: "It drastically speeds up autofocus acquisition. That split-second saved is the difference between locking onto a flying bird or missing it entirely.", 
-                proTip: "Remember to switch it back! There is nothing worse than a bird landing right in front of you and your lens refusing to focus because you left the limiter on 'Far'." 
-            },
-            { 
-                id: 29, 
-                title: "Shooting from a Vehicle", 
-                cat: "Wildlife", 
-                fundamentals: "Your car is the best portable hide you own. Animals view vehicles as a single object, not a threat.\n\nTECHNIQUE:\n1. Approach slowly. Don't drive directly at the animal; drive past at an angle and stop.\n2. Turn off the engine. Vibrations blur photos.\n3. Beanbag: Drape a beanbag over the open window frame to rest your lens on. It's more stable/flexible than a window mount.\n4. Stay inside. Breaking the silhouette by opening the door scares them instantly.", 
-                impact: "This allows you to get incredibly close to skittish animals like Hares or roadside Kestrels without causing them any stress.", 
-                proTip: "Cover the open window with a scrim net or scarf. This hides your face movement inside the dark car interior." 
-            },
-            { 
-                id: 30, 
-                title: "Wind Direction & Scent", 
-                cat: "Wildlife", 
-                fundamentals: "Mammals (deer, foxes, badgers) live by their noses. If they smell you, they are gone long before you see them.\n\nFIELDCRAFT:\n1. Check the wind: Use a puffer bottle with chalk dust or simply drop some dry grass to see the wind direction.\n2. Approach: Always walk *into* the wind. This blows your scent behind you, away from the animal.\n3. Crosswinds: If you can't walk into the wind, keep it at 90 degrees to your side.", 
-                impact: "Mastering windcraft is the only way to get close to elusive mammals. No amount of camouflage will hide your scent.", 
-                proTip: "Avoid scented soaps, deodorants, or strong laundry detergent before a shoot. You want to smell neutral (or like mud)." 
-            },
-            {
-                id: 46,
-                title: "Low Angle Shooting",
-                cat: "Wildlife",
-                fundamentals: "The single biggest mistake beginners make is shooting from standing height. This creates a psychological 'dominance' angle looking down on the subject.\n\nTHE TECHNIQUE: Get on your belly. You want your lens to be parallel to the animal's eye line. If shooting a duck in water, your camera should be inches above the surface.\n\nBENEFITS:\n1. Intimacy: It feels like you are in their world.\n2. Background: It pushes the background further away, improving blur.\n3. Foreground: It introduces a 'foreground blur' of grass/water that adds depth.",
-                impact: "It transforms a 'record shot' of a bird on the ground into an intimate wildlife portrait.",
-                proTip: "Use a camera with a flip-out screen or an angled viewfinder so you don't have to mash your face into the mud."
-            },
-            {
-                id: 47,
-                title: "Birds in Flight (BIF)",
-                cat: "Wildlife",
-                fundamentals: "The ultimate test of autofocus. \n\nTECHNIQUE:\n1. Shutter: Minimum 1/1600s.\n2. Focus: Continuous (AI Servo) with 'Zone' or 'Expand' points. Single point is too hard to keep on a moving target.\n3. The Pan: You must move your body at the hips. Keep your feet planted and swivel your torso smoothly.\n4. Acquisition: Start with the lens zoomed out to find the bird, then zoom in while tracking.",
-                impact: "Capturing a sharp eye on a speeding puffin or barn owl is the gold standard of technical wildlife photography.",
-                proTip: "Look 'through' the viewfinder with both eyes open (if possible). It helps you see birds entering the frame before they appear in the lens."
-            },
-            {
-                id: 48,
-                title: "The 'Hide' Setup",
-                cat: "Wildlife",
-                fundamentals: "Sometimes you can't stalk closer. You must wait for them to come to you.\n\nTYPES:\n- Pop-up Hide: A portable tent with lens ports. Great for long waits.\n- Bag Hide: A simple camo sheet thrown over you and the tripod.\n- Natural Hide: Sitting deep inside a bush or behind a stone wall.\n\nSTRATEGY: Set up before dawn. Let nature forget you are there. It takes 20-30 minutes for the 'alarm' of your arrival to fade and normal behavior to resume.",
-                impact: "Hides allow you to photograph extremely shy species (Kingfishers, Badgers) at close range.",
-                proTip: "Take a bottle to pee in. Leaving the hide to relieve yourself resets the 30-minute 'settling' clock."
-            },
-            {
-                id: 49,
-                title: "Metering Modes",
-                cat: "Wildlife",
-                fundamentals: "Your camera's light meter tries to make everything 'middle grey'. This fails with extreme subjects.\n\nSCENARIOS:\n- White Bird (Egret/Swan): The camera sees white, thinks it's too bright, and underexposes it to grey. Solution: Overexpose (+1 EV) or use Spot Metering on the bird.\n- Black Bird (Crow): The camera sees black, thinks it's too dark, and overexposes it to grey. Solution: Underexpose (-1 EV).\n- Spot Metering: Measures light *only* at the focus point, ignoring the background.",
-                impact: "Correct metering preserves the texture in white feathers and the sheen on black fur, which are often lost to clipping.",
-                proTip: "Check your 'Highlight Alert' (Blinkies). If the white feathers are flashing black on the screen, you have lost detail. Dial exposure down."
-            },
-            {
-                id: 50,
-                title: "Gimbal Heads",
-                cat: "Wildlife",
-                fundamentals: "Large telephoto lenses (500mm+) are heavy. A standard ball head flops around. A Gimbal Head balances the lens at its center of gravity.\n\nPHYSICS: When balanced, the heavy lens becomes 'weightless'. You can move it with one finger, and if you let go, it stays exactly where you left it without locking any knobs.\n\nUSAGE: Essential for tracking birds in flight or panning with running mammals from a tripod.",
-                impact: "It eliminates arm fatigue and provides fluid, smooth movement that mimics a video fluid head.",
-                proTip: "Balance it perfectly before shooting. Slide the lens plate back and forth until the lens stays level when you let go."
-            },
-            {
-                id: 51,
-                title: "Pre-Focusing Traps",
-                cat: "Wildlife",
-                fundamentals: "If an animal is too fast for autofocus (e.g., a Kingfisher diving), use a trap.\n\nMETHOD:\n1. Observe: Watch where the bird lands repeatedly (the 'perch').\n2. Focus: Manually focus exactly on that perch.\n3. Wait: Do not touch the focus ring.\n4. Shoot: As soon as the bird enters the frame, fire a high-speed burst. Since focus is already set, there is no lag.",
-                impact: "It captures moments that are literally faster than human reaction time or camera AF logic.",
-                proTip: "Use a deep depth of field (f/8 or f/11) to give yourself a larger margin of error if the bird lands slightly to the side."
-            },
-            {
-                id: 52,
-                title: "Dealing with Heat Haze",
-                cat: "Wildlife",
-                fundamentals: "On sunny days, heat rising from the ground creates shimmering air (atmospheric distortion). This makes long-lens photos look soft and wobbly, like a mirage.\n\nREALITY CHECK: No amount of money or sharpening can fix this. It is physics.\n\nSOLUTIONS:\n1. Shoot Early: The ground is cool in the morning. Haze is worst at midday.\n2. Get Closer: Less air between you and the subject means less distortion.\n3. Avoid Surfaces: Haze is worst over sand, rocks, and tarmac.",
-                impact: "Recognizing haze saves you from blaming your lens. If the image is wobbly, put the camera away and wait for evening.",
-                proTip: "Check focus on a static object (fence post). If the edges of the post are 'dancing', you have heat haze."
-            },
-            {
-                id: 53,
-                title: "Catchlights",
-                cat: "Wildlife",
-                fundamentals: "A catchlight is the white reflection of the sun/sky in the animal's eye. \n\nIMPORTANCE: Without a catchlight, the eye looks dead and shark-like. With it, the animal looks alive and conscious.\n\nPOSITIONING: You need the light source to be slightly in front of the animal or to the side. If the animal is looking down or into shadow, the eye goes black.",
-                impact: "It is the single most important detail in a wildlife portrait. It connects the viewer to the subject.",
-                proTip: "On dull days, use a faint flash (with a telephoto extender beam) to artificially add a tiny ping of light to the eye."
-            },
-            {
-                id: 54,
-                title: "Seasonal Opportunities",
-                cat: "Wildlife",
-                fundamentals: "Northumberland changes drastically by month. Don't hunt for ghosts.\n\nCALENDAR:\n- May-July: Puffins & Terns (Farne Islands).\n- October-November: Grey Seal Pups (coastal colonies).\n- March: Boxing Hares (arable fields).\n- Winter: Wading birds and Geese migrations.\n- Summer: Roe Deer fawns.",
-                impact: "Shooting in season guarantees abundance. The Farne Islands in June is a chaotic spectacle; in December, it is empty rock.",
-                proTip: "Seal pups have white fur for only 3 weeks. Timing is everything."
-            },
-            {
-                id: 55,
-                title: "Getting Dirty",
-                cat: "Wildlife",
-                fundamentals: "If your knees are clean, you didn't try hard enough. Wildlife photography is a contact sport with the ground.\n\nGEAR:\n- Waterproof Trousers: Essential for kneeling in wet grass/sand.\n- Elbow Pads: Crawling on rock hurts.\n- Lens Coat: Neoprene covers protect your expensive lens from mud and scratches.",
-                impact: "Physical commitment yields unique angles. Most people won't crawl through a ditch for a shot. If you do, your image stands out.",
-                proTip: "Carry a bin bag. It's a waterproof seat, a rain cover for your bag, and a mat to lie on. Best 10p you'll ever spend."
-            },
-
-            // --- ASTRO ---
-            { 
-                id: 14, 
-                title: "500 Rule vs. NPF Rule", 
-                cat: "Astro", 
-                fundamentals: "To keep stars sharp as the Earth rotates, you must limit your shutter speed. \n\n1. THE 500 RULE (Old School): Formula: 500 ÷ Focal Length = Max Seconds. (e.g. 500/24mm = 20s). Pros: Easy math. Cons: Fails on high-resolution modern sensors, leaving trails.\n\n2. THE NPF RULE (The Gold Standard): Considers aperture, pixel density, and declination. It is much stricter (e.g., might suggest 13s for that same lens). \n\nVERDICT: Use the 500 Rule for Instagram/Phone viewing. Use the NPF Rule (via PhotoPills app) for large prints.", 
-                impact: "Choosing the right rule ensures the stars appear as sharp, brilliant pinpricks of light rather than short dashes, which is critical for clarity in the Milky Way core.", 
-                proTip: "If you don't have an NPF calculator handy, a safe middle ground for modern cameras is the '400 Rule' (400 ÷ Focal Length)." 
-            },
-            { 
-                id: 15, 
-                title: "Astro: Manual Focus in the Dark", 
-                cat: "Astro", 
-                fundamentals: "Autofocus does not work at night. The 'Infinity' symbol on your lens is rarely accurate (it changes with temperature).\n\nTHE METHOD:\n1. Switch lens to MF.\n2. Turn on 'Live View' (LCD Screen).\n3. Point camera at the brightest star available (or a distant streetlamp).\n4. Use the digital zoom button (+) to zoom in 10x on the screen (not the lens zoom).\n5. Gently rotate focus ring until the star is as small and sharp as possible.\n6. If it looks like a donut, you are out of focus.", 
-                impact: "Focus is the single most common failure point in astro. A slightly blurry star ruins the entire image. Precise focus brings out faint stars that blurred focus would hide.", 
-                proTip: "Gaffer Tape! Once you nail the focus, tape the focus ring down. It is very easy to accidentally nudge it while moving the tripod or changing composition in the dark." 
-            },
-            { 
-                id: 16, 
-                title: "Light Painting for Foregrounds", 
-                cat: "Astro", 
-                fundamentals: "Astro photos often result in a great sky but a pitch-black, noisy foreground. Light painting fixes this by adding artificial light during the exposure.\n\nTECHNIQUE (Lannan Flashlight Method):\n1. Start your 20-second exposure.\n2. Stand 10 meters to the side of your camera.\n3. Using a dim LED torch, 'sweep' the beam over the foreground rock/castle for just 1-2 seconds.\n4. Keep the light moving (like spray paint) to avoid hot spots.", 
-                impact: "It brings texture and color back into the landscape, anchoring the stars to reality. It creates depth and dimension rather than a silhouette.", 
-                proTip: "Avoid direct, white LED light—it looks harsh and blue. Put a warming gel (orange plastic) over your torch, or bounce the light off the grass/ground to diffuse it for a softer look." 
-            },
-            { 
-                id: 17, 
-                title: "ISO & Noise Management", 
-                cat: "Astro", 
-                fundamentals: "The Milky Way is faint. You need high sensitivity. But High ISO = High Noise (Grain).\n\nTHE BALANCE:\n- ISO 1600: Cleanest, but might be too dark for f/4 lenses.\n- ISO 3200: Standard for f/2.8 lenses.\n- ISO 6400: Often necessary, but noisy.\n\nNOISE REDUCTION STRATEGIES:\n1. Long Exposure Noise Reduction (In Camera): Takes a 'dark frame' after the shot to subtract hot pixels. Doubles shooting time.\n2. Stacking (Post): The pro method. Take 10 identical photos and blend them to average out the random noise.", 
-                impact: "Stacking allows you to shoot at ISO 6400 for detail, but end up with an image as clean as ISO 400. It produces exhibition-quality nightscapes.", 
-                proTip: "Shoot RAW. Always. JPEG compression destroys star data and introduces blocky artifacts in the dark sky gradients." 
-            },
-            { 
-                id: 18, 
-                title: "The Rule of 600 (Star Trails)", 
-                cat: "Astro", 
-                fundamentals: "Star trails turn the Earth's rotation into art. Instead of freezing stars, we want to trace their path.\n\nMETHOD:\n1. Location: Find Polaris (North Star). All other stars rotate around this point.\n2. Settings: ISO 400 (lower ISO for longer exposures), f/4, 30 seconds.\n3. Quantity: You need continuous shots for at least 1 hour (approx 120 photos).\n4. Intervalometer: Set it to take a photo every 31 seconds (giving 1 second for saving).\n5. Post: Software (StarStaX) layers them all into one image.", 
-                impact: "It visualizes the passage of time. It works well in high light pollution areas (like towns) where static milky way shots are impossible, as the moving stars cut through the glow.", 
-                proTip: "Check your battery! A cold night drains batteries fast. Put a fresh one in before starting a 2-hour trail sequence, or use a USB power bank dummy battery." 
-            },
-            { 
-                id: 19, 
-                title: "Planning with Apps (PhotoPills)", 
-                cat: "Astro", 
-                fundamentals: "The Milky Way Core is only visible at certain times. In Northumberland, it is best seen from March to September, but never in mid-summer (it doesn't get dark enough).\n\nUSING PHOTOPILLS:\n1. Planner: Drop a pin on Bamburgh Castle.\n2. Time: Scroll the timeline to 2 AM.\n3. Azimuth: Look for the grey dots (Milky Way). Align them with the castle.\n4. Moon: Ensure the Moon phase is near 0% (New Moon). A Full Moon will wash out the sky.", 
-                impact: "Astro is 90% planning and 10% shooting. Apps save you from driving 2 hours to a location only to find the Milky Way is behind a mountain or obscured by the Moon.", 
-                proTip: "Use the 'Night AR' mode. Hold your phone up to the sky during the day, and it will overlay the star positions for tonight, so you can compose your frame before it even gets dark." 
-            },
-            { 
-                id: 20, 
-                title: "Nightscape Composition", 
-                cat: "Astro", 
-                fundamentals: "A photo of just stars is boring. It's just white dots. A 'Nightscape' connects the sky to the Earth.\n\nCOMPOSITIONAL ANCHORS:\n1. Silhouettes: Castles, trees, and hedges look striking against a starry sky.\n2. Reflections: Lakes (Cawfields) double the amount of stars in the frame.\n3. The Horizon: Keep it low. Dedicate 80% of the frame to the sky to emphasize the vastness of the universe.", 
-                impact: "An anchor provides scale. Seeing the Milky Way rise over a familiar landmark (like Sycamore Gap or Dunstanburgh) triggers an emotional response that a generic star field cannot.", 
-                proTip: "Shoot the foreground during 'Blue Hour' (just after sunset) at ISO 100 for high quality. Then, without moving the tripod, wait for dark and shoot the sky at ISO 3200. Blend the two in Photoshop for the ultimate quality image." 
-            },
-            { 
-                id: 31, 
-                title: "White Balance for Astro", 
-                cat: "Astro", 
-                fundamentals: "Leaving White Balance on 'Auto' (AWB) for night skies is a mistake. The camera tries to neutralize the orange light pollution, resulting in inconsistent colors between frames.\n\nTHE STANDARD: Set your White Balance manually to 'Kelvin' mode.\n- 3800K - 4200K: This cools down the sky, making it a pleasing deep blue/grey and reducing the orange glow of streetlights. It makes the Milky Way pop against the background.", 
-                impact: "It provides a consistent starting point for editing. If you shoot a panorama, every frame will have the exact same color tone, making stitching seamless.", 
-                proTip: "Don't go too blue! If you set it to 3200K, the sky looks unnaturally fake blue. Real night skies have a mix of green (airglow) and warm tones." 
-            },
-            { 
-                id: 32, 
-                title: "Fighting Dew & Condensation", 
-                cat: "Astro", 
-                fundamentals: "Northumberland nights are damp. As the temperature drops, your front lens element will get colder than the air, causing dew to form. This ruins photos with a soft, foggy haze that looks like a smudge.\n\nTHE SOLUTION: A USB Lens Heater. It's a velcro strip that wraps around your lens and plugs into a power bank. It gently warms the glass just above the dew point.\n\nEMERGENCY FIX: Hand warmers held on with a rubber band can work in a pinch.", 
-                impact: "It allows you to shoot for hours. Without a heater, your lens will likely fog up within 20 minutes on a clear, cold night.", 
-                proTip: "Put the heater on *before* you start shooting. Once the dew forms, it takes a long time to evaporate even with heat." 
-            },
-            { 
-                id: 33, 
-                title: "Shooting the Moon", 
-                cat: "Astro", 
-                fundamentals: "The Moon is a sunlit rock. Beginners treat it like a night object and overexpose it into a white blob.\n\nTHE LOONEY 11 RULE: For a well-exposed moon, set aperture to f/11 and shutter speed to 1/ISO.\n- Example: ISO 100, f/11, 1/100s.\n\nCONTEXT: You cannot capture the Moon and the Stars in one shot. The exposure difference is too vast. You must shoot the moon (fast shutter), then the landscape (slow shutter), and blend them.", 
-                impact: "Following this rule reveals the craters and maria (seas) on the surface, creating a textured, 3D sphere rather than a flat light.", 
-                proTip: "Shoot the Moon when it is not full. The shadows cast by craters along the 'terminator' line (where day meets night) create the most detail." 
-            },
-            { 
-                id: 34, 
-                title: "Lens Aberrations (Coma)", 
-                cat: "Astro", 
-                fundamentals: "Not all lenses are good for astro. Some suffer from 'Comatic Aberration' or Coma. This is where stars in the corners of the image look like flying birds or comets instead of dots.\n\nDIAGNOSIS: Take a test shot at your widest aperture (e.g., f/1.8). Zoom into the extreme corners. If the stars are distorted shapes, stop down the aperture (e.g., to f/2.8) until they become round.", 
-                impact: "Sharp, round stars across the whole frame separate professional astro shots from amateur ones. Distorted stars are very distracting to the eye.", 
-                proTip: "Avoid 'Zoom' lenses if possible. Prime (fixed focal length) lenses generally have much better coma correction than zooms." 
-            },
-            { 
-                id: 35, 
-                title: "Meteor Shower Tactics", 
-                cat: "Astro", 
-                fundamentals: "Shooting meteors (shooting stars) requires luck and volume.\n\nSTRATEGY:\n1. Find the Radiant: Meteors appear to radiate from one constellation (e.g., Perseus for Perseids). Don't point directly at it! Point 45 degrees away from it to catch the longest trails.\n2. Intervalometer: You cannot predict them. Set your camera to take continuous 20-second exposures for 2-3 hours.\n3. Selection: You will end up with 500 photos. Maybe 10 will have meteors. Keep those, delete the rest.", 
-                impact: "This allows you to capture the rare, bright fireballs that light up the landscape. You can also composite all the meteors into one 'shower' image later.", 
-                proTip: "Turn off 'Long Exposure Noise Reduction'. The camera takes a dark frame after every shot, meaning you are blind for 50% of the time. You will miss half the meteors." 
-            },
-            {
-                id: 56,
-                title: "Stacking for Noise (Sequator)",
-                cat: "Astro",
-                fundamentals: "The biggest leap in astro quality comes from software stacking. \n\nCONCEPT: Random noise moves every frame. Stars stay (relatively) still if aligned. If you stack 10 photos, the software keeps the signal (stars) and averages out the noise.\n\nWORKFLOW:\n1. Shoot 10-20 consecutive frames of the sky (same settings).\n2. Import into free software like Sequator (PC) or Starry Landscape Stacker (Mac).\n3. Define the 'Sky' area and 'Ground' area.\n4. Process.",
-                impact: "This reduces grain by 80-90%. It allows you to use entry level cameras to get pro results.",
-                proTip: "Take one 'Dark Frame' (lens cap on) at the end of the sequence. The software uses this to map out hot pixels on your sensor."
-            },
-            {
-                id: 57,
-                title: "Tracking Mounts",
-                cat: "Astro",
-                fundamentals: "A Star Tracker (e.g., Sky-Watcher Star Adventurer or Move Shoot Move Nomad) is a motorized head that rotates against the spin of the earth.\n\nEFFECT: It keeps the camera pointed at the stars perfectly. This allows you to shoot 2-minute or 4-minute exposures at ISO 400, instead of 20 seconds at ISO 3200.\n\nRESULT: Massive detail, rich color, and zero noise. The ground will blur, so you must shoot the ground separately (tracker off) and blend.",
-                impact: "This is the barrier to entry for 'Deep Sky' astrophotography (nebulae, galaxies).",
-                proTip: "Polar Alignment is critical. You must align the tracker's scope exactly with the North Celestial Pole (near Polaris) or it won't track correctly."
-            },
-            {
-                id: 58,
-                title: "Aurora Borealis Settings",
-                cat: "Astro",
-                fundamentals: "The Northern Lights are visible in Northumberland! But they move differently to stars.\n\nSETTINGS:\n1. Shutter: 2s to 8s. DO NOT use 30s. The Aurora moves fast; long exposures blur the beautiful pillars into green mush.\n2. Aperture: Widest possible (f/2.8).\n3. ISO: High (1600-3200).\n4. White Balance: 3500K-4000K avoids the sky turning muddy brown.",
-                impact: "Short exposures preserve the distinct 'curtains' and pillars of light that define a strong display.",
-                proTip: "Use the 'Glendale App' or 'AuroraWatch UK' for alerts. The naked eye often only sees grey mist; the camera sensor reveals the green/red colors."
-            },
-            {
-                id: 59,
-                title: "Focusing Masks (Bahtinov)",
-                cat: "Astro",
-                fundamentals: "A Bahtinov Mask is a plastic filter with a precise grid pattern. You place it over your lens while focusing on a bright star.\n\nVISUAL CUE: It turns the star into three spikes of light. \n- If the middle spike is off-center, you are out of focus.\n- When the middle spike sits perfectly between the outer X, you are perfectly focused.\n\nRemove the mask before shooting!",
-                impact: "It removes the guesswork from manual focusing. It provides 100% mathematical certainty that your stars are sharp.",
-                proTip: "You can 3D print one or cut one out of cardboard if you don't want to buy one."
-            },
-            {
-                id: 60,
-                title: "Light Pollution Filters",
-                cat: "Astro",
-                fundamentals: "City lights create a yellow/orange 'soup' in the sky. Light Pollution filters (like the 'Natural Night' filter) are made of didymium glass.\n\nSCIENCE: They specifically block the wavelengths of light emitted by sodium vapor street lamps (589nm) while letting star light pass through.\n\nWARNING: They reduce the total light entering the camera by about 0.5 to 1 stop, so you may need to increase ISO slightly.",
-                impact: "They separate the Milky Way from the background glow, adding significant contrast in semi-polluted areas.",
-                proTip: "They mess up color balance on the ground. Be prepared to color-correct your foregrounds in post-production."
-            },
-            {
-                id: 61,
-                title: "Vertical Panoramas",
-                cat: "Astro",
-                fundamentals: "The Milky Way arch is huge. A standard 14mm lens cannot fit the foreground and the top of the arch in one frame.\n\nTECHNIQUE: Shoot a vertical panorama.\n1. Orient camera vertically (Portrait).\n2. Start at the ground.\n3. Pitch up 30 degrees, overlap, shoot.\n4. Pitch up again to the zenith (straight up).\n5. Stitch in Lightroom.",
-                impact: "This creates those epic images where the Milky Way towers over a castle, stretching from horizon to zenith.",
-                proTip: "Leave plenty of space at the edges. The stitching process warps the image, and you will lose about 20% of your frame when you crop the messy edges."
-            },
-            {
-                id: 62,
-                title: "Dark Frames",
-                cat: "Astro",
-                fundamentals: "Digital sensors heat up during long exposures. Heat creates thermal noise (hot pixels) which look like red/blue dots.\n\nTHE FIX: Shoot 'Dark Frames'.\n1. Put your lens cap on.\n2. Shoot 5 photos with the EXACT same settings (ISO, Shutter, Temp) as your light frames.\n3. Feed these into your stacking software (Sequator).\n4. The software sees the hot pixels and subtracts them from your final image.",
-                impact: "It cleans up the image significantly, removing those annoying colored speckles that look like fake stars.",
-                proTip: "Shoot darks at the END of your session so the sensor temperature matches your shooting frames."
-            },
-            {
-                id: 63,
-                title: "Milky Way Seasonality",
-                cat: "Astro",
-                fundamentals: "You cannot photograph the Galactic Core in winter (in the Northern Hemisphere).\n\nTHE WINDOW:\n- March-May: Core rises in the early morning (3am).\n- June-July: Core is visible all night, BUT it never gets truly dark (Astronomical Twilight is absent).\n- August-September: Core is visible immediately after sunset.\n- Oct-Feb: The Core is below the horizon. You can only shoot the 'Winter Milky Way' (fainter, no detailed core).",
-                impact: "Knowing this prevents disappointment. Don't go out in January expecting to see the bright galactic center.",
-                proTip: "Late August is the 'Prime Time' for Northumberland astro—dark skies return, and the core is visible at a convenient time (10pm)."
-            },
-            {
-                id: 64,
-                title: "Fog & Mist (Glow)",
-                cat: "Astro",
-                fundamentals: "Fog diffuses light. In astro, this creates a 'Glow' effect around bright stars and planets.\n\nTECHNIQUE: Use a 'Mist' filter (like a Black Pro Mist 1/4 or 1/8) or shoot on naturally humid nights.\n\nEFFECT: It makes the major constellations (Orion, The Plough) stand out because the bright stars look physically larger than the faint ones. Without mist, all stars are just single pixels.",
-                impact: "It emphasizes the constellations and adds a cinematic, sci-fi atmosphere to the night.",
-                proTip: "This kills detail in the Milky Way core. Use it for constellation shots, not for structural detail shots."
-            }
+            { id: 1, title: "Hyperfocal Distance", cat: "Landscape", fundamentals: "Hyperfocal distance is the 'holy grail' calculation for maximum depth of field. It is the closest distance at which a lens can be focused while keeping objects at infinity acceptably sharp. When you focus at the hyperfocal distance, your depth of field extends from half that distance all the way to the horizon. \n\nWHY IT MATTERS: If you focus on the horizon, your foreground rocks will be soft. If you focus on the rocks, the castle in the background will be blurry. Hyperfocal is the mathematical middle ground.\n\nDETAILED STEPS:\n1. Compose your shot (e.g., rocks in front, castle in back).\n2. Determine your focal length (e.g., 24mm) and aperture (e.g., f/11).\n3. Use an app (PhotoPills) to find the number (e.g., 1.7 meters).\n4. Switch lens to Manual Focus.\n5. Focus on an object roughly 1.7m away (or use the distance scale on the lens).\n6. Do not touch the focus ring again.", impact: "Maximizing sharpness across the entire frame creates a professional, immersive feel. It guides the viewer's eye from the grass at their feet to the clouds in the sky without hitting any blurry 'dead zones'.", proTip: "No app? The 'Double Distance' rule works well: Estimate how far away your closest subject is (e.g., 2 meters). Focus at double that distance (4 meters). Check your review screen and zoom in to verify." },
+            { id: 2, title: "Long Exposure Waterscapes", cat: "Landscape", fundamentals: "Long exposure involves using a slow shutter speed to blur the movement of water or clouds. In Northumberland, this is the signature style for coastlines. \n\nGEAR NEEDED:\n1. A sturdy tripod (essential).\n2. A remote shutter release (to prevent shake).\n3. Neutral Density (ND) filters (6-stop or 10-stop).\n\nSETTINGS GUIDE:\n- 0.5 to 1 second: Retains texture and energy in the water (good for crashing waves).\n- 30 seconds: Creates a flat, misty, ethereal surface (good for calm minimalism).\n- 2 minutes+: Totally flattens the sea and streaks the clouds.", impact: "It simplifies a busy, chaotic scene. By smoothing out random wave patterns, you emphasize the stationary, permanent structures (rocks, lighthouses), creating a sense of peace and artistic abstraction.", proTip: "Cover your viewfinder! On DSLR cameras, light can leak in through the viewfinder during long exposures and cause purple banding on your image. Use the little rubber cover or a piece of black tape." },
+            { id: 3, title: "The Rule of Thirds & Beyond", cat: "Landscape", fundamentals: "Composition is the arrangement of elements. The Rule of Thirds divides the frame into a 3x3 grid. \n\nAPPLICATION:\n- Horizon: Place it on the top line to emphasize the foreground (rocks/beach). Place it on the bottom line to emphasize a dramatic sky.\n- Intersections: Place your main subject (e.g., a castle) where the grid lines cross.\n\nADVANCED CONCEPTS:\n- Leading Lines: Use the pier at Blyth or a wall at Housesteads to physically point towards your subject.\n- Negative Space: Don't be afraid of empty sky. It creates a sense of scale and isolation.", impact: "Good composition transforms a snapshot into a story. It creates balance and tension, guiding the viewer through the image in a deliberate way rather than letting their eye wander aimlessly.", proTip: "Break the rule for symmetry! If you're shooting the Blyth Beach Huts or a reflection in a still lake, center the horizon perfectly to emphasize the geometric mirror effect." },
+            { id: 4, title: "Focus Stacking Techniques", cat: "Landscape", fundamentals: "Sometimes, physics defeats you. Even at f/16, you cannot get a flower 10cm from the lens and a mountain 10km away both sharp. Focus stacking solves this by combining multiple images.\n\nFIELD WORKFLOW:\n1. Lock your camera on a tripod. Composition must not change.\n2. Exposure: Manual mode (constant aperture/shutter/ISO).\n3. Shot 1: Focus on the absolute closest object.\n4. Shot 2: Focus on the middle ground.\n5. Shot 3: Focus on the background/infinity.\n6. Check: Ensure images overlap in focus zones.\n\nPOST-PROCESSING: Use Photoshop (Edit > Auto-Align, then Edit > Auto-Blend) to stitch them.", impact: "This allows you to use the 'sweet spot' of your lens (usually f/5.6 or f/8) where it is sharpest, rather than stopping down to f/22 and suffering from diffraction blur (softness caused by light bending).", proTip: "Watch out for wind! If the grass in the foreground moves between shot 1 and shot 2, the blending software will fail. Wait for a lull in the breeze." },
+            { id: 5, title: "Polarizing for Clarity", cat: "Landscape", fundamentals: "A Circular Polarizer (CPL) is the one filter that software cannot mimic. It physically filters out scattered light waves.\n\nPRIMARY USES:\n1. Removing Glare: It lets you see *through* the water in rock pools, revealing colored pebbles instead of white sky reflection.\n2. Darkening Skies: It deepens the blue of the sky, making white clouds pop.\n3. Foliage: It removes the white sheen from wet leaves in forests (like Cragside), increasing color saturation.\n\nHOW TO USE: Screw it on and rotate the outer ring while looking through the viewfinder. The effect will cycle from min to max.", impact: "It adds 'punch' and clarity to images instantly. It turns a flat, hazy image into a vibrant, three-dimensional scene with rich contrast.", proTip: "The '90-Degree Rule': Polarizers work best when the sun is at a90-degree angle to your lens (i.e., over your shoulder). If shooting directly into the sun, they do nothing." },
+            { id: 6, title: "Exposure Bracketing", cat: "Landscape", fundamentals: "Northumberland sunrises have high dynamic range (bright sun, dark rocks). A single sensor often can't capture both.\n\nTECHNIQUE (AEB):\n1. Find 'Auto Exposure Bracketing' in your menu.\n2. Set it to 3 shots with a 2-stop interval (-2, 0, +2).\n3. Set drive mode to 'High Speed Continuous'.\n4. Hold the button: The camera will take 3 rapid fire shots.\n- Shot 1 (Dark): Captures details in the bright sun/clouds.\n- Shot 2 (Normal): General exposure.\n- Shot 3 (Bright): Captures details in the deep shadows.", impact: "Ensures you never have 'blown out' white skies or 'crushed' black shadows. You can merge these later into an HDR image or manually blend them for a natural look.", proTip: "Even if you don't plan to blend them, shooting brackets is great 'insurance'. Sometimes the -2 underexposed shot is actually the moody, dramatic one you end up using." },
+            { id: 7, title: "Wildlife: Shutter Priority Mastery", cat: "Wildlife", fundamentals: "In wildlife, sharpness is dictated by Shutter Speed. You must control this directly using Shutter Priority (Tv or S) mode.\n\nSPEED GUIDE:\n- 1/2500s: Puffins in flight (they flap 400 times a minute!).\n- 1/1000s: Birds taking off or landing.\n- 1/500s: Walking animals (deer/cattle).\n- 1/60s: Panning shots (artistic blur).\n\nAUTO-ISO: This is the secret weapon. Set your Shutter and Aperture manually, and let the camera choose ISO to balance the light. This guarantees your speed never drops too low. In your camera menu, set your auto ISO to max of around 8000 initially, change if needed.", impact: "The difference between a blurry, unusable photo and a National Geographic sharp shot is purely shutter speed. It removes motion blur entirely.", proTip: "For panning (e.g., a deer running), set 1/50s and move your camera in perfect sync with the animal. The legs will blur, but the head will be sharp. High risk, high reward!" },
+            { id: 8, title: "Back-Button Focusing", cat: "Wildlife", fundamentals: "Standard cameras focus when you half-press the shutter. This is bad for wildlife because every time you lift your finger to take a shot, the camera tries to refocus.\n\nTHE SOLUTION: Disable shutter AF. Assign AF-ON (back button) to focus.\n\nSCENARIO:\n1. You hold the back button to track a flying bird (Continuous AF).\n2. The bird lands. You release the back button. Focus locks instantly.\n3. You can now recompose and shoot freely without the lens hunting.\n\nIt merges Single AF and Continuous AF into one button.", impact: "It drastically increases your 'hit rate'. You stop fighting the camera's autofocus system and gain total control over when to track and when to lock.", proTip: "It takes about 3 days of frustration to retrain your muscle memory. Stick with it. Once you adapt, you will never go back." },
+            { id: 9, title: "Ethics of Wildlife Photography", cat: "Wildlife", fundamentals: "Northumberland hosts fragile ecosystems. Your shot is never worth an animal's welfare.\n\nTHE CODE:\n1. Disturbance: If an animal changes its behavior (stops eating, looks at you, moves away), you are too close. Back off.\n2. Nests: Never photograph active nests. It reveals the location to predators (crows/foxes) and can cause parents to abandon eggs.\n3. Baiting: Never use live bait. It alters natural hunting behaviors.\n4. Callbacks: Do not use tape lures (birdsong apps) to attract birds during breeding season. It stresses them out thinking a rival is in their territory.", impact: "Ethical practice ensures that wildlife continues to thrive. It also prevents locations from being closed off to photographers by angry landowners or conservation trusts.", proTip: "Fieldcraft beats focal length. Sitting still in camouflage gear for 20 minutes will get you closer to a hare than walking towards it with a 600mm lens ever will." },
+            { id: 10, title: "Background Separation (Bokeh)", cat: "Wildlife", fundamentals: "A 'busy' background (twigs, fences, bright spots) ruins a wildlife shot. You want a smooth, creamy wash of color.\n\nHOW TO ACHIEVE IT:\n1. Aperture: Use the widest available (f/2.8 - f/5.6).\n2. Distance Ratio: This is key. You want the distance between 'Subject and Background' to be MUCH larger than the distance between 'Camera and Subject'.\n3. Angle: Move your feet. If a branch is behind the bird's head, step six inches to the right.", impact: "Isolating the subject makes the animal 'pop' out of the frame. It creates that high-end, studio-portrait look in the wild, emphasizing the character and eyes.", proTip: "Get low! Shooting from standing height points your camera at the ground (which is close). Shooting from eye-level (lying down) points your camera at the distant trees/horizon (which are far away), creating much better blur." },
+            { id: 11, title: "Animal Eye Auto-Focus", cat: "Wildlife", fundamentals: "Mirrorless cameras (Canon R5, Sony A7, Nikon Z8) have revolutionized wildlife photography with AI-based Eye Tracking.\n\nSETUP GUIDE:\n1. Menu > AF Method > Face/Eye Detection.\n2. Subject to Detect > Animals.\n3. AF Case > 'Sticky' (locked on).\n\nUSAGE: The camera will find the eye and draw a box around it. It will track that eye even if the bird turns its head or flies behind a tree trunk briefly.", impact: "It removes the technical burden of moving focus points. You can focus entirely on composition and timing, knowing the eye will be tack sharp.", proTip: "In snow or heavy rain, the AI can get confused. Map a button to instantly switch back to 'Single Point' AF so you can manually override if the camera starts focusing on snowflakes." },
+            { id: 12, title: "Stealth & Fieldcraft", cat: "Wildlife", fundamentals: "You cannot photograph what you cannot see. Fieldcraft is the art of blending in.\n\nTECHNIQUES:\n1. Shape Breaking: Animals fear the human silhouette (head and shoulders). Sit against a tree or rock to break your outline.\n2. Wind: Always approach from downwind. If a deer smells you, it's gone before you see it.\n3. The 'Stop-Go': Move only when the animal is feeding/looking away. When it looks up, freeze completely. Do not blink.", impact: "Better fieldcraft allows you to witness natural behaviors—grooming, sleeping, playing—rather than just photos of animals running away in fear.", proTip: "Silence your gear. Turn off the 'beep' focus confirmation. Use 'Silent Shutter' (electronic) mode. Even the velcro on your lens pouch sounds like a gunshot in a quiet wood." },
+            { id: 13, title: "Understanding Animal Behavior", cat: "Wildlife", fundamentals: "Predicting the shot is superior to reacting to it. Photography is 10% shooting and 90% observation.\n\nEXAMPLES:\n- Ducks: Before a duck flies, it often dips its head rapidly and shakes its body.\n- Raptors: Birds of prey (Ospreys) usually poop immediately before taking off. If you see this, get your finger on the shutter!\n- Hares: In March, they 'box'. This usually happens when a male chases a female and she turns to rebuff him.", impact: "Predictive shooting leads to action shots (take-offs, fights) rather than static portraits. It puts you a split-second ahead of the action.", proTip: "Learn the local tides. Wading birds feed on the falling tide (when mud is exposed) and roost on the rising tide (when pushed up the beach). The 'Roost' is often the best time to get flock shots." },
+            { id: 14, title: "500 Rule vs. NPF Rule", cat: "Astro", fundamentals: "To keep stars sharp as the Earth rotates, you must limit your shutter speed. There are two main ways to calculate this:\n\n1. THE 500 RULE (Classic)\nFormula: 500 ÷ Focal Length = Max Seconds.\n- Example (24mm): 500 ÷ 24 = 20 seconds.\n- Pros: Easy to calculate in your head.\n- Cons: Designed for film/older cameras. On modern high-resolution sensors (24MP+), it often results in slight star trailing.\n\n2. THE NPF RULE (Pro Standard)\nFormula: Complex (considers aperture, pixel pitch, and declination).\n- Accuracy: It is far stricter. For that same 24mm lens, it might suggest 13 seconds instead of 20.\n- Usage: Don't do the math yourself. Use free 'NPF Calculators' available online or in apps like PhotoPills.\n\nVERDICT: Use the 500 Rule for social media. Use the NPF Rule for large prints.", impact: "Choosing the right rule ensures the stars appear as sharp, brilliant pinpricks of light rather than short dashes, which is critical for clarity in the Milky Way core.", proTip: "If you don't have an NPF calculator handy, a safe middle ground for modern cameras is the '400 Rule' (400 ÷ Focal Length)." },
+            { id: 15, title: "Astro: Manual Focus in the Dark", cat: "Astro", fundamentals: "Autofocus does not work at night. You must focus manually, and the 'Infinity' symbol on your lens is rarely accurate.\n\nTHE METHOD:\n1. Switch lens to MF.\n2. Turn on 'Live View' (LCD Screen).\n3. Point camera at the brightest star available (or a distant streetlamp).\n4. Use the digital zoom button (+) to zoom in 10x on the screen.\n5. Gently rotate focus ring until the star is as small and sharp as possible.\n6. If it looks like a donut, you are out of focus.", impact: "Focus is the single most common failure point in astro. A slightly blurry star ruins the entire image. Precise focus brings out faint stars that blurred focus would hide.", proTip: "Gaffer Tape! Once you nail the focus, tape the focus ring down. It is very easy to accidentally nudge it while moving the tripod or changing composition in the dark." },
+            { id: 16, title: "Light Painting for Foregrounds", cat: "Astro", fundamentals: "Astro photos often result in a great sky but a pitch-black, noisy foreground. Light painting fixes this by adding artificial light during the exposure.\n\nTECHNIQUE (Lannan Flashlight Method):\n1. Start your 20-second exposure.\n2. Stand 10 meters to the side of your camera.\n3. Using a dim LED torch, 'sweep' the beam over the foreground rock/castle for just 1-2 seconds.\n4. Keep the light moving (like spray paint) to avoid hot spots.", impact: "It brings texture and color back into the landscape, anchoring the stars to reality. It creates depth and dimension rather than a silhouette.", proTip: "Avoid direct, white LED light—it looks harsh and blue. Put a warming gel (orange plastic) over your torch, or bounce the light off the grass/ground to diffuse it for a softer look." },
+            { id: 17, title: "ISO & Noise Management", cat: "Astro", fundamentals: "The Milky Way is faint. You need high sensitivity. But High ISO = High Noise (Grain).\n\nTHE BALANCE:\n- ISO 1600: Cleanest, but might be too dark.\n- ISO 3200: Standard standard for f/2.8 lenses.\n- ISO 6400: Often necessary, but noisy.\n\nNOISE REDUCTION STRATEGIES:\n1. Long Exposure Noise Reduction (In Camera): Takes a 'dark frame' after the shot to subtract hot pixels. Doubles shooting time.\n2. Stacking (Post): Take 10 identical photos and blend them in software (Sequator/Starry Landscape Stacker) to average out the random noise.", impact: "Stacking is the pro standard. It allows you to shoot at ISO 6400 for detail, but end up with an image as clean as ISO 400. It produces exhibition-quality nightscapes.", proTip: "Shoot RAW. Always. JPEG compression destroys star data and introduces blocky artifacts in the dark sky gradients." },
+            { id: 18, title: "The Rule of 600 (Star Trails)", cat: "Astro", fundamentals: "Star trails turn the Earth's rotation into art. Instead of freezing stars, we want to trace their path.\n\nMETHOD:\n1. Location: You need to find Polaris (North Star). All other stars rotate around this point.\n2. Settings: ISO 400, f/4, 30 seconds.\n3. Quantity: You need to take continuous shots for at least 1 hour (approx 120 photos).\n4. Intervalometer: Set your remote to take a photo every 31 seconds (giving 1 second for saving).\n5. Post: Software (StarStaX) layers them all into one image.", impact: "It visualizes the passage of time. It works well in high light pollution areas (like towns) where static milky way shots are impossible, as the moving stars cut through the glow.", proTip: "Check your battery! A cold night drains batteries fast. Put a fresh one in before starting a 2-hour trail sequence, or use a USB power bank dummy battery." },
+            { id: 19, title: "Planning with Apps (PhotoPills)", cat: "Astro", fundamentals: "The Milky Way Core is only visible at certain times. In Northumberland, it is best seen from March to September, but never in mid-summer (it doesn't get dark enough).\n\nUSING PHOTOPILLS:\n1. Planner: Drop a pin on Bamburgh Castle.\n2. Time: Scroll the timeline to 2 AM.\n3. Azimuth: Look for the grey dots (Milky Way). Align them with the castle.\n4. Moon: Ensure the Moon phase is near 0% (New Moon). A Full Moon will wash out the sky.", impact: "Astro is 90% planning and 10% shooting. Apps save you from driving 2 hours to a location only to find the Milky Way is behind a mountain or obscured by the Moon.", proTip: "Use the 'Night AR' mode. Hold your phone up to the sky during the day, and it will overlay the star positions for tonight, so you can compose your frame before it even gets dark." },
+            { id: 20, title: "Nightscape Composition", cat: "Astro", fundamentals: "A photo of just stars is boring. It's just white dots. A 'Nightscape' connects the sky to the Earth.\n\nCOMPOSITIONAL ANCHORS:\n1. Silhouettes: Castles, trees, and hedges look striking against a starry sky.\n2. Reflections: Lakes (Cawfields) double the amount of stars in the frame.\n3. The Horizon: Keep it low. Dedicate 80% of the frame to the sky to emphasize the vastness of the universe.", impact: "An anchor provides scale. Seeing the Milky Way rise over a familiar landmark (like Sycamore Gap or Dunstanburgh) triggers an emotional response that a generic star field cannot.", proTip: "Shoot the foreground during 'Blue Hour' (just after sunset) at ISO 100 for high quality. Then, without moving the tripod, wait for dark and shoot the sky at ISO 3200. Blend the two in Photoshop for the ultimate quality image." },
+            { id: 21, title: "Understanding the Histogram", cat: "Landscape", fundamentals: "The LCD screen on your camera lies—its brightness depends on the sun glare. The Histogram is the only true way to judge exposure.\n\nHOW TO READ IT:\n- Left Side: Shadow data (Blacks).\n- Right Side: Highlight data (Whites).\n- Middle: Midtones.\n- The Goal: A 'bell curve' in the middle. If the graph touches the right wall ('clipping'), your white clouds are blown out and unrecoverable. If it touches the left wall, your shadows are dead black.", impact: "Mastering the histogram ensures you capture all the data in the scene. It prevents you from getting home and realizing your sky is just a white blob.", proTip: "Expose to the Right (ETTR). Push the graph as far right as possible without touching the wall. This gathers maximum light and reduces noise in the shadows." },
+            { id: 22, title: "Golden Hour vs. Blue Hour", cat: "Landscape", fundamentals: "Not all daylight is equal. The angle of the sun drastically changes the color and hardness of the light.\n\nGOLDEN HOUR: The hour after sunrise and before sunset. The light is warm (orange/gold), soft, and directional, creating long shadows and texture.\n\nBLUE HOUR: The hour before sunrise and after sunset. The sun is below the horizon. The light is cool (blue/magenta), shadowless, and soft. It balances perfectly with city lights.", impact: "Shooting at noon (harsh white light) makes landscapes look flat. Shooting at the edges of the day adds emotion, color contrast, and three-dimensionality.", proTip: "Don't pack up when the sun sets! The best color in the sky often happens 20 minutes AFTER sunset during the 'civil twilight' phase." },
+            { id: 23, title: "Tripod Mechanics & Stability", cat: "Landscape", fundamentals: "A tripod isn't just a stand; it's an anchor. Misusing it causes blurry long exposures.\n\nPROTOCOL:\n1. Turn off Image Stabilization (IS/VR): If the camera is on a tripod, IS systems can get confused and create shake.\n2. Extend legs from the top down: The thicker leg sections are more stable.\n3. Use the hook: Hang your camera bag on the center column hook to add mass and dampen vibrations.\n4. Avoid the center column: Raising the center column is like putting your camera on a monopod—it wobbles.", impact: "A rock-solid tripod allows for pin-sharp images even in the 40mph winds typical of the Northumberland coast.", proTip: "Push down firmly on the tripod shoulders before mounting the camera to ensure the feet have sunk through the sand/mud to the solid ground beneath." },
+            { id: 24, title: "Aperture Diffraction", cat: "Landscape", fundamentals: "Beginners often think 'f/22 = maximum sharpness'. This is false physics. When you close the aperture hole too small, light waves bend (diffract) around the edges, causing the entire image to become soft.\n\nTHE SWEET SPOT: Most lenses are sharpest between f/8 and f/11. Beyond f/16, you are losing resolution.\n\nSOLUTION: If you need more depth of field than f/11 provides, use 'Focus Stacking' instead of stopping down to f/22.", impact: "Understanding diffraction prevents you from taking photos that look sharp on the LCD but soft and fuzzy on a computer monitor.", proTip: "Test your lens! Put your camera on a tripod and shoot a detailed wall at f/8, f/11, f/16, and f/22. Zoom in on a computer to see exactly where softness begins." },
+            { id: 25, title: "Shooting RAW vs. JPEG", cat: "Landscape", fundamentals: "A JPEG is a finished cake. A RAW file is the ingredients.\n\nJPEG: The camera processes the image (adds contrast, saturation, sharpening) and throws away the unused data to save space. You cannot easily change the white balance or recover shadows later.\n\nRAW: It saves all the data directly from the sensor. It looks flat and grey initially, but it holds massive amounts of hidden detail in the highlights and shadows.", impact: "Shooting RAW allows you to recover a sky that looks white or a shadow that looks black. It gives you the dynamic range needed for high-quality landscape printing.", proTip: "Shoot 'RAW + JPEG'. This gives you a finished image to share on your phone immediately via Wi-Fi, but keeps the RAW file safe for your main edit later." },
+            { id: 26, title: "Burst Mode & Buffer", cat: "Wildlife", fundamentals: "Wildlife moves fast. Single shot mode will miss the peak action.\n\nSETTINGS:\n1. Drive Mode: High Speed Continuous (H+).\n2. The Buffer: Your camera has a temporary memory (buffer). If you hold the button down for 10 seconds, the buffer fills and the camera slows down to a crawl.\n3. Technique: Don't 'spray and pray'. Wait for the moment, then fire short, controlled bursts of 3-5 shots.", impact: "It allows you to capture the exact millisecond a puffin's wings are fully extended or a red squirrel jumps, rather than the split-second after.", proTip: "Use a fast SD/CFexpress card. The write speed of your card dictates how fast the buffer clears. A slow card will leave you paralyzed while the action continues." },
+            { id: 27, title: "Backlighting & Rim Light", cat: "Wildlife", fundamentals: "Most beginners shoot with the sun behind them. Pros often shoot facing the sun (backlighting).\n\nTHE EFFECT: When the sun is low and behind a furry or feathered subject (like a deer or rabbit), the light shines *through* the edges of the animal. This creates a glowing 'halo' or rim light that outlines the shape in gold.\n\nEXPOSURE: You must underexpose the background (make it dark) to let the rim light pop.", impact: "It separates the subject from a dark background and adds a magical, ethereal quality that flat front-lighting lacks.", proTip: "Look for dark backgrounds. Rim light only shows up if there is something dark (like a shadowed forest) behind the glowing animal." },
+            { id: 28, title: "The Focus Limiter Switch", cat: "Wildlife", fundamentals: "Telephoto lenses often have a switch on the side labeled 'Full / ∞-3m'. This is the Focus Limiter.\n\nHOW IT WORKS: It tells the lens NOT to look for focus close up. If you are photographing birds in the sky, switch it to the 'Far' range (e.g., 10m to Infinity).\n\nWHY: If the lens loses focus, it won't hunt all the way back to the minimum focus distance and back out again. It restricts the search range.", impact: "It drastically speeds up autofocus acquisition. That split-second saved is the difference between locking onto a flying bird or missing it entirely.", proTip: "Remember to switch it back! There is nothing worse than a bird landing right in front of you and your lens refusing to focus because you left the limiter on 'Far'." },
+            { id: 29, title: "Shooting from a Vehicle", cat: "Wildlife", fundamentals: "Your car is the best portable hide you own. Animals view vehicles as a single object, not a threat.\n\nTECHNIQUE:\n1. Approach slowly. Don't drive directly at the animal; drive past at an angle and stop.\n2. Turn off the engine. Vibrations blur photos.\n3. Beanbag: Drape a beanbag over the open window frame to rest your lens on. It's more stable/flexible than a window mount.\n4. Stay inside. Breaking the silhouette by opening the door scares them instantly.", impact: "This allows you to get incredibly close to skittish animals like Hares or roadside Kestrels without causing them any stress.", proTip: "Cover the open window with a scrim net or scarf. This hides your face movement inside the dark car interior." },
+            { id: 30, title: "Wind Direction & Scent", cat: "Wildlife", fundamentals: "Mammals (deer, foxes, badgers) live by their noses. If they smell you, they are gone.\n\nFIELDCRAFT:\n1. Check the wind: Use a puffer bottle with chalk dust or simply drop some dry grass to see the wind direction.\n2. Approach: Always walk *into* the wind. This blows your scent behind you, away from the animal.\n3. Crosswinds: If you can't walk into the wind, keep it at 90 degrees to your side.", impact: "Mastering windcraft is the only way to get close to elusive mammals. No amount of camouflage will hide your scent.", proTip: "Avoid scented soaps, deodorants, or strong laundry detergent before a shoot. You want to smell neutral (or like mud)." },
+            { id: 31, title: "White Balance for Astro", cat: "Astro", fundamentals: "Leaving White Balance on 'Auto' (AWB) for night skies is a mistake. The camera tries to neutralize the orange light pollution, resulting in inconsistent colors.\n\nTHE STANDARD: Set your White Balance manually to 'Kelvin' mode.\n- 3800K - 4200K: This cools down the sky, making it a pleasing deep blue and reducing the orange glow of streetlights. It makes the Milky Way pop against the background.", impact: "It provides a consistent starting point for editing. If you shoot a panorama, every frame will have the exact same color tone, making stitching seamless.", proTip: "Don't go too blue! If you set it to 3200K, the sky looks unnaturally fake blue. Real night skies have a mix of green (airglow) and warm tones." },
+            { id: 32, title: "Fighting Dew & Condensation", cat: "Astro", fundamentals: "Northumberland nights are damp. As the temperature drops, your front lens element will get colder than the air, causing dew to form. This ruins photos with a soft, foggy haze.\n\nTHE SOLUTION: A USB Lens Heater. It's a velcro strip that wraps around your lens and plugs into a power bank. It gently warms the glass just above the dew point.\n\nEMERGENCY FIX: Hand warmers held on with a rubber band can work in a pinch.", impact: "It allows you to shoot for hours. Without a heater, your lens will likely fog up within 20 minutes on a clear, cold night.", proTip: "Put the heater on *before* you start shooting. Once the dew forms, it takes a long time to evaporate even with heat." },
+            { id: 33, title: "Shooting the Moon", cat: "Astro", fundamentals: "The Moon is a sunlit rock. Beginners treat it like a night object and overexpose it into a white blob.\n\nTHE LOONEY 11 RULE: For a well-exposed moon, set aperture to f/11 and shutter speed to 1/ISO.\n- Example: ISO 100, f/11, 1/100s.\n\nCONTEXT: You cannot capture the Moon and the Stars in one shot. The exposure difference is too vast. You must shoot the moon (fast shutter), then the landscape (slow shutter), and blend them.", impact: "Following this rule reveals the craters and maria (seas) on the surface, creating a textured, 3D sphere rather than a flat light.", proTip: "Shoot the Moon when it is not full. The shadows cast by craters along the 'terminator' line (where day meets night) create the most detail." },
+            { id: 34, title: "Lens Aberrations (Coma)", cat: "Astro", fundamentals: "Not all lenses are good for astro. Some suffer from 'Comatic Aberration' or Coma. This is where stars in the corners of the image look like flying birds or comets instead of dots.\n\nDIAGNOSIS: Take a test shot at your widest aperture (e.g., f/1.8). Zoom into the extreme corners. If the stars are distorted shapes, stop down the aperture (e.g., to f/2.8) until they become round.", impact: "Sharp, round stars across the whole frame separate professional astro shots from amateur ones. Distorted stars are very distracting to the eye.", proTip: "Avoid 'Zoom' lenses if possible. Prime (fixed focal length) lenses generally have much better coma correction than zooms." },
+            { id: 35, title: "Meteor Shower Tactics", cat: "Astro", fundamentals: "Shooting meteors (shooting stars) requires luck and volume.\n\nSTRATEGY:\n1. Find the Radiant: Meteors appear to radiate from one constellation (e.g., Perseus for Perseids). Don't point directly at it! Point 45 degrees away from it to catch the longest trails.\n2. Intervalometer: You cannot predict them. Set your camera to take continuous 20-second exposures for 2-3 hours.\n3. Selection: You will end up with 500 photos. Maybe 10 will have meteors. Keep those, delete the rest.", impact: "This allows you to capture the rare, bright fireballs that light up the landscape. You can also composite all the meteors into one 'shower' image later.", proTip: "Turn off 'Long Exposure Noise Reduction'. The camera takes a dark frame after every shot, meaning you are blind for 50% of the time. You will miss half the meteors." }
         ];
 
-        const Navbar = () => (
-            <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-4 md:px-8">
-                <a href="index.html" className="flex items-center space-x-3 cursor-pointer">
-                    <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center"><Icon name="camera" className="text-white" size={18} /></div>
-                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
-                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NP</span>
-                </a>
-                <div className="flex items-center space-x-4 md:space-x-10 text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-400">
-                    <a href="index.html" className="hover:text-black">Home</a>
-                    <span className="text-black border-b-2 border-black">Learn</span>
-                    <a href="explore.html" className="hover:text-black">Explore</a>
-                    <a href="routes.html" className="hover:text-black">Routes</a>
-                    <a href="ethics.html" className="hover:text-black">Ethics</a>
-                    <a href="tuition.html" className="hover:text-black">Tuition</a>
-                </div>
-            </nav>
-        );
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+
+            const toggleMenu = () => {
+                setIsOpen(!isOpen);
+            };
+
+            const links = [
+                { name: 'Home', url: 'index.html', active: false },
+                { name: 'Learn', url: 'learn.html', active: true },
+                { name: 'Explore', url: 'explore.html', active: false },
+                { name: 'Routes', url: 'routes.html', active: false },
+                { name: 'Ethics', url: 'ethics.html', active: false },
+                { name: 'Tuition', url: 'tuition.html', active: false }
+            ];
+
+            return (
+                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                    <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
+                        {/* Logo Area */}
+                        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
+                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                <Icon name="camera" className="text-white" size={18} />
+                            </div>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NP</span>
+                        </div>
+                        
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                            {links.map((link) => (
+                                <a 
+                                    key={link.name} 
+                                    href={link.url} 
+                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
+                                >
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <div className="md:hidden">
+                            <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
+                                <Icon name={isOpen ? "x" : "menu"} size={24} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile Navigation Dropdown */}
+                    {isOpen && (
+                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
+                            <div className="flex flex-col p-6 space-y-6">
+                                {links.map((link) => (
+                                    <a 
+                                        key={link.name} 
+                                        href={link.url} 
+                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
+                                    >
+                                        {link.name}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
 
         const App = () => {
             const [selectedTopic, setSelectedTopic] = useState(null);
@@ -597,7 +170,7 @@
                             <div className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
                                 <div>
                                     <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-2">Photography Guides</h2>
-                                    <p className="text-sm md:text-base text-slate-400">Essential knowledge for the Northumberland coast.</p>
+                                    <p className="text-sm md:text-base text-slate-400">20 suggested topics.</p>
                                 </div>
                                 <div className="flex bg-slate-100 p-1 rounded-full overflow-x-auto">
                                     {['All', 'Wildlife', 'Astro', 'Landscape'].map(cat => (
@@ -611,8 +184,8 @@
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {filteredGuides.map(guide => (
                                     <div key={guide.id} onClick={() => { setSelectedTopic(guide); window.history.pushState({}, ""); }} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200">
-                                        <span className={`text-[10px] font-black uppercase mb-4 block tracking-widest ${guide.cat === 'Astro' ? 'text-indigo-500' : guide.cat === 'Wildlife' ? 'text-emerald-500' : 'text-sky-500'}`}>{guide.cat}</span>
-                                        <h3 className="text-xl md:text-2xl font-black mb-4 group-hover:text-slate-600 transition-colors">{guide.title}</h3>
+                                        <span className="text-[10px] font-black uppercase text-sky-500 mb-4 block tracking-widest">{guide.cat}</span>
+                                        <h3 className="text-xl md:text-2xl font-black mb-4 group-hover:text-sky-600 transition-colors">{guide.title}</h3>
                                         <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">{guide.impact}</p>
                                     </div>
                                 ))}
@@ -624,7 +197,7 @@
                         <div className="fixed inset-0 z-[100] bg-white overflow-y-auto p-6 md:p-20 animate-in custom-scrollbar">
                             <div className="max-w-3xl mx-auto pt-10 md:pt-0">
                                 <button onClick={() => setSelectedTopic(null)} className="mb-8 md:mb-12 flex items-center space-x-2 text-slate-400 font-black uppercase text-[10px] tracking-widest hover:text-black transition-colors p-2 -ml-2"><Icon name="x" size={14} /> <span>Close Module</span></button>
-                                <span className={`font-black uppercase text-xs tracking-[0.3em] mb-4 block ${selectedTopic.cat === 'Astro' ? 'text-indigo-500' : selectedTopic.cat === 'Wildlife' ? 'text-emerald-500' : 'text-sky-500'}`}>{selectedTopic.cat}</span>
+                                <span className="text-sky-500 font-black uppercase text-xs tracking-[0.3em] mb-4 block">{selectedTopic.cat}</span>
                                 <h2 className="text-4xl md:text-7xl font-black tracking-tighter mb-8 md:mb-12 leading-none">{selectedTopic.title}</h2>
                                 <div className="space-y-8 md:space-y-12">
                                     <div>
@@ -635,13 +208,13 @@
                                         <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4 md:mb-6 pb-2 border-b">2. Why This Matters</h4>
                                         <p className="text-base md:text-lg text-slate-700 leading-relaxed">{selectedTopic.impact}</p>
                                     </div>
-                                    <div className={`p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border ${selectedTopic.cat === 'Astro' ? 'bg-indigo-50 border-indigo-100' : selectedTopic.cat === 'Wildlife' ? 'bg-emerald-50 border-emerald-100' : 'bg-sky-50 border-sky-100'}`}>
-                                        <h4 className={`text-[10px] font-black uppercase tracking-widest mb-4 ${selectedTopic.cat === 'Astro' ? 'text-indigo-600' : selectedTopic.cat === 'Wildlife' ? 'text-emerald-600' : 'text-sky-600'}`}>Top Tip</h4>
+                                    <div className="bg-sky-50 p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-sky-100">
+                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-sky-600 mb-4">Top Tip</h4>
                                         <p className="text-xl md:text-2xl font-bold text-slate-800 italic leading-snug">"{selectedTopic.proTip}"</p>
                                     </div>
                                 </div>
                                 <div className="mt-12 md:mt-20 pt-10 border-t flex justify-center pb-12 md:pb-0">
-                                    <button onClick={() => setSelectedTopic(null)} className="bg-slate-900 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-black uppercase text-xs tracking-widest hover:bg-slate-800 transition-colors w-full md:w-auto">Back to Guides</button>
+                                    <button onClick={() => setSelectedTopic(null)} className="bg-slate-900 text-white px-8 md:px-12 py-4 md:py-5 rounded-full font-black uppercase text-xs tracking-widest hover:bg-slate-800 transition-colors w-full md:w-auto">Back to Photography Guides</button>
                                 </div>
                             </div>
                         </div>
