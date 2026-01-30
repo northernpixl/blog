@@ -15,18 +15,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
-        /* Animation for the rolling carousel */
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-scroll {
-            animation: scroll 40s linear infinite;
-        }
-        .animate-scroll:hover {
-            animation-play-state: paused;
-        }
-        /* Hide scrollbar for clean look */
+        /* Hide scrollbar for clean look but allow scrolling */
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -159,7 +148,7 @@
         };
 
         const CarouselCard = ({ item }) => (
-            <a href={item.link} className="relative group overflow-hidden rounded-xl w-[280px] h-[360px] flex-shrink-0 mx-3 cursor-pointer">
+            <a href={item.link} className="relative group overflow-hidden rounded-xl w-[280px] h-[360px] flex-shrink-0 snap-center cursor-pointer">
                 <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors z-10"></div>
                 <img 
                     src={item.image} 
@@ -173,12 +162,18 @@
             </a>
         );
 
-        const RollingCarousel = () => {
-            const duplicatedTopics = [...topics, ...topics, ...topics];
+        const ManualCarousel = () => {
             return (
-                <div className="w-full overflow-hidden py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
-                    <div className="flex w-max animate-scroll">
-                        {duplicatedTopics.map((topic, index) => (
+                <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
+                    {/* Changed behavior: 
+                        - overflow-x-auto: Allows manual scrolling
+                        - snap-x snap-mandatory: Makes cards snap into place
+                        - space-x-6: Adds gaps between cards
+                        - px-6: Adds padding to the sides
+                        - no-scrollbar: Hides the ugly scrollbar but allows sliding
+                    */}
+                    <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-6 no-scrollbar pb-6">
+                        {topics.map((topic, index) => (
                             <CarouselCard key={`${topic.id}-${index}`} item={topic} />
                         ))}
                     </div>
@@ -194,16 +189,13 @@
                     {/* Main Layout Container */}
                     <main className="flex flex-col min-h-screen">
                         
-                        {/* 1. Hero / Image Section 
-                            - flex-grow: Takes all space NOT used by the carousel
-                            - relative: So the absolute image stays inside this box
-                        */}
+                        {/* 1. Hero / Image Section */}
                         <section className="relative flex-grow flex flex-col justify-center items-center overflow-hidden">
                             
-                            {/* Background Image: Pinned strictly to this section */}
+                            {/* Background Image */}
                             <div className="absolute inset-0 z-0 flex justify-center items-center overflow-hidden bg-slate-900">
                                 <img 
-                                    src="MG2282.jpg" 
+                                    src="MG2282.jpg"
                                     alt="Northumberland Landscape" 
                                     className="h-full w-auto max-w-none object-cover"
                                 />
@@ -231,19 +223,10 @@
                             </div>
                         </section>
 
-                        {/* 2. Carousel Section
-                            - Stacks BELOW the hero section
-                            - Has its own background
-                        */}
+                        {/* 2. Carousel Section */}
                         <div className="relative z-20 w-full bg-slate-900 border-t border-slate-800/50">
-                            <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-end">
-                                <span className="text-xs font-bold tracking-widest text-slate-400 uppercase">Discover the area</span>
-                                <div className="flex items-center text-sky-500 text-xs font-bold tracking-widest uppercase animate-pulse">
-                                    <span className="mr-2">Scroll to explore</span>
-                                    <Icon name="arrow-right" size={14} />
-                                </div>
-                            </div>
-                            <RollingCarousel />
+                            {/* Removed "Discover the area" text and arrow here */}
+                            <ManualCarousel />
                         </div>
 
                     </main>
