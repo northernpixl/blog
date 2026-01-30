@@ -168,6 +168,10 @@
         const ManualCarousel = () => {
             return (
                 <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
+                    {/* Add Scroll for more text */}
+                    <div className="text-center md:hidden mb-4 animate-bounce">
+                        <span className="text-white/70 text-xs font-bold uppercase tracking-widest">Scroll for more</span>
+                    </div>
                     {/* Changed behavior: 
                         - overflow-x-auto: Allows manual scrolling
                         - snap-x snap-mandatory: Makes cards snap into place
