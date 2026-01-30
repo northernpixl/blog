@@ -17,6 +17,9 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* Animation utilities for menu */
+        .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-white text-slate-900 overflow-x-hidden">
@@ -28,11 +31,12 @@
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
                 camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
-                x: <><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>,
+                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
                 mail: <><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></>,
                 check: <><polyline points="20 6 9 17 4 12"/></>,
                 user: <><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
-                map: <><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></>
+                map: <><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></>,
+                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -49,7 +53,7 @@
                 duration: "8 Hours",
                 cat: "Private",
                 image: "cheviottuition.jpg",
-                description: "A completely bespoke day tailored to your specific needs. Whether you want to master long exposure seascapes at Bamburgh, track wildlife in the wilderness, or learn to master manual mode, this day is yours. We will cover technical camera skills, composition theory, and fieldcraft.",
+                description: "A completely bespoke day tailored to your specific needs. Whether you want to master long exposure seascapes at Bamburgh, track wildlife in the Cheviots, or finally understand manual mode, this day is yours. We will cover technical camera skills, composition theory, and fieldcraft.",
                 itinerary: [
                     "09:00 - Coffee & Equipment Check/Setup",
                     "10:00 - Location 1: Technical Foundations (Exposure/Focus)",
@@ -58,8 +62,8 @@
                     "16:00 - Location 3: Golden Hour/Sunset Shoot",
                     "17:00 - Debrief & Editing Workflow Talk"
                 ],
-                requirements: "DSLR or Mirrorless camera, Tripod, Appropriate footwear/clothing.",
-                idealFor: "Photographers of any level who want to improve through dedicated personal attention."
+                requirements: "DSLR or Mirrorless camera, Tripod, Walking boots.",
+                idealFor: "Photographers of any level who want rapid improvement through dedicated personal attention."
             },
             { 
                 id: 2, 
@@ -68,14 +72,14 @@
                 duration: "4 Hours",
                 cat: "Private",
                 image: "Hethpooltuition.jpg",
-                description: "Perfect for focusing on a single specific skill or location. We can spend 4 hours perfecting your bird-in-flight settings, or chasing the perfect seascape at Dunstanburgh Castle. Focused, and highly educational.",
+                description: "Perfect for focusing on a single specific skill or location. We can spend 4 hours perfecting your bird-in-flight settings, or chasing the perfect seascape at Dunstanburgh Castle. Intense, focused, and highly educational.",
                 itinerary: [
                     "Hour 1: Theory & Camera Setup",
                     "Hour 2: Guided Shooting (Location 1)",
                     "Hour 3: Guided Shooting (Location 2)",
                     "Hour 4: Image Review & Feedback"
                 ],
-                requirements: "DSLR or Mirrorless camera, Tripod, Appropriate footwear/clothing.",
+                requirements: "Camera, Charged Battery, Empty Memory Card.",
                 idealFor: "Those with a busy schedule or a specific technical hurdle they need to overcome."
             },
             { 
@@ -85,7 +89,7 @@
                 duration: "6 Hours",
                 cat: "Group",
                 image: "Bamburghtuition.jpg",
-                description: "Join a small group (max 6 people) for a social and educational photo walk along the stunning Northumberland Coast. We will tackle the classic locations: Bamburgh, Dunstanburgh, or Howick. Learn from the tutor and also your peers in a relaxed environment.",
+                description: "Join a small group (max 4 people) for a social and educational photo walk along the stunning Northumberland Coast. We will tackle the classic locations: Bamburgh, Dunstanburgh, or Howick. Learn from the tutor and your peers in a relaxed environment.",
                 itinerary: [
                     "Meet at designated location",
                     "Briefing on the days agenda and safety",
@@ -94,7 +98,7 @@
                     "Packed lunch break (please bring your own)",
                     "Final location shoot"
                 ],
-                requirements: "Moderate fitness required (walking on sand/rocks). Appropriate clothing and suitable footwear.",
+                requirements: "Moderate fitness required (walking on sand/rocks). Waterproof clothing and suitable footwear.",
                 idealFor: "Social photographers who want to discover new locations safely."
             },
             { 
@@ -153,23 +157,74 @@
             }
         ];
 
-        const Navbar = () => (
-            <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 h-20 flex items-center justify-between px-4 md:px-8">
-                <a href="index.html" className="flex items-center space-x-3 cursor-pointer">
-                    <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center"><Icon name="camera" className="text-white" size={18} /></div>
-                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
-                    <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NP</span>
-                </a>
-                <div className="flex items-center space-x-4 md:space-x-10 text-[10px] md:text-[11px] font-black uppercase tracking-widest text-slate-400">
-                    <a href="index.html" className="hover:text-black">Home</a>
-                    <a href="learn.html" className="hover:text-black">Learn</a>
-                    <a href="explore.html" className="hover:text-black">Explore</a>
-                    <a href="routes.html" className="hover:text-black">Routes</a>
-                    <a href="ethics.html" className="hover:text-black">Ethics</a>
-                    <span className="text-black border-b-2 border-black">Tuition</span>
-                </div>
-            </nav>
-        );
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+
+            const toggleMenu = () => {
+                setIsOpen(!isOpen);
+            };
+
+            const links = [
+                { name: 'Home', url: 'index.html', active: false },
+                { name: 'Learn', url: 'learn.html', active: false },
+                { name: 'Explore', url: 'explore.html', active: false },
+                { name: 'Routes', url: 'routes.html', active: false },
+                { name: 'Ethics', url: 'ethics.html', active: false },
+                { name: 'Tuition', url: 'tuition.html', active: true }
+            ];
+
+            return (
+                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                    <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
+                        {/* Logo Area */}
+                        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
+                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                <Icon name="camera" className="text-white" size={18} />
+                            </div>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NP</span>
+                        </div>
+                        
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                            {links.map((link) => (
+                                <a 
+                                    key={link.name} 
+                                    href={link.url} 
+                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
+                                >
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <div className="md:hidden">
+                            <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
+                                <Icon name={isOpen ? "x" : "menu"} size={24} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile Navigation Dropdown */}
+                    {isOpen && (
+                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
+                            <div className="flex flex-col p-6 space-y-6">
+                                {links.map((link) => (
+                                    <a 
+                                        key={link.name} 
+                                        href={link.url} 
+                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
+                                    >
+                                        {link.name}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
 
         const Bio = () => {
             const [imgError, setImgError] = useState(false);
@@ -197,7 +252,7 @@
                             I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, a huge part of my life revolves around capturing the wild beauty of Northumberland—from the crashing waves of the North Sea to the faint glow of the Aurora Borealis and even the extraordinary wildlife Northumberland has to offer.
                         </p>
                         <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base mt-4">
-                            I absolutely love sharing my work and I'm fortunate to have been featured nationally and internationally, however my true passion lies in helping people understand more about photography and learn about what Northumberland has to offer. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are a completely new to photography or an experienced photographer looking for local knowledge, my goal is to help you take your best ever images.
+                            I absolutely love sharing my work and I'm fortunate to have been featured nationally and internationally, however my true passion lies in teaching. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are a completely new to photography or an experienced photographer looking for local knowledge, my goal is to help you take your best ever images.
                         </p>
                     </div>
                     <div className="flex-shrink-0 mt-6 md:mt-0">
@@ -262,11 +317,11 @@
                                         <div className="relative z-10 h-full flex flex-col justify-between p-8 text-white">
                                             {/* Top Row: Category & Price */}
                                             <div className="flex justify-between items-start">
-                                                 <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white shadow-sm">{workshop.cat}</span>
-                                                 <div className="text-right">
+                                                <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white shadow-sm">{workshop.cat}</span>
+                                                <div className="text-right">
                                                     <span className="block font-black text-2xl drop-shadow-sm">{workshop.price}</span>
                                                     <span className="block text-[10px] font-bold opacity-80 uppercase tracking-widest">{workshop.duration}</span>
-                                                 </div>
+                                                </div>
                                             </div>
 
                                             {/* Bottom Row: Title & Details */}
