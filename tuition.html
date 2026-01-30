@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NorthernPixl | Tuition & Workshops</title>
     
-    <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -49,6 +48,7 @@
                 price: "£395", 
                 duration: "8 Hours",
                 cat: "Private",
+                image: "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=80",
                 description: "A completely bespoke day tailored to your specific needs. Whether you want to master long exposure seascapes at Bamburgh, track wildlife in the Cheviots, or finally understand manual mode, this day is yours. We will cover technical camera skills, composition theory, and fieldcraft.",
                 itinerary: [
                     "09:00 - Coffee & Equipment Check/Setup",
@@ -67,6 +67,7 @@
                 price: "£265", 
                 duration: "4 Hours",
                 cat: "Private",
+                image: "https://images.unsplash.com/photo-1500674425229-f692875b0ab7?auto=format&fit=crop&w=800&q=80",
                 description: "Perfect for focusing on a single specific skill or location. We can spend 4 hours perfecting your bird-in-flight settings, or chasing the perfect seascape at Dunstanburgh Castle. Intense, focused, and highly educational.",
                 itinerary: [
                     "Hour 1: Theory & Camera Setup",
@@ -83,6 +84,7 @@
                 price: "£125", 
                 duration: "6 Hours",
                 cat: "Group",
+                image: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?auto=format&fit=crop&w=800&q=80",
                 description: "Join a small group (max 4 people) for a social and educational photo walk along the stunning Northumberland Coast. We will tackle the classic locations: Bamburgh, Dunstanburgh, or Howick. Learn from the tutor and your peers in a relaxed environment.",
                 itinerary: [
                     "Meet at designated location",
@@ -101,6 +103,7 @@
                 price: "£295", 
                 duration: "5 Hours",
                 cat: "Specialist",
+                image: "stevetuition.jpg",
                 description: "Discover the dark skies of Northumberland. We will meet just before sunset to get ready to learn the art of night photography. Topics include focusing in the dark, the '500 Rule' and 'NPF Rule' for sharp stars, timelapses, milky way and deep sky objects.",
                 itinerary: [
                     "20:00 - Meet & Theory (Warm clothes and gloves essential!)",
@@ -118,6 +121,7 @@
                 price: "£75", 
                 duration: "2 Hours",
                 cat: "Online",
+                image: "https://images.unsplash.com/photo-1542744094-3a31f272c490?auto=format&fit=crop&w=800&q=80",
                 description: "Taking the photo is only 50% of the work. Join me for a screen-share session where we edit YOUR photos together using Adobe Lightroom or Photoshop. Learn how to recover shadows, color grade, and sharpen for print.",
                 itinerary: [
                     "Review of your RAW files",
@@ -135,6 +139,7 @@
                 price: "£285", 
                 duration: "5 Hours",
                 cat: "Specialist",
+                image: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?auto=format&fit=crop&w=800&q=80",
                 description: "Learn how to get close to wildlife without disturbing it and while following the ethics of wildlife photography. We will cover basic camouflage, wind direction, stalking techniques, and camera settings for fast action. We will target local species such as birds of prey, deer, seabirds or river birds depending on the season.",
                 itinerary: [
                     "Understanding animal behavior",
@@ -213,7 +218,7 @@
             const handleContactClick = (workshop) => {
                 const subject = `Tuition Enquiry: ${workshop.title}`;
                 const body = `Hi Stephen,%0D%0A%0D%0AI'm interested in booking the ${workshop.title} (${workshop.duration}).%0D%0A%0D%0AMy Details:%0D%0A- Preferred Dates: [Enter dates]%0D%0A- Experience Level: [Beginner/Intermediate/Pro]%0D%0A- Current Camera Gear: [e.g. Canon R5, 24-70mm]%0D%0A- Mobility/Fitness Level: [e.g. Comfortable walking 3 miles]%0D%0A- Specific Learning Goals: [What do you want to achieve?]%0D%0A%0D%0AThanks!`;
-               
+                
                 window.location.href = `mailto:northernpixl@gmail.com?subject=${subject}&body=${body}`;
             };
 
@@ -229,23 +234,46 @@
 
                             <Bio />
                            
+                            {/* Workshop Tiles */}
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {WORKSHOPS.map(workshop => (
-                                    <div key={workshop.id} onClick={() => { setSelectedWorkshop(workshop); window.history.pushState({}, ""); }} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200 flex flex-col justify-between h-full">
-                                        <div>
-                                            <div className="flex justify-between items-start mb-6">
-                                                <span className="px-3 py-1 rounded-full bg-slate-100 text-[10px] font-black uppercase tracking-widest text-slate-500">{workshop.cat}</span>
-                                                <div className="text-right">
-                                                    <span className="block font-black text-xl md:text-2xl text-slate-900">{workshop.price}</span>
-                                                    <span className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">{workshop.duration}</span>
+                                    <div 
+                                        key={workshop.id} 
+                                        onClick={() => { setSelectedWorkshop(workshop); window.history.pushState({}, ""); }} 
+                                        className="group relative h-[400px] w-full overflow-hidden rounded-[2rem] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300"
+                                    >
+                                        {/* Background Image */}
+                                        <img 
+                                            src={workshop.image} 
+                                            alt={workshop.title} 
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                        
+                                        {/* Gradient Overlay for Text Readability */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+
+                                        {/* Text Content */}
+                                        <div className="relative z-10 h-full flex flex-col justify-between p-8 text-white">
+                                            {/* Top Row: Category & Price */}
+                                            <div className="flex justify-between items-start">
+                                                 <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white shadow-sm">{workshop.cat}</span>
+                                                 <div className="text-right">
+                                                    <span className="block font-black text-2xl drop-shadow-sm">{workshop.price}</span>
+                                                    <span className="block text-[10px] font-bold opacity-80 uppercase tracking-widest">{workshop.duration}</span>
+                                                 </div>
+                                            </div>
+
+                                            {/* Bottom Row: Title & Details */}
+                                            <div>
+                                                <h3 className="text-2xl font-black mb-2 leading-tight group-hover:text-sky-400 transition-colors drop-shadow-md">{workshop.title}</h3>
+                                                <p className="text-sm opacity-80 line-clamp-2 text-slate-200">{workshop.description}</p>
+                                                
+                                                {/* Hidden "View" Button that appears on Hover */}
+                                                <div className="mt-4 flex items-center text-sky-400 font-black text-[10px] uppercase tracking-widest opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                                                    <span>View Itinerary</span>
+                                                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                                                 </div>
                                             </div>
-                                            <h3 className="text-xl md:text-2xl font-black mb-4 group-hover:text-sky-600 transition-colors leading-tight">{workshop.title}</h3>
-                                            <p className="text-slate-400 text-xs line-clamp-3 leading-relaxed">{workshop.description}</p>
-                                        </div>
-                                        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center text-sky-500 font-black text-[10px] uppercase tracking-widest group-hover:translate-x-2 transition-transform">
-                                            <span>View Itinerary</span>
-                                            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
                                         </div>
                                     </div>
                                 ))}
