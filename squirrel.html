@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cramlington and District Red Squirrel Group</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- React & Babel Setup for browser execution -->
+    <script type="importmap">
+        {
+            "imports": {
+                "react": "https://esm.sh/react@18.2.0",
+                "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+                "lucide-react": "https://esm.sh/lucide-react@0.263.1"
+            }
+        }
+    </script>
+    <!-- Using a specific stable version of Babel to avoid the .targets validation error -->
+    <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
+
+    <style>
+        /* Custom styles for map markers */
+        .custom-div-icon {
+            background: transparent;
+            border: none;
+        }
+    </style>
+</head>
+<body class="bg-stone-50">
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module" data-presets="react">
+        import React, { useState, useEffect, useRef } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { Squirrel, MapPin, List, X, Plus, Filter, Info, AlertTriangle, Check, Clock } from 'lucide-react';
+
+        // --- MOCK DATA FOR DEMONSTRATION ---
+        const INITIAL_SIGHTINGS = [
+            { id: 1, lat: 55.234, lng: -2.578, type: 'red', date: '2023-10-15', time: '09:30', count: 1, notes: 'Spotted near Kielder Castle cafe.' },
+            { id: 2, lat: 55.240, lng: -2.560, type: 'red', date: '2023-10-16', time: '14:15', count: 2, notes: 'Running up a pine tree.' },
+            { id: 3, lat: 55.168, lng: -1.685, type: 'grey', date: '2023-10-12', time: '11:00', count: 1, notes: 'In the park near Morpeth.' },
+            { id: 4, lat: 55.413, lng: -1.706, type: 'red', date: '2023-10-18', time: '16:45', count: 1, notes: 'Alnwick Garden, quiet corner.' },
+            { id: 5, lat: 55.418, lng: -1.710, type: 'grey', date: '2023-10-18', time: '16:50', count: 3, notes: 'Near the car park.' },
+            { id: 6, lat: 54.970, lng: -2.000, type: 'red', date: '2023-10-20', time: '08:20', count: 1, notes: 'Corbridge area, quick glimpse.' },
+        ];
+
+        const App = () => {
+            const [sightings, setSightings] = useState(INITIAL_SIGHTINGS);
+            const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
+            const [isAdding, setIsAdding] = useState(false);
+            const [tempLocation, setTempLocation] = useState(null);
+            const [showFilters, setShowFilters] = useState(false);
+            const [filters, setFilters] = useState({ red: true, grey: true });
+            
+            // New sighting form state
+            const [formData, setFormData] = useState({
+                type: 'red',
+                date: new Date().toISOString().split('T')[0],
+                time: new Date().toTimeString().slice(0, 5),
+                count: 1,
+                notes: ''
+            });
+
+            const handleAddSighting = (e) => {
+                e.preventDefault();
+                if (!tempLocation) return;
+
+                const newSighting = {
+                    id: Date.now(),
+                    lat: tempLocation.lat,
+                    lng: tempLocation.lng,
+                    ...formData
+                };
+
+                setSightings([...sightings, newSighting]);
+                setIsAdding(false);
+                setTempLocation(null);
+                setFormData({ 
+                    type: 'red', 
+                    date: new Date().toISOString().split('T')[0], 
+                    time: new Date().toTimeString().slice(0, 5),
+                    count: 1,
+                    notes: '' 
+                });
+            };
+
+            const cancelAdd = () => {
+                setIsAdding(false);
+                setTempLocation(null);
+            };
+
+            // Stats
+            const redCount = sightings.filter(s => s.type === 'red').reduce((acc, curr) => acc + (curr.count || 1), 0);
+            const greyCount = sightings.filter(s => s.type === 'grey').reduce((acc, curr) => acc + (curr.count || 1), 0);
+
+            return (
+                <div className="flex flex-col h-screen bg-stone-50 text-stone-800 font-sans">
+                {/* Header */}
+                <header className="bg-emerald-900 text-white p-4 shadow-md flex items-center justify-between z-20 relative">
+                    <div className="flex items-center gap-3">
+                    <div className="bg-white p-1 rounded-full w-12 h-12 flex items-center justify-center overflow-hidden shrink-0">
+                        {/* Make sure this image file is in the same directory as index.html */}
+                        <img 
+                            src="81b42d_b8e526d7cafe4602908289deeb674182~mv2.jpg" 
+                            alt="Group Logo" 
+                            className="w-full h-full object-contain" 
+                            onError={(e) => {
+                                e.target.onerror = null; 
+                                e.target.parentNode.innerHTML = '<span style="color:#064e3b">🐿️</span>'; 
+                            }}
+                        />
+                    </div>
+                    <div>
+                        <h1 className="font-bold text-lg md:text-xl leading-tight">Cramlington and District Red Squirrel Group</h1>
+                    </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                    <button 
+                        onClick={() => setViewMode(viewMode === 'map' ? 'list' : 'map')}
+                        className="p-2 bg-emerald-800 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-2 text-sm"
+                    >
+                        {viewMode === 'map' ? <List className="w-4 h-4" /> : <MapPin className="w-4 h-4" />}
+                        <span className="hidden sm:inline">{viewMode === 'map' ? 'List View' : 'Map View'}</span>
+                    </button>
+                    </div>
+                </header>
+
+                <div className="flex-1 flex overflow-hidden relative">
+                    
+                    {/* Sidebar / Stats Panel (Desktop) */}
+                    <aside className="w-80 bg-white border-r border-stone-200 shadow-xl z-10 hidden md:flex flex-col">
+                    <div className="p-6 border-b border-stone-100">
+                        <h2 className="text-stone-500 text-xs font-bold uppercase tracking-wider mb-4">Total Spotted</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-red-50 p-4 rounded-xl border border-red-100 text-center">
+                            <span className="block text-2xl font-bold text-red-600">{redCount}</span>
+                            <span className="text-xs text-red-800 font-medium">Red Squirrels</span>
+                        </div>
+                        <div className="bg-stone-100 p-4 rounded-xl border border-stone-200 text-center">
+                            <span className="block text-2xl font-bold text-stone-600">{greyCount}</span>
+                            <span className="text-xs text-stone-600 font-medium">Grey Squirrels</span>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div className="p-4 border-b border-stone-100">
+                        <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-semibold text-sm">Filters</h3>
+                        <Filter className="w-4 h-4 text-stone-400" />
+                        </div>
+                        <div className="space-y-2">
+                        <label className="flex items-center gap-3 cursor-pointer hover:bg-stone-50 p-2 rounded-lg transition-colors">
+                            <div className={`w-5 h-5 rounded border flex items-center justify-center ${filters.red ? 'bg-red-500 border-red-500' : 'border-stone-300'}`}>
+                            {filters.red && <Check className="w-3 h-3 text-white" />}
+                            </div>
+                            <input type="checkbox" className="hidden" checked={filters.red} onChange={() => setFilters({...filters, red: !filters.red})} />
+                            <span className="text-sm">Show Red Squirrels</span>
+                        </label>
+                        <label className="flex items-center gap-3 cursor-pointer hover:bg-stone-50 p-2 rounded-lg transition-colors">
+                            <div className={`w-5 h-5 rounded border flex items-center justify-center ${filters.grey ? 'bg-stone-500 border-stone-500' : 'border-stone-300'}`}>
+                            {filters.grey && <Check className="w-3 h-3 text-white" />}
+                            </div>
+                            <input type="checkbox" className="hidden" checked={filters.grey} onChange={() => setFilters({...filters, grey: !filters.grey})} />
+                            <span className="text-sm">Show Grey Squirrels</span>
+                        </label>
+                        </div>
+                    </div>
+
+                    <div className="p-4 bg-emerald-50 m-4 rounded-lg border border-emerald-100 text-sm text-emerald-800">
+                        <div className="flex gap-2 mb-2">
+                        <Info className="w-4 h-4 shrink-0" />
+                        <p className="font-semibold">Why track them?</p>
+                        </div>
+                        <p className="opacity-80 text-xs leading-relaxed">
+                        Grey squirrels carry a pox virus fatal to Reds and outcompete them for food. Monitoring their spread helps conservationists protect the Red stronghold in Northumberland.
+                        </p>
+                    </div>
+                    </aside>
+
+                    {/* Main Content Area */}
+                    <main className="flex-1 relative bg-stone-100">
+                    
+                    {/* MAP VIEW */}
+                    {viewMode === 'map' && (
+                        <>
+                        <MapComponent 
+                            sightings={sightings} 
+                            isAdding={isAdding} 
+                            setTempLocation={setTempLocation}
+                            tempLocation={tempLocation}
+                            filters={filters}
+                        />
+
+                        {/* Mobile Stats Toggle / Floating Controls */}
+                        <div className="absolute top-4 right-4 z-[400] flex flex-col gap-2 md:hidden">
+                            <button 
+                            onClick={() => setShowFilters(!showFilters)}
+                            className="bg-white p-3 rounded-full shadow-lg text-stone-600"
+                            >
+                            <Filter className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        {/* Action Button */}
+                        {!isAdding && (
+                            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-[400]">
+                            <button 
+                                onClick={() => setIsAdding(true)}
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 font-semibold transition-transform active:scale-95"
+                            >
+                                <Plus className="w-5 h-5" />
+                                Report Sighting
+                            </button>
+                            </div>
+                        )}
+
+                        {/* Instruction Toast when adding */}
+                        {isAdding && !tempLocation && (
+                            <div className="absolute top-6 left-1/2 -translate-x-1/2 z-[400] bg-stone-900/80 backdrop-blur text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+                            <MapPin className="w-5 h-5 text-amber-400 animate-bounce" />
+                            <span>Click exact location on map</span>
+                            <button onClick={cancelAdd} className="ml-2 hover:bg-white/20 p-1 rounded-full"><X className="w-4 h-4"/></button>
+                            </div>
+                        )}
+                        </>
+                    )}
+
+                    {/* LIST VIEW */}
+                    {viewMode === 'list' && (
+                        <div className="h-full overflow-y-auto p-4 md:p-8">
+                        <div className="max-w-3xl mx-auto">
+                            <h2 className="text-2xl font-bold mb-6 text-stone-800">Recent Sightings</h2>
+                            <div className="space-y-4">
+                            {sightings.map(sighting => (
+                                <div key={sighting.id} className="bg-white p-4 rounded-xl shadow-sm border border-stone-200 flex gap-4 items-start">
+                                <div className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${sighting.type === 'red' ? 'bg-red-100 text-red-600' : 'bg-stone-200 text-stone-600'}`}>
+                                    <Squirrel className="w-6 h-6" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex justify-between items-start">
+                                    <h3 className="font-bold capitalize text-lg">{sighting.count || 1} x {sighting.type} Squirrel</h3>
+                                    <span className="text-xs text-stone-400 bg-stone-50 px-2 py-1 rounded-full border border-stone-100 flex items-center gap-1">
+                                        {sighting.date} <Clock className="w-3 h-3 ml-1" /> {sighting.time}
+                                    </span>
+                                    </div>
+                                    <p className="text-stone-600 mt-1">{sighting.notes}</p>
+                                    <div className="mt-3 text-xs text-stone-400 flex items-center gap-1">
+                                    <MapPin className="w-3 h-3" />
+                                    Lat: {sighting.lat.toFixed(4)}, Lng: {sighting.lng.toFixed(4)}
+                                    </div>
+                                </div>
+                                </div>
+                            ))}
+                            </div>
+                        </div>
+                        </div>
+                    )}
+
+                    {/* ADD SIGHTING MODAL */}
+                    {isAdding && tempLocation && (
+                        <div className="absolute inset-0 z-[500] bg-black/20 backdrop-blur-sm flex items-end md:items-center justify-center p-4">
+                        <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-4 zoom-in-95 h-auto max-h-[90vh] overflow-y-auto">
+                            <div className="bg-emerald-900 p-4 flex justify-between items-center text-white sticky top-0 z-10">
+                            <h3 className="font-bold flex items-center gap-2">
+                                <Squirrel className="w-5 h-5 text-amber-400" />
+                                New Sighting Details
+                            </h3>
+                            <button onClick={cancelAdd} className="hover:bg-white/10 p-1 rounded"><X className="w-5 h-5" /></button>
+                            </div>
+                            
+                            <form onSubmit={handleAddSighting} className="p-6 space-y-4">
+                            <div className="space-y-3">
+                                <label className="block text-sm font-medium text-stone-700">What did you see?</label>
+                                <div className="grid grid-cols-2 gap-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData({...formData, type: 'red'})}
+                                    className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${
+                                    formData.type === 'red' 
+                                        ? 'border-red-500 bg-red-50 text-red-700' 
+                                        : 'border-stone-100 bg-stone-50 text-stone-400 hover:border-stone-200'
+                                    }`}
+                                >
+                                    <Squirrel className="w-8 h-8" />
+                                    <span className="font-bold">Red Squirrel</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setFormData({...formData, type: 'grey'})}
+                                    className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${
+                                    formData.type === 'grey' 
+                                        ? 'border-stone-500 bg-stone-100 text-stone-700' 
+                                        : 'border-stone-100 bg-stone-50 text-stone-400 hover:border-stone-200'
+                                    }`}
+                                >
+                                    <Squirrel className="w-8 h-8" />
+                                    <span className="font-bold">Grey Squirrel</span>
+                                </button>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                <label className="block text-sm font-medium text-stone-700 mb-1">Date</label>
+                                <input 
+                                    type="date" 
+                                    required
+                                    value={formData.date}
+                                    onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                    className="w-full p-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                />
+                                </div>
+                                <div>
+                                <label className="block text-sm font-medium text-stone-700 mb-1">Time</label>
+                                <input 
+                                    type="time" 
+                                    required
+                                    value={formData.time}
+                                    onChange={(e) => setFormData({...formData, time: e.target.value})}
+                                    className="w-full p-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                                />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-stone-700 mb-1">Number Spotted</label>
+                                <div className="flex items-center gap-4 bg-stone-50 p-2 rounded-lg border border-stone-100">
+                                <input 
+                                    type="range" 
+                                    min="1" 
+                                    max="20"
+                                    value={formData.count}
+                                    onChange={(e) => setFormData({...formData, count: parseInt(e.target.value)})}
+                                    className="flex-1 accent-emerald-600 h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer"
+                                />
+                                <input 
+                                    type="number" 
+                                    min="1" 
+                                    max="50"
+                                    value={formData.count}
+                                    onChange={(e) => setFormData({...formData, count: parseInt(e.target.value)})}
+                                    className="w-16 p-2 rounded-lg border border-stone-200 text-center font-bold text-lg text-emerald-800 focus:ring-2 focus:ring-emerald-500 outline-none bg-white"
+                                />
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-stone-700 mb-1">Notes (Optional)</label>
+                                <textarea 
+                                    placeholder="Where exactly was it? What was it doing?"
+                                    value={formData.notes}
+                                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                                    className="w-full p-3 rounded-lg border border-stone-200 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none h-24 resize-none"
+                                />
+                            </div>
+
+                            <div className="pt-2 flex gap-3">
+                                <button type="button" onClick={cancelAdd} className="flex-1 py-3 text-stone-500 font-semibold hover:bg-stone-50 rounded-lg">Cancel</button>
+                                <button type="submit" className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-lg shadow-emerald-200 transition-colors">
+                                Submit Report
+                                </button>
+                            </div>
+                            </form>
+                        </div>
+                        </div>
+                    )}
+
+                    </main>
+                </div>
+                </div>
+            );
+        };
+
+        // --- LEAFLET MAP WRAPPER ---
+        const MapComponent = ({ sightings, isAdding, setTempLocation, tempLocation, filters }) => {
+            const mapRef = useRef(null);
+            const mapInstanceRef = useRef(null);
+            const markersRef = useRef([]);
+            const tempMarkerRef = useRef(null);
+
+            // Initialize Map
+            useEffect(() => {
+                if (!mapRef.current || mapInstanceRef.current) return;
+
+                // Center on Northumberland
+                const map = L.map(mapRef.current).setView([55.25, -2.0], 9);
+
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    subdomains: 'abcd',
+                    maxZoom: 20
+                }).addTo(map);
+
+                mapInstanceRef.current = map;
+
+                // Click handler for adding points
+                map.on('click', (e) => {
+                    if (document.body.getAttribute('data-is-adding') === 'true') {
+                        const { lat, lng } = e.latlng;
+                        const event = new CustomEvent('map-location-selected', { detail: { lat, lng } });
+                        window.dispatchEvent(event);
+                    }
+                });
+
+                return () => {
+                    map.remove();
+                    mapInstanceRef.current = null;
+                };
+            }, []);
+
+            // Handle "Is Adding" state to change cursor
+            useEffect(() => {
+                document.body.setAttribute('data-is-adding', isAdding);
+                if (mapRef.current) {
+                    mapRef.current.style.cursor = isAdding ? 'crosshair' : 'grab';
+                }
+            }, [isAdding]);
+
+            // Handle Temp Marker (The one user just clicked but hasn't saved)
+            useEffect(() => {
+                const map = mapInstanceRef.current;
+                if (!map) return;
+
+                if (tempLocation) {
+                    if (tempMarkerRef.current) tempMarkerRef.current.remove();
+                    
+                    const icon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div style="background-color: #f59e0b; width: 16px; height: 16px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"></div>`,
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8]
+                    });
+
+                    tempMarkerRef.current = L.marker([tempLocation.lat, tempLocation.lng], { icon }).addTo(map);
+                    map.panTo([tempLocation.lat, tempLocation.lng]);
+                } else {
+                    if (tempMarkerRef.current) {
+                        tempMarkerRef.current.remove();
+                        tempMarkerRef.current = null;
+                    }
+                }
+            }, [tempLocation]);
+
+            // Sync React State "isAdding" with the map click listener
+            useEffect(() => {
+                const handleLocationSelect = (e) => {
+                    setTempLocation(e.detail);
+                };
+                window.addEventListener('map-location-selected', handleLocationSelect);
+                return () => window.removeEventListener('map-location-selected', handleLocationSelect);
+            }, [setTempLocation]);
+
+            // Render Sighting Markers
+            useEffect(() => {
+                const map = mapInstanceRef.current;
+                if (!map) return;
+
+                markersRef.current.forEach(m => m.remove());
+                markersRef.current = [];
+
+                sightings.forEach(sighting => {
+                    if (sighting.type === 'red' && !filters.red) return;
+                    if (sighting.type === 'grey' && !filters.grey) return;
+
+                    const color = sighting.type === 'red' ? '#dc2626' : '#57534e';
+                    
+                    const icon = L.divIcon({
+                        className: 'custom-div-icon',
+                        html: `<div style="background-color: ${color}; width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
+                        iconSize: [12, 12],
+                        iconAnchor: [6, 6]
+                    });
+
+                    const marker = L.marker([sighting.lat, sighting.lng], { icon })
+                        .bindPopup(`
+                        <div style="font-family: sans-serif;">
+                            <strong style="color: ${color}; text-transform: capitalize;">${sighting.count || 1} x ${sighting.type} Squirrel</strong><br/>
+                            <span style="font-size: 0.9em; color: #666;">${sighting.date} ${sighting.time ? '@ ' + sighting.time : ''}</span><br/>
+                            <p style="margin: 4px 0 0 0; font-size: 0.9em;">${sighting.notes}</p>
+                        </div>
+                        `);
+                    
+                    marker.addTo(map);
+                    markersRef.current.push(marker);
+                });
+            }, [sightings, filters]);
+
+            return <div ref={mapRef} className="w-full h-full z-0" />;
+        };
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
