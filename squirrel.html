@@ -221,19 +221,21 @@
                                 filters={filters}
                             />
 
-                            {/* Mobile Stats Summary Pill - Always visible on mobile */}
-                            <div className="absolute top-4 left-4 md:hidden z-[1000] bg-white/90 backdrop-blur shadow-md border border-stone-200 rounded-full px-4 py-2 flex gap-4 text-xs font-bold pointer-events-none">
-                                <div className="flex items-center gap-1 text-red-600">
-                                    <Squirrel className="w-4 h-4" /> {redCount}
+                            {/* Mobile Stats Summary Pill - Vertical on Left Side */}
+                            <div className="absolute top-1/2 -translate-y-1/2 left-4 md:hidden z-[1000] bg-white/90 backdrop-blur shadow-md border border-stone-200 rounded-2xl p-2 flex flex-col gap-2 text-xs font-bold pointer-events-none items-center">
+                                <div className="flex flex-col items-center gap-1 text-red-600">
+                                    <Squirrel className="w-5 h-5" /> 
+                                    <span>{redCount}</span>
                                 </div>
-                                <div className="w-px bg-stone-300 h-4"></div>
-                                <div className="flex items-center gap-1 text-stone-600">
-                                    <Squirrel className="w-4 h-4" /> {greyCount}
+                                <div className="h-px w-6 bg-stone-300"></div>
+                                <div className="flex flex-col items-center gap-1 text-stone-600">
+                                    <Squirrel className="w-5 h-5" /> 
+                                    <span>{greyCount}</span>
                                 </div>
                             </div>
 
-                            {/* Mobile Stats/Filter Toggle Button */}
-                            <div className="absolute top-4 right-4 z-[1000] flex flex-col gap-2 md:hidden">
+                            {/* Mobile Stats/Filter Toggle Button - Moved to Bottom Right */}
+                            <div className="absolute bottom-8 right-4 z-[1000] flex flex-col gap-2 md:hidden">
                                 <button 
                                     onClick={() => setShowMobileDashboard(true)}
                                     className="bg-white p-3 rounded-full shadow-lg text-stone-600 active:scale-95 transition-transform"
@@ -273,9 +275,9 @@
                                 </div>
                             )}
 
-                            {/* Action Button - Moved up slightly for mobile safe areas */}
+                            {/* Action Button - Moved to Top */}
                             {!isAdding && (
-                                <div className="absolute bottom-12 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-xs px-4">
+                                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-xs px-4">
                                     <button 
                                         onClick={() => setIsAdding(true)}
                                         className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-full shadow-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-95"
