@@ -339,111 +339,112 @@
                         <div className="absolute inset-0 z-[500] bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center sm:p-4">
                             <div className="bg-white w-full max-w-md rounded-t-2xl md:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-4 zoom-in-95 h-[85vh] md:h-auto md:max-h-[90vh] flex flex-col">
                                 
-                                {/* Modal Header */}
                                 <div className="bg-emerald-900 p-4 flex justify-between items-center text-white shrink-0">
                                     <h3 className="font-bold flex items-center gap-2 text-lg">
                                         <Squirrel className="w-6 h-6 text-amber-400" />
                                         New Sighting
                                     </h3>
-                                    <button onClick={cancelAdd} className="hover:bg-white/10 p-2 rounded-full transition-colors">
+                                    <button type="button" onClick={cancelAdd} className="hover:bg-white/10 p-2 rounded-full transition-colors">
                                         <X className="w-6 h-6" />
                                     </button>
                                 </div>
                                 
                                 {/* Scrollable Form Content */}
-                                <div className="overflow-y-auto flex-1 p-6 overscroll-contain">
-                                    <form onSubmit={handleAddSighting} className="space-y-6">
-                                        <div className="space-y-3">
-                                            <label className="block text-sm font-bold text-stone-700 uppercase tracking-wide">Which Squirrel?</label>
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setFormData({...formData, type: 'red'})}
-                                                    className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${
-                                                    formData.type === 'red' 
-                                                        ? 'border-red-500 bg-red-50 text-red-700 shadow-sm' 
-                                                        : 'border-stone-200 bg-white text-stone-400 hover:border-stone-300'
-                                                    }`}
-                                                >
-                                                    <Squirrel className="w-10 h-10" />
-                                                    <span className="font-bold text-lg">Red</span>
-                                                </button>
-                                                <button
-                                                    type="button"
-                                                    onClick={() => setFormData({...formData, type: 'grey'})}
-                                                    className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${
-                                                    formData.type === 'grey' 
-                                                        ? 'border-stone-500 bg-stone-100 text-stone-700 shadow-sm' 
-                                                        : 'border-stone-200 bg-white text-stone-400 hover:border-stone-300'
-                                                    }`}
-                                                >
-                                                    <Squirrel className="w-10 h-10" />
-                                                    <span className="font-bold text-lg">Grey</span>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <label className="block text-sm font-bold text-stone-700 mb-2">Date</label>
-                                                <input 
-                                                    type="date" 
-                                                    required
-                                                    value={formData.date}
-                                                    onChange={(e) => setFormData({...formData, date: e.target.value})}
-                                                    className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="block text-sm font-bold text-stone-700 mb-2">Time</label>
-                                                <input 
-                                                    type="time" 
-                                                    required
-                                                    value={formData.time}
-                                                    onChange={(e) => setFormData({...formData, time: e.target.value})}
-                                                    className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
-                                                />
-                                            </div>
-                                        </div>
-
-                                        <div>
-                                            <label className="block text-sm font-bold text-stone-700 mb-2">How Many?</label>
-                                            <div className="flex items-center gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
-                                                <input 
-                                                    type="range" 
-                                                    min="1" 
-                                                    max="20"
-                                                    value={formData.count}
-                                                    onChange={(e) => setFormData({...formData, count: parseInt(e.target.value)})}
-                                                    className="flex-1 accent-emerald-600 h-6 bg-stone-200 rounded-lg cursor-pointer"
-                                                />
-                                                <div className="w-12 h-12 flex items-center justify-center bg-white rounded-lg border border-stone-200 shadow-sm">
-                                                    <span className="text-xl font-bold text-emerald-700">{formData.count}</span>
+                                <form onSubmit={handleAddSighting} className="flex-1 flex flex-col overflow-hidden">
+                                    <div className="overflow-y-auto flex-1 p-6 overscroll-contain">
+                                        <div className="space-y-6">
+                                            <div className="space-y-3">
+                                                <label className="block text-sm font-bold text-stone-700 uppercase tracking-wide">Which Squirrel?</label>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setFormData({...formData, type: 'red'})}
+                                                        className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${
+                                                        formData.type === 'red' 
+                                                            ? 'border-red-500 bg-red-50 text-red-700 shadow-sm' 
+                                                            : 'border-stone-200 bg-white text-stone-400 hover:border-stone-300'
+                                                        }`}
+                                                    >
+                                                        <Squirrel className="w-10 h-10" />
+                                                        <span className="font-bold text-lg">Red</span>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setFormData({...formData, type: 'grey'})}
+                                                        className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${
+                                                        formData.type === 'grey' 
+                                                            ? 'border-stone-500 bg-stone-100 text-stone-700 shadow-sm' 
+                                                            : 'border-stone-200 bg-white text-stone-400 hover:border-stone-300'
+                                                        }`}
+                                                    >
+                                                        <Squirrel className="w-10 h-10" />
+                                                        <span className="font-bold text-lg">Grey</span>
+                                                    </button>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div className="pb-4">
-                                            <label className="block text-sm font-bold text-stone-700 mb-2">Notes</label>
-                                            <textarea 
-                                                placeholder="Near the big oak tree..."
-                                                value={formData.notes}
-                                                onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                                                className="w-full p-4 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none h-28 resize-none text-base"
-                                            />
-                                        </div>
-                                    </form>
-                                </div>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-sm font-bold text-stone-700 mb-2">Date</label>
+                                                    <input 
+                                                        type="date" 
+                                                        required
+                                                        value={formData.date}
+                                                        onChange={(e) => setFormData({...formData, date: e.target.value})}
+                                                        className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-bold text-stone-700 mb-2">Time</label>
+                                                    <input 
+                                                        type="time" 
+                                                        required
+                                                        value={formData.time}
+                                                        onChange={(e) => setFormData({...formData, time: e.target.value})}
+                                                        className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
+                                                    />
+                                                </div>
+                                            </div>
 
-                                {/* Modal Footer */}
-                                <div className="p-4 border-t border-stone-100 bg-stone-50 shrink-0">
-                                    <button 
-                                        onClick={handleAddSighting}
-                                        className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-emerald-200 transition-all active:scale-95"
-                                    >
-                                        Submit Report
-                                    </button>
-                                </div>
+                                            <div>
+                                                <label className="block text-sm font-bold text-stone-700 mb-2">How Many?</label>
+                                                <div className="flex items-center gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                                    <input 
+                                                        type="range" 
+                                                        min="1" 
+                                                        max="20"
+                                                        value={formData.count}
+                                                        onChange={(e) => setFormData({...formData, count: parseInt(e.target.value)})}
+                                                        className="flex-1 accent-emerald-600 h-6 bg-stone-200 rounded-lg cursor-pointer"
+                                                    />
+                                                    <div className="w-12 h-12 flex items-center justify-center bg-white rounded-lg border border-stone-200 shadow-sm">
+                                                        <span className="text-xl font-bold text-emerald-700">{formData.count}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="pb-4">
+                                                <label className="block text-sm font-bold text-stone-700 mb-2">Notes</label>
+                                                <textarea 
+                                                    placeholder="Near the big oak tree..."
+                                                    value={formData.notes}
+                                                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                                                    className="w-full p-4 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none h-28 resize-none text-base"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Modal Footer */}
+                                    <div className="p-4 border-t border-stone-100 bg-stone-50 shrink-0">
+                                        <button 
+                                            type="submit"
+                                            className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-emerald-200 transition-all active:scale-95"
+                                        >
+                                            Submit Report
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     )}
