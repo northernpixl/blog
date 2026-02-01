@@ -27,24 +27,12 @@
             }
         }
     </script>
-    <!-- Using a specific stable version of Babel to avoid the .targets validation error -->
     <script src="https://unpkg.com/@babel/standalone@7.23.6/babel.min.js"></script>
 
     <style>
-        /* Custom styles for map markers */
-        .custom-div-icon {
-            background: transparent;
-            border: none;
-        }
-        /* Hide scrollbar for clean UI */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        /* Crosshair for location picking */
+        .custom-div-icon { background: transparent; border: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .map-crosshair {
             position: absolute;
             top: 50%;
@@ -61,21 +49,47 @@
     <script type="text/babel" data-type="module" data-presets="react">
         import React, { useState, useEffect, useRef } from 'react';
         import { createRoot } from 'react-dom/client';
-        import { Squirrel, MapPin, List, X, Plus, Filter, Info, AlertTriangle, Check, Clock, Menu, Cloud, Crosshair, Navigation } from 'lucide-react';
+        import { Squirrel, MapPin, List, X, Plus, Filter, Info, Check, Clock, Menu, Crosshair, Navigation } from 'lucide-react';
         
         // Firebase Imports
         import { initializeApp } from 'firebase/app';
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from 'firebase/auth';
         import { getFirestore, collection, addDoc, onSnapshot } from 'firebase/firestore';
 
-        // --- FIREBASE SETUP ---
-        const firebaseConfig = JSON.parse(__firebase_config);
+        // --- PASTE YOUR FIREBASE CONFIG HERE ---
+        const YOUR_FIREBASE_CONFIG = {
+            apiKey: "AIzaSyD-ExampleKey123456",
+            authDomain: "your-project.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-project.firebasestorage.app",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
+        };
+
+        // --- CONFIGURATION LOGIC ---
+        let firebaseConfig;
+        let isInternalEnvironment = false;
+        try {
+            if (typeof __firebase_config !== 'undefined') {
+                firebaseConfig = JSON.parse(__firebase_config);
+                isInternalEnvironment = true;
+            } else {
+                firebaseConfig = YOUR_FIREBASE_CONFIG;
+            }
+        } catch (e) { firebaseConfig = YOUR_FIREBASE_CONFIG; }
+
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        // Reusable component for Stats and Filters to use in both Sidebar (Desktop) and Drawer (Mobile)
+        const getSightingsCollection = () => {
+            if (isInternalEnvironment && typeof __app_id !== 'undefined') {
+                return collection(db, 'artifacts', __app_id, 'public', 'data', 'sightings');
+            } else {
+                return collection(db, 'sightings');
+            }
+        };
+
         const DashboardContent = ({ redCount, greyCount, filters, setFilters }) => (
             <div className="flex flex-col h-full">
                 <div className="p-6 border-b border-stone-100">
@@ -129,17 +143,15 @@
 
         const App = () => {
             const [sightings, setSightings] = useState([]);
-            const [viewMode, setViewMode] = useState('map'); // 'map' or 'list'
+            const [viewMode, setViewMode] = useState('map');
             const [isAdding, setIsAdding] = useState(false);
-            const [tempLocation, setTempLocation] = useState(null);
+            const [tempLocation, setTempLocation] = useState(null); 
             const [showMobileDashboard, setShowMobileDashboard] = useState(false);
             const [filters, setFilters] = useState({ red: true, grey: true });
             const [user, setUser] = useState(null);
             
-            // This ref allows us to get the map center when clicking "Confirm Location"
             const mapCenterRef = useRef(null);
 
-            // New sighting form state
             const [formData, setFormData] = useState({
                 type: 'red',
                 date: new Date().toISOString().split('T')[0],
@@ -148,49 +160,26 @@
                 notes: ''
             });
 
-            // 1. Authenticate with Firebase
             useEffect(() => {
                 const initAuth = async () => {
                     if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                        try {
-                            await signInWithCustomToken(auth, __initial_auth_token);
-                        } catch (e) {
-                            await signInAnonymously(auth);
-                        }
-                    } else {
-                        await signInAnonymously(auth);
-                    }
+                        try { await signInWithCustomToken(auth, __initial_auth_token); } 
+                        catch (e) { await signInAnonymously(auth); }
+                    } else { await signInAnonymously(auth); }
                 };
                 initAuth();
                 const unsubscribe = onAuthStateChanged(auth, setUser);
                 return () => unsubscribe();
             }, []);
 
-            // 2. Listen for Real-time Data
             useEffect(() => {
                 if (!user) return;
-
-                const sightingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'sightings');
-
-                // Real-time listener
+                const sightingsRef = getSightingsCollection();
                 const unsubscribe = onSnapshot(sightingsRef, (snapshot) => {
-                    const fetchedSightings = snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
-                    
-                    // Client-side sort by date (newest first)
-                    fetchedSightings.sort((a, b) => {
-                        const dateA = new Date(`${a.date}T${a.time || '00:00'}`);
-                        const dateB = new Date(`${b.date}T${b.time || '00:00'}`);
-                        return dateB - dateA;
-                    });
-
-                    setSightings(fetchedSightings);
-                }, (error) => {
-                    console.error("Error fetching sightings:", error);
-                });
-
+                    const fetched = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    fetched.sort((a, b) => new Date(`${b.date}T${b.time||'00:00'}`) - new Date(`${a.date}T${a.time||'00:00'}`));
+                    setSightings(fetched);
+                }, (err) => console.error("Error fetching:", err));
                 return () => unsubscribe();
             }, [user]);
 
@@ -214,16 +203,13 @@
                 };
 
                 try {
-                    // Write to Firestore
-                    const sightingsRef = collection(db, 'artifacts', appId, 'public', 'data', 'sightings');
+                    const sightingsRef = getSightingsCollection();
                     await addDoc(sightingsRef, newSighting);
-
-                    // Reset UI
-                    setSightings(prev => [...prev, { ...newSighting, id: 'temp-' + Date.now() }]); // Optimistic update
+                    setSightings(prev => [...prev, { ...newSighting, id: 'temp-' + Date.now() }]);
                     resetForm();
                 } catch (error) {
-                    console.error("Error adding sighting:", error);
-                    alert("Could not save sighting. Please check your connection.");
+                    console.error("Error adding:", error);
+                    alert("Could not save. Check connection.");
                 }
             };
 
@@ -233,450 +219,200 @@
                 setFormData({ type: 'red', date: new Date().toISOString().split('T')[0], time: new Date().toTimeString().slice(0, 5), count: 1, notes: '' });
             };
 
-            // Stats
             const redCount = sightings.filter(s => s.type === 'red').reduce((acc, curr) => acc + (curr.count || 1), 0);
             const greyCount = sightings.filter(s => s.type === 'grey').reduce((acc, curr) => acc + (curr.count || 1), 0);
 
             return (
                 <div className="flex flex-col h-screen h-[100dvh] bg-stone-50 text-stone-800 font-sans overflow-hidden">
-                {/* Header */}
-                <header className="bg-emerald-900 text-white p-3 md:p-4 shadow-md flex items-center justify-between z-20 relative shrink-0">
-                    <div className="flex items-center gap-3 overflow-hidden">
-                        <div className="bg-white p-1 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center overflow-hidden shrink-0">
-                            <img 
-                                src="81b42d_b8e526d7cafe4602908289deeb674182~mv2.jpg" 
-                                alt="Group Logo" 
-                                className="w-full h-full object-contain" 
-                                onError={(e) => {
-                                    e.target.onerror = null; 
-                                    e.target.parentNode.innerHTML = '<span style="color:#064e3b">🐿️</span>'; 
-                                }}
-                            />
-                        </div>
-                        <div className="min-w-0">
-                            <h1 className="font-bold text-sm md:text-xl leading-tight truncate">Cramlington & District</h1>
-                            <div className="flex items-center gap-2">
-                                <p className="text-xs text-emerald-300 truncate">Red Squirrel Group</p>
-                                {user && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Live"></span>}
+                    <header className="bg-emerald-900 text-white p-3 md:p-4 shadow-md flex items-center justify-between z-20 relative shrink-0">
+                        <div className="flex items-center gap-3 overflow-hidden">
+                            <div className="bg-white p-1 rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center overflow-hidden shrink-0">
+                                <img src="81b42d_b8e526d7cafe4602908289deeb674182~mv2.jpg" alt="Logo" className="w-full h-full object-contain" onError={(e)=>{e.target.onerror=null;e.target.parentNode.innerHTML='<span style="color:#064e3b">🐿️</span>'}} />
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 shrink-0">
-                        <button 
-                            onClick={() => setViewMode(viewMode === 'map' ? 'list' : 'map')}
-                            className="p-2 bg-emerald-800 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-2 text-sm"
-                        >
-                            {viewMode === 'map' ? <List className="w-5 h-5 md:w-4 md:h-4" /> : <MapPin className="w-5 h-5 md:w-4 md:h-4" />}
-                            <span className="hidden sm:inline">{viewMode === 'map' ? 'List View' : 'Map View'}</span>
-                        </button>
-                    </div>
-                </header>
-
-                <div className="flex-1 flex overflow-hidden relative">
-                    
-                    {/* Desktop Sidebar */}
-                    <aside className="w-80 bg-white border-r border-stone-200 shadow-xl z-10 hidden md:flex flex-col shrink-0">
-                        <DashboardContent 
-                            redCount={redCount} 
-                            greyCount={greyCount} 
-                            filters={filters} 
-                            setFilters={setFilters} 
-                        />
-                    </aside>
-
-                    {/* Main Content Area */}
-                    <main className="flex-1 relative bg-stone-100 flex flex-col min-w-0 min-h-0">
-                    
-                    {/* MAP VIEW */}
-                    {viewMode === 'map' && (
-                        <div className="flex-1 relative min-h-0 flex flex-col">
-                            <MapComponent 
-                                sightings={sightings} 
-                                isAdding={isAdding} 
-                                mapCenterRef={mapCenterRef}
-                                filters={filters}
-                            />
-
-                            {/* Mobile Stats Summary Pill - Vertical on Left Side */}
-                            <div className="absolute top-1/2 -translate-y-1/2 left-4 md:hidden z-[1000] bg-white/90 backdrop-blur shadow-md border border-stone-200 rounded-2xl p-2 flex flex-col gap-2 text-xs font-bold pointer-events-none items-center">
-                                <div className="flex flex-col items-center gap-1 text-red-600">
-                                    <Squirrel className="w-5 h-5" /> 
-                                    <span>{redCount}</span>
-                                </div>
-                                <div className="h-px w-6 bg-stone-300"></div>
-                                <div className="flex flex-col items-center gap-1 text-stone-600">
-                                    <Squirrel className="w-5 h-5" /> 
-                                    <span>{greyCount}</span>
+                            <div className="min-w-0">
+                                <h1 className="font-bold text-sm md:text-xl leading-tight truncate">Cramlington & District</h1>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-xs text-emerald-300 truncate">Red Squirrel Group</p>
+                                    {user && <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="Live"></span>}
                                 </div>
                             </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                            <button onClick={() => setViewMode(viewMode === 'map' ? 'list' : 'map')} className="p-2 bg-emerald-800 hover:bg-emerald-700 rounded-lg transition-colors flex items-center gap-2 text-sm">
+                                {viewMode === 'map' ? <List className="w-5 h-5 md:w-4 md:h-4" /> : <MapPin className="w-5 h-5 md:w-4 md:h-4" />}
+                                <span className="hidden sm:inline">{viewMode === 'map' ? 'List View' : 'Map View'}</span>
+                            </button>
+                        </div>
+                    </header>
 
-                            {/* Mobile Stats/Filter Toggle Button - Moved to Bottom Right */}
-                            <div className="absolute bottom-8 right-4 z-[1000] flex flex-col gap-2 md:hidden">
-                                <button 
-                                    onClick={() => setShowMobileDashboard(true)}
-                                    className="bg-white p-3 rounded-full shadow-lg text-stone-600 active:scale-95 transition-transform"
-                                    aria-label="Open Filters and Stats"
-                                >
-                                    <Menu className="w-6 h-6" />
-                                </button>
-                            </div>
+                    <div className="flex-1 flex overflow-hidden relative">
+                        <aside className="w-80 bg-white border-r border-stone-200 shadow-xl z-10 hidden md:flex flex-col shrink-0">
+                            <DashboardContent redCount={redCount} greyCount={greyCount} filters={filters} setFilters={setFilters} />
+                        </aside>
 
-                            {/* Mobile Dashboard Drawer (Bottom Sheet) */}
-                            {showMobileDashboard && (
-                                <div className="absolute inset-0 z-[2000] md:hidden">
-                                    {/* Backdrop */}
-                                    <div 
-                                        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-                                        onClick={() => setShowMobileDashboard(false)}
-                                    ></div>
-                                    
-                                    {/* Drawer Content */}
-                                    <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl h-[80%] overflow-y-auto animate-in slide-in-from-bottom duration-300">
-                                        <div className="sticky top-0 bg-white p-4 border-b border-stone-100 flex justify-between items-center z-10">
-                                            <h3 className="font-bold text-lg">Dashboard</h3>
-                                            <button 
-                                                onClick={() => setShowMobileDashboard(false)}
-                                                className="p-2 bg-stone-100 rounded-full hover:bg-stone-200"
-                                            >
-                                                <X className="w-5 h-5" />
+                        <main className="flex-1 relative bg-stone-100 flex flex-col min-w-0 min-h-0">
+                            {viewMode === 'map' && (
+                                <div className="flex-1 relative min-h-0 flex flex-col">
+                                    <MapComponent 
+                                        sightings={sightings} 
+                                        isAdding={isAdding} 
+                                        mapCenterRef={mapCenterRef}
+                                        filters={filters}
+                                    />
+
+                                    {/* Stats Pill (Mobile Left) */}
+                                    <div className="absolute top-1/2 -translate-y-1/2 left-4 md:hidden z-[1000] bg-white/90 backdrop-blur shadow-md border border-stone-200 rounded-2xl p-2 flex flex-col gap-2 text-xs font-bold pointer-events-none items-center">
+                                        <div className="flex flex-col items-center gap-1 text-red-600"><Squirrel className="w-5 h-5" /><span>{redCount}</span></div>
+                                        <div className="h-px w-6 bg-stone-300"></div>
+                                        <div className="flex flex-col items-center gap-1 text-stone-600"><Squirrel className="w-5 h-5" /><span>{greyCount}</span></div>
+                                    </div>
+
+                                    {/* Filter Button (Mobile Bottom Right) */}
+                                    <div className="absolute bottom-8 right-4 z-[1000] flex flex-col gap-2 md:hidden">
+                                        <button onClick={() => setShowMobileDashboard(true)} className="bg-white p-3 rounded-full shadow-lg text-stone-600 active:scale-95 transition-transform">
+                                            <Menu className="w-6 h-6" />
+                                        </button>
+                                    </div>
+
+                                    {/* Mobile Dashboard */}
+                                    {showMobileDashboard && (
+                                        <div className="absolute inset-0 z-[2000] md:hidden">
+                                            <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowMobileDashboard(false)}></div>
+                                            <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl shadow-2xl h-[80%] overflow-y-auto animate-in slide-in-from-bottom duration-300">
+                                                <div className="sticky top-0 bg-white p-4 border-b border-stone-100 flex justify-between items-center z-10">
+                                                    <h3 className="font-bold text-lg">Dashboard</h3>
+                                                    <button onClick={() => setShowMobileDashboard(false)} className="p-2 bg-stone-100 rounded-full hover:bg-stone-200"><X className="w-5 h-5" /></button>
+                                                </div>
+                                                <DashboardContent redCount={redCount} greyCount={greyCount} filters={filters} setFilters={setFilters} />
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Report Flow UI */}
+                                    {!isAdding && (
+                                        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-xs px-4">
+                                            <button onClick={() => setIsAdding(true)} className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-full shadow-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-95">
+                                                <Plus className="w-6 h-6" /> Report Sighting
                                             </button>
                                         </div>
-                                        <DashboardContent 
-                                            redCount={redCount} 
-                                            greyCount={greyCount} 
-                                            filters={filters} 
-                                            setFilters={setFilters} 
-                                        />
+                                    )}
+
+                                    {/* Location Picking UI */}
+                                    {isAdding && !tempLocation && (
+                                        <>
+                                            <div className="absolute top-24 left-1/2 -translate-x-1/2 z-[1000] bg-stone-900/90 backdrop-blur text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+                                                <MapPin className="w-5 h-5 text-amber-400" />
+                                                <span className="font-medium text-sm">Move map to target</span>
+                                                <button onClick={resetForm} className="ml-2 bg-white/20 p-1 rounded-full"><X className="w-4 h-4"/></button>
+                                            </div>
+                                            
+                                            {/* Center Crosshair */}
+                                            <div className="map-crosshair text-stone-800 drop-shadow-md">
+                                                <Crosshair className="w-10 h-10 stroke-[2px]" />
+                                            </div>
+
+                                            {/* Set Location Button - TOP POSITION */}
+                                            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-xs px-4">
+                                                <button onClick={handleConfirmLocation} className="w-full bg-stone-800 hover:bg-stone-900 text-white py-4 rounded-full shadow-xl flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-95">
+                                                    <Check className="w-6 h-6" /> Set Location
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+
+                            {viewMode === 'list' && (
+                                <div className="h-full overflow-y-auto p-4 md:p-8 overscroll-contain">
+                                    <div className="max-w-3xl mx-auto pb-20">
+                                        <h2 className="text-2xl font-bold mb-6 text-stone-800">Recent Sightings</h2>
+                                        {sightings.length === 0 ? <p className="text-stone-500 italic">No sightings yet.</p> : (
+                                            <div className="space-y-4">
+                                                {sightings.map(s => (
+                                                    <div key={s.id} className="bg-white p-4 rounded-xl shadow-sm border border-stone-200 flex gap-4 items-start">
+                                                        <div className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${s.type === 'red' ? 'bg-red-100 text-red-600' : 'bg-stone-200 text-stone-600'}`}>
+                                                            <Squirrel className="w-6 h-6" />
+                                                        </div>
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex justify-between items-start flex-wrap gap-2">
+                                                                <h3 className="font-bold capitalize text-lg leading-tight">{s.count || 1} x {s.type}</h3>
+                                                                <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded-md whitespace-nowrap flex items-center gap-1">{s.date} {s.time}</span>
+                                                            </div>
+                                                            <p className="text-stone-600 mt-2 text-sm leading-relaxed">{s.notes}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             )}
 
-                            {/* Action Button - Moved to Top */}
-                            {!isAdding && (
-                                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-xs px-4">
-                                    <button 
-                                        onClick={() => setIsAdding(true)}
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-full shadow-lg flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-95"
-                                    >
-                                        <Plus className="w-6 h-6" />
-                                        Report Sighting
-                                    </button>
-                                </div>
-                            )}
-
-                            {/* Location Picking UI */}
-                            {isAdding && !tempLocation && (
-                                <>
-                                    {/* Instructions - Moved slightly down to clear new button position */}
-                                    <div className="absolute top-24 left-1/2 -translate-x-1/2 z-[1000] bg-stone-900/90 backdrop-blur text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
-                                        <MapPin className="w-5 h-5 text-amber-400" />
-                                        <span className="font-medium text-sm">Move map to target</span>
-                                        <button onClick={resetForm} className="ml-2 bg-white/20 p-1 rounded-full"><X className="w-4 h-4"/></button>
-                                    </div>
-                                    
-                                    {/* Center Crosshair */}
-                                    <div className="map-crosshair text-stone-800 drop-shadow-md">
-                                        <Crosshair className="w-10 h-10 stroke-[2px]" />
-                                    </div>
-
-                                    {/* Set Location Button - MOVED TO TOP */}
-                                    <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] w-full max-w-xs px-4">
-                                        <button 
-                                            onClick={handleConfirmLocation} 
-                                            className="w-full bg-stone-800 hover:bg-stone-900 text-white py-4 rounded-full shadow-xl flex items-center justify-center gap-2 font-bold text-lg transition-transform active:scale-95"
-                                        >
-                                            <Check className="w-6 h-6" /> Set Location
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
-                    )}
-
-                    {/* LIST VIEW */}
-                    {viewMode === 'list' && (
-                        <div className="h-full overflow-y-auto p-4 md:p-8 overscroll-contain">
-                            <div className="max-w-3xl mx-auto pb-20">
-                                <h2 className="text-2xl font-bold mb-6 text-stone-800">Recent Sightings</h2>
-                                {sightings.length === 0 ? (
-                                    <p className="text-stone-500 italic">No sightings recorded yet. Be the first!</p>
-                                ) : (
-                                    <div className="space-y-4">
-                                        {sightings.map(sighting => (
-                                            <div key={sighting.id} className="bg-white p-4 rounded-xl shadow-sm border border-stone-200 flex gap-4 items-start">
-                                                <div className={`shrink-0 w-12 h-12 rounded-full flex items-center justify-center ${sighting.type === 'red' ? 'bg-red-100 text-red-600' : 'bg-stone-200 text-stone-600'}`}>
-                                                    <Squirrel className="w-6 h-6" />
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex justify-between items-start flex-wrap gap-2">
-                                                        <h3 className="font-bold capitalize text-lg leading-tight">{sighting.count || 1} x {sighting.type}</h3>
-                                                        <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded-md whitespace-nowrap flex items-center gap-1">
-                                                            {sighting.date} <Clock className="w-3 h-3 ml-1" /> {sighting.time}
-                                                        </span>
-                                                    </div>
-                                                    <p className="text-stone-600 mt-2 text-sm leading-relaxed">{sighting.notes}</p>
-                                                    <div className="mt-3 text-xs text-stone-400 flex items-center gap-1 truncate">
-                                                        <MapPin className="w-3 h-3 shrink-0" />
-                                                        <span className="truncate">{sighting.lat.toFixed(4)}, {sighting.lng.toFixed(4)}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* ADD SIGHTING MODAL */}
-                    {isAdding && tempLocation && (
-                        <div className="absolute inset-0 z-[2000] bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center sm:p-4">
-                            <div className="bg-white w-full max-w-md rounded-t-2xl md:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-4 zoom-in-95 h-[85vh] md:h-auto md:max-h-[90vh] flex flex-col">
-                                
-                                <div className="bg-emerald-900 p-4 flex justify-between items-center text-white shrink-0">
-                                    <h3 className="font-bold flex items-center gap-2 text-lg">
-                                        <Squirrel className="w-6 h-6 text-amber-400" />
-                                        New Sighting
-                                    </h3>
-                                    <button type="button" onClick={resetForm} className="hover:bg-white/10 p-2 rounded-full transition-colors">
-                                        <X className="w-6 h-6" />
-                                    </button>
-                                </div>
-                                
-                                {/* Scrollable Form Content */}
-                                <form onSubmit={handleAddSighting} className="flex-1 flex flex-col overflow-hidden">
-                                    <div className="overflow-y-auto flex-1 p-6 overscroll-contain">
-                                        <div className="space-y-6">
-                                            <div className="space-y-3">
-                                                <label className="block text-sm font-bold text-stone-700 uppercase tracking-wide">Which Squirrel?</label>
-                                                <div className="grid grid-cols-2 gap-4">
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setFormData({...formData, type: 'red'})}
-                                                        className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${
-                                                        formData.type === 'red' 
-                                                            ? 'border-red-500 bg-red-50 text-red-700 shadow-sm' 
-                                                            : 'border-stone-200 bg-white text-stone-400 hover:border-stone-300'
-                                                        }`}
-                                                    >
-                                                        <Squirrel className="w-10 h-10" />
-                                                        <span className="font-bold text-lg">Red</span>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => setFormData({...formData, type: 'grey'})}
-                                                        className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${
-                                                        formData.type === 'grey' 
-                                                            ? 'border-stone-500 bg-stone-100 text-stone-700 shadow-sm' 
-                                                            : 'border-stone-200 bg-white text-stone-400 hover:border-stone-300'
-                                                        }`}
-                                                    >
-                                                        <Squirrel className="w-10 h-10" />
-                                                        <span className="font-bold text-lg">Grey</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="block text-sm font-bold text-stone-700 mb-2">Date</label>
-                                                    <input 
-                                                        type="date" 
-                                                        required
-                                                        value={formData.date}
-                                                        onChange={(e) => setFormData({...formData, date: e.target.value})}
-                                                        className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-bold text-stone-700 mb-2">Time</label>
-                                                    <input 
-                                                        type="time" 
-                                                        required
-                                                        value={formData.time}
-                                                        onChange={(e) => setFormData({...formData, time: e.target.value})}
-                                                        className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none font-medium"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <label className="block text-sm font-bold text-stone-700 mb-2">How Many?</label>
-                                                <div className="flex items-center gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
-                                                    <input 
-                                                        type="range" 
-                                                        min="1" 
-                                                        max="20"
-                                                        value={formData.count}
-                                                        onChange={(e) => setFormData({...formData, count: parseInt(e.target.value)})}
-                                                        className="flex-1 accent-emerald-600 h-6 bg-stone-200 rounded-lg cursor-pointer"
-                                                    />
-                                                    <div className="w-12 h-12 flex items-center justify-center bg-white rounded-lg border border-stone-200 shadow-sm">
-                                                        <span className="text-xl font-bold text-emerald-700">{formData.count}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div className="pb-4">
-                                                <label className="block text-sm font-bold text-stone-700 mb-2">Notes</label>
-                                                <textarea 
-                                                    placeholder="Near the big oak tree..."
-                                                    value={formData.notes}
-                                                    onChange={(e) => setFormData({...formData, notes: e.target.value})}
-                                                    className="w-full p-4 rounded-xl border border-stone-200 bg-stone-50 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none h-28 resize-none text-base"
-                                                />
-                                            </div>
+                            {/* Form Modal */}
+                            {isAdding && tempLocation && (
+                                <div className="absolute inset-0 z-[2000] bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center sm:p-4">
+                                    <div className="bg-white w-full max-w-md rounded-t-2xl md:rounded-2xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom-10 md:slide-in-from-bottom-4 zoom-in-95 h-[85vh] md:h-auto md:max-h-[90vh] flex flex-col">
+                                        <div className="bg-emerald-900 p-4 flex justify-between items-center text-white shrink-0">
+                                            <h3 className="font-bold flex items-center gap-2 text-lg"><Squirrel className="w-6 h-6 text-amber-400" /> New Sighting</h3>
+                                            <button onClick={resetForm} className="hover:bg-white/10 p-2 rounded-full"><X className="w-6 h-6" /></button>
                                         </div>
+                                        <form onSubmit={handleAddSighting} className="flex-1 flex flex-col overflow-hidden">
+                                            <div className="overflow-y-auto flex-1 p-6 overscroll-contain">
+                                                <div className="space-y-6">
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <button type="button" onClick={() => setFormData({...formData, type: 'red'})} className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${formData.type === 'red' ? 'border-red-500 bg-red-50 text-red-700 shadow-sm' : 'border-stone-200 bg-white text-stone-400'}`}>
+                                                            <Squirrel className="w-10 h-10" /><span className="font-bold text-lg">Red</span>
+                                                        </button>
+                                                        <button type="button" onClick={() => setFormData({...formData, type: 'grey'})} className={`p-4 rounded-2xl border-2 flex flex-col items-center gap-3 transition-all active:scale-95 ${formData.type === 'grey' ? 'border-stone-500 bg-stone-100 text-stone-700 shadow-sm' : 'border-stone-200 bg-white text-stone-400'}`}>
+                                                            <Squirrel className="w-10 h-10" /><span className="font-bold text-lg">Grey</span>
+                                                        </button>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div><label className="block text-sm font-bold text-stone-700 mb-2">Date</label><input type="date" required value={formData.date} onChange={(e) => setFormData({...formData, date: e.target.value})} className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 outline-none font-medium" /></div>
+                                                        <div><label className="block text-sm font-bold text-stone-700 mb-2">Time</label><input type="time" required value={formData.time} onChange={(e) => setFormData({...formData, time: e.target.value})} className="w-full p-3 rounded-xl border border-stone-200 bg-stone-50 outline-none font-medium" /></div>
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-stone-700 mb-2">Count</label>
+                                                        <div className="flex items-center gap-4 bg-stone-50 p-3 rounded-xl border border-stone-200">
+                                                            <input type="range" min="1" max="20" value={formData.count} onChange={(e) => setFormData({...formData, count: parseInt(e.target.value)})} className="flex-1 accent-emerald-600 h-6 bg-stone-200 rounded-lg cursor-pointer" />
+                                                            <div className="w-12 h-12 flex items-center justify-center bg-white rounded-lg border border-stone-200 shadow-sm"><span className="text-xl font-bold text-emerald-700">{formData.count}</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-sm font-bold text-stone-700 mb-2">Notes</label>
+                                                        <textarea placeholder="Details..." value={formData.notes} onChange={(e) => setFormData({...formData, notes: e.target.value})} className="w-full p-4 rounded-xl border border-stone-200 bg-stone-50 outline-none h-24 resize-none text-base" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="p-4 border-t border-stone-100 bg-stone-50 shrink-0">
+                                                <button type="submit" className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl shadow-lg transition-all active:scale-95">Submit Report</button>
+                                            </div>
+                                        </form>
                                     </div>
-
-                                    {/* Modal Footer */}
-                                    <div className="p-4 border-t border-stone-100 bg-stone-50 shrink-0">
-                                        <button 
-                                            type="submit"
-                                            className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-lg rounded-xl shadow-lg shadow-emerald-200 transition-all active:scale-95"
-                                        >
-                                            Submit Report
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    )}
-
-                    </main>
-                </div>
+                                </div>
+                            )}
+                        </main>
+                    </div>
                 </div>
             );
         };
 
-        // --- LEAFLET MAP WRAPPER ---
-        const MapComponent = ({ sightings, isAdding, setTempLocation, tempLocation, mapCenterRef, filters }) => {
+        const MapComponent = ({ sightings, isAdding, mapCenterRef, filters }) => {
             const mapRef = useRef(null);
             const mapInstanceRef = useRef(null);
             const markersRef = useRef([]);
-            const tempMarkerRef = useRef(null);
 
-            // Initialize Map
             useEffect(() => {
                 if (!mapRef.current || mapInstanceRef.current) return;
-
-                // Center on Northumberland
-                const map = L.map(mapRef.current, {
-                    zoomControl: false // We will add it manually to position it better
-                }).setView([55.25, -2.0], 9);
-
-                // Add zoom control to top-left (standard)
-                L.control.zoom({
-                    position: 'topleft'
-                }).addTo(map);
-
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; OpenStreetMap &copy; CARTO',
-                    subdomains: 'abcd',
-                    maxZoom: 20
-                }).addTo(map);
-
+                const map = L.map(mapRef.current, { zoomControl: false }).setView([55.25, -2.0], 9);
+                L.control.zoom({ position: 'topright' }).addTo(map);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap', subdomains: 'abcd', maxZoom: 20 }).addTo(map);
                 mapInstanceRef.current = map;
                 mapCenterRef.current = map; // Pass map instance up to parent for center coordinate access
-
-                // FIX: Force a resize check after mount to ensure tiles load correctly if container size was fluctuating
-                setTimeout(() => {
-                    map.invalidateSize();
-                }, 100);
-
-                // Click handler for adding points
-                map.on('click', (e) => {
-                    if (document.body.getAttribute('data-is-adding') === 'true') {
-                        const { lat, lng } = e.latlng;
-                        const event = new CustomEvent('map-location-selected', { detail: { lat, lng } });
-                        window.dispatchEvent(event);
-                    }
-                });
-
-                return () => {
-                    map.remove();
-                    mapInstanceRef.current = null;
-                };
+                setTimeout(() => map.invalidateSize(), 100);
+                
+                return () => { map.remove(); mapInstanceRef.current = null; };
             }, []);
-
-            // Handle "Is Adding" state to change cursor
-            useEffect(() => {
-                document.body.setAttribute('data-is-adding', isAdding);
-                if (mapRef.current) {
-                    mapRef.current.style.cursor = isAdding ? 'crosshair' : 'grab';
-                }
-            }, [isAdding]);
-
-            // Handle Temp Marker (The one user just clicked but hasn't saved)
-            useEffect(() => {
-                const map = mapInstanceRef.current;
-                if (!map) return;
-
-                if (tempLocation) {
-                    if (tempMarkerRef.current) tempMarkerRef.current.remove();
-                    
-                    const icon = L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style="background-color: #f59e0b; width: 24px; height: 24px; border-radius: 50%; border: 4px solid white; box-shadow: 0 4px 6px rgba(0,0,0,0.3);"></div>`,
-                        iconSize: [24, 24],
-                        iconAnchor: [12, 12]
-                    });
-
-                    tempMarkerRef.current = L.marker([tempLocation.lat, tempLocation.lng], { icon }).addTo(map);
-                    map.panTo([tempLocation.lat, tempLocation.lng]);
-                } else {
-                    if (tempMarkerRef.current) {
-                        tempMarkerRef.current.remove();
-                        tempMarkerRef.current = null;
-                    }
-                }
-            }, [tempLocation]);
-
-            // Sync React State "isAdding" with the map click listener
-            useEffect(() => {
-                const handleLocationSelect = (e) => {
-                    setTempLocation(e.detail);
-                };
-                window.addEventListener('map-location-selected', handleLocationSelect);
-                return () => window.removeEventListener('map-location-selected', handleLocationSelect);
-            }, [setTempLocation]);
-
-            // Render Sighting Markers
-            useEffect(() => {
-                const map = mapInstanceRef.current;
-                if (!map) return;
-
-                markersRef.current.forEach(m => m.remove());
-                markersRef.current = [];
-
-                sightings.forEach(sighting => {
-                    if (sighting.type === 'red' && !filters.red) return;
-                    if (sighting.type === 'grey' && !filters.grey) return;
-
-                    const color = sighting.type === 'red' ? '#dc2626' : '#57534e';
-                    
-                    // Larger markers for touch targets
-                    const icon = L.divIcon({
-                        className: 'custom-div-icon',
-                        html: `<div style="background-color: ${color}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
-                        iconSize: [14, 14],
-                        iconAnchor: [7, 7]
-                    });
-
-                    const marker = L.marker([sighting.lat, sighting.lng], { icon })
-                        .bindPopup(`
-                        <div style="font-family: sans-serif; min-width: 200px;">
-                            <strong style="color: ${color}; text-transform: capitalize; font-size: 16px;">${sighting.count || 1} x ${sighting.type} Squirrel</strong><br/>
-                            <span style="font-size: 13px; color: #666;">${sighting.date} ${sighting.time ? '@ ' + sighting.time : ''}</span><br/>
-                            <p style="margin: 8px 0 0 0; font-size: 14px; line-height: 1.4;">${sighting.notes}</p>
-                        </div>
-                        `);
-                    
-                    marker.addTo(map);
-                    markersRef.current.push(marker);
-                });
-            }, [sightings, filters]);
 
             // "Locate Me" Button Logic
             const handleLocate = (e) => {
@@ -686,9 +422,28 @@
                 }
             };
 
+            useEffect(() => {
+                const map = mapInstanceRef.current;
+                if (!map) return;
+                markersRef.current.forEach(m => m.remove());
+                markersRef.current = [];
+
+                // Do not show markers while picking a location (prevents clutter)
+                if (isAdding) return;
+
+                sightings.forEach(sighting => {
+                    if ((sighting.type === 'red' && !filters.red) || (sighting.type === 'grey' && !filters.grey)) return;
+                    const color = sighting.type === 'red' ? '#dc2626' : '#57534e';
+                    const icon = L.divIcon({ className: 'custom-div-icon', html: `<div style="background-color: ${color}; width: 14px; height: 14px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`, iconSize: [14, 14], iconAnchor: [7, 7] });
+                    const marker = L.marker([sighting.lat, sighting.lng], { icon }).bindPopup(`<div style="font-family: sans-serif;"><strong>${sighting.count || 1} x ${sighting.type}</strong><br/><span style="font-size: 0.9em;">${sighting.date}</span></div>`);
+                    marker.addTo(map);
+                    markersRef.current.push(marker);
+                });
+            }, [sightings, filters, isAdding]);
+
             return (
                 <div ref={mapRef} className="w-full h-full z-0 relative">
-                    {/* Locate Me Button - Positioned top-right but below header area */}
+                    {/* Locate Me Button */}
                     <div className="absolute top-20 right-3 z-[400] leaflet-bar bg-white rounded-md shadow-md border-2 border-black/20">
                         <button onClick={handleLocate} className="p-2 hover:bg-gray-100 flex items-center justify-center w-8 h-8" title="Find my location">
                             <Navigation className="w-5 h-5 text-stone-700 fill-current" />
