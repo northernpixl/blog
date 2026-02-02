@@ -168,18 +168,12 @@
         const ManualCarousel = () => {
             return (
                 <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
-                    {/* Add Scroll for more text */}
-                    <div className="text-center md:hidden mb-4 animate-bounce">
-                        <span className="text-white/70 text-xs font-bold uppercase tracking-widest">Scroll for more</span>
-                    </div>
-                    {/* Changed behavior: 
-                        - overflow-x-auto: Allows manual scrolling
-                        - snap-x snap-mandatory: Makes cards snap into place
-                        - space-x-6: Adds gaps between cards
-                        - px-6: Adds padding to the sides
-                        - no-scrollbar: Hides the ugly scrollbar but allows sliding
+                    {/* Updated for Desktop Centering:
+                        - md:w-max: Wraps width to content on desktop
+                        - md:mx-auto: Centers the wrapped content on desktop
+                        - md:max-w-full: Ensures it doesn't overflow the screen width on desktop (re-enabling scroll if needed)
                     */}
-                    <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-6 no-scrollbar pb-6">
+                    <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-6 no-scrollbar pb-6 md:w-max md:mx-auto md:max-w-full">
                         {topics.map((topic, index) => (
                             <CarouselCard key={`${topic.id}-${index}`} item={topic} />
                         ))}
@@ -215,7 +209,7 @@
                                     NORTHUMBERLAND <br/>
                                     <span className="text-sky-300 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-sky-400 sm:to-sky-600">EXPOSURE.</span>
                                 </h1>
-                                <p className="text-lg md:text-xl text-slate-100 sm:text-slate-300 max-w-2xl mb-10 font-medium leading-relaxed drop-shadow-md">
+                                <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-medium leading-relaxed drop-shadow-md">
                                     A beginners guide for Northumberland photographers & hikers. Tips, locations, and routes for your journey in the stunning landscape.
                                 </p>
                                 
@@ -239,7 +233,6 @@
 
                         {/* 2. Carousel Section */}
                         <div className="relative z-20 w-full bg-slate-900 border-t border-slate-800/50">
-                            {/* Removed "Discover the area" text and arrow here */}
                             <ManualCarousel />
                         </div>
 
@@ -252,7 +245,7 @@
         root.render(<App />);
     </script>
     <amp-auto-ads type="adsense" data-ad-client="ca-pub-3848390381001803"></amp-auto-ads>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count"
+    <script data-goatcounter="https://MYCODE.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
