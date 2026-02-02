@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long Walks | NorthernPixl</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+        .animate-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 1.5rem; z-index: 0; }
+        @media (min-width: 1024px) {
+            .leaflet-container { border-radius: 3rem; }
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo } = React;
+
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const icons = {
+                camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
+                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
+                x: <><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>,
+                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
+                arrowLeft: <><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></>,
+                download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
+                externalLink: <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name] || null}
+                </svg>
+            );
+        };
+
+        const WALKS = [
+            { id: 301, category: "7+", name: "The Cheviot and Hedgehope", length: "11 miles", difficulty: "Very Strenuous", elevation: "911m", lat: 55.485, lng: -2.135, desc: "The big two. A serious undertaking to two of the highest points in Northumberland.", highlights: "The Cheviot Summit (815m), Scald Hill, Harthope Valley.", route: [[55.4964600, -2.0744500]] },
+            { id: 302, category: "7+", name: "Windy Gyle", length: "7.5 miles", difficulty: "Strenuous", elevation: "619m", lat: 55.421, lng: -2.235, desc: "Start at the foot of Barrow Law just up from Barrowburn. A steady climb up The Street to the border ridge.", highlights: "Russell's Cairn, The Border Ridge, Views into Scotland.", route: [[55.3967500, -2.2231400]] },
+            { id: 303, category: "7+", name: "Beadnell to Low Newton", length: "8.5 miles", difficulty: "Moderate", elevation: "20m", lat: 55.559, lng: -1.628, desc: "A long coastal walk along sandy bays. Visit the Ship Inn at Low Newton for lunch before heading back.", highlights: "Beadnell Bay, Football Hole beach, Ship Inn pub.", route: [[55.5524400, -1.6292200]] },
+            { id: 304, category: "7+", name: "Steel Rigg to Housesteads", length: "7.5 miles", difficulty: "Strenuous", elevation: "350m", lat: 55.013, lng: -2.328, desc: "The classic Hadrian's Wall section. Includes Sycamore Gap site and the steepest crags.", highlights: "Sycamore Gap site, Crag Lough, Highshield Crags.", route: [[55.0031000, -2.3909000]] },
+            { id: 305, category: "7+", name: "Alnmouth to Warkworth", length: "11.5 miles", difficulty: "Moderate", elevation: "80m", lat: 55.385, lng: -1.615, desc: "Walk from Alnmouth beach to the historic village of Warkworth and its castle, following the river and coast.", highlights: "Alnmouth Estuary, Warkworth Castle, Coastal Path.", route: [[55.3891400, -1.6063900]] },
+            { id: 306, category: "7+", name: "Brough Law Hillforts", length: "10 miles", difficulty: "Strenuous", elevation: "300m", lat: 55.441, lng: -2.001, desc: "Ingram Valley. Explores Iron Age settlements and Linhope Spout waterfall.", highlights: "Brough Law Hillfort, Linhope Spout, Ingram Valley.", route: [[55.4410000, -1.9891500]] },
+            { id: 307, category: "7+", name: "Cold Law", length: "7.5 miles", difficulty: "Strenuous", elevation: "450m", lat: 55.495, lng: -2.155, desc: "A wild walk into the dramatic Cheviots. Often deserted.", highlights: "Cold Law summit, Remote wilderness, Amazing views.", route: [[55.5191500, -2.0373400]] },
+            { id: 308, category: "7+", name: "Hedgehope Hill", length: "7.5 miles", difficulty: "Strenuous", elevation: "714m", lat: 55.465, lng: -2.075, desc: "The second highest peak. Steeper and more conical than the Cheviot. Best views in the park by far.", highlights: "Hedgehope Hill summit, Langlee Crags, Housey Crags.", route: [[55.4975200, -2.0715100]] },
+            { id: 309, category: "7+", name: "Pilgrim's Way - Holy Island", length: "8 miles", difficulty: "Moderate", elevation: "100m", lat: 55.655, lng: -1.885, desc: "Holy Island across the pilgrim's causeway over the mud flats. Please check tides!", highlights: "Pilgrim's Causeway, Holy Island mudflats.", route: [[55.67740, -1.89542]] },
+            { id: 310, category: "7+", name: "The Schil", length: "12 miles", difficulty: "Very Strenuous", elevation: "601m", lat: 55.512, lng: -2.225, desc: "A distinctive rocky peak on the Scottish border. A real lung-buster.", highlights: "The Schil summit, Border Ridge.", route: [[55.4966821, -2.1890438]] },
+            
+            // NEW Long Walks (311-320)
+            { id: 311, category: "7+", name: "Craster & Howick Coast", length: "7.5 miles", difficulty: "Moderate", elevation: "50m", lat: 55.472, lng: -1.594, desc: "A beautiful coastal walk heading south from Craster past Cullernose Point to the Bathing House at Howick, returning via fields.", highlights: "Cullernose Point, Howick Hall coastline, Rumbling Kern.", route: [[55.472, -1.594], [55.465, -1.590], [55.460, -1.595], [55.472, -1.594]] },
+            { id: 312, category: "7+", name: "Ingram & Cochrane Pike", length: "8 miles", difficulty: "Strenuous", elevation: "350m", lat: 55.441, lng: -1.989, desc: "A tough climb in the Breamish Valley, taking in the summit of Cochrane Pike and the prehistoric landscapes of Ingram.", highlights: "Cochrane Pike, Iron Age hillforts, Breamish Valley views.", route: [[55.441, -1.989], [55.445, -1.995], [55.440, -2.000], [55.441, -1.989]] },
+            { id: 313, category: "7+", name: "Sycamore Gap & Vindolanda", length: "8.5 miles", difficulty: "Strenuous", elevation: "300m", lat: 55.003, lng: -2.391, desc: "Extends the classic wall walk to drop down to the Roman fort of Vindolanda before climbing back up to the crags.", highlights: "Vindolanda Fort, Sycamore Gap site, Crag Lough.", route: [[55.003, -2.391], [54.995, -2.390], [54.990, -2.385], [55.003, -2.391]] },
+            { id: 314, category: "7+", name: "Yeavering Bell & Newton Tors", length: "8 miles", difficulty: "Strenuous", elevation: "500m", lat: 55.568, lng: -2.117, desc: "A challenging twin-peak walk. Climb the hillfort of Yeavering Bell then cross the glen to the dramatic Newton Tors.", highlights: "Yeavering Bell hillfort, Newton Tors, College Valley views.", route: [[55.568, -2.117], [55.560, -2.125], [55.555, -2.110], [55.568, -2.117]] },
+            { id: 315, category: "7+", name: "Kielder North Shore", length: "9 miles", difficulty: "Moderate", elevation: "120m", lat: 55.185, lng: -2.505, desc: "A long forest track walk following the northern shoreline of the massive reservoir. Remote and peaceful.", highlights: "Kielder Water, Osprey platforms, Forest sculpture trail.", route: [[55.185, -2.505], [55.190, -2.515], [55.195, -2.500], [55.185, -2.505]] },
+            { id: 316, category: "7+", name: "The Drake Stone & Harbottle", length: "7.5 miles", difficulty: "Moderate", elevation: "250m", lat: 55.337, lng: -2.106, desc: "Starts with the Drake Stone but continues high onto the moors of the military ranges before descending.", highlights: "Drake Stone, Harbottle Lake, expansive moorland.", route: [[55.337, -2.106], [55.340, -2.115], [55.330, -2.120], [55.337, -2.106]] },
+            { id: 317, category: "7+", name: "Berwick Coastal Loop", length: "7.5 miles", difficulty: "Easy", elevation: "60m", lat: 55.770, lng: -2.005, desc: "Heading north from Berwick along the cliffs towards the Scottish border at Marshall Meadows, returning via field paths.", highlights: "Dramatic cliffs, Scottish Border, Berwick Walls.", route: [[55.770, -2.005], [55.780, -2.010], [55.785, -2.000], [55.770, -2.005]] },
+            { id: 318, category: "7+", name: "Simonside & Tosson Hill", length: "8 miles", difficulty: "Strenuous", elevation: "440m", lat: 55.283, lng: -1.919, desc: "Extends the Simonside ridge walk to include the highest point, Tosson Hill. Rough terrain but incredible views.", highlights: "Tosson Hill summit, Ravensheugh Crags, Simonside ridge.", route: [[55.283, -1.919], [55.280, -1.930], [55.275, -1.925], [55.283, -1.919]] },
+            { id: 319, category: "7+", name: "Warkworth to Amble Loop", length: "7 miles", difficulty: "Easy", elevation: "30m", lat: 55.347, lng: -1.613, desc: "Follows the river Coquet to the harbour town of Amble, exploring the marina and pier before returning along the coast.", highlights: "Warkworth Castle, Amble Harbour, Coquet Island views.", route: [[55.347, -1.613], [55.340, -1.590], [55.335, -1.580], [55.347, -1.613]] },
+            { id: 320, category: "7+", name: "Haltwhistle & The Wall", length: "9 miles", difficulty: "Moderate", elevation: "200m", lat: 54.971, lng: -2.459, desc: "Starts in Haltwhistle, follows the Haltwhistle Burn up to the Wall at Cawfields, walks the crags, and returns via the South Tyne Trail.", highlights: "Haltwhistle Burn, Cawfields Quarry, Milecastle 42.", route: [[54.971, -2.459], [54.980, -2.460], [54.990, -2.455], [54.971, -2.459]] }
+        ];
+
+        const App = () => {
+            const [selectedWalk, setSelectedWalk] = useState(null);
+            const [isNavOpen, setIsNavOpen] = useState(false);
+            const walkMapContainerRef = useRef(null);
+            const walkMapInstanceRef = useRef(null);
+
+            const filteredWalks = useMemo(() => WALKS.filter(w => w.category === '7+'), []);
+
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                const walkId = params.get('id');
+                if (walkId) {
+                    const walk = filteredWalks.find(w => w.id === parseInt(walkId));
+                    if (walk) setSelectedWalk(walk);
+                }
+
+                const onPopState = () => setSelectedWalk(null);
+                window.addEventListener('popstate', onPopState);
+                return () => window.removeEventListener('popstate', onPopState);
+            }, [filteredWalks]);
+
+            useEffect(() => {
+                if (selectedWalk) {
+                    setTimeout(() => {
+                        if (walkMapInstanceRef.current) {
+                            walkMapInstanceRef.current.remove();
+                        }
+                        
+                        if (walkMapContainerRef.current) {
+                            const map = L.map(walkMapContainerRef.current, { zoomControl: false });
+                            walkMapInstanceRef.current = map;
+
+                            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                                attribution: '&copy; OpenStreetMap'
+                            }).addTo(map);
+
+                            const polyline = L.polyline(selectedWalk.route, {color: '#ef4444', weight: 5}).addTo(map);
+                            L.circleMarker(selectedWalk.route[0], { radius: 6, fillColor: '#000', color: "#fff", weight: 2, fillOpacity: 1 }).addTo(map);
+                            
+                            if (selectedWalk.route.length === 1) {
+                                map.setView(selectedWalk.route[0], 14);
+                            } else {
+                                map.fitBounds(polyline.getBounds(), { padding: [50, 50] });
+                            }
+                        }
+                    }, 100);
+                }
+            }, [selectedWalk]);
+
+            const downloadGPX = (walk) => {
+                if (!walk) return;
+                const gpxContent = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="NorthernPixl">
+  <trk>
+    <name>${walk.name}</name>
+    <trkseg>
+      ${walk.route.map(pt => `<trkpt lat="${pt[0]}" lon="${pt[1]}"></trkpt>`).join('')}
+    </trkseg>
+  </trk>
+</gpx>`;
+                const blob = new Blob([gpxContent], { type: 'application/gpx+xml' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${walk.name.replace(/\s+/g, '_')}.gpx`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            };
+
+            const getStats = (walk) => {
+                const miles = parseFloat(walk.length);
+                let speed = 2.5; 
+                if (walk.difficulty === 'Moderate') speed = 2.4;
+                if (walk.difficulty === 'Strenuous') speed = 2.0;
+                if (walk.difficulty === 'Very Strenuous') speed = 1.5;
+                
+                const hours = miles / speed;
+                const elev = parseInt(walk.elevation) || 0;
+                const elevTime = elev / 600;
+                
+                const totalHours = hours + elevTime;
+                const h = Math.floor(totalHours);
+                const m = Math.round((totalHours - h) * 60);
+                
+                const timeStr = `${h}h ${m > 0 ? m + 'm' : ''}`;
+                const steps = Math.round(miles * 2200);
+                
+                return { time: timeStr, steps: steps.toLocaleString() };
+            };
+
+            const startPoint = selectedWalk?.route[0];
+
+            return (
+                <div className="min-h-screen bg-white">
+                    <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                        <div className="h-20 flex items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+                            <div className="flex items-center space-x-3 cursor-pointer z-50" onClick={() => window.location.href='index.html'}>
+                                <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                    <Icon name="camera" className="text-white" size={18} />
+                                </div>
+                                <span className="font-black text-lg md:text-xl tracking-tighter uppercase inline">NorthernPixl</span>
+                            </div>
+
+                            <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                                <a href="index.html" className="hover:text-black transition-colors">Home</a>
+                                <a href="routes.html" className="hover:text-black transition-colors">Routes Map</a>
+                                <a href="walks_short.html" className="hover:text-black transition-colors">Short</a>
+                                <a href="walks_medium.html" className="hover:text-black transition-colors">Medium</a>
+                                <span className="text-black border-b-2 border-black">Long</span>
+                            </div>
+
+                            <button className="md:hidden text-slate-900 z-50 p-2" onClick={() => setIsNavOpen(!isNavOpen)}>
+                                <Icon name={isNavOpen ? 'x' : 'menu'} size={24} />
+                            </button>
+                        </div>
+
+                        {isNavOpen && (
+                            <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center space-y-8 pt-20 z-40">
+                                <a href="index.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Home</a>
+                                <a href="routes.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Routes Map</a>
+                                <a href="walks_short.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Short</a>
+                                <a href="walks_medium.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsNavOpen(false)}>Medium</a>
+                                <span className="text-xl font-black uppercase tracking-widest text-sky-500">Long</span>
+                            </div>
+                        )}
+                    </nav>
+
+                    <main className="pt-20">
+                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+                            {!selectedWalk ? (
+                                <div className="animate-in">
+                                    <div className="mb-8 md:mb-12 text-center">
+                                        <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-black">Long Walks (7+ Miles)</h2>
+                                        <p className="text-sm md:text-base text-slate-400 mb-8">Challenging routes for experienced hikers, often involving full days out.</p>
+                                        
+                                        <div className="flex justify-center items-center gap-2 mb-8 overflow-x-auto pb-4 px-2">
+                                            <div className="inline-flex bg-slate-100 p-1 rounded-full">
+                                                <a href="walks_short.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">1-4 Miles</a>
+                                                <a href="walks_medium.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">4-7 Miles</a>
+                                                <a href="#" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white shadow-md text-black transition-all">7+ Miles</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                        {filteredWalks.map(walk => (
+                                            <div key={walk.id} onClick={() => { setSelectedWalk(walk); window.history.pushState({}, ""); }} className="group bg-white border border-slate-100 p-6 md:p-8 rounded-[2rem] hover:shadow-xl transition-all cursor-pointer active:scale-95 duration-200">
+                                                <div className="flex justify-between items-start mb-6">
+                                                    <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+                                                        walk.difficulty === 'Easy' ? 'bg-green-100 text-green-700' : 
+                                                        walk.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' : 
+                                                        'bg-red-100 text-red-700'
+                                                    }`}>{walk.difficulty}</span>
+                                                    <span className="text-slate-400 text-xs font-bold">{walk.length}</span>
+                                                </div>
+                                                <h3 className="text-xl font-black mb-2 group-hover:text-red-500 transition-colors">{walk.name}</h3>
+                                                <p className="text-slate-400 text-xs line-clamp-2">{walk.desc}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="animate-in flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 h-full lg:h-[80vh]">
+                                    <div className="w-full h-[40vh] lg:h-full lg:col-span-8 rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative">
+                                        <div ref={walkMapContainerRef} className="w-full h-full"></div>
+                                    </div>
+                                    <div className="w-full lg:col-span-4 bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-slate-100 overflow-y-auto custom-scrollbar shadow-xl flex flex-col">
+                                        <div className="flex justify-between items-start mb-6 md:mb-8">
+                                            <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+                                                <Icon name="arrowLeft" size={14} className="mr-2" /> Back to List
+                                            </button>
+                                            <button onClick={() => downloadGPX(selectedWalk)} className="flex items-center text-red-500 hover:text-red-600 font-black uppercase text-[10px] tracking-widest p-2">
+                                                <Icon name="download" size={14} className="mr-2" /> Download GPX
+                                            </button>
+                                        </div>
+                                        
+                                        <span className="text-red-500 font-black uppercase text-xs tracking-[0.3em] mb-2 block">{selectedWalk.length} • {selectedWalk.difficulty}</span>
+                                        <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-6">{selectedWalk.name}</h2>
+                                        
+                                        <div className="space-y-6">
+                                            <div className="bg-slate-50 p-6 rounded-3xl">
+                                                <div className="grid grid-cols-2 gap-6">
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Elevation</p>
+                                                        <p className="font-bold text-lg">{selectedWalk.elevation}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Est. Time</p>
+                                                        <p className="font-bold text-lg">{getStats(selectedWalk).time}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Est. Steps</p>
+                                                        <p className="font-bold text-lg">{getStats(selectedWalk).steps}</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Start Point</p>
+                                                        {startPoint && (
+                                                            <a 
+                                                                href={`https://www.google.com/maps/search/?api=1&query=${startPoint[0]},${startPoint[1]}`}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                className="font-bold text-sm pt-1 text-red-500 hover:text-red-700 underline decoration-red-300 underline-offset-2 transition-colors block truncate"
+                                                                title="Open in Google Maps"
+                                                            >
+                                                                Click Here <Icon name="externalLink" size={10} className="inline ml-1" />
+                                                            </a>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Highlights</h4>
+                                                <p className="text-red-600 font-bold leading-relaxed text-sm mb-4">{selectedWalk.highlights}</p>
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Route Description</h4>
+                                                <p className="text-slate-600 leading-relaxed text-sm">{selectedWalk.desc}</p>
+                                            </div>
+                                            
+                                            <div className="mt-auto bg-amber-50 p-6 rounded-3xl border border-amber-100">
+                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Trail Advice</h4>
+                                                <p className="text-amber-900 text-xs font-bold leading-relaxed italic">
+                                                    "Always carry a physical OS map. GPS signals in the park are unreliable. Stick to public footpaths."
+                                                </p>
+                                            </div>
+                                            
+                                            <div className="pt-4 flex justify-center md:justify-start">
+                                                <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+                                                    <Icon name="arrowLeft" size={14} className="mr-2" /> Back to List
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
