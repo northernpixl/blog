@@ -206,7 +206,8 @@
                 try {
                     const sightingsRef = getSightingsCollection();
                     await addDoc(sightingsRef, newSighting);
-                    setSightings(prev => [...prev, { ...newSighting, id: 'temp-' + Date.now() }]);
+                    // Fixed: Removed manual optimistic update here to prevent double counting
+                    // setSightings(prev => [...prev, { ...newSighting, id: 'temp-' + Date.now() }]); 
                     resetForm();
                 } catch (error) {
                     console.error("Error adding:", error);
