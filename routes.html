@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +60,7 @@
         };
 
         const WALKS = [
+            // Existing Short Walks (101-110)
             { id: 101, category: "1-4", name: "Drake Stone Walk", length: "4 miles", difficulty: "Moderate", elevation: "150m", lat: 55.337, lng: -2.105, desc: "A mystical walk up to a massive sandstone boulder believed to have healing powers.", highlights: "The massive Drake Stone boulder, Harbottle Lake nature reserve.", route: [[55.3378100, -2.1179200]] },
             { id: 102, category: "1-4", name: "Yeavering Bell", length: "3.6 miles", difficulty: "Strenuous", elevation: "361m", lat: 55.545, lng: -2.112, desc: "A short but sharp climb to the summit of an Iron Age hillfort.", highlights: "Largest Iron Age hillfort in the region, wild Cheviot goats.", route: [[55.5679200, -2.1171600]] },
             { id: 103, category: "1-4", name: "Bamburgh Castle Circular", length: "3 miles", difficulty: "Easy", elevation: "20m", lat: 55.609, lng: -1.712, desc: "A classic coastal loop. Walk along the beach with the castle towering above you.", highlights: "Bamburgh Castle from the beach, The Wynding dunes.", route: [[55.6043500, -1.6970100]] },
@@ -69,6 +71,20 @@
             { id: 108, category: "1-4", name: "Falstone Circular", length: "2.5 miles", difficulty: "Moderate", elevation: "60m", lat: 55.185, lng: -2.438, desc: "A lovely route starting in the village of Falstone, following a section of the River Tyne Trail.", highlights: "Stell stone sculpture, River North Tyne.", route: [[55.1804900, -2.4356200]] },
             { id: 109, category: "1-4", name: "Hareshaw Linn", length: "3 miles", difficulty: "Moderate", elevation: "100m", lat: 55.149, lng: -2.222, desc: "A 'there and back' walk up to a magical wooded dene to a spectacular 30ft waterfall.", highlights: "Hareshaw Linn waterfall, ancient woodland.", route: [[55.145889, -2.253043]] },
             { id: 110, category: "1-4", name: "St Cuthbert's Cave", length: "2 miles", difficulty: "Moderate", elevation: "90m", lat: 55.617, lng: -1.928, desc: "Short walk to the sandstone cave where St Cuthbert's body was said to have been hidden.", highlights: "St Cuthbert's Cave, Kyloe Hills views.", route: [[55.6096200, -1.9203700]] },
+
+            // NEW Short Walks (111-120) with synchronized start points
+            { id: 111, category: "1-4", name: "Steel Rigg & Sycamore Gap", length: "2.5 miles", difficulty: "Moderate", elevation: "100m", lat: 55.0030900, lng: -2.3909400, desc: "A classic section of Hadrian's Wall with iconic views, visiting the site of the famous Sycamore Gap.", highlights: "Hadrian's Wall, Milecastle 39, Crag Lough.", route: [[55.0030900, -2.3909400]] },
+            { id: 112, category: "1-4", name: "Duddo Five Stones", length: "1.5 miles", difficulty: "Easy", elevation: "40m", lat: 55.6767700, lng: -2.1093600, desc: "A short walk across fields to Northumberland's answer to Stonehenge, offering panoramic views of the Cheviots.", highlights: "Ancient Stone Circle, Cheviot Views.", route: [[55.6767700, -2.1093600]] },
+            { id: 113, category: "1-4", name: "Hindhope Linn", length: "1.25 miles", difficulty: "Easy", elevation: "60m", lat: 55.295434, lng: -2.340566, desc: "A magical forest walk leading to a spectacular waterfall in a deep gorge.", highlights: "Hindhope Linn Waterfall, Red Squirrels.", route: [[55.295434, -2.340566]] },
+            { id: 114, category: "1-4", name: "Corbridge Riverside", length: "2 miles", difficulty: "Easy", elevation: "10m", lat: 54.9714500, lng: -2.0208600, desc: "A gentle stroll along the banks of the Tyne at the historic Roman town of Corbridge.", highlights: "Roman Bridge remains, River Tyne.", route: [[54.9714500, -2.0208600]] },
+            { id: 115, category: "1-4", name: "Cullernose Point", length: "2.5 miles", difficulty: "Easy", elevation: "30m", lat: 55.4711200, lng: -1.5956600, desc: "A dramatic coastal walk along the basalt cliffs south of Craster.", highlights: "Basalt cliffs, nesting seabirds, views of Dunstanburgh.", route: [[55.4711200, -1.5956600]] },
+            { id: 116, category: "1-4", name: "Holystone & Lady's Well", length: "2 miles", difficulty: "Easy", elevation: "50m", lat: 55.3185200, lng: -2.0718700, desc: "A history-rich walk visiting a holy well associated with St Ninian and St Paulinus.", highlights: "Lady's Well, peaceful woodland, Coquet Valley views.", route: [[55.3185200, -2.0718700]] },
+            { id: 117, category: "1-4", name: "Etal Castle & River Till", length: "2 miles", difficulty: "Easy", elevation: "20m", lat: 55.6468000, lng: -2.1201500, desc: "A picturesque loop around the village of Etal, following the banks of the River Till.", highlights: "Etal Castle ruins, thatched cottages, Heatherslaw Light Railway.", route: [[55.6468000, -2.1201500]] },
+            { id: 118, category: "1-4", name: "Ros Castle", length: "1.5 miles", difficulty: "Moderate", elevation: "120m", lat: 55.5169300, lng: -1.8875600, desc: "A short climb to the summit of Ros Castle, an Iron Age hillfort with arguably the best coastal views in Northumberland.", highlights: "360-degree panorama, seven castles visible on a clear day.", route: [[55.5169300, -1.8875600]] },
+            { id: 119, category: "1-4", name: "Blanchland & The Derwent", length: "3 miles", difficulty: "Moderate", elevation: "80m", lat: 54.8474961, lng: -2.0537738, desc: "Explore the honey-stone village of Blanchland and the surrounding moors and river.", highlights: "Blanchland Abbey, River Derwent.", route: [[54.8474961, -2.0537738]] },
+            { id: 120, category: "1-4", name: "Linhope Spout", length: "3 miles", difficulty: "Moderate", elevation: "150m", lat: 55.4397500, lng: -2.0382600, desc: "A walk into the Breamish Valley to see the chute of water that is Linhope Spout.", highlights: "Linhope Spout waterfall, deep plunge pool.", route: [[55.4397500, -2.0382600]] },
+
+            // Existing Medium Walks (201-210)
             { id: 201, category: "4-7", name: "Dunstanburgh from Craster", length: "4.5 miles", difficulty: "Easy", elevation: "30m", lat: 55.472, lng: -1.593, desc: "The definitive coastal walk. From Craster harbor, along the flat grassy path to the castle.", highlights: "Craster Harbour, Dunstanburgh Castle.", route: [[55.4709900, -1.5957000]] },
             { id: 202, category: "4-7", name: "Allen Banks & Staward Gorge", length: "6.5 miles", difficulty: "Moderate", elevation: "190m", lat: 54.967, lng: -2.315, desc: "A stunning walk through the largest area of ancient woodland in Northumberland.", highlights: "Ancient Woodland, Staward Peel Ruins.", route: [[54.9704900, -2.3170200]] },
             { id: 203, category: "4-7", name: "Holy Island Loop", length: "5 miles", difficulty: "Moderate", elevation: "25m", lat: 55.671, lng: -1.796, desc: "A full circuit of Lindisfarne. Includes the Castle, the Priory, and the remote sand dunes.", highlights: "Lindisfarne Priory, Castle, Emmanuel Head pyramid.", route: [[55.6751500, -1.8010900]] },
@@ -79,6 +95,8 @@
             { id: 208, category: "4-7", name: "Simonside Hills", length: "4.5 miles", difficulty: "Strenuous", elevation: "300m", lat: 55.289, lng: -1.948, desc: "A sandstone ridge offering 360-degree views. Steep stone steps lead to the summit cairn.", highlights: "Summit Cairn views, Heather moorland.", route: [[55.2832700, -1.9189300]] },
             { id: 209, category: "4-7", name: "Walltown Crags", length: "5 miles", difficulty: "Moderate", elevation: "150m", lat: 54.992, lng: -2.525, desc: "Some of the most dramatic sections of Hadrian's Wall. The route follows the roller-coaster crags.", highlights: "Walltown Crags, Roman Wall turrets.", route: [[54.9921600, -2.5014300]] },
             { id: 210, category: "4-7", name: "Wallington Estate", length: "4.5 miles", difficulty: "Easy", elevation: "50m", lat: 55.152, lng: -1.955, desc: "A long circular route inside and around the boundary of the National Trust estate.", highlights: "Wallington Hall grounds, River Wansbeck.", route: [[55.1542400, -1.9598900]] },
+
+            // Existing Long Walks (301-310)
             { id: 301, category: "7+", name: "The Cheviot and Hedgehope", length: "11 miles", difficulty: "Very Strenuous", elevation: "911m", lat: 55.485, lng: -2.135, desc: "The big two. A serious undertaking to two of the highest points in Northumberland.", highlights: "The Cheviot Summit (815m), Scald Hill, Harthope Valley.", route: [[55.4964600, -2.0744500]] },
             { id: 302, category: "7+", name: "Windy Gyle", length: "7.5 miles", difficulty: "Strenuous", elevation: "619m", lat: 55.421, lng: -2.235, desc: "Start at the foot of Barrow Law just up from Barrowburn. A steady climb up The Street to the border ridge.", highlights: "Russell's Cairn, The Border Ridge, Views into Scotland.", route: [[55.3967500, -2.2231400]] },
             { id: 303, category: "7+", name: "Beadnell to Low Newton", length: "8.5 miles", difficulty: "Moderate", elevation: "20m", lat: 55.559, lng: -1.628, desc: "A long coastal walk along sandy bays. Visit the Ship Inn at Low Newton for lunch before heading back.", highlights: "Beadnell Bay, Football Hole beach, Ship Inn pub.", route: [[55.5524400, -1.6292200]] },
@@ -299,7 +317,5 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
