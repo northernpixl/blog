@@ -168,6 +168,13 @@
         const ManualCarousel = () => {
             return (
                 <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
+                    {/* Mobile Only Hint:
+                        - md:hidden: Hides this element on desktop screens
+                    */}
+                    <div className="md:hidden text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                        Scroll across for more
+                    </div>
+
                     {/* Updated for Desktop Centering:
                         - md:w-max: Wraps width to content on desktop
                         - md:mx-auto: Centers the wrapped content on desktop
