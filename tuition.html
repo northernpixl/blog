@@ -36,7 +36,8 @@
                 check: <><polyline points="20 6 9 17 4 12"/></>,
                 user: <><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
                 map: <><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></>,
-                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>
+                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
+                tool: <><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -249,7 +250,7 @@
                         <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">About Me</span>
                         <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">Hi! I'm Stephen.</h3>
                         <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
-                            I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, a huge part of my life revolves around capturing the wild beauty of Northumberland, from the crashing waves of the North Sea to the faint glow of the Aurora Borealis and even the extraordinary wildlife Northumberland has to offer.
+                            I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, a huge part of my life revolves around capturing the wild beauty of Northumberland—from the crashing waves of the North Sea to the faint glow of the Aurora Borealis and even the extraordinary wildlife Northumberland has to offer.
                         </p>
                         <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base mt-4">
                             I absolutely love sharing my work and I'm fortunate to have been featured nationally and internationally, however my true passion lies in teaching. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are a completely new to photography or an experienced photographer looking for local knowledge, my goal is to help you take your best ever images.
@@ -260,6 +261,186 @@
                             <Icon name="mail" size={16} />
                             <span>Contact Me</span>
                         </a>
+                    </div>
+                </div>
+            );
+        };
+
+        const GearSection = () => {
+            const cameras = [
+                {
+                    title: "Sony A7IV",
+                    desc: "My daily workhorse. The 33MP sensor provides incredible detail for landscapes, allowing for large prints, while the real-time eye autofocus is absolutely essential for tracking erratic birds in flight. It's the perfect hybrid.",
+                    link: "https://amzn.to/49VmCvN",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Sony A7III",
+                    desc: "My trusted backup body and astro specialist. Its 24MP sensor has larger pixels which gives it excellent low-light performance and dynamic range, making it my preferred choice for clean nightscapes.",
+                    link: "https://amzn.to/4auWU1q",
+                    btn: "Amazon Link"
+                }
+            ];
+
+            const lenses = [
+                {
+                    title: "Sony F4 24-105mm",
+                    desc: "The 'do it all' lens. If I'm hiking and only want one lens, this is it. It covers wide landscapes at 24mm to short telephoto portraits at 105mm, offering incredible versatility without changing lenses.",
+                    link: "https://amzn.to/4rzVKrn",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Sony 200-600mm",
+                    desc: "Essential for wildlife. The internal zoom means it stays balanced on a gimbal, and the 600mm reach allows me to capture intimate portraits of seabirds and deer without disturbing their natural behavior.",
+                    link: "https://amzn.to/3MmY2ee",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Viltrox 16mm F1.8",
+                    desc: "My go-to for the Milky Way. The ultra-fast F1.8 aperture lets in huge amounts of light, allowing me to keep ISO lower for cleaner images of the night sky.",
+                    link: "https://amzn.to/4qinlvY",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Samyang 14mm F2.8",
+                    desc: "An ultra-wide alternative. The extra width (14mm vs 16mm) is crucial when I need to fit a massive foreground element, like Bamburgh Castle, and the entire arch of the Milky Way into one frame.",
+                    link: "https://amzn.to/4rt16nY",
+                    btn: "Amazon Link"
+                }
+            ];
+
+            const accessories = [
+                {
+                    title: "Artcise Carbon Tripod",
+                    desc: "A rock-solid foundation is non-negotiable for long exposures on the windy Northumberland coast. Carbon fiber absorbs vibration better than aluminum and saves weight on long hikes.",
+                    link: "https://amzn.to/49U6Rp0",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Star Tracker (MSM)",
+                    desc: "Rotates the camera to counteract Earth's rotation. This allows for 2-minute exposures instead of 15 seconds, capturing far more detail and color in deep sky objects without star trails.",
+                    link: "https://shorturl.at/qLUy3",
+                    btn: "MSM Nomad Link"
+                },
+                {
+                    title: "Rolanpro Lens Cover",
+                    desc: "Protects the big white lens from rain, sand, and accidental bumps while adding camouflage. Essential for blending into the environment and protecting your investment.",
+                    link: "https://amzn.to/4qjj4bM",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Wildlife Photography Hide",
+                    desc: "Essential for static observation. It allows me to stay comfortable and unseen for hours while waiting for shy species like otters or kingfishers to emerge.",
+                    link: "https://amzn.to/4c7rVK2",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "3D Camo Ghillie Suit",
+                    desc: "Perfect for stalking or when a static hide isn't practical. It breaks up the human outline completely, allowing me to merge into the hedgerows and get closer to wildlife.",
+                    link: "https://amzn.to/4qkZ1cV",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Peak Design Slide Strap",
+                    desc: "A versatile, comfortable strap that connects quickly. The seatbelt-style material glides over clothing, and the smooth adjustment handles make changing length instant for different carry styles.",
+                    link: "https://amzn.to/3M4l0qw",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Peak Design Capture Clip",
+                    desc: "Keeps my camera securely attached to my backpack strap for instant access while hiking. It keeps my hands free for scrambling but ensures the camera is ready in a split second.",
+                    link: "https://amzn.to/4kfx98t",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Peak Design Cuff Wrist Strap",
+                    desc: "Minimalist protection against accidental drops. It creates a magnetic bracelet when not in use, so it's never in the way, but instantly secures the camera if I lose my grip.",
+                    link: "https://amzn.to/4kfc91C",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Cotton Carrier G3 Harness",
+                    desc: "Essential for carrying heavy telephoto lenses over long distances without neck strain. It distributes the weight across your chest and back, making all-day hikes with big glass manageable.",
+                    link: "https://amzn.to/3NMB7tp",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "K&F Magnetic Lens Filters",
+                    desc: "A game changer for seascapes. The magnetic system lets me swap ND and CPL filters in seconds without freezing fingers screwing them on, allowing me to control shutter speed for smooth water effects.",
+                    link: "https://amzn.to/3NMB7tp",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Lens Dew Heater",
+                    desc: "Vital for astro photography in the UK. It wraps around the front element to gently warm the glass, preventing fog and dew from forming during long, cold nights.",
+                    link: "https://amzn.to/4qZz83w",
+                    btn: "Amazon Link"
+                },
+                {
+                    title: "Remote Shutter",
+                    desc: "Ensures absolutely zero camera shake for long exposures. It also allows me to lock the shutter open for 'Bulb' mode exposures longer than 30 seconds.",
+                    link: "https://amzn.to/4khm5YK",
+                    btn: "Amazon Link"
+                }
+            ];
+
+            const GearItem = ({ item }) => (
+                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 transition-all duration-300 hover:shadow-lg flex flex-col h-full">
+                    <h5 className="font-bold text-slate-900 text-sm mb-2">{item.title}</h5>
+                    <p className="text-xs text-slate-600 mb-4 leading-relaxed flex-grow">{item.desc}</p>
+                    <div className="mt-auto">
+                        <a href={item.link} target="_blank" className="inline-flex items-center text-sky-500 hover:text-sky-600 text-[10px] font-black uppercase tracking-widest transition-colors">
+                            {item.btn} <Icon name="check" size={12} className="ml-1"/>
+                        </a>
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="mt-20">
+                     <div className="mb-12">
+                        <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">My Equipment</span>
+                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">What's in my bag?</h3>
+                        <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
+                            To handle the diverse conditions of Northumberland, from dark sky astro shoots to fast-paced wildlife encounters, I rely on a specific set of tools. You really don't need the very best or latest gear to get out and enjoy photography, any camera and lens can be the gateway to your journey. For information I've popped below what kit I use to capture my images. As an Amazon Associate, I need to let you know that I earn from qualifying purchases using the links below.
+                        </p>
+                    </div>
+
+                    <div className="space-y-12">
+                        
+                        {/* Cameras Section */}
+                        <div>
+                            <div className="flex items-center space-x-3 mb-6">
+                                <div className="p-2 bg-slate-900 rounded-lg text-white shadow-sm"><Icon name="camera" size={18} /></div>
+                                <h4 className="font-black text-sm uppercase tracking-widest text-slate-900">Cameras</h4>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {cameras.map((item, i) => <GearItem key={i} item={item} />)}
+                            </div>
+                        </div>
+
+                        {/* Lenses Section */}
+                        <div>
+                            <div className="flex items-center space-x-3 mb-6">
+                                <div className="p-2 bg-slate-900 rounded-lg text-white shadow-sm"><Icon name="tool" size={18} /></div>
+                                <h4 className="font-black text-sm uppercase tracking-widest text-slate-900">Lenses</h4>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-6">
+                                {lenses.map((item, i) => <GearItem key={i} item={item} />)}
+                            </div>
+                        </div>
+
+                        {/* Accessories Section */}
+                        <div>
+                            <div className="flex items-center space-x-3 mb-6">
+                                <div className="p-2 bg-slate-900 rounded-lg text-white shadow-sm"><Icon name="check" size={18} /></div>
+                                <h4 className="font-black text-sm uppercase tracking-widest text-slate-900">Accessories</h4>
+                            </div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {accessories.map((item, i) => <GearItem key={i} item={item} />)}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             );
@@ -294,7 +475,7 @@
                             </div>
 
                             <Bio />
-                           
+                            
                             {/* Workshop Tiles */}
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {WORKSHOPS.map(workshop => (
@@ -339,6 +520,10 @@
                                     </div>
                                 ))}
                             </div>
+
+                            {/* New Gear Section */}
+                            <GearSection />
+
                         </section>
                     </main>
 
