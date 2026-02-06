@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary Meta Tags for SEO -->
     <title>NorthernPixl | Guides</title>
+    <meta name="title" content="NorthernPixl | Guides">
+    <meta name="description" content="Master landscape, wildlife, and astro photography in Northumberland. Free guides on settings, composition, and fieldcraft for beginners and pros.">
+    <meta name="keywords" content="Photography Tutorials, Landscape Photography Tips, Wildlife Photography Guide, Astro Photography Settings, Northumberland, NorthernPixl">
+    <meta name="author" content="NorthernPixl">
 
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://northernpixl.com/learn.html">
+    <meta property="og:title" content="NorthernPixl | Guides">
+    <meta property="og:description" content="Master landscape, wildlife, and astro photography in Northumberland. Free guides on settings, composition, and fieldcraft for beginners and pros.">
+    <meta property="og:image" content="MG2282.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://northernpixl.com/learn.html">
+    <meta property="twitter:title" content="NorthernPixl | Guides">
+    <meta property="twitter:description" content="Master landscape, wildlife, and astro photography in Northumberland. Free guides on settings, composition, and fieldcraft for beginners and pros.">
+    <meta property="twitter:image" content="MG2282.jpg">
+
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803"
      crossorigin="anonymous"></script>
     
@@ -183,7 +204,7 @@
                                     ))}
                                 </div>
                             </div>
-                           
+                            
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {filteredGuides.map(guide => (
                                     <div key={guide.id} onClick={() => { setSelectedTopic(guide); window.history.pushState({}, ""); }} className="bg-white border border-slate-100 p-8 md:p-10 rounded-[2rem] md:rounded-[2.5rem] shadow-sm hover:shadow-xl transition-all cursor-pointer group active:scale-95 duration-200">
