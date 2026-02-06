@@ -36,6 +36,8 @@
         /* Animation utilities */
         .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803"
+     crossorigin="anonymous"></script>
     </style>
 </head>
 <body class="bg-white text-slate-900 overflow-hidden">
@@ -274,14 +276,14 @@
             }, [filteredWalks]);
 
             return (
-                <div className="h-screen flex flex-col">
+                <div className="h-full flex flex-col">
                     <NavBar />
                     
                     <main className="flex-1 pt-20 relative">
                         <div ref={mapContainerRef} className="w-full h-full" />
                         
                         {/* Legend Overlay & Filter */}
-                        <div className="absolute bottom-8 left-8 z-[400] flex flex-col gap-4">
+                        <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-[400] flex flex-col gap-2 md:gap-4">
                             
                             {/* Filter Controls */}
                             <div className="bg-white p-2 rounded-2xl shadow-xl border border-slate-100 flex gap-2">
