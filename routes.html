@@ -8,6 +8,9 @@
     <title>Northumberland Walking Routes & Maps | NorthernPixl</title>
     <meta name="description" content="Curated walking routes in Northumberland with difficulty ratings. Download GPX files for The Cheviot, Simonside, and coastal walks.">
     
+    <!-- Canonical URL (Fixed to www) -->
+    <link rel="canonical" href="https://www.northernpixl.co.uk/routes.html" />
+
     <!-- Schema.org JSON-LD (ItemList) -->
     <script type="application/ld+json">
     {
@@ -212,6 +215,10 @@
             const mapInstanceRef = useRef(null);
             const markersLayerRef = useRef(null);
             const [activeFilter, setActiveFilter] = useState('all');
+            const [selectedWalk, setSelectedWalk] = useState(null);
+            const [isNavOpen, setIsNavOpen] = useState(false);
+            const walkMapContainerRef = useRef(null);
+            const walkMapInstanceRef = useRef(null);
 
             const filteredWalks = useMemo(() => {
                 if (activeFilter === 'all') return WALKS;
@@ -221,27 +228,39 @@
                 return WALKS;
             }, [activeFilter]);
 
+            // Handle Deep Linking
             useEffect(() => {
-                if (mapContainerRef.current && !mapInstanceRef.current) {
-                    const map = L.map(mapContainerRef.current, { 
+                const params = new URLSearchParams(window.location.search);
+                const walkId = params.get('id');
+                if (walkId) {
+                    const walk = filteredWalks.find(w => w.id === parseInt(walkId));
+                    if (walk) setSelectedWalk(walk);
+                }
+                const onPopState = () => setSelectedWalk(null);
+                window.addEventListener('popstate', onPopState);
+                return () => window.removeEventListener('popstate', onPopState);
+            }, [filteredWalks]);
+
+            // Main Map Logic
+            useEffect(() => {
+                if (mapContainerRef.current && !mapInstanceRef.current && !selectedWalk) {
+                     const map = L.map(mapContainerRef.current, { 
                         zoomControl: false,
-                        center: [55.35, -2.0], // Center roughly on Northumberland
+                        center: [55.35, -2.0], 
                         zoom: 9 
                     });
-                    
                     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
                         attribution: '&copy; OpenStreetMap'
                     }).addTo(map);
-
                     mapInstanceRef.current = map;
                     markersLayerRef.current = L.layerGroup().addTo(map);
-
+                    
                     // Fix for map loading correctly
                     setTimeout(() => {
                         map.invalidateSize();
                     }, 100);
                 }
-            }, []);
+            }, [selectedWalk]);
 
             useEffect(() => {
                 if (!mapInstanceRef.current || !markersLayerRef.current) return;
@@ -290,6 +309,8 @@
                     <NavBar />
                     
                     <main className="flex-1 pt-20 relative">
+                        {/* Hidden H1 for SEO */}
+                        <h1 className="sr-only">Northumberland Walking Routes Map</h1>
                         <div ref={mapContainerRef} className="w-full h-full" />
                         
                         {/* Legend Overlay & Filter */}
