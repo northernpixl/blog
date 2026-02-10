@@ -1,38 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Primary Meta Tags for SEO -->
-    <title>NorthernPixl | Locations</title>
-    <meta name="title" content="NorthernPixl | Locations">
-    <meta name="description" content="Explore the best photography locations in Northumberland. Discover castles, coastlines, dark sky sites, and wildlife hotspots with our interactive map guide.">
-    <meta name="keywords" content="Northumberland Photography Locations, Landscape Photography Map, Dark Sky Sites, Wildlife Photography Spots, Castles, Coastline, NorthernPixl">
-    <meta name="author" content="NorthernPixl">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://northernpixl.com/explore.html">
-    <meta property="og:title" content="NorthernPixl | Locations">
-    <meta property="og:description" content="Explore the best photography locations in Northumberland. Discover castles, coastlines, dark sky sites, and wildlife hotspots with our interactive map guide.">
-    <meta property="og:image" content="MG2282.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://northernpixl.com/explore.html">
-    <meta property="twitter:title" content="NorthernPixl | Locations">
-    <meta property="twitter:description" content="Explore the best photography locations in Northumberland. Discover castles, coastlines, dark sky sites, and wildlife hotspots with our interactive map guide.">
-    <meta property="twitter:image" content="MG2282.jpg">
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803"
-     crossorigin="anonymous"></script>
+    <!-- SEO -->
+    <title>Northumberland Photography Locations Map | NorthernPixl</title>
+    <meta name="description" content="Interactive map of the best photography locations in Northumberland. Find GPS coordinates for Bamburgh, Dunstanburgh, Kielder, and hidden gems.">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -46,7 +26,6 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 1.5rem; z-index: 0; }
         @media (min-width: 1024px) { .leaflet-container { border-radius: 3rem; } }
-        /* Animation utilities for menu */
         .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -79,7 +58,7 @@
             { id: 1, name: "Bamburgh Castle", type: "Landscape", lat: 55.6090, lng: -1.7120, desc: "This is arguably the most iconic view in the county. At low tide, head north of the castle to the 'Black Rocks' (part of the Whin Sill). These volcanic pools act as perfect mirrors. \n\nCOMPOSITION: Use a wide-angle lens (16-24mm) to get close to the green, mossy rocks in the foreground while keeping the castle imposing in the background. Watch for the 'Stag Rock' painted white for an alternative angle further north.", parking: "NE69 7DF (Links Car Park)", best_time: "Sunrise (Winter) / Sunset (Summer)", top_tip: "Wellingtons are mandatory! The best compositions often require standing in 6 inches of seawater to get the reflection just right.", history: "The Royal Seat of the Kings of Northumbria. It has stood guard here for over 1,400 years, originally a wooden fort destroyed by Vikings in 993, then rebuilt by Normans. Restored to its current glory by industrialist Lord Armstrong." },
             { id: 2, name: "Dunstanburgh Castle", type: "Landscape", lat: 55.4915, lng: -1.5947, desc: "The approach from Craster is a 1.3-mile walk, but the photographic rewards are immense. The classic shot is from the 'Greystones' (round boulders) on the north side at Embleton Bay. \n\nCOMPOSITION: Long exposure (1-2 seconds) is essential here to smooth the often rough water washing over the round stones. The castle ruins form a jagged silhouette that looks best when backlit at sunrise.", parking: "NE66 3TW (Craster Quarry)", best_time: "Sunrise (Year-round)", top_tip: "The round stones are incredibly slippery when wet. Wear spikes or move very slowly to avoid a camera-breaking fall.", history: "Built in 1313 by Earl Thomas of Lancaster on a magnificent scale, seemingly to defy King Edward II. It fell into ruin after the Wars of the Roses and was captured twice by Yorkist forces." },
             { id: 3, name: "Lindisfarne Castle", type: "Landscape", lat: 55.6694, lng: -1.7856, desc: "Situated on Holy Island, access is dictated by the tide tables—do not get cut off. The castle sits atop a volcanic mound (Beblowe Crag). \n\nCOMPOSITION: The most popular angle is from the row of upturned fishing boats in the harbor (The Ouse). These provide fantastic leading lines. Another option is the small stone jetty which points directly at the castle.", parking: "TD15 2RX (Chare Ends)", best_time: "Sunrise or Golden Hour", top_tip: "Always check the safe crossing times on the gov.uk website. The causeway floods rapidly and cars get stranded every year.", history: "A 16th-century fort built using stones from the dissolved priory. It was famously renovated by Arts and Crafts architect Edwin Lutyens in 1901. This island saw the first major Viking raid in 793 AD." },
-            { id: 4, name: "St Mary's Island", lat: 55.0717, lng: -1.4496, type: "Landscape", desc: "A tidal island linked by a short causeway. The white lighthouse is a stark contrast to the dark rocks. \n\nCOMPOSITION: The causeway itself is a perfect leading line. Photograph it as the tide is just starting to cover it (ensure you are on the mainland side!). Long exposures work beautifully here to turn the North Sea into a milky mist around the concrete walkway.", parking: "NE26 4RS", best_time: "High Tide (for long exposure)", top_tip: "Arrive 1 hour before high tide to capture the causeway just as it gets submerged, creating the 'floating island' effect.", history: "The lighthouse was built in 1898 on the site of an 11th-century monastic chapel. It was decommissioned in 1984 but remains a beacon for photographers and birdwatchers." },
+            { id: 4, name: "St Mary's Island", lat: 55.0717, lng: -1.4496, type: "Landscape", desc: "A tidal island linked by a short causeway. The white lighthouse is a stark contrast to the dark rocks. \n\nCOMPOSITION: The causeway itself is a perfect leading line. Photograph it as the tide is just starting to cover it (ensure you are on the mainland side!). Long exposures work well here to turn the North Sea into a milky mist around the concrete walkway.", parking: "NE26 4RS", best_time: "High Tide (for long exposure)", top_tip: "Arrive 1 hour before high tide to capture the causeway just as it gets submerged, creating the 'floating island' effect.", history: "The lighthouse was built in 1898 on the site of an 11th-century monastic chapel. It was decommissioned in 1984 but remains a beacon for photographers and birdwatchers." },
             { id: 5, name: "Farne Islands", type: "Wildlife", lat: 55.6178, lng: -1.6314, desc: "Accessible only by boat from Seahouses. Inner Farne is the main landing site. \n\nGEAR: You need a telephoto lens (300mm-500mm). The Arctic Terns will dive-bomb you (wear a hat!). The Puffins are fast—use a shutter speed of at least 1/2000s to freeze their wings. For seals, take a boat that circles the outer islands.", parking: "Seahouses Harbor", best_time: "May - July (Puffin Season)", top_tip: "Wear a wide-brimmed hat. The Arctic Terns are aggressive defenders of their nests and will peck the highest point of you (your head).", history: "Famed as the hermitage of St. Cuthbert who died here in 687 AD. Also the site of Grace Darling's heroic rescue of the SS Forfarshire survivors in 1838." },
             { id: 6, name: "Coquet Island", type: "Wildlife", lat: 55.3340, lng: -1.5372, desc: "This is an RSPB reserve and landing is prohibited, but boat tours from Amble offer incredible proximity. \n\nSPECIES: It is the UK's only stronghold for the Roseate Tern. It also hosts thousands of Puffins. Because you are on a moving boat, image stabilization (IS/VR) is critical. Keep your shutter speed high.", parking: "NE65 0AP (Amble)", best_time: "Summer Breeding Season", top_tip: "Use a high shutter speed (1/1000s+) even for static shots, as the boat engine vibration will blur your images at slower speeds.", history: "Home to the ruins of a medieval Benedictine cell. The lighthouse was built in 1841 and is now automated. The island has been a sanctuary since the 7th century." },
             { id: 7, name: "Chillingham Park", type: "Wildlife", lat: 55.5262, lng: -1.9054, desc: "Home to the famous Wild Cattle, the only survivors of the ancient wild herds of Britain. They are dangerous and must be viewed with a warden. \n\nCOMPOSITION: The park is a mix of woodland and open pasture. Try to capture the cattle interacting—locking horns or nursing calves. The ancient trees in the park also make for spooky atmospheric shots.", parking: "NE66 5NJ", best_time: "Early Morning (Mist)", top_tip: "Never approach the cattle on foot without the warden. They are wild animals and can charge without warning. Use a long lens.", history: "The herd has been enclosed here since the 13th century, remaining genetically isolated for hundreds of years. They are considered rarer than the giant panda." },
@@ -319,7 +298,6 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
