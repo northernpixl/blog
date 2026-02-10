@@ -1,33 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Primary Meta Tags -->
-    <title>NorthernPixl | Northumberland Photography & Hiking Guide</title>
-    <meta name="title" content="NorthernPixl | Northumberland Photography & Hiking Guide">
-    <meta name="description" content="A beginners guide for Northumberland photographers & hikers. Discover tips, locations, and curated routes for your journey in the stunning Northumberland landscape.">
-    <meta name="keywords" content="Northumberland, Photography, Hiking, Walking Routes, NorthernPixl, Landscape Photography, North East England">
+    <!-- SEO: Title & Meta Description -->
+    <title>Northumberland Photography Guide & Workshops | NorthernPixl</title>
+    <meta name="description" content="The ultimate guide to photography in Northumberland. Discover photo locations, walking routes, and book 1-to-1 photography tuition in the North East.">
+    <meta name="keywords" content="Northumberland photography, landscape photography workshops, Cheviot walking routes, Bamburgh Castle photos, NorthernPixl">
     <meta name="author" content="NorthernPixl">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://northernpixl.com/">
-    <meta property="og:title" content="NorthernPixl | Northumberland Photography & Hiking Guide">
-    <meta property="og:description" content="A beginners guide for Northumberland photographers & hikers. Discover tips, locations, and curated routes for your journey in the stunning Northumberland landscape.">
-    <meta property="og:image" content="MG2282.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://northernpixl.com/">
-    <meta property="twitter:title" content="NorthernPixl | Northumberland Photography & Hiking Guide">
-    <meta property="twitter:description" content="A beginners guide for Northumberland photographers & hikers. Discover tips, locations, and curated routes for your journey in the stunning Northumberland landscape.">
-    <meta property="twitter:image" content="MG2282.jpg">
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803"
-     crossorigin="anonymous"></script>
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://northernpixl.com/index.html" />
+
+    <!-- Open Graph (Social Media) -->
+    <meta property="og:title" content="Northumberland Photography Guide | NorthernPixl">
+    <meta property="og:description" content="Discover hidden gems, walking routes, and photography workshops in Northumberland.">
+    <meta property="og:image" content="MG2282.jpg">
+    <meta property="og:url" content="https://northernpixl.com/index.html">
+    <meta property="og:type" content="website">
+
+    <!-- Schema.org JSON-LD (Local Business) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "NorthernPixl",
+      "image": "https://northernpixl.com/MG2282.jpg",
+      "description": "Northumberland landscape photography guide, walking routes, and tuition.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Northumberland",
+        "addressCountry": "UK"
+      },
+      "url": "https://northernpixl.com",
+      "priceRange": "££"
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -37,15 +47,10 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-
+        
         /* Hide scrollbar for clean look but allow scrolling */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-900 overflow-x-hidden">
@@ -59,37 +64,42 @@
             { 
                 id: 1, 
                 title: 'Start Learning', 
-                image: 'tree milkyway.jpg',
-                link: 'learn.html',
-                desc: 'Master your camera'
+                image: 'tree milkyway.jpg', 
+                link: 'learn.html', 
+                desc: 'Master your camera',
+                alt: 'Sycamore Gap tree under the Milky Way Northumberland'
             },
             { 
                 id: 2, 
                 title: 'Explore Locations', 
                 image: 'shaftoesquare-1.jpg', 
-                link: 'explore.html',
-                desc: 'Hidden gems'
+                link: 'explore.html', 
+                desc: 'Hidden gems',
+                alt: 'Shaftoe Crags Northumberland landscape photography'
             },
             { 
                 id: 3, 
                 title: 'Suggested Routes', 
-                image: 'sycamoresquare.jpg',
-                link: 'routes.html',
-                desc: 'Curated paths'
+                image: 'sycamoresquare.jpg', 
+                link: 'routes.html', 
+                desc: 'Curated paths',
+                alt: 'Walking route map for Northumberland National Park'
             },
             { 
                 id: 4, 
                 title: 'Ethics', 
-                image: 'ethics-1.jpg',
-                link: 'ethics.html',
-                desc: 'Leave no trace'
+                image: 'ethics-1.jpg', 
+                link: 'ethics.html', 
+                desc: 'Leave no trace',
+                alt: 'Photographer practising ethical wildlife photography'
             },
             { 
                 id: 5, 
                 title: 'Tuition', 
-                image: 'kingfishersquare.jpg',
-                link: 'tuition.html',
-                desc: 'Workshops'
+                image: 'kingfishersquare.jpg', 
+                link: 'tuition.html', 
+                desc: 'Workshops',
+                alt: 'Kingfisher wildlife photography workshop Northumberland'
             },
         ];
 
@@ -155,6 +165,7 @@
                         <button 
                             className={`md:hidden z-50 p-2 ${scrolled || isOpen ? 'text-slate-900' : 'text-white'}`}
                             onClick={() => setIsOpen(!isOpen)}
+                            aria-label="Toggle Menu"
                         >
                             <Icon name={isOpen ? 'x' : 'menu'} size={24} />
                         </button>
@@ -178,7 +189,10 @@
                 <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors z-10"></div>
                 <img 
                     src={item.image} 
-                    alt={item.title} 
+                    alt={item.alt || item.title} 
+                    loading="lazy"
+                    width="280"
+                    height="360"
                     className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                 />
                 <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
@@ -191,18 +205,9 @@
         const ManualCarousel = () => {
             return (
                 <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
-                    {/* Mobile Only Hint:
-                        - md:hidden: Hides this element on desktop screens
-                    */}
                     <div className="md:hidden text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-6">
                         Scroll across for more
                     </div>
-
-                    {/* Updated for Desktop Centering:
-                        - md:w-max: Wraps width to content on desktop
-                        - md:mx-auto: Centers the wrapped content on desktop
-                        - md:max-w-full: Ensures it doesn't overflow the screen width on desktop (re-enabling scroll if needed)
-                    */}
                     <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-6 no-scrollbar pb-6 md:w-max md:mx-auto md:max-w-full">
                         {topics.map((topic, index) => (
                             <CarouselCard key={`${topic.id}-${index}`} item={topic} />
@@ -227,27 +232,27 @@
                             <div className="absolute inset-0 z-0 flex justify-center items-center overflow-hidden bg-slate-900">
                                 <img 
                                     src="MG2282.jpg" 
-                                    alt="Northumberland Landscape" 
-                                    className="h-full w-auto max-w-none object-cover"
+                                    alt="Northumberland Landscape Photography - Dramatic coastline" 
+                                    className="h-full w-auto max-w-none object-cover opacity-80"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80"></div>
                             </div>
 
-                            {/* Text Content */}
+                            {/* Text Content - SEO Optimized H1 */}
                             <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-32 pb-10">
                                 <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter mb-6 break-words w-full drop-shadow-2xl text-white">
                                     NORTHUMBERLAND <br/>
-                                    <span className="text-sky-300 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-sky-400 sm:to-sky-600">EXPOSURE.</span>
+                                    <span className="text-sky-300 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-sky-400 sm:to-sky-600">PHOTOGRAPHY.</span>
                                 </h1>
                                 <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-medium leading-relaxed drop-shadow-md">
-                                    A beginners guide for Northumberland photographers & hikers. Tips, locations, and routes for your journey in the stunning landscape.
+                                    The ultimate guide for photographers & hikers in the North East. Tips, locations, and walking routes for your journey in the stunning Northumberland landscape.
                                 </p>
                                 
                                 <div className="flex items-center justify-center space-x-8 mb-8">
-                                    <a href="https://facebook.com/northernpixl" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all">
+                                    <a href="https://facebook.com/northernpixl" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all" aria-label="Visit NorthernPixl Facebook">
                                         <Icon name="facebook" size={28} />
                                     </a>
-                                    <a href="https://instagram.com/northernpixl" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all">
+                                    <a href="https://instagram.com/northernpixl" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all" aria-label="Visit NorthernPixl Instagram">
                                         <Icon name="instagram" size={28} />
                                     </a>
                                 </div>
@@ -274,7 +279,7 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-3848390381001803"></amp-auto-ads>
+    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
