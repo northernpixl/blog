@@ -1,34 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Primary Meta Tags for SEO -->
-    <title>NorthernPixl | Tuition & Workshops</title>
-    <meta name="title" content="NorthernPixl | Tuition & Workshops">
-    <meta name="description" content="Book private 1-to-1 photography tuition or small group workshops in Northumberland. Master your camera with expert guidance in stunning locations.">
-    <meta name="keywords" content="Photography Tuition Northumberland, Camera Workshops, Landscape Photography Course, 1-to-1 Photography Lessons, NorthernPixl, Stephen">
-    <meta name="author" content="NorthernPixl">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://northernpixl.com/tuition.html">
-    <meta property="og:title" content="NorthernPixl | Tuition & Workshops">
-    <meta property="og:description" content="Book private 1-to-1 photography tuition or small group workshops in Northumberland. Master your camera with expert guidance in stunning locations.">
-    <meta property="og:image" content="cheviottuition.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://northernpixl.com/tuition.html">
-    <meta property="twitter:title" content="NorthernPixl | Tuition & Workshops">
-    <meta property="twitter:description" content="Book private 1-to-1 photography tuition or small group workshops in Northumberland. Master your camera with expert guidance in stunning locations.">
-    <meta property="twitter:image" content="cheviottuition.jpg">
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803"
-     crossorigin="anonymous"></script>
+    <!-- SEO -->
+    <title>Photography Tuition & Workshops Northumberland | NorthernPixl</title>
+    <meta name="description" content="Book 1-to-1 photography tuition and small group workshops in Northumberland. Master your camera with landscape, wildlife, and astro photography courses.">
     
+    <!-- Schema.org JSON-LD (Course/Product) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "Course",
+          "name": "1-to-1 Landscape Masterclass",
+          "description": "Full day private photography tuition in Northumberland.",
+          "provider": {
+            "@type": "Organization",
+            "name": "NorthernPixl"
+          },
+          "offers": {
+             "@type": "Offer",
+             "price": "295",
+             "priceCurrency": "GBP"
+          }
+        },
+        {
+          "@type": "Course",
+          "name": "Astro & Nightscape Intro",
+          "description": "Learn to photograph the Milky Way and dark skies in Northumberland.",
+          "provider": {
+            "@type": "Organization",
+            "name": "NorthernPixl"
+          },
+          "offers": {
+             "@type": "Offer",
+             "price": "195",
+             "priceCurrency": "GBP"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -41,7 +59,6 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        /* Animation utilities for menu */
         .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -260,7 +277,8 @@
                         {!imgError ? (
                             <img 
                                 src="IMG-20240617-WA0002.jpg" 
-                                alt="Stephen" 
+                                alt="Stephen - Photography Tutor" 
+                                loading="lazy"
                                 className="w-full h-full object-cover" 
                                 onError={() => setImgError(true)}
                             />
@@ -494,7 +512,7 @@
                     <main className="pt-20">
                         <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-20">
                             <div className="mb-12">
-                                <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">Tuition &<br/>Workshops</h2>
+                                <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">Tuition &<br/>Workshops</h1>
                                 <p className="text-slate-400 max-w-xl">Master your camera in the heart of Northumberland. Choose from 1-to-1 private tuition or small group adventures.</p>
                             </div>
 
@@ -512,6 +530,7 @@
                                         <img 
                                             src={workshop.image} 
                                             alt={workshop.title} 
+                                            loading="lazy"
                                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                         />
                                         
@@ -619,7 +638,6 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
