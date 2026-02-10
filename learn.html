@@ -1,34 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Primary Meta Tags for SEO -->
-    <title>NorthernPixl | Guides</title>
-    <meta name="title" content="NorthernPixl | Guides">
-    <meta name="description" content="Master landscape, wildlife, and astro photography in Northumberland. Free guides on settings, composition, and fieldcraft for beginners and pros.">
-    <meta name="keywords" content="Photography Tutorials, Landscape Photography Tips, Wildlife Photography Guide, Astro Photography Settings, Northumberland, NorthernPixl">
+    <!-- SEO: Title & Meta Description -->
+    <title>Photography Guides & Tutorials Northumberland | NorthernPixl</title>
+    <meta name="description" content="Free photography guides for landscape, wildlife, and astro photography. Learn hyperfocal distance, long exposure settings, and fieldcraft in Northumberland.">
+    <meta name="keywords" content="photography tutorials, camera settings guide, wildlife fieldcraft, hyperfocal distance, astro photography settings">
     <meta name="author" content="NorthernPixl">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://northernpixl.com/learn.html">
-    <meta property="og:title" content="NorthernPixl | Guides">
-    <meta property="og:description" content="Master landscape, wildlife, and astro photography in Northumberland. Free guides on settings, composition, and fieldcraft for beginners and pros.">
-    <meta property="og:image" content="MG2282.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://northernpixl.com/learn.html">
-    <meta property="twitter:title" content="NorthernPixl | Guides">
-    <meta property="twitter:description" content="Master landscape, wildlife, and astro photography in Northumberland. Free guides on settings, composition, and fieldcraft for beginners and pros.">
-    <meta property="twitter:image" content="MG2282.jpg">
-
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803"
-     crossorigin="anonymous"></script>
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://northernpixl.com/learn.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Photography Guides & Tutorials | NorthernPixl">
+    <meta property="og:description" content="Master your camera with our free guides on landscape, wildlife, and night photography.">
+    <meta property="og:url" content="https://northernpixl.com/learn.html">
+    <meta property="og:type" content="article">
+
+    <!-- Schema.org JSON-LD (ItemList for Guides) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Hyperfocal Distance Guide",
+          "description": "How to maximize depth of field in landscape photography."
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Long Exposure Waterscapes",
+          "description": "Settings for smooth water effects in Northumberland seascapes."
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Wildlife Shutter Priority",
+          "description": "Mastering shutter speed for sharp bird photography."
+        }
+      ]
+    }
+    </script>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -41,7 +60,6 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        /* Animation utilities for menu */
         .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -193,7 +211,7 @@
                         <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-20">
                             <div className="mb-8 md:mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
                                 <div>
-                                    <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-2">Photography Guides</h2>
+                                    <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-2">Photography Guides</h1>
                                     <p className="text-sm md:text-base text-slate-400">35 suggested topics.</p>
                                 </div>
                                 <div className="flex bg-slate-100 p-1 rounded-full overflow-x-auto">
@@ -250,7 +268,6 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count"
-        async src="//gc.zgo.at/count.js"></script>
+    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
