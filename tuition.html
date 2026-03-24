@@ -8,16 +8,6 @@
     <title>Photography Tuition & Workshops Northumberland | NorthernPixl</title>
     <meta name="description" content="Book 1-to-1 photography tuition and small group workshops in Northumberland. Master your camera with landscape, wildlife, and astro photography courses.">
     
-    <!-- Canonical URL (Fixed to www) --><!DOCTYPE html>
-<html lang="en-GB">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO -->
-    <title>Photography Tuition & Workshops Northumberland | NorthernPixl</title>
-    <meta name="description" content="Book 1-to-1 photography tuition and small group workshops in Northumberland. Master your camera with landscape, wildlife, and astro photography courses.">
-    
     <!-- Canonical URL (Fixed to www) -->
     <link rel="canonical" href="https://www.northernpixl.co.uk/tuition.html" />
 
@@ -36,9 +26,9 @@
             "name": "NorthernPixl"
           },
           "offers": {
-             "@type": "Offer",
-             "price": "295",
-             "priceCurrency": "GBP"
+            "@type": "Offer",
+            "price": "295",
+            "priceCurrency": "GBP"
           }
         },
         {
@@ -50,9 +40,9 @@
             "name": "NorthernPixl"
           },
           "offers": {
-             "@type": "Offer",
-             "price": "195",
-             "priceCurrency": "GBP"
+            "@type": "Offer",
+            "price": "195",
+            "priceCurrency": "GBP"
           }
         }
       ]
@@ -97,6 +87,100 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
                     {icons[name] || null}
                 </svg>
+            );
+        };
+
+        const VallerretAffiliateWidget = () => {
+            useEffect(() => {
+                // Ensure the div is clear in case the user opens/closes the modal
+                const targetDiv = document.getElementById('rfsn_img_44044');
+                if (targetDiv) targetDiv.innerHTML = '';
+
+                const loadRefersion = () => {
+                    if (window.$rfsn_creative) {
+                        try {
+                            window.$rfsn_creative.generate('refersion_client/34121/creatives/dynamic/44044-94d140c18cf68b5066af7b4c0d02426a.json', {
+                                aid: '9024144.58f955'
+                            });
+                        } catch(e) { console.error(e); }
+                    } else {
+                        // Prevent injecting the script multiple times
+                        if (!document.querySelector('script[src*="refersion.com/creative.js"]')) {
+                            const script = document.createElement('script');
+                            script.type = 'text/javascript';
+                            // Forced https:// to prevent protocol errors in iframes/local viewing
+                            script.src = 'https://cdn.refersion.com/creative.js';
+                            script.async = true;
+                            script.onload = () => {
+                                if (window.$rfsn_creative) {
+                                    window.$rfsn_creative.generate('refersion_client/34121/creatives/dynamic/44044-94d140c18cf68b5066af7b4c0d02426a.json', {
+                                        aid: '9024144.58f955'
+                                    });
+                                }
+                            };
+                            document.body.appendChild(script);
+                        }
+                    }
+                };
+
+                // Add a tiny delay to ensure React has fully painted the div to the DOM before the script hunts for the ID
+                const timer = setTimeout(() => {
+                    loadRefersion();
+                }, 100);
+
+                return () => clearTimeout(timer);
+            }, []);
+
+            return (
+                <div className="my-10 w-full flex justify-center mix-blend-multiply relative min-h-[80px]">
+                    <div id="rfsn_img_44044"></div>
+                </div>
+            );
+        };
+
+        const VallerretThumbnailWidget = () => {
+            useEffect(() => {
+                // Ensure the div is clear in case the user opens/closes the modal
+                const targetDiv = document.getElementById('rfsn_img_43991');
+                if (targetDiv) targetDiv.innerHTML = '';
+
+                const loadRefersion = () => {
+                    if (window.$rfsn_creative) {
+                        try {
+                            window.$rfsn_creative.generate('refersion_client/34121/creatives/dynamic/43991-894eacfcfa98841f7b34907ba0f84ece.json', {
+                                aid: '9024144.58f955'
+                            });
+                        } catch(e) { console.error(e); }
+                    } else {
+                        // Prevent injecting the script multiple times
+                        if (!document.querySelector('script[src*="refersion.com/creative.js"]')) {
+                            const script = document.createElement('script');
+                            script.type = 'text/javascript';
+                            script.src = 'https://cdn.refersion.com/creative.js';
+                            script.async = true;
+                            script.onload = () => {
+                                if (window.$rfsn_creative) {
+                                    window.$rfsn_creative.generate('refersion_client/34121/creatives/dynamic/43991-894eacfcfa98841f7b34907ba0f84ece.json', {
+                                        aid: '9024144.58f955'
+                                    });
+                                }
+                            };
+                            document.body.appendChild(script);
+                        }
+                    }
+                };
+
+                const timer = setTimeout(() => {
+                    loadRefersion();
+                }, 100);
+
+                return () => clearTimeout(timer);
+            }, []);
+
+            return (
+                <div className="w-full h-full flex items-center justify-center mix-blend-multiply bg-white relative">
+                    <div id="rfsn_img_43991"></div>
+                </div>
             );
         };
 
@@ -218,16 +302,26 @@
                 title: "Surviving the Chill: Why the Vallerret Senja LRS is My Go-To Cold Weather Glove",
                 date: "March 2026",
                 category: "Gear Review",
-                readTime: "4 min read",
+                readTime: "5 min read",
+                imageType: "vallerret-affiliate-thumb",
                 image: "vallerret-gloves.jpg", 
-                excerpt: "Photography in Northumberland means standing still in freezing temperatures for hours. Here is why the Vallerret Senja LRS zipper mitts have completely changed my winter shooting experience...",
+                excerpt: "Brutal winds and freezing temperatures can ruin a winter shoot. Here is why the Vallerret Senja LRS mitts are my ultimate cold-weather solution.",
                 content: [
-                    "Anyone who has spent a winter night chasing the Milky Way or the Aurora Borealis along the Northumberland coast knows the ultimate enemy isn't light pollution or clouds—it's the biting, relentless cold. Specifically, freezing fingers.",
-                    "For years, I struggled with the classic photographer's dilemma: wear thick gloves and lose the ability to operate the camera, or wear thin gloves and minimise the cold but still not be in comfort. After trying countless options, I finally invested in the Vallerret Senja LRS Zipper Mitts, and they have been an absolute game-changer for my cold weather photography.",
-                    "Quality & Build:\n The first thing you notice when putting these on is the premium construction. They feature a durable genuine goat leather shell and a DWR (Durable Water Repellent) coating that shrugs off the damp sea fret. Inside, the Merino wool lining provides exceptional warmth without the sweaty, clammy feeling you get from synthetic linings. The quality of the stitching and materials means these are built to last through many harsh winters.",
-                    "The 'Zipper' Game-Changer:\n The main reason I specifically bought the Senja LRS model is the zipper access. Unlike traditional photography gloves with flip-back caps that can let drafts in or get caught on straps, these mitts have a heavy-duty, weather-sealed zipper right across the knuckles. When I need to adjust my ISO, tweak the manual focus ring, or change an intervalometer setting in the dark, I just unzip, pop my fingers out, make the precise adjustment, and zip them straight back into the oven-like warmth of the mitt.",
-                    "Comfort in the Field:\n Comfort is unparalleled. The mitt design naturally keeps your fingers together, sharing body heat much more effectively than standard fingered gloves. When I'm shooting long star trails and have 30 minutes to kill while the camera fires away on a tripod, I can tuck my hands inside, keep my core temperature up, and actually enjoy watching the night sky instead of shivering in misery like I used to.",
-                    "If you are serious about winter photography, do your hands a favour and consider adding these to your kit bag. These are an investment, but one that instantly pays for itself the first time the temperature drops below zero. I've inlcuded the link in the Accessories section on this page"
+                    "Shooting the Milky Way or Aurora on the Northumberland coast usually means one thing: standing completely still in sub-zero temperatures while a relentless, freezing wind strips the heat right out of you.",
+                    
+                    "When the temperature drops, the cold doesn't just make you uncomfortable—it actively hinders your photography. Your fingers quickly go numb, losing the dexterity needed to operate tiny camera dials. Even gripping a cold metal tripod becomes painful. For years, I played the frustrating game of taking my thick, clumsy gloves off to change settings, only to freeze my hands instantly in the biting chill. I finally picked up the Vallerret Senja LRS Zipper Mitts, and they've completely eliminated that problem.",
+                    
+                    "Quality & Build:\n The construction is exceptionally robust. The genuine goat leather shell and DWR coating completely block out that damp, biting sea fret we get up here. But the real magic is inside. The heavy merino wool lining creates a micro-climate of heat, keeping my hands incredibly warm even when the wind chill pushes temperatures well below freezing. Because they are a mitt design rather than fingered gloves, your fingers naturally share body heat, keeping them much warmer for significantly longer.",
+                    
+                    "The 'Zipper' Game-Changer:\n The absolute standout feature is the weather-sealed knuckle zipper. In the past, I used photography gloves with flip-back finger caps, but they always seemed to let drafts in and felt clumsy. With the Senja LRS, I just pull the zipper, pop my fingers out for ten seconds to tweak my ISO or dial in manual focus in the dark, and immediately zip them straight back into the oven-like warmth. It is seamless and fast.",
+                    
+                    { type: 'video', src: "https://photographygloves.com/cdn/shop/videos/c/vp/130d993d7811491eb5f0d747c200c33a/130d993d7811491eb5f0d747c200c33a.m3u8?v=0", caption: "The zipper system allows instant access to camera dials without removing the glove." },
+
+                    "Comfort & Endurance in the Field:\n Astrophotography is a waiting game. When I'm shivering on a cliff edge waiting 30 minutes for a star trail exposure to finish, staying warm is a matter of safety and endurance. Since getting these mitts, I no longer have to retreat to the car or pack up early because my hands are numb and in agony. I can actually stand there comfortably and enjoy watching the dark skies.",
+                    
+                    "Final Verdict:\n They aren't the cheapest option on the market, but if you regularly shoot astro or brave the winter landscapes, they are an essential piece of gear. They pay for themselves the very first time the temperature drops below zero and the wind starts howling. I've included the link in the Accessories section on this page.",
+                    
+                    { type: 'vallerret-affiliate' }
                 ]
             }
         ];
@@ -460,7 +554,7 @@
                 {
                     title: "Vallerret Senja LRS Zipper Mitt",
                     desc: "Essential for cold weather photography. The zipper allows instant access to my fingers for adjusting camera dials, while keeping my hands incredibly warm during freezing Northumberland mornings.",
-                    link: "https://photographygloves.com/?rfsn=9024144.58f955",
+                    link: "https://photographygloves.com/",
                     btn: "Vallerret Link"
                 }
             ];
@@ -479,7 +573,7 @@
 
             return (
                 <div className="mt-20">
-                     <div className="mb-12">
+                    <div className="mb-12">
                         <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">My Equipment</span>
                         <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">What's in my bag?</h3>
                         <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
@@ -546,17 +640,23 @@
                                 className="group cursor-pointer flex flex-col h-full bg-slate-50 border border-slate-100 rounded-[2rem] p-6 transition-all duration-300 hover:shadow-xl"
                             >
                                 <div className="relative h-48 w-full overflow-hidden rounded-2xl mb-6 bg-slate-200">
-                                    <img 
-                                        src={article.image} 
-                                        alt={article.title} 
-                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
-                                        onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} 
-                                    />
-                                    {/* Fallback Icon */}
-                                    <div className="absolute inset-0 flex items-center justify-center text-slate-400" style={{display: 'none'}}>
-                                        <Icon name="camera" size={32} />
-                                    </div>
-                                    <div className="absolute top-3 left-3">
+                                    {article.imageType === "vallerret-affiliate-thumb" ? (
+                                        <VallerretThumbnailWidget />
+                                    ) : (
+                                        <React.Fragment>
+                                            <img 
+                                                src={article.image} 
+                                                alt={article.title} 
+                                                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                                                onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} 
+                                            />
+                                            {/* Fallback Icon */}
+                                            <div className="absolute inset-0 flex items-center justify-center text-slate-400" style={{display: 'none'}}>
+                                                <Icon name="camera" size={32} />
+                                            </div>
+                                        </React.Fragment>
+                                    )}
+                                    <div className="absolute top-3 left-3 z-10">
                                         <span className="px-3 py-1 rounded-full bg-white/90 backdrop-blur-md text-[9px] font-black uppercase tracking-widest text-slate-900 shadow-sm">{article.category}</span>
                                     </div>
                                 </div>
@@ -597,7 +697,7 @@
             const handleContactClick = (workshop) => {
                 const subject = `Tuition Enquiry: ${workshop.title}`;
                 const body = `Hi Stephen,%0D%0A%0D%0AI'm interested in booking the ${workshop.title} (${workshop.duration}).%0D%0A%0D%0AMy Details:%0D%0A- Preferred Dates: [Enter dates]%0D%0A- Experience Level: [Beginner/Intermediate/Pro]%0D%0A- Current Camera Gear: [e.g. Canon R5, 24-70mm]%0D%0A- Mobility/Fitness Level: [e.g. Comfortable walking 3 miles]%0D%0A- Specific Learning Goals: [What do you want to achieve?]%0D%0A%0D%0AThanks!`;
-               
+                
                 window.location.href = `mailto:northernpixl@gmail.com?subject=${subject}&body=${body}`;
             };
 
@@ -749,664 +849,87 @@
                                 </div>
 
                                 <div className="space-y-6">
-                                    {selectedArticle.content.map((paragraph, index) => {
-                                        // Simple formatting to make subheadings bold if they contain a colon at the end of a short phrase
-                                        if (paragraph.includes(":\n")) {
-                                            const parts = paragraph.split(":\n");
+                                    {selectedArticle.content.map((block, index) => {
+                                        // Handle standard text paragraphs
+                                        if (typeof block === 'string') {
+                                            // Simple formatting to make subheadings bold if they contain a colon at the end of a short phrase
+                                            if (block.includes(":\n")) {
+                                                const parts = block.split(":\n");
+                                                return (
+                                                    <p key={index} className="text-slate-700 leading-relaxed text-base md:text-lg">
+                                                        <strong className="text-slate-900 block mt-4 mb-2">{parts[0]}:</strong>
+                                                        {parts[1]}
+                                                    </p>
+                                                )
+                                            }
                                             return (
                                                 <p key={index} className="text-slate-700 leading-relaxed text-base md:text-lg">
-                                                    <strong className="text-slate-900 block mt-4 mb-2">{parts[0]}:</strong>
-                                                    {parts[1]}
+                                                    {block}
                                                 </p>
                                             )
-                                        }
-                                        return (
-                                            <p key={index} className="text-slate-700 leading-relaxed text-base md:text-lg">
-                                                {paragraph}
-                                            </p>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
-        };
-
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
-    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-</body>
-</html>
-    <link rel="canonical" href="https://www.northernpixl.co.uk/tuition.html" />
-
-    <!-- Schema.org JSON-LD (Course/Product) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": [
-        {
-          "@type": "Course",
-          "name": "1-to-1 Landscape Masterclass",
-          "description": "Full day private photography tuition in Northumberland.",
-          "provider": {
-            "@type": "Organization",
-            "name": "NorthernPixl"
-          },
-          "offers": {
-             "@type": "Offer",
-             "price": "295",
-             "priceCurrency": "GBP"
-          }
-        },
-        {
-          "@type": "Course",
-          "name": "Astro & Nightscape Intro",
-          "description": "Learn to photograph the Milky Way and dark skies in Northumberland.",
-          "provider": {
-            "@type": "Organization",
-            "name": "NorthernPixl"
-          },
-          "offers": {
-             "@type": "Offer",
-             "price": "195",
-             "priceCurrency": "GBP"
-          }
-        }
-      ]
-    }
-    </script>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
-        .animate-in { animation: fadeIn 0.6s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
-        @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
-    </style>
-</head>
-<body class="bg-white text-slate-900 overflow-x-hidden">
-    <div id="root"></div>
-
-    <script type="text/babel">
-        const { useState, useEffect } = React;
-
-        const Icon = ({ name, size = 20, className = "" }) => {
-            const icons = {
-                camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
-                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
-                mail: <><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></>,
-                check: <><polyline points="20 6 9 17 4 12"/></>,
-                user: <><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
-                map: <><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></>,
-                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
-                tool: <><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></>
-            };
-            return (
-                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-                    {icons[name] || null}
-                </svg>
-            );
-        };
-
-        const WORKSHOPS = [
-            { 
-                id: 1, 
-                title: "1-to-1 Masterclass (Full Day)", 
-                price: "£295", 
-                duration: "8 Hours",
-                cat: "Private",
-                image: "cheviottuition.jpg",
-                description: "A completely bespoke day tailored to your specific needs. Whether you want to master long exposure seascapes at Bamburgh, track wildlife in the Cheviots, or finally understand manual mode, this day is yours. We will cover technical camera skills, composition theory, and fieldcraft.",
-                itinerary: [
-                    "09:00 - Coffee & Equipment Check/Setup",
-                    "10:00 - Location 1: Technical Foundations (Exposure/Focus)",
-                    "13:00 - Lunch (Included at a local pub)",
-                    "14:00 - Location 2: Advanced Composition & Filters",
-                    "16:00 - Location 3: Golden Hour/Sunset Shoot",
-                    "17:00 - Debrief & Editing Workflow Talk"
-                ],
-                requirements: "DSLR or Mirrorless camera, Tripod, Walking boots.",
-                idealFor: "Photographers of any level who want rapid improvement through dedicated personal attention."
-            },
-            { 
-                id: 2, 
-                title: "1-to-1 Masterclass (Half Day)", 
-                price: "£165", 
-                duration: "5 Hours",
-                cat: "Private",
-                image: "Hethpooltuition.jpg",
-                description: "Perfect for focusing on a single specific skill or location. We can spend 4 hours perfecting your bird-in-flight settings, or chasing the perfect seascape at Dunstanburgh Castle. Intense, focused, and highly educational.",
-                itinerary: [
-                    "Hour 1: Theory & Camera Setup",
-                    "Hour 2: Guided Shooting (Location 1)",
-                    "Hour 3: Guided Shooting (Location 2)",
-                    "Hour 4: Image Review & Feedback"
-                ],
-                requirements: "Camera, Charged Battery, Empty Memory Card.",
-                idealFor: "Those with a busy schedule or a specific technical hurdle they need to overcome."
-            },
-            { 
-                id: 3, 
-                title: "Coastal Group Walk", 
-                price: "£105", 
-                duration: "6 Hours",
-                cat: "Group",
-                image: "Bamburghtuition.jpg",
-                description: "Join a small group (max 4 people) for a social and educational photo walk along the stunning Northumberland Coast. We will tackle the classic locations: Bamburgh, Dunstanburgh, or Howick. Learn from the tutor and your peers in a relaxed environment.",
-                itinerary: [
-                    "Meet at designated location",
-                    "Briefing on the days agenda and safety",
-                    "Walk to location (approx 1-2 miles)",
-                    "Group shooting session with rotating 1-to-1 advice",
-                    "Packed lunch break (please bring your own)",
-                    "Final location shoot"
-                ],
-                requirements: "Moderate fitness required (walking on sand/rocks). Waterproof clothing and suitable footwear.",
-                idealFor: "Social photographers who want to discover new locations safely."
-            },
-            { 
-                id: 4, 
-                title: "Astro & Nightscape Intro", 
-                price: "£195", 
-                duration: "5 Hours",
-                cat: "Specialist",
-                image: "stevetuition.jpg",
-                description: "Discover the dark skies of Northumberland. We will meet just before sunset to get ready to learn the art of night photography. Topics include focusing in the dark, the '500 Rule' and 'NPF Rule' for sharp stars, timelapses, milky way and deep sky objects.",
-                itinerary: [
-                    "20:00 - Meet & Theory (Warm clothes and gloves essential!)",
-                    "21:00 - Blue Hour compositions",
-                    "22:00 - Milky Way / Star Trail setup",
-                    "23:30 - Timelapse techniques",
-                    "01:00 - Finish"
-                ],
-                requirements: "Wide angle lens (f/2.8 preferred), Sturdy Tripod, Headtorch (Red light mode).",
-                idealFor: "Anyone wanting to capture the Milky Way or Aurora Borealis or a general interest in astro photography."
-            },
-            { 
-                id: 5, 
-                title: "Northumberland Hidden Gems Walk", 
-                price: "£75", 
-                duration: "4 Hours",
-                cat: "Adventure",
-                image: "puffinfrain.jpg",
-                description: "Put the camera away (or bring it just for snaps!) and immerse yourself in the landscape. This is a guided walking experience designed to show you the parts of Northumberland most visitors miss. From hidden waterfalls in the Cheviots to ancient Iron Age hillforts and secret coves, I will guide you through the history and geology of this incredible land.", 
-                itinerary: [ 
-                    "Meet and Greet / Safety Briefing", 
-                    "Hike to first point of interest (e.g. Linhope Spout or Yeavering Bell)", 
-                    "Historical overview and nature spotting", 
-                    "Scenic picnic stop (please bring your own)", 
-                    "Return via scenic loop" 
-                ], 
-                requirements: "Walking boots (essential), Waterproofs, Water & Snacks. Moderate fitness required.", 
-                idealFor: "Those who want to explore the landscape safely and learn about local history without the focus on photography." 
-            },
-            { 
-                id: 6, 
-                title: "Wildlife Fieldcraft Basics", 
-                price: "£165", 
-                duration: "5 Hours",
-                cat: "Specialist",
-                image: "foxtuition.jpg",
-                description: "Learn how to get close to wildlife without disturbing it and while following the ethics of wildlife photography. We will cover basic camouflage, wind direction, stalking techniques, and camera settings for fast action. We will target local species such as birds of prey, deer, seabirds or river birds depending on the season.",
-                itinerary: [
-                    "Understanding animal behavior",
-                    "Fieldcraft & Stealth techniques",
-                    "Shutter speed mastery for action",
-                    "Back-button focus setup",
-                    "Ethical considerations"
-                ],
-                requirements: "Telephoto lens (300mm+ recommended), quiet clothing (no rustling nylon).",
-                idealFor: "Nature lovers who want to move beyond 'snapshot' wildlife photos."
-            }
-        ];
-
-        const Navbar = () => {
-            const [isOpen, setIsOpen] = useState(false);
-
-            const toggleMenu = () => {
-                setIsOpen(!isOpen);
-            };
-
-            const links = [
-                { name: 'Home', url: 'index.html', active: false },
-                { name: 'Learn', url: 'learn.html', active: false },
-                { name: 'Explore', url: 'explore.html', active: false },
-                { name: 'Routes', url: 'routes.html', active: false },
-                { name: 'Ethics', url: 'ethics.html', active: false },
-                { name: 'Tuition', url: 'tuition.html', active: true }
-            ];
-
-            return (
-                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
-                    <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
-                        {/* Logo Area */}
-                        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
-                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
-                                <Icon name="camera" className="text-white" size={18} />
-                            </div>
-                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
-                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NorthernPixl</span>
-                        </div>
-                        
-                        {/* Desktop Navigation */}
-                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
-                            {links.map((link) => (
-                                <a 
-                                    key={link.name} 
-                                    href={link.url} 
-                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
-                                >
-                                    {link.name}
-                                </a>
-                            ))}
-                        </div>
-
-                        {/* Mobile Menu Button */}
-                        <div className="md:hidden">
-                            <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
-                                <Icon name={isOpen ? "x" : "menu"} size={24} />
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Mobile Navigation Dropdown */}
-                    {isOpen && (
-                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
-                            <div className="flex flex-col p-6 space-y-6">
-                                {links.map((link) => (
-                                    <a 
-                                        key={link.name} 
-                                        href={link.url} 
-                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
-                                    >
-                                        {link.name}
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-                </nav>
-            );
-        };
-
-        const Bio = () => {
-            const [imgError, setImgError] = useState(false);
-            
-            return (
-                <div className="bg-slate-50 border border-slate-100 rounded-[2rem] p-8 md:p-12 mb-12 flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12">
-                    <div className="w-24 h-24 md:w-32 md:h-32 bg-slate-200 rounded-full flex-shrink-0 overflow-hidden relative">
-                        {!imgError ? (
-                            <img 
-                                src="IMG-20240617-WA0002.jpg" 
-                                alt="Stephen - Photography Tutor" 
-                                loading="lazy"
-                                className="w-full h-full object-cover" 
-                                onError={() => setImgError(true)}
-                            />
-                        ) : (
-                            <div className="absolute inset-0 flex items-center justify-center text-slate-400">
-                                <Icon name="user" size={40} />
-                            </div>
-                        )}
-                    </div>
-                    <div className="flex-1">
-                        <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">About Me</span>
-                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">Hi! I'm Stephen.</h3>
-                        <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
-                            I am the photographer behind NorthernPixl. With over 20 years of experience behind the lens, a huge part of my life revolves around capturing the wild beauty of Northumberland, from the crashing waves of the North Sea to the glow of the Aurora Borealis and even the extraordinary wildlife Northumberland has to offer.
-                        </p>
-                        <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base mt-4">
-                            I absolutely love sharing my work and I'm fortunate to have been featured nationally and internationally, however my true passion lies in teaching and showcasing Northumberland's beauty. I believe that photography is not just about technical settings; it's about learning to <em>see</em>. Whether you are completely new to photography or an experienced photographer looking for local knowledge, my goal is to help you take get more out of photography and experience what Northumberland has to offer.
-                        </p>
-                    </div>
-                    <div className="flex-shrink-0 mt-6 md:mt-0">
-                        <a href="mailto:northernpixl@gmail.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-all duration-300 font-black uppercase text-[10px] tracking-widest shadow-sm hover:shadow-md group">
-                            <Icon name="mail" size={16} />
-                            <span>Contact Me</span>
-                        </a>
-                    </div>
-                </div>
-            );
-        };
-
-        const GearSection = () => {
-            const cameras = [
-                {
-                    title: "Sony A7IV",
-                    desc: "My daily workhorse. The 33MP sensor provides incredible detail for landscapes, allowing for large prints, while the real-time eye autofocus is absolutely essential for tracking erratic birds in flight. It's the perfect hybrid.",
-                    link: "https://amzn.to/49VmCvN",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Sony A7III",
-                    desc: "My trusted backup body and astro specialist. Its 24MP sensor has larger pixels which gives it excellent low-light performance and dynamic range, making it my preferred choice for clean nightscapes.",
-                    link: "https://amzn.to/4auWU1q",
-                    btn: "Amazon Link"
-                }
-            ];
-
-            const lenses = [
-                {
-                    title: "Sony F4 24-105mm",
-                    desc: "The 'do it all' lens. If I'm hiking and only want one lens, this is it. It covers wide landscapes at 24mm to short telephoto portraits at 105mm, offering incredible versatility without changing lenses.",
-                    link: "https://amzn.to/4rzVKrn",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Sony 200-600mm",
-                    desc: "Essential for wildlife. The internal zoom means it stays balanced on a gimbal, and the 600mm reach allows me to capture intimate portraits of seabirds and deer without disturbing their natural behavior.",
-                    link: "https://amzn.to/3MmY2ee",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Viltrox 16mm F1.8",
-                    desc: "My go-to for the Milky Way. The ultra-fast F1.8 aperture lets in huge amounts of light, allowing me to keep ISO lower for cleaner images of the night sky.",
-                    link: "https://amzn.to/4qinlvY",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Samyang 14mm F2.8",
-                    desc: "An ultra-wide alternative. The extra width (14mm vs 16mm) is crucial when I need to fit a massive foreground element, like Bamburgh Castle, and the entire arch of the Milky Way into one frame.",
-                    link: "https://amzn.to/4rt16nY",
-                    btn: "Amazon Link"
-                }
-            ];
-
-            const accessories = [
-                {
-                    title: "Artcise Carbon Tripod",
-                    desc: "A rock-solid foundation is non-negotiable for long exposures on the windy Northumberland coast. Carbon fiber absorbs vibration better than aluminum and saves weight on long hikes.",
-                    link: "https://amzn.to/49U6Rp0",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Star Tracker (MSM)",
-                    desc: "Rotates the camera to counteract Earth's rotation. This allows for 2-minute exposures instead of 15 seconds, capturing far more detail and color in deep sky objects without star trails.",
-                    link: "https://shorturl.at/qLUy3",
-                    btn: "MSM Nomad Link"
-                },
-                {
-                    title: "Rolanpro Lens Cover",
-                    desc: "Protects the big white lens from rain, sand, and accidental bumps while adding camouflage. Essential for blending into the environment and protecting your investment.",
-                    link: "https://amzn.to/4qjj4bM",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Wildlife Photography Hide",
-                    desc: "Essential for static observation. It allows me to stay comfortable and unseen for hours while waiting for shy species like otters or kingfishers to emerge.",
-                    link: "https://amzn.to/4c7rVK2",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "3D Camo Ghillie Suit",
-                    desc: "Perfect for stalking or when a static hide isn't practical. It breaks up the human outline completely, allowing me to merge into the hedgerows and get closer to wildlife.",
-                    link: "https://amzn.to/4qkZ1cV",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Peak Design Slide Strap",
-                    desc: "A versatile, comfortable strap that connects quickly. The seatbelt-style material glides over clothing, and the smooth adjustment handles make changing length instant for different carry styles.",
-                    link: "https://amzn.to/3M4l0qw",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Peak Design Capture Clip",
-                    desc: "Keeps my camera securely attached to my backpack strap for instant access while hiking. It keeps my hands free for scrambling but ensures the camera is ready in a split second.",
-                    link: "https://amzn.to/4kfx98t",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Peak Design Cuff Wrist Strap",
-                    desc: "Minimalist protection against accidental drops. It creates a magnetic bracelet when not in use, so it's never in the way, but instantly secures the camera if I lose my grip.",
-                    link: "https://amzn.to/4kfc91C",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Cotton Carrier G3 Harness",
-                    desc: "Essential for carrying heavy telephoto lenses over long distances without neck strain. It distributes the weight across your chest and back, making all-day hikes with big glass manageable.",
-                    link: "https://amzn.to/3NMB7tp",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "K&F Magnetic Lens Filters",
-                    desc: "A game changer for seascapes. The magnetic system lets me swap ND and CPL filters in seconds without freezing fingers screwing them on, allowing me to control shutter speed for smooth water effects.",
-                    link: "https://amzn.to/3NMB7tp",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Lens Dew Heater",
-                    desc: "Vital for astro photography in the UK. It wraps around the front element to gently warm the glass, preventing fog and dew from forming during long, cold nights.",
-                    link: "https://amzn.to/4qZz83w",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Remote Shutter",
-                    desc: "Ensures absolutely zero camera shake for long exposures. It also allows me to lock the shutter open for 'Bulb' mode exposures longer than 30 seconds.",
-                    link: "https://amzn.to/4khm5YK",
-                    btn: "Amazon Link"
-                },
-                {
-                    title: "Vallerret Senja LRS Zipper Mitt",
-                    desc: "Essential for cold weather photography. The zipper allows instant access to my fingers for adjusting camera dials, while keeping my hands incredibly warm during freezing Northumberland adventures.",
-                    link: "https://photographygloves.com/?rfsn=9024144.58f955",
-                    btn: "Vallerret Link"
-                }
-            ];
-
-            const GearItem = ({ item }) => (
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100 transition-all duration-300 hover:shadow-lg flex flex-col h-full">
-                    <h5 className="font-bold text-slate-900 text-sm mb-2">{item.title}</h5>
-                    <p className="text-xs text-slate-600 mb-4 leading-relaxed flex-grow">{item.desc}</p>
-                    <div className="mt-auto">
-                        <a href={item.link} target="_blank" className="inline-flex items-center text-sky-500 hover:text-sky-600 text-[10px] font-black uppercase tracking-widest transition-colors">
-                            {item.btn} <Icon name="check" size={12} className="ml-1"/>
-                        </a>
-                    </div>
-                </div>
-            );
-
-            return (
-                <div className="mt-20">
-                     <div className="mb-12">
-                        <span className="text-sky-500 font-black uppercase text-[10px] tracking-widest mb-2 block">My Equipment</span>
-                        <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-4">What's in my bag?</h3>
-                        <p className="text-slate-600 leading-relaxed max-w-2xl text-sm md:text-base">
-                            To handle the diverse conditions of Northumberland, from dark sky astro shoots to fast-paced wildlife encounters, I rely on a specific set of tools. You really don't need the very best or latest gear to get out and enjoy photography, any camera and lens can be the gateway to your journey. For information I've popped below what kit I use to capture my images. As an Amazon Associate, I earn from qualifying purchases using the links below.
-                        </p>
-                    </div>
-
-                    <div className="space-y-12">
-                        
-                        {/* Cameras Section */}
-                        <div>
-                            <div className="flex items-center space-x-3 mb-6">
-                                <div className="p-2 bg-slate-900 rounded-lg text-white shadow-sm"><Icon name="camera" size={18} /></div>
-                                <h4 className="font-black text-sm uppercase tracking-widest text-slate-900">Cameras</h4>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {cameras.map((item, i) => <GearItem key={i} item={item} />)}
-                            </div>
-                        </div>
-
-                        {/* Lenses Section */}
-                        <div>
-                            <div className="flex items-center space-x-3 mb-6">
-                                <div className="p-2 bg-slate-900 rounded-lg text-white shadow-sm"><Icon name="tool" size={18} /></div>
-                                <h4 className="font-black text-sm uppercase tracking-widest text-slate-900">Lenses</h4>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-6">
-                                {lenses.map((item, i) => <GearItem key={i} item={item} />)}
-                            </div>
-                        </div>
-
-                        {/* Accessories Section */}
-                        <div>
-                            <div className="flex items-center space-x-3 mb-6">
-                                <div className="p-2 bg-slate-900 rounded-lg text-white shadow-sm"><Icon name="check" size={18} /></div>
-                                <h4 className="font-black text-sm uppercase tracking-widest text-slate-900">Accessories</h4>
-                            </div>
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {accessories.map((item, i) => <GearItem key={i} item={item} />)}
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            );
-        };
-
-        const App = () => {
-            const [selectedWorkshop, setSelectedWorkshop] = useState(null);
-
-            useEffect(() => {
-                const onPopState = () => {
-                    setSelectedWorkshop(null);
-                };
-                window.addEventListener('popstate', onPopState);
-                return () => window.removeEventListener('popstate', onPopState);
-            }, []);
-
-            const handleContactClick = (workshop) => {
-                const subject = `Tuition Enquiry: ${workshop.title}`;
-                const body = `Hi Stephen,%0D%0A%0D%0AI'm interested in booking the ${workshop.title} (${workshop.duration}).%0D%0A%0D%0AMy Details:%0D%0A- Preferred Dates: [Enter dates]%0D%0A- Experience Level: [Beginner/Intermediate/Pro]%0D%0A- Current Camera Gear: [e.g. Canon R5, 24-70mm]%0D%0A- Mobility/Fitness Level: [e.g. Comfortable walking 3 miles]%0D%0A- Specific Learning Goals: [What do you want to achieve?]%0D%0A%0D%0AThanks!`;
-               
-                window.location.href = `mailto:northernpixl@gmail.com?subject=${subject}&body=${body}`;
-            };
-
-            return (
-                <div className="min-h-screen bg-white">
-                    <Navbar />
-                    <main className="pt-20">
-                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-20">
-                            <div className="mb-12">
-                                <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-4">Tuition &<br/>Workshops</h1>
-                                <p className="text-slate-400 max-w-xl">Master your camera in the heart of Northumberland. Choose from 1-to-1 private tuition or small group adventures.</p>
-                            </div>
-
-                            <Bio />
-                            
-                            {/* Workshop Tiles */}
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                                {WORKSHOPS.map(workshop => (
-                                    <div 
-                                        key={workshop.id} 
-                                        onClick={() => { setSelectedWorkshop(workshop); window.history.pushState({}, ""); }} 
-                                        className="group relative h-[400px] w-full overflow-hidden rounded-[2rem] cursor-pointer shadow-md hover:shadow-2xl transition-all duration-300"
-                                    >
-                                        {/* Background Image */}
-                                        <img 
-                                            src={workshop.image} 
-                                            alt={workshop.title} 
-                                            loading="lazy"
-                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
+                                        } 
                                         
-                                        {/* Gradient Overlay for Text Readability */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
+                                        // Handle Image Blocks
+                                        else if (block.type === 'image') {
+                                            return (
+                                                <figure key={index} className="my-10">
+                                                    <img 
+                                                        src={block.src} 
+                                                        alt={block.caption || "Blog image"} 
+                                                        className="w-full h-auto rounded-xl object-contain mix-blend-multiply" 
+                                                        onError={(e) => {
+                                                            // Fallback styling if the image hasn't been uploaded yet
+                                                            e.target.style.display = 'none';
+                                                            e.target.nextSibling.style.display = 'flex';
+                                                        }}
+                                                    />
+                                                    {/* Placeholder Box that shows if image is missing */}
+                                                    <div className="w-full h-32 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-300 flex-col items-center justify-center text-slate-400" style={{display: 'none'}}>
+                                                        <Icon name="camera" size={24} className="mb-2" />
+                                                        <span className="text-[10px] mt-1">Upload <strong>{block.src}</strong> to GitHub</span>
+                                                    </div>
+                                                    
+                                                    {block.caption && <figcaption className="text-center text-sm text-slate-500 mt-4 italic">{block.caption}</figcaption>}
+                                                </figure>
+                                            )
+                                        }
 
-                                        {/* Text Content */}
-                                        <div className="relative z-10 h-full flex flex-col justify-between p-8 text-white">
-                                            {/* Top Row: Category & Price */}
-                                            <div className="flex justify-between items-start">
-                                                <span className="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-[10px] font-black uppercase tracking-widest text-white shadow-sm">{workshop.cat}</span>
-                                                <div className="text-right">
-                                                    <span className="block font-black text-2xl drop-shadow-sm">{workshop.price}</span>
-                                                    <span className="block text-[10px] font-bold opacity-80 uppercase tracking-widest">{workshop.duration}</span>
-                                                </div>
-                                            </div>
+                                        // Handle Video Block
+                                        else if (block.type === 'video') {
+                                            return (
+                                                <figure key={index} className="my-12">
+                                                    <div className="relative w-full rounded-2xl overflow-hidden bg-slate-100 shadow-sm border border-slate-200 flex flex-col items-center justify-center p-8 md:p-16">
+                                                        {/* This instructional background shows behind the video, or is visible if the video fails to load */}
+                                                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 z-0">
+                                                            <Icon name="camera" size={48} className="mb-4 text-slate-300" />
+                                                            <p className="text-sm font-black uppercase tracking-widest text-slate-900 mb-2">Loading Video...</p>
+                                                        </div>
+                                                        
+                                                        {/* The actual video player */}
+                                                        <video 
+                                                            controls 
+                                                            autoPlay 
+                                                            muted 
+                                                            loop 
+                                                            playsInline
+                                                            className="w-full max-w-3xl rounded-lg shadow-xl bg-black z-10 relative"
+                                                        >
+                                                            <source src={block.src} type={block.src.includes('.m3u8') ? "application/x-mpegURL" : "video/mp4"} />
+                                                            Your browser does not support the video tag.
+                                                        </video>
+                                                    </div>
+                                                    {block.caption && <figcaption className="text-center text-sm text-slate-500 mt-4 italic">{block.caption}</figcaption>}
+                                                </figure>
+                                            )
+                                        }
+                                        
+                                        // Handle Affiliate Widget
+                                        else if (block.type === 'vallerret-affiliate') {
+                                            return <VallerretAffiliateWidget key={index} />;
+                                        }
 
-                                            {/* Bottom Row: Title & Details */}
-                                            <div>
-                                                <h3 className="text-2xl font-black mb-2 leading-tight group-hover:text-sky-400 transition-colors drop-shadow-md">{workshop.title}</h3>
-                                                <p className="text-sm opacity-80 line-clamp-2 text-slate-200">{workshop.description}</p>
-                                                
-                                                {/* Hidden "View" Button that appears on Hover */}
-                                                <div className="mt-4 flex items-center text-sky-400 font-black text-[10px] uppercase tracking-widest opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                                                    <span>View Itinerary</span>
-                                                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-
-                            {/* New Gear Section */}
-                            <GearSection />
-
-                        </section>
-                    </main>
-
-                    {selectedWorkshop && (
-                        <div className="fixed inset-0 z-[100] bg-white overflow-y-auto p-6 md:p-20 animate-in custom-scrollbar">
-                            <div className="max-w-3xl mx-auto pt-10 md:pt-0">
-                                <button onClick={() => setSelectedWorkshop(null)} className="mb-8 md:mb-12 flex items-center space-x-2 text-slate-400 font-black uppercase text-[10px] tracking-widest hover:text-black transition-colors p-2 -ml-2"><Icon name="x" size={14} /> <span>Close</span></button>
-                             
-                                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 border-b pb-8">
-                                    <div>
-                                        <span className="text-sky-500 font-black uppercase text-xs tracking-[0.3em] mb-4 block">{selectedWorkshop.cat} Tuition</span>
-                                        <h2 className="text-3xl md:text-5xl font-black tracking-tighter leading-none mb-2">{selectedWorkshop.title}</h2>
-                                    </div>
-                                    <div className="text-left md:text-right flex-shrink-0 bg-slate-50 p-4 rounded-2xl">
-                                        <span className="block font-black text-3xl text-slate-900">{selectedWorkshop.price}</span>
-                                        <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest">{selectedWorkshop.duration}</span>
-                                    </div>
-                                </div>
-
-                                <div className="space-y-10 md:space-y-12">
-                                    <div>
-                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">About this Workshop</h4>
-                                        <p className="text-base md:text-lg text-slate-700 leading-relaxed">{selectedWorkshop.description}</p>
-                                    </div>
-
-                                    <div className="grid md:grid-cols-2 gap-10">
-                                        <div>
-                                            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-4">Typical Itinerary</h4>
-                                            <ul className="space-y-3">
-                                                {selectedWorkshop.itinerary.map((item, i) => (
-                                                    <li key={i} className="flex items-start text-sm text-slate-600">
-                                                        <span className="mr-3 mt-1 text-sky-500"><Icon name="check" size={12} /></span>
-                                                        {item}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
-                                        <div className="space-y-8">
-                                            <div>
-                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Ideal For</h4>
-                                                <p className="text-sm text-slate-600">{selectedWorkshop.idealFor}</p>
-                                            </div>
-                                            <div>
-                                                <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Requirements</h4>
-                                                <p className="text-sm text-slate-600">{selectedWorkshop.requirements}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="bg-slate-900 text-white p-8 rounded-[2rem] text-center mt-12">
-                                        <h3 className="text-xl font-bold mb-4">Ready to book?</h3>
-                                        <p className="text-slate-400 text-sm mb-6 max-w-md mx-auto">Click below to open your email client. The email will automatically include a template with the details I need (Dates, Gear, Experience) to plan your session.</p>
-                                        <button 
-                                            onClick={() => handleContactClick(selectedWorkshop)}
-                                            className="bg-white text-slate-900 hover:bg-sky-500 hover:text-white transition-colors px-8 py-4 rounded-full font-black uppercase text-xs tracking-widest inline-flex items-center gap-3"
-                                        >
-                                            <Icon name="mail" size={16} />
-                                            <span>Enquire via Email</span>
-                                        </button>
-                                    </div>
+                                        return null;
+                                    })}
                                 </div>
                             </div>
                         </div>
