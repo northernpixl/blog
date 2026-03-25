@@ -46,7 +46,12 @@
                 mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
                 arrowLeft: <><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></>,
                 menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
-                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>
+                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
+                sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></>,
+                cloud: <><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></>,
+                rain: <><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></>,
+                wind: <><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></>,
+                waves: <><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -56,7 +61,6 @@
         };
 
         // --- DATA ---
-        // UPDATED COORDINATES FOR ACCURACY
         const LOCATIONS = [
             { id: 1, name: "Bamburgh Castle", type: "Landscape", lat: 55.6090, lng: -1.7120, desc: "This is arguably the most iconic view in the county. At low tide, head north of the castle to the 'Black Rocks' (part of the Whin Sill). These volcanic pools act as perfect mirrors. \n\nCOMPOSITION: Use a wide-angle lens (16-24mm) to get close to the green, mossy rocks in the foreground while keeping the castle imposing in the background. Watch for the 'Stag Rock' painted white for an alternative angle further north.", parking: "NE69 7DF (Links Car Park)", best_time: "Sunrise (Winter) / Sunset (Summer)", top_tip: "Wellingtons are mandatory! The best compositions often require standing in 6 inches of seawater to get the reflection just right.", history: "The Royal Seat of the Kings of Northumbria. It has stood guard here for over 1,400 years, originally a wooden fort destroyed by Vikings in 993, then rebuilt by Normans. Restored to its current glory by industrialist Lord Armstrong." },
             { id: 2, name: "Dunstanburgh Castle", type: "Landscape", lat: 55.4915, lng: -1.5947, desc: "The approach from Craster is a 1.3-mile walk, but the photographic rewards are immense. The classic shot is from the 'Greystones' (round boulders) on the north side at Embleton Bay. \n\nCOMPOSITION: Long exposure (1-2 seconds) is essential here to smooth the often rough water washing over the round stones. The castle ruins form a jagged silhouette that looks best when backlit at sunrise.", parking: "NE66 3TW (Craster Quarry)", best_time: "Sunrise (Year-round)", top_tip: "The round stones are incredibly slippery when wet. Wear spikes or move very slowly to avoid a camera-breaking fall.", history: "Built in 1313 by Earl Thomas of Lancaster on a magnificent scale, seemingly to defy King Edward II. It fell into ruin after the Wars of the Roses and was captured twice by Yorkist forces." },
@@ -96,7 +100,7 @@
             { id: 36, name: "Bolam Lake", type: "Wildlife", lat: 55.1227, lng: -1.8668, desc: "A landscaped country park lake surrounded by woodland. \n\nSPECIES: Resident Mute Swans are the main attraction. In autumn, the beech trees turn a fiery copper, reflecting in the water. Early morning mist is common here.", parking: "NE20 0HE", best_time: "Autumn Morning", top_tip: "Walk to the far side of the lake to shoot back towards the jetty for the best reflection composition.", history: "Designed by John Dobson (architect of Newcastle's streets) in 1816 for the Bolam Hall estate." },
             { id: 37, name: "Ros Castle", type: "Landscape", lat: 55.5175, lng: -1.8833, desc: "Not a building, but an Iron Age hillfort with the best 360-degree view in Northumberland. \n\nCOMPOSITION: From the summit trig point, you can see all the castles (Bamburgh, Lindisfarne, Dunstanburgh) and the Cheviot hills. Use a long lens to pick out these landmarks from the distance.", parking: "NE66 4LE", best_time: "Sunrise", top_tip: "It's a short but steep climb from the road. The top is exposed to wind, so dress warmly.", history: "A 3000-year-old fortification. It was one of a chain of beacons used to warn of Scottish invasion." },
             { id: 38, name: "Yeavering Bell", type: "Wildlife", lat: 55.5433, lng: -2.1033, desc: "A twin-peaked hill and the site of the largest Iron Age hillfort in the region. \n\nSPECIES: This is the home of the feral Cheviot Goats. They are ancient, shaggy, and have impressive horns. They are wild, so approach slowly and use a long lens.", parking: "NE71 6HG", best_time: "Daytime", top_tip: "The goats blend into the bracken perfectly. Stop and scan the hillside with binoculars; what looks like a rock might be a goat.", history: "The capital of the Anglo-Saxon Kingdom of Northumbria was located in the valley below (Ad Gefrin)." },
-            { id: 39, name: "Hindhope Linn", type: "Landscape", lat: 55.2667, lng: -2.3167, desc: "A magical waterfall tucked away in Redesdale Forest. \n\nCOMPOSITION: A classic 'fairy glen' shot. The waterfall drops into a deep pool surrounded by ferns and mossy rocks. Overcast light is crucial to avoid blowing out the white water.", parking: "NE19 1SW (Blakehopeburnhaugh)", best_time: "Overcast", top_tip: "In summer, the bracken can be head-high on the path. Check for ticks after your walk.", history: "Situated on the Pennine Way, this spot has been a resting place for travelers for centuries." },
+            { id: 39, name: "Hindhope Linn", type: "Landscape", lat: 55.2667, lng: -2.3167, desc: "A magical waterfall tucket away in Redesdale Forest. \n\nCOMPOSITION: A classic 'fairy glen' shot. The waterfall drops into a deep pool surrounded by ferns and mossy rocks. Overcast light is crucial to avoid blowing out the white water.", parking: "NE19 1SW (Blakehopeburnhaugh)", best_time: "Overcast", top_tip: "In summer, the bracken can be head-high on the path. Check for ticks after your walk.", history: "Situated on the Pennine Way, this spot has been a resting place for travelers for centuries." },
             { id: 40, name: "Roughting Linn", type: "Landscape", lat: 55.6333, lng: -2.0333, desc: "A secluded waterfall near rock art sites. \n\nCOMPOSITION: The water cascades over a wide lip into a dark pool. It feels like a tropical lagoon. There are ancient cup-and-ring marked rocks nearby which are also great subjects.", parking: "TD15 2QF", best_time: "After Rain", top_tip: "The path is unmarked and slippery. Listen for the sound of falling water to find it from the road.", history: "The nearby rock carvings are Neolithic (4000-5000 years old), adding a mysterious atmosphere to the site." },
             { id: 41, name: "Royal Border Bridge", type: "Landscape", lat: 55.7725, lng: -2.0150, desc: "The magnificent railway viaduct at Berwick-upon-Tweed. \n\nCOMPOSITION: Shoot from the south bank of the River Tweed. The 28 arches reflect perfectly in the wide river. At night, it is often floodlit in different colors.", parking: "TD15 1NF", best_time: "Blue Hour", top_tip: "Wait for a train to cross. The motion blur of a train crossing the bridge adds a dynamic element to the static architecture.", history: "Designed by Robert Stephenson and opened by Queen Victoria in 1850. It creates a grand entrance between England and Scotland." },
             { id: 42, name: "Seaton Sluice", type: "Landscape", lat: 55.0845, lng: -1.4722, desc: "A small harbor with a deep cut through the rock. \n\nCOMPOSITION: The 'Cut' (a man-made channel) creates deep shadows and drama. The harbor mouth faces the setting sun in summer, creating silhouettes of the piers.", parking: "NE26 4RD", best_time: "Sunset", top_tip: "The currents in the Cut are fierce. Do not get too close to the edge when the tide is rushing in.", history: "The 'Cut' was blasted through solid rock in 1764 to allow larger ships to collect coal, designed by the Delaval family." },
@@ -130,9 +134,7 @@
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
 
-            const toggleMenu = () => {
-                setIsOpen(!isOpen);
-            };
+            const toggleMenu = () => setIsOpen(!isOpen);
 
             const links = [
                 { name: 'Home', url: 'index.html', active: false },
@@ -146,7 +148,6 @@
             return (
                 <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
                     <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
-                        {/* Logo Area */}
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
                             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
                                 <Icon name="camera" className="text-white" size={18} />
@@ -155,20 +156,14 @@
                             <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NorthernPixl</span>
                         </div>
                         
-                        {/* Desktop Navigation */}
                         <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
                             {links.map((link) => (
-                                <a 
-                                    key={link.name} 
-                                    href={link.url} 
-                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
-                                >
+                                <a key={link.name} href={link.url} className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}>
                                     {link.name}
                                 </a>
                             ))}
                         </div>
 
-                        {/* Mobile Menu Button */}
                         <div className="md:hidden">
                             <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
                                 <Icon name={isOpen ? "x" : "menu"} size={24} />
@@ -176,16 +171,11 @@
                         </div>
                     </div>
 
-                    {/* Mobile Navigation Dropdown */}
                     {isOpen && (
                         <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
                             <div className="flex flex-col p-6 space-y-6">
                                 {links.map((link) => (
-                                    <a 
-                                        key={link.name} 
-                                        href={link.url} 
-                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
-                                    >
+                                    <a key={link.name} href={link.url} className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}>
                                         {link.name}
                                     </a>
                                 ))}
@@ -193,6 +183,250 @@
                         </div>
                     )}
                 </nav>
+            );
+        };
+
+        const LiveConditionsWidget = ({ lat, lng }) => {
+            const [data, setData] = useState({ weather: null, marine: null, tides: null, isCoastal: false });
+            const [loading, setLoading] = useState(true);
+            const [errorMsg, setErrorMsg] = useState("");
+
+            // Mathematical calculation of approximate moonrise based on lunar cycle
+            const getApproxMoonrise = () => {
+                const knownNewMoon = new Date('2024-02-09T22:59:00Z').getTime();
+                const now = new Date().getTime();
+                const daysSinceNew = (now - knownNewMoon) / (24 * 60 * 60 * 1000);
+                const cycle = daysSinceNew % 29.530588;
+                
+                // New moon rises at ~06:00, Full moon at ~18:00
+                let riseHour = 6 + (cycle / 29.530588) * 24;
+                if (riseHour >= 24) riseHour -= 24;
+                
+                const hours = Math.floor(riseHour);
+                const mins = Math.floor((riseHour - hours) * 60);
+                return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+            };
+
+            useEffect(() => {
+                let isMounted = true;
+                const fetchConditions = async () => {
+                    setLoading(true);
+                    setErrorMsg("");
+                    try {
+                        // 1. Weather Data (Correct parameters without the broken moonrise)
+                        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`);
+                        
+                        if (!weatherRes.ok) {
+                            throw new Error("Weather API Error");
+                        }
+                        const weatherJson = await weatherRes.json();
+                        
+                        // 2. Coastal Check
+                        const coastLng = -1.5 - ((lat - 55.1) * 0.769);
+                        const isCoastal = parseFloat(lng) > (coastLng - 0.1);
+
+                        let marineJson = null;
+                        let tides = { nextHigh: null, nextLow: null };
+
+                        if (isCoastal) {
+                            // Deep Water Anchor Method (15+ miles offshore guarantees data)
+                            const marineRes = await fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=-1.0&current=wave_height&hourly=sea_level&timezone=auto&forecast_days=2`);
+                            
+                            if (marineRes.ok) {
+                                marineJson = await marineRes.json();
+                                
+                                if (marineJson.hourly && marineJson.hourly.sea_level) {
+                                    const levels = marineJson.hourly.sea_level;
+                                    const times = marineJson.hourly.time;
+                                    const now = new Date();
+                                    
+                                    let nowIdx = times.findIndex(t => new Date(t) >= now);
+                                    if (nowIdx === -1) nowIdx = 0;
+
+                                    for (let i = nowIdx; i < levels.length - 1; i++) {
+                                        if (i === 0) continue;
+                                        const prev = levels[i - 1];
+                                        const curr = levels[i];
+                                        const next = levels[i + 1];
+                                        
+                                        if (curr !== null && prev !== null && next !== null) {
+                                            if (curr >= prev && curr > next && !tides.nextHigh) {
+                                                tides.nextHigh = new Date(times[i]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                            } else if (curr <= prev && curr < next && !tides.nextLow) {
+                                                tides.nextLow = new Date(times[i]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                                            }
+                                        }
+                                        if (tides.nextHigh && tides.nextLow) break;
+                                    }
+                                }
+                            }
+                        }
+
+                        if(isMounted) {
+                            setData({
+                                weather: weatherJson,
+                                marine: marineJson?.current,
+                                tides: (isCoastal && (tides.nextHigh || tides.nextLow)) ? tides : null,
+                                isCoastal: isCoastal
+                            });
+                            setLoading(false);
+                        }
+                    } catch (err) {
+                        console.error("Failed to fetch live conditions", err);
+                        if(isMounted) {
+                            setErrorMsg("Failed to connect to weather service.");
+                            setLoading(false);
+                        }
+                    }
+                };
+                fetchConditions();
+                return () => { isMounted = false; };
+            }, [lat, lng]);
+
+            if (loading) {
+                return (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-6 pb-6 mt-2">
+                        <div className="h-56 bg-slate-50 animate-pulse rounded-2xl"></div>
+                        <div className="h-56 bg-sky-50 animate-pulse rounded-2xl"></div>
+                    </div>
+                );
+            }
+
+            if (errorMsg || !data.weather || !data.weather.current_weather) {
+                return (
+                    <div className="p-4 border border-red-100 bg-red-50 rounded-2xl mt-4 text-red-600 text-xs font-bold flex items-center">
+                        <Icon name="cloud" size={16} className="mr-2" /> Live conditions temporarily unavailable.
+                    </div>
+                );
+            }
+
+            const getWeatherInfo = (code) => {
+                if (code === 0) return { icon: "sun", text: "Clear" };
+                if (code === 1 || code === 2) return { icon: "cloud", text: "P. Cloudy" };
+                if (code === 3) return { icon: "cloud", text: "Overcast" };
+                if (code >= 45 && code <= 48) return { icon: "cloud", text: "Fog" };
+                if (code >= 51 && code <= 67) return { icon: "rain", text: "Rain" };
+                if (code >= 71 && code <= 77) return { icon: "cloud", text: "Snow" };
+                if (code >= 80 && code <= 82) return { icon: "rain", text: "Showers" };
+                if (code >= 95 && code <= 99) return { icon: "rain", text: "Storm" };
+                return { icon: "sun", text: "Clear" };
+            };
+
+            const cw = data.weather.current_weather;
+            const currentInfo = getWeatherInfo(cw.weathercode);
+            const daily = data.weather.daily;
+
+            const todayInfo = {
+                sunrise: daily?.sunrise?.[0] ? new Date(daily.sunrise[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "--:--",
+                sunset: daily?.sunset?.[0] ? new Date(daily.sunset[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "--:--",
+                moonrise: getApproxMoonrise()
+            };
+
+            const forecastDays = [1, 2, 3].map(i => {
+                if (!daily || !daily.time[i]) return null;
+                const date = new Date(daily.time[i]);
+                const dayName = date.toLocaleDateString('en-GB', { weekday: 'short' });
+                const info = getWeatherInfo(daily.weathercode[i]);
+                return {
+                    dayName,
+                    icon: info.icon,
+                    max: Math.round(daily.temperature_2m_max[i]),
+                    min: Math.round(daily.temperature_2m_min[i])
+                };
+            }).filter(Boolean);
+
+            return (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-100 pt-6 pb-6 mt-2">
+                    {/* Weather & Astro Widget */}
+                    <div className="bg-white border border-slate-200 shadow-sm p-4 md:p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden h-full">
+                        <div>
+                            <div className="flex items-center text-slate-500 mb-2 z-10">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Live Weather</span>
+                            </div>
+                            <div className="flex items-center space-x-3 z-10 my-1">
+                                <Icon name={currentInfo.icon} size={32} className="text-slate-800" />
+                                <span className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900">{Math.round(cw.temperature)}°</span>
+                            </div>
+                            <div className="flex items-center text-slate-500 text-[11px] md:text-xs font-bold tracking-wide z-10">
+                                <span className="mr-3">{currentInfo.text}</span>
+                                <Icon name="wind" size={12} className="mr-1" />
+                                <span>{cw.windspeed} km/h</span>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-100">
+                            <div className="flex flex-col items-center text-center">
+                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Sunrise</span>
+                                <span className="text-[10px] md:text-[11px] font-bold text-amber-600">{todayInfo.sunrise}</span>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Sunset</span>
+                                <span className="text-[10px] md:text-[11px] font-bold text-orange-600">{todayInfo.sunset}</span>
+                            </div>
+                            <div className="flex flex-col items-center text-center">
+                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Moonrise</span>
+                                <span className="text-[10px] md:text-[11px] font-bold text-indigo-600">~{todayInfo.moonrise}</span>
+                            </div>
+                        </div>
+                        
+                        {forecastDays.length > 0 && (
+                            <div className="border-t border-slate-100 mt-4 pt-4 grid grid-cols-3 gap-2">
+                                {forecastDays.map((day, idx) => (
+                                    <div key={idx} className="flex flex-col items-center">
+                                        <span className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">{day.dayName}</span>
+                                        <Icon name={day.icon} size={16} className="text-slate-600 mb-1" />
+                                        <span className="text-[10px] font-bold text-slate-800">{day.max}° <span className="text-slate-400 font-medium">{day.min}°</span></span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Marine Widget */}
+                    <div className="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-100 shadow-sm p-4 md:p-5 rounded-2xl flex flex-col relative overflow-hidden h-full">
+                        <div className="absolute -bottom-4 -right-4 text-blue-500/5">
+                            <Icon name="waves" size={120} />
+                        </div>
+                        <div className="flex items-center text-sky-600 mb-2 z-10">
+                            <span className="text-[10px] font-black uppercase tracking-widest text-sky-500/80">Tide & Marine</span>
+                        </div>
+                        
+                        <div className="flex-grow flex flex-col justify-center">
+                            {data.isCoastal ? (
+                                data.tides ? (
+                                    <div className="flex flex-col z-10">
+                                        <div className="grid grid-cols-2 gap-2 my-1">
+                                            <div>
+                                                <p className="text-[9px] font-black uppercase tracking-widest text-sky-500/70 mb-0.5">Next High Tide</p>
+                                                <p className="text-lg md:text-xl font-black text-sky-900">{data.tides.nextHigh}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[9px] font-black uppercase tracking-widest text-sky-500/70 mb-0.5">Next Low Tide</p>
+                                                <p className="text-lg md:text-xl font-black text-sky-900">{data.tides.nextLow}</p>
+                                            </div>
+                                        </div>
+                                        {data.marine && data.marine.wave_height !== null && (
+                                             <div className="flex items-center text-sky-700 text-[10px] md:text-[11px] font-bold tracking-wide mt-3 pt-3 border-t border-sky-200/50">
+                                                 <Icon name="waves" size={12} className="mr-1" />
+                                                 <span>Offshore Wave Height: {data.marine.wave_height}m</span>
+                                             </div>
+                                        )}
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-col justify-center z-10 pb-2">
+                                        <p className="text-sm font-bold text-sky-800">Coastal Location</p>
+                                        <p className="text-[10px] md:text-xs text-sky-600/70 font-medium mt-0.5">Tide data temporarily unavailable</p>
+                                    </div>
+                                )
+                            ) : (
+                                <div className="flex flex-col justify-center z-10 pb-2">
+                                    <p className="text-sm font-bold text-sky-800">Inland Location</p>
+                                    <p className="text-[10px] md:text-xs text-sky-600/70 font-medium mt-0.5">No marine data required</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
             );
         };
 
@@ -255,7 +489,6 @@
                 <div className="min-h-screen bg-white">
                     <Navbar />
                     <main className="pt-20">
-                        {/* Hidden H1 for SEO */}
                         <h1 className="sr-only">Northumberland Photography Locations Map</h1>
                         <section className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-20 h-[calc(100vh-80px)] md:h-auto">
                             <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-12 h-full lg:h-[800px]">
@@ -271,20 +504,26 @@
                                             <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-sky-500 text-white">{selectedLoc.type}</span>
                                             <h3 className="text-3xl md:text-4xl font-black">{selectedLoc.name}</h3>
                                             <p className="text-sm text-slate-500">{selectedLoc.history}</p>
+                                            
                                             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                                                 <p className="text-[9px] font-black uppercase text-slate-400 mb-1">General Advice</p>
                                                 <p className="text-sm font-bold whitespace-pre-line">{selectedLoc.desc}</p>
                                             </div>
+                                            
                                             {selectedLoc.top_tip && (
                                                 <div className="bg-sky-50 p-4 rounded-2xl border border-sky-100">
                                                     <p className="text-[9px] font-black uppercase text-sky-500 mb-1">Top Tip</p>
                                                     <p className="text-sm font-bold text-sky-900">{selectedLoc.top_tip}</p>
                                                 </div>
                                             )}
-                                            <div className="flex flex-col gap-2 pb-6">
+                                            
+                                            <div className="flex flex-col gap-2">
                                                 <p className="text-[11px] font-bold text-slate-400">PARKING: {selectedLoc.parking}</p>
                                                 {selectedLoc.best_time && <p className="text-[11px] font-bold text-sky-500">BEST TIME: {selectedLoc.best_time}</p>}
                                             </div>
+                                            
+                                            <LiveConditionsWidget lat={selectedLoc.lat} lng={selectedLoc.lng} />
+
                                         </div>
                                     ) : (
                                         <div className="flex flex-col items-center justify-center h-full text-slate-300 py-12 lg:py-0">
