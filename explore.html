@@ -58,7 +58,8 @@
                 xCircle: <><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></>,
                 moon: <><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></>,
                 cloudMoon: <><path d="M13 16a3 3 0 1 1 0 6H7a5 5 0 1 1 4.9-6Z"/><path d="M10.1 9A6 6 0 0 1 16 4a4.24 4.24 0 0 0 6 6 6 6 0 0 1-3 5.197"/></>,
-                locate: <><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/></>
+                locate: <><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/></>,
+                sparkles: <><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -522,7 +523,7 @@
         };
 
         const LiveConditionsWidget = ({ lat, lng, locId }) => {
-            const [data, setData] = useState({ weather: null, tides: null });
+            const [data, setData] = useState({ weather: null, tides: null, aurora: null });
             const [loading, setLoading] = useState(true);
             const [errorMsg, setErrorMsg] = useState("");
 
@@ -619,10 +620,47 @@
                         const coastalIds = [1, 2, 3, 4, 5, 6, 11, 12, 15, 20, 27, 28, 29, 41, 42, 43, 45, 46, 50, 51, 55, 58, 59, 60, 62, 66];
                         const isCoastal = coastalIds.includes(locId);
 
+                        // 3. Fetch Aurora Forecast (NOAA Planetary K-index)
+                        let auroraDays = null;
+                        try {
+                            const auroraRes = await fetch('https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json');
+                            if (auroraRes.ok) {
+                                const auroraJson = await auroraRes.json();
+                                const now = new Date();
+                                const todayStr = now.toISOString().split('T')[0];
+                                const tmrw = new Date(now); tmrw.setDate(tmrw.getDate()+1);
+                                const tmrwStr = tmrw.toISOString().split('T')[0];
+                                const dayAfter = new Date(now); dayAfter.setDate(dayAfter.getDate()+2);
+                                const dayAfterStr = dayAfter.toISOString().split('T')[0];
+
+                                const kpMap = { [todayStr]: 0, [tmrwStr]: 0, [dayAfterStr]: 0 };
+
+                                // Skip header row and extract max Kp for each day
+                                for (let i = 1; i < auroraJson.length; i++) {
+                                    const row = auroraJson[i];
+                                    const dateStr = row[0].split(' ')[0]; // UTC date
+                                    const kp = parseFloat(row[1]);
+
+                                    if (kpMap[dateStr] !== undefined) {
+                                        if (kp > kpMap[dateStr]) kpMap[dateStr] = kp;
+                                    }
+                                }
+
+                                auroraDays = [
+                                    { dayName: 'Tonight', kp: kpMap[todayStr] },
+                                    { dayName: 'Tomorrow', kp: kpMap[tmrwStr] },
+                                    { dayName: dayAfter.toLocaleDateString('en-GB', { weekday: 'short' }), kp: kpMap[dayAfterStr] }
+                                ];
+                            }
+                        } catch (err) {
+                            console.warn("Aurora fetch error:", err.message);
+                        }
+
                         if(isMounted) {
                             setData({
                                 weather: weatherJson,
-                                tides: isCoastal ? getTideTimes() : null
+                                tides: isCoastal ? getTideTimes() : null,
+                                aurora: auroraDays
                             });
                             setLoading(false);
                         }
@@ -814,6 +852,33 @@
                                             <span className="text-[10px] md:text-[11px] font-bold">{data.tides.nextLow || '--:--'}</span>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {data.aurora && data.aurora.length > 0 && (
+                            <div className="mt-4 pt-4 border-t border-slate-100">
+                                <div className="flex items-center mb-3">
+                                    <Icon name="sparkles" size={16} className="text-emerald-600 mr-2 shrink-0" />
+                                    <span className="text-[10px] md:text-xs font-bold text-slate-800 uppercase tracking-widest">Aurora Forecast (Kp Index)</span>
+                                </div>
+                                <div className="grid grid-cols-3 gap-2">
+                                    {data.aurora.map((day, idx) => {
+                                        let colorClass = "bg-slate-50 text-slate-500 border-slate-100";
+                                        let label = "Quiet";
+                                        if (day.kp >= 6) { colorClass = "bg-purple-50 text-purple-700 border-purple-200"; label = "Storm"; }
+                                        else if (day.kp >= 5) { colorClass = "bg-rose-50 text-rose-700 border-rose-200"; label = "High"; }
+                                        else if (day.kp >= 4) { colorClass = "bg-amber-50 text-amber-700 border-amber-200"; label = "Active"; }
+                                        else if (day.kp >= 3) { colorClass = "bg-emerald-50 text-emerald-700 border-emerald-200"; label = "Moderate"; }
+                                        
+                                        return (
+                                            <div key={idx} className={`flex flex-col items-center justify-center p-2 rounded-xl border ${colorClass}`}>
+                                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-1 opacity-75">{day.dayName}</span>
+                                                <span className="text-lg font-black">{day.kp.toFixed(1)}</span>
+                                                <span className="text-[8px] font-bold uppercase mt-0.5">{label}</span>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         )}
