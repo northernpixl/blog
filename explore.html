@@ -294,10 +294,15 @@
                             }
                         }
 
-                        // Step 2: Locate Today and Tomorrow strictly by mathematical date match
+                        // Step 2 & 3: Mathematically parse absolute Date ranges for Yesterday -> Tomorrow
                         const today = new Date();
-                        const tmrw = new Date(today);
-                        tmrw.setDate(today.getDate() + 1);
+                        today.setHours(0,0,0,0);
+                        const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+                        const tmrw = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
+                        const dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate() + 2);
+
+                        const targetDates = [yesterday, today, tmrw, dayAfter];
+                        const allSafePeriods = [];
 
                         // Strict Date matcher helper
                         const getRowForDate = (dateObj) => {
@@ -308,7 +313,6 @@
                                 if (grid[r][0] && grid[r][0].isHeader) continue;
                                 
                                 let rowDateText = "";
-                                // Only look inside 'other' columns so we don't accidentally match a minute number
                                 for (let c = 0; c < grid[r].length; c++) {
                                     if (colTypes[c] === 'other' && grid[r][c]) {
                                         rowDateText += grid[r][c].text + " ";
@@ -319,81 +323,136 @@
                             return -1;
                         };
 
-                        let todayRowIdx = getRowForDate(today);
-                        let tmrwRowIdx = getRowForDate(tmrw);
-                        
-                        if (todayRowIdx === -1) {
-                            // If today isn't explicitly found (e.g. turning over a new month), fallback to the first active data row
-                            for (let r = 0; r < grid.length; r++) {
-                                if (grid[r][0] && !grid[r][0].isHeader) {
-                                    todayRowIdx = r;
-                                    break;
-                                }
-                            }
-                        }
+                        for (const tDate of targetDates) {
+                            const rIdx = getRowForDate(tDate);
+                            if (rIdx === -1) continue;
 
-                        // Step 3: Process the target row and generate strict Safe/Unsafe gap schedules
-                        const processRow = (rIdx, label, dateObj) => {
-                            if (rIdx === -1 || rIdx >= grid.length) return null;
-                            
-                            let rawSafeTimes = [];
-                            
-                            // ONLY extract times from the columns officially verified as "Safe" headers
+                            let cursorDate = new Date(tDate);
+                            cursorDate.setHours(0,0,0,0);
+                            let lastTimeMins = -1;
+
                             for (let c = 0; c < grid[rIdx].length; c++) {
-                                if (colTypes[c] === 'safe') {
-                                    const matches = grid[rIdx][c].text.match(/\b\d{1,2}[:.]\d{2}\b/g);
-                                    if (matches) {
-                                        matches.forEach(m => rawSafeTimes.push(m.replace('.', ':').padStart(5, '0')));
+                                if (colTypes[c] === 'safe' || colTypes[c] === 'unsafe') {
+                                    const cellText = grid[rIdx][c] ? grid[rIdx][c].text : "";
+                                    const matches = cellText.match(/\b\d{1,2}[:.]\d{2}\b/g);
+                                    if (!matches) continue;
+
+                                    const cellDates = [];
+                                    for (const m of matches) {
+                                        const parts = m.split(/[:.]/);
+                                        const h = parseInt(parts[0], 10);
+                                        const min = parseInt(parts[1], 10);
+                                        const timeMins = h * 60 + min;
+
+                                        // Midnight wrap detection (allow 2 hour buffer for DST fallbacks)
+                                        if (timeMins < lastTimeMins - 120) {
+                                            cursorDate.setDate(cursorDate.getDate() + 1);
+                                        }
+                                        
+                                        const absDate = new Date(cursorDate);
+                                        absDate.setHours(h, min, 0, 0);
+                                        cellDates.push(absDate.getTime());
+                                        lastTimeMins = timeMins;
+                                    }
+
+                                    if (colTypes[c] === 'safe') {
+                                        // Group into pairs safely
+                                        const validLength = cellDates.length - (cellDates.length % 2);
+                                        for (let i = 0; i < validLength; i += 2) {
+                                            allSafePeriods.push({ start: cellDates[i], end: cellDates[i+1] });
+                                        }
                                     }
                                 }
                             }
-                            
-                            // Ensure perfectly matched pairs
-                            if (rawSafeTimes.length % 2 !== 0) rawSafeTimes.shift(); 
+                        }
 
-                            let timePairs = [];
-                            for (let i = 0; i < rawSafeTimes.length - 1; i += 2) {
-                                timePairs.push({ start: rawSafeTimes[i], end: rawSafeTimes[i+1] });
+                        // Merge overlapping/touching safe periods mathematically
+                        allSafePeriods.sort((a, b) => a.start - b.start);
+                        const mergedSafePeriods = [];
+                        for (const sp of allSafePeriods) {
+                            if (mergedSafePeriods.length === 0) {
+                                mergedSafePeriods.push({...sp});
+                            } else {
+                                const last = mergedSafePeriods[mergedSafePeriods.length - 1];
+                                if (sp.start <= last.end) {
+                                    last.end = Math.max(last.end, sp.end);
+                                } else {
+                                    mergedSafePeriods.push({...sp});
+                                }
                             }
-                            
-                            timePairs.sort((a, b) => a.start.localeCompare(b.start));
+                        }
+
+                        // Generate clamped 24-hour schedules
+                        const buildDaySchedule = (targetDate, mergedPeriods) => {
+                            const dayStart = new Date(targetDate);
+                            dayStart.setHours(0, 0, 0, 0);
+                            const dayEnd = new Date(targetDate);
+                            dayEnd.setHours(23, 59, 59, 999);
+
+                            const formatTime = (d) => d.toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
 
                             const periods = [];
-                            let lastEnd = "00:00";
-                            
-                            for (const pt of timePairs) {
-                                // If gap exists before the next safe crossing, fill it with Unsafe (Red)
-                                if (pt.start > lastEnd) {
-                                    periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: lastEnd, end: pt.start });
+                            let current = dayStart.getTime();
+
+                            for (const sp of mergedPeriods) {
+                                if (sp.end <= current) continue;
+                                if (sp.start >= dayEnd.getTime()) break;
+
+                                const safeStart = Math.max(sp.start, current);
+                                const safeEnd = Math.min(sp.end, dayEnd.getTime());
+
+                                if (safeStart > current) {
+                                    periods.push({
+                                        type: 'unsafe',
+                                        label: 'Unsafe (Do Not Cross)',
+                                        start: formatTime(new Date(current)),
+                                        end: formatTime(new Date(safeStart))
+                                    });
                                 }
-                                
-                                // Explicit logic for Overnight Crossings
-                                let endsNextDay = pt.end < pt.start;
-                                let displayEnd = pt.end + (endsNextDay ? " (Next Day)" : "");
-                                
-                                periods.push({ type: 'safe', label: 'Safe to cross', start: pt.start, end: displayEnd });
-                                
-                                lastEnd = endsNextDay ? "23:59" : pt.end; 
-                            }
-                            
-                            if (lastEnd !== "23:59") {
-                                periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: lastEnd, end: "23:59" });
+
+                                periods.push({
+                                    type: 'safe',
+                                    label: 'Safe to cross',
+                                    start: formatTime(new Date(safeStart)),
+                                    end: formatTime(new Date(safeEnd))
+                                });
+
+                                current = safeEnd;
                             }
 
-                            const dateStr = dateObj.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
-                            return { date: `${label} - ${dateStr}`, periods };
+                            if (current < dayEnd.getTime() - 60000) {
+                                periods.push({
+                                    type: 'unsafe',
+                                    label: 'Unsafe (Do Not Cross)',
+                                    start: formatTime(new Date(current)),
+                                    end: '23:59'
+                                });
+                            }
+
+                            periods.forEach(p => {
+                                if(p.end === '24:00' || p.end === '00:00') p.end = '23:59';
+                                if(p.start === '24:00') p.start = '00:00';
+                            });
+
+                            const cleanPeriods = periods.filter(p => p.start !== p.end);
+                            const dateStr = targetDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+                            return cleanPeriods.length > 0 ? { date: dateStr, periods: cleanPeriods } : null;
                         };
 
                         const finalSchedule = [];
-                        const todayData = processRow(todayRowIdx, "Today", today);
-                        if (todayData && todayData.periods.some(p => p.type === 'safe')) finalSchedule.push(todayData);
-                        
-                        if (tmrwRowIdx !== -1) {
-                            const tmrwData = processRow(tmrwRowIdx, "Tomorrow", tmrw);
-                            if (tmrwData && tmrwData.periods.some(p => p.type === 'safe')) finalSchedule.push(tmrwData);
+                        const todayData = buildDaySchedule(today, mergedSafePeriods);
+                        if (todayData) {
+                            todayData.date = `Today - ${todayData.date}`;
+                            finalSchedule.push(todayData);
                         }
                         
-                        if (finalSchedule.length > 0) {
+                        const tmrwData = buildDaySchedule(tmrw, mergedSafePeriods);
+                        if (tmrwData) {
+                            tmrwData.date = `Tomorrow - ${tmrwData.date}`;
+                            finalSchedule.push(tmrwData);
+                        }
+                        
+                        if (finalSchedule.length > 0 && mergedSafePeriods.length > 0) {
                             if (isMounted) setCrossingSchedule(finalSchedule);
                         } else {
                             throw new Error("Could not process schedule pairs");
