@@ -27,13 +27,13 @@
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 1.5rem; z-index: 0; }
-        @media (min-width: 1024px) { .leaflet-container { border-radius: 3rem; } }
+        /* Map container now full bleed, no border radius needed */
+        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; z-index: 0; }
         .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
         @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-white text-slate-900 overflow-x-hidden">
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -153,10 +153,10 @@
             ];
 
             return (
-                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                <nav className="fixed top-0 w-full z-[1000] bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
                     <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
-                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-md">
                                 <Icon name="camera" className="text-white" size={18} />
                             </div>
                             <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
@@ -165,7 +165,7 @@
                         
                         <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
                             {links.map((link) => (
-                                <a key={link.name} href={link.url} className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}>
+                                <a key={link.name} href={link.url} className={link.active ? "text-slate-900 border-b-2 border-slate-900 pb-1" : "hover:text-slate-900 transition-colors"}>
                                     {link.name}
                                 </a>
                             ))}
@@ -842,12 +842,25 @@
                 };
             }, []);
 
+            // Intelligent Map Centering - offsets the marker so it isn't hidden under the floating panel
             useEffect(() => {
                 if (mapInstanceRef.current) {
                     if (selectedLoc) {
-                        mapInstanceRef.current.flyTo([selectedLoc.lat, selectedLoc.lng], 14, { duration: 1.5 });
+                        const map = mapInstanceRef.current;
+                        const isDesktop = window.innerWidth >= 768;
+                        const targetZoom = 14;
+                        
+                        const targetPoint = map.project([selectedLoc.lat, selectedLoc.lng], targetZoom);
+                        // Desktop: shift center left by 200px. Mobile: shift center down by 200px.
+                        const offsetX = isDesktop ? -200 : 0;
+                        const offsetY = isDesktop ? 0 : 200;
+                        
+                        const offsetPoint = L.point(targetPoint.x + offsetX, targetPoint.y + offsetY);
+                        const offsetLatLng = map.unproject(offsetPoint, targetZoom);
+
+                        map.flyTo(offsetLatLng, targetZoom, { duration: 1.2 });
                     } else {
-                        mapInstanceRef.current.flyTo([55.35, -2.0], 9, { duration: 1.5 });
+                        mapInstanceRef.current.flyTo([55.35, -2.0], 9, { duration: 1.2 });
                     }
                 }
             }, [selectedLoc]);
@@ -880,46 +893,77 @@
             };
 
             return (
-                <div className="min-h-screen bg-white">
+                <div className="fixed inset-0 bg-slate-50 overflow-hidden">
                     <Navbar />
-                    <main className="pt-20">
+                    <main className="absolute top-20 bottom-0 left-0 right-0">
                         <h1 className="sr-only">Northumberland Photography Locations Map</h1>
-                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8 h-[calc(100vh-80px)] lg:h-[calc(100vh-120px)]">
-                            <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 h-full">
-                                <div className="w-full h-[40vh] lg:h-full lg:col-span-7 rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative order-1 lg:order-1">
-                                    <div ref={mapContainerRef} className="w-full h-full z-0"></div>
-                                    <button 
-                                        onClick={handleLocateMe}
-                                        disabled={isLocating}
-                                        className={`absolute bottom-4 right-4 md:bottom-6 md:right-6 z-[400] bg-white p-3 rounded-full shadow-lg border border-slate-100 transition-all focus:outline-none flex items-center justify-center ${isLocating ? 'text-sky-500 opacity-80' : 'text-slate-700 hover:text-sky-500 hover:scale-105'}`}
-                                        title="Locate Me"
-                                    >
-                                        <Icon name="locate" size={24} className={isLocating ? 'animate-pulse' : ''} />
+                        
+                        {/* Full Bleed Map Layer */}
+                        <div className="absolute inset-0 z-0">
+                            <div ref={mapContainerRef} className="w-full h-full"></div>
+                        </div>
+
+                        {/* Floating "Select a location" hint */}
+                        <div className={`absolute top-6 left-1/2 -translate-x-1/2 z-[400] transition-all duration-500 pointer-events-none ${selectedLoc ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'}`}>
+                            <div className="bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full shadow-lg border border-slate-200 flex items-center gap-3">
+                                <Icon name="mapPin" size={16} className="text-sky-500" />
+                                <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-700">Select a location</span>
+                            </div>
+                        </div>
+
+                        {/* Dynamic Locate Me Button */}
+                        <button 
+                            onClick={handleLocateMe}
+                            disabled={isLocating}
+                            className={`absolute right-4 md:right-6 z-[400] bg-white p-3.5 rounded-2xl shadow-xl border border-slate-200 transition-all duration-500 focus:outline-none flex items-center justify-center 
+                                ${selectedLoc ? 'bottom-[calc(75vh+1rem)] md:bottom-6' : 'bottom-6 md:bottom-6'}
+                                ${isLocating ? 'text-sky-500 opacity-80' : 'text-slate-700 hover:text-sky-500 hover:scale-105'}`}
+                            title="Locate Me"
+                        >
+                            <Icon name="locate" size={24} className={isLocating ? 'animate-pulse' : ''} />
+                        </button>
+
+                        {/* Smart Overlay Panel */}
+                        <div className={`absolute z-[500] pointer-events-auto bg-white/95 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col
+                            ${selectedLoc ? 'translate-y-0 md:translate-x-0 opacity-100' : 'translate-y-full md:translate-y-0 md:-translate-x-[120%] opacity-0 md:opacity-100'}
+                            bottom-0 left-0 right-0 h-[75vh] md:h-auto md:top-6 md:bottom-6 md:left-6 md:right-auto md:w-[420px] lg:w-[480px] md:rounded-3xl rounded-t-[2.5rem] border border-slate-200 overflow-hidden`}
+                        >
+                            {selectedLoc && (
+                                <>
+                                    {/* Mobile drag handle */}
+                                    <div className="w-full flex justify-center pt-4 pb-2 md:hidden absolute top-0 left-0 bg-white/50 backdrop-blur-md z-20">
+                                        <div className="w-12 h-1.5 bg-slate-300/80 rounded-full"></div>
+                                    </div>
+
+                                    {/* Floating Close Button (Desktop) */}
+                                    <button onClick={() => setSelectedLoc(null)} className="absolute top-4 md:top-6 right-4 md:right-6 z-20 p-2.5 bg-white/80 backdrop-blur-md border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-full transition-all shadow-sm hover:scale-105 hidden md:flex">
+                                        <Icon name="x" size={20} />
                                     </button>
-                                </div>
-                                <div className="w-full lg:col-span-5 bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-slate-100 flex flex-col overflow-y-auto custom-scrollbar shadow-xl order-2 lg:order-2 flex-1 lg:flex-none">
-                                    {selectedLoc ? (
-                                        <div className="animate-in space-y-6 pb-6">
-                                            <button onClick={() => setSelectedLoc(null)} className="flex items-center text-slate-400 hover:text-black font-bold text-xs uppercase tracking-widest mb-4 p-2 -ml-2 transition-colors">
-                                                <Icon name="arrowLeft" size={14} className="mr-2" /> Back to Map
-                                            </button>
-                                            <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-sky-500 text-white">{selectedLoc.type}</span>
-                                            <h3 className="text-3xl md:text-4xl font-black leading-tight">{selectedLoc.name}</h3>
-                                            <p className="text-sm text-slate-500">{selectedLoc.history}</p>
-                                            
-                                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                                                <p className="text-[9px] font-black uppercase text-slate-400 mb-1">General Advice</p>
+
+                                    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8 pt-10 md:pt-8 relative z-10">
+                                        {/* Top Back to Map Button */}
+                                        <button onClick={() => setSelectedLoc(null)} className="flex items-center text-slate-500 hover:text-slate-900 font-bold text-[11px] md:text-xs uppercase tracking-widest mb-5 p-2 -ml-2 transition-colors bg-slate-100/50 rounded-lg pr-4 w-fit">
+                                            <Icon name="arrowLeft" size={14} className="mr-2" /> Back to Map
+                                        </button>
+
+                                        <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg bg-sky-500 text-white mb-3 inline-block shadow-sm">{selectedLoc.type}</span>
+                                        <h3 className="text-3xl md:text-4xl font-black leading-tight mb-3 pr-8">{selectedLoc.name}</h3>
+                                        <p className="text-sm text-slate-500 leading-relaxed mb-6">{selectedLoc.history}</p>
+                                        
+                                        <div className="space-y-6">
+                                            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                                <p className="text-[9px] font-black uppercase text-slate-400 mb-2">General Advice</p>
                                                 <p className="text-sm font-bold whitespace-pre-line text-slate-700 leading-relaxed">{selectedLoc.desc}</p>
                                             </div>
                                             
                                             {selectedLoc.top_tip && (
-                                                <div className="bg-sky-50 p-4 rounded-2xl border border-sky-100">
-                                                    <p className="text-[9px] font-black uppercase text-sky-500 mb-1">Top Tip</p>
+                                                <div className="bg-sky-50 p-5 rounded-2xl border border-sky-100">
+                                                    <p className="text-[9px] font-black uppercase text-sky-500 mb-2">Top Tip</p>
                                                     <p className="text-sm font-bold text-sky-900 leading-relaxed">{selectedLoc.top_tip}</p>
                                                 </div>
                                             )}
                                             
-                                            <div className="flex flex-col gap-2">
+                                            <div className="flex flex-col gap-2 pt-2">
                                                 <p className="text-[11px] font-bold text-slate-500 flex items-center">
                                                     <span className="text-slate-400 w-24 shrink-0">PARKING:</span> 
                                                     <span className="text-slate-800">{selectedLoc.parking}</span>
@@ -936,17 +980,19 @@
                                             
                                             {/* Dedicated Holy Island Component renders only for Lindisfarne */}
                                             {selectedLoc.id === 3 && <HolyIslandCrossingWidget />}
+                                            
+                                            {/* Bottom Back to Map Button */}
+                                            <div className="mt-8 mb-4 border-t border-slate-100 pt-6">
+                                                <button onClick={() => setSelectedLoc(null)} className="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-widest py-4 px-6 rounded-xl hover:bg-slate-800 transition-colors shadow-lg flex items-center justify-center group">
+                                                    <Icon name="arrowLeft" size={16} className="mr-3 group-hover:-translate-x-1 transition-transform" /> Back to Map
+                                                </button>
+                                            </div>
 
                                         </div>
-                                    ) : (
-                                        <div className="flex flex-col items-center justify-center h-full text-slate-300 py-12 lg:py-0">
-                                            <Icon name="mapPin" size={48} className="mb-4 opacity-50"/>
-                                            <p className="font-black uppercase tracking-widest text-xs text-center px-8 leading-relaxed">Select a marker on the map to view details</p>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </section>
+                                    </div>
+                                </>
+                            )}
+                        </div>
                     </main>
                 </div>
             );
