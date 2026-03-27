@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- SEO -->
     <title>Northumberland Photography Weather Map | NorthernPixl</title>
     <meta name="description" content="Live weather, tide times, and astro forecasts for any photography location across Northumberland. Drop a pin anywhere to check the conditions.">
     
-    <!-- Canonical URL (Fixed to www) -->
     <link rel="canonical" href="https://www.northernpixl.co.uk/weather.html" />
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -72,76 +70,6 @@
             );
         };
 
-        // --- DATA ---
-        const LOCATIONS = [
-            { id: 1, name: "Bamburgh Castle", lat: 55.6090, lng: -1.7120 },
-            { id: 2, name: "Dunstanburgh Castle", lat: 55.4915, lng: -1.5947 },
-            { id: 3, name: "Lindisfarne Castle", lat: 55.6694, lng: -1.7856 },
-            { id: 4, name: "St Mary's Island", lat: 55.0717, lng: -1.4496 },
-            { id: 5, name: "Farne Islands", lat: 55.6178, lng: -1.6314 },
-            { id: 6, name: "Coquet Island", lat: 55.3340, lng: -1.5372 },
-            { id: 7, name: "Chillingham Park", lat: 55.5262, lng: -1.9054 },
-            { id: 8, name: "Kielder Water", lat: 55.2330, lng: -2.5330 },
-            { id: 9, name: "Kielder Observatory", lat: 55.2325, lng: -2.5866 },
-            { id: 10, name: "Cawfields Quarry", lat: 54.9967, lng: -2.4645 },
-            { id: 11, name: "Dunstan Steads", lat: 55.4933, lng: -1.6191 },
-            { id: 12, name: "Alnwick Castle", lat: 55.4156, lng: -1.7059 },
-            { id: 13, name: "Cragside House", lat: 55.3134, lng: -1.8845 },
-            { id: 14, name: "Housesteads", lat: 55.0135, lng: -2.3283 },
-            { id: 15, name: "Blyth Beach Huts", lat: 55.1081, lng: -1.4985 },
-            { id: 16, name: "Northumberlandia", lat: 55.0934, lng: -1.6288 },
-            { id: 17, name: "Linhope Spout", lat: 55.4475, lng: -2.0620 },
-            { id: 18, name: "Twizell Castle", lat: 55.6835, lng: -2.1895 },
-            { id: 19, name: "Simonside Hills", lat: 55.2832, lng: -1.9615 },
-            { id: 20, name: "Cresswell Pond", lat: 55.2289, lng: -1.5434 },
-            { id: 21, name: "Holystone Woods", lat: 55.3235, lng: -2.0678 },
-            { id: 22, name: "The Cheviot", lat: 55.4795, lng: -2.1466 },
-            { id: 23, name: "Hareshaw Linn", lat: 55.1580, lng: -2.2450 },
-            { id: 24, name: "Elf Kirk", lat: 55.1681, lng: -2.4808 },
-            { id: 25, name: "Wooler Common", lat: 55.5412, lng: -2.0345 },
-            { id: 26, name: "Stonehaugh", lat: 55.0877, lng: -2.3166 },
-            { id: 27, name: "Warkworth Castle", lat: 55.3444, lng: -1.6115 },
-            { id: 28, name: "Rumbling Kern", lat: 55.4462, lng: -1.5922 },
-            { id: 29, name: "Cullernose Point", lat: 55.4578, lng: -1.6033 },
-            { id: 30, name: "Duddo Five Stones", lat: 55.6868, lng: -2.1120 },
-            { id: 31, name: "Steel Rigg", lat: 55.0034, lng: -2.3923 },
-            { id: 32, name: "Walltown Crags", lat: 54.9897, lng: -2.5255 },
-            { id: 33, name: "Vindolanda", lat: 54.9912, lng: -2.3606 },
-            { id: 34, name: "Hexham Abbey", lat: 54.9715, lng: -2.1022 },
-            { id: 35, name: "Blanchland", lat: 54.8493, lng: -2.0543 },
-            { id: 36, name: "Bolam Lake", lat: 55.1227, lng: -1.8668 },
-            { id: 37, name: "Ros Castle", lat: 55.5175, lng: -1.8833 },
-            { id: 38, name: "Yeavering Bell", lat: 55.5433, lng: -2.1033 },
-            { id: 39, name: "Hindhope Linn", lat: 55.2667, lng: -2.3167 },
-            { id: 40, name: "Roughting Linn", lat: 55.6333, lng: -2.0333 },
-            { id: 41, name: "Royal Border Bridge", lat: 55.7725, lng: -2.0150 },
-            { id: 42, name: "Seaton Sluice", lat: 55.0845, lng: -1.4722 },
-            { id: 43, name: "Druridge Bay", lat: 55.2667, lng: -1.5500 },
-            { id: 44, name: "Thrunton Woods", lat: 55.3833, lng: -1.8667 },
-            { id: 45, name: "Amble Harbour", lat: 55.3333, lng: -1.5833 },
-            { id: 46, name: "Ladyburn Lake", lat: 55.2583, lng: -1.5667 },
-            { id: 47, name: "Etal Castle", lat: 55.6481, lng: -2.1232 },
-            { id: 48, name: "Norham Castle", lat: 55.7222, lng: -2.1495 },
-            { id: 49, name: "Belsay Hall & Castle", lat: 55.1018, lng: -1.8693 },
-            { id: 50, name: "Seaton Delaval Hall", lat: 55.0825, lng: -1.5067 },
-            { id: 51, name: "The Couple", lat: 55.1817, lng: -1.5089 },
-            { id: 52, name: "Allen Banks", lat: 54.9669, lng: -2.3160 },
-            { id: 53, name: "Ingram Valley", lat: 55.4389, lng: -1.9750 },
-            { id: 54, name: "Hethpool Linn", lat: 55.5611, lng: -2.1625 },
-            { id: 55, name: "Berwick Town Walls", lat: 55.7689, lng: -1.9980 },
-            { id: 56, name: "Edlingham Castle", lat: 55.3775, lng: -1.8217 },
-            { id: 57, name: "Brinkburn Priory", lat: 55.2794, lng: -1.8197 },
-            { id: 58, name: "Howick Hall", lat: 55.4439, lng: -1.6067 },
-            { id: 59, name: "Cocklawburn Beach", lat: 55.7336, lng: -1.9614 },
-            { id: 60, name: "Spittal Promenade", lat: 55.7600, lng: -1.9944 },
-            { id: 61, name: "Brizlee Tower", lat: 55.4333, lng: -1.7333 },
-            { id: 62, name: "Preston Tower", lat: 55.5458, lng: -1.7067 },
-            { id: 63, name: "Ford Village", lat: 55.6300, lng: -2.0833 },
-            { id: 64, name: "Blawearie", lat: 55.4951, lng: -1.8677 },
-            { id: 65, name: "Corbridge Roman Town", lat: 54.9736, lng: -2.0294 },
-            { id: 66, name: "Low Newton", lat: 55.5133, lng: -1.6108 }
-        ];
-
         // --- COMPONENTS ---
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
@@ -154,6 +82,7 @@
                 { name: 'Explore', url: 'explore.html', active: false },
                 { name: 'Weather', url: 'weather.html', active: true },
                 { name: 'Routes', url: 'routes.html', active: false },
+                { name: 'Ethics', url: 'ethics.html', active: false },
                 { name: 'Tuition', url: 'tuition.html', active: false }
             ];
 
@@ -526,7 +455,7 @@
             );
         };
 
-        const LiveConditionsWidget = ({ lat, lng, locId }) => {
+        const LiveConditionsWidget = ({ lat, lng }) => {
             const [data, setData] = useState({ weather: null, tides: null, aurora: null });
             const [loading, setLoading] = useState(true);
             const [errorMsg, setErrorMsg] = useState("");
@@ -620,9 +549,10 @@
                         }
                         const weatherJson = await weatherRes.json();
 
-                        // 2. Coastal Tide Check (Manually flagged locations within ~5 miles of coast)
-                        const coastalIds = [1, 2, 3, 4, 5, 6, 11, 12, 15, 20, 27, 28, 29, 41, 42, 43, 45, 46, 50, 51, 55, 58, 59, 60, 62, 66];
-                        const isCoastal = coastalIds.includes(locId);
+                        // 2. Coastal Tide Check (Geographic boundary for Northumberland coast)
+                        // Coast runs roughly from 55.0N, -1.4W to 55.8N, -2.0W
+                        const expectedCoastLng = -1.45 - ((lat - 55.0) * 0.75);
+                        const isCoastal = lat >= 54.7 && lat <= 56.0 && lng >= (expectedCoastLng - 0.15);
 
                         // 3. Fetch Aurora Forecast (NOAA Planetary K-index)
                         let auroraDays = null;
@@ -678,7 +608,7 @@
                 };
                 fetchConditions();
                 return () => { isMounted = false; };
-            }, [lat, lng, locId]);
+            }, [lat, lng]);
 
             if (loading) {
                 return (
@@ -1129,7 +1059,7 @@
                                         </p>
                                         
                                         <div className="space-y-6">
-                                            <LiveConditionsWidget lat={selectedLoc.lat} lng={selectedLoc.lng} locId={selectedLoc.id} />
+                                            <LiveConditionsWidget lat={selectedLoc.lat} lng={selectedLoc.lng} />
                                             
                                             {/* Dynamic Holy Island Safety Display */}
                                             {isNearHolyIsland(selectedLoc.lat, selectedLoc.lng) && <HolyIslandCrossingWidget />}
