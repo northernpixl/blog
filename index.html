@@ -77,6 +77,14 @@
             },
             { 
                 id: 3, 
+                title: 'Weather Information', 
+                image: 'shaftoesquare-1.jpg', 
+                link: 'weather.html', 
+                desc: 'Full weather details for your location',
+                alt: 'Astro forecast and weather details for chosen locations'
+            },
+            { 
+                id: 4, 
                 title: 'Suggested Routes', 
                 image: 'sycamoresquare.jpg', 
                 link: 'routes.html', 
@@ -84,7 +92,7 @@
                 alt: 'Walking route map for Northumberland National Park'
             },
             { 
-                id: 4, 
+                id: 5, 
                 title: 'Ethics', 
                 image: 'ethics-1.jpg', 
                 link: 'ethics.html', 
@@ -92,7 +100,7 @@
                 alt: 'Photographer practising ethical wildlife photography'
             },
             { 
-                id: 5, 
+                id: 6, 
                 title: 'Tuition', 
                 image: 'kingfishersquare.jpg', 
                 link: 'tuition.html', 
@@ -155,6 +163,7 @@
                         <div className={`hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest ${scrolled ? 'text-slate-500' : 'text-slate-300'}`}>
                             <a href="tutorials.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Tutorials</a>
                             <a href="explore.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Explore</a>
+                            <a href="weather.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Weather</a>
                             <a href="routes.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Routes</a>
                             <a href="ethics.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Ethics</a>
                             <a href="tuition.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Tuition</a>
@@ -173,6 +182,7 @@
                         <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center space-y-8 pt-20 animate-fade-in-down z-40">
                             <a href="tutorials.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Tutorials</a>
                             <a href="explore.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Explore</a>
+                            <a href="weather.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Weather</a>
                             <a href="routes.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Routes</a>
                             <a href="ethics.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Ethics</a>
                             <a href="tuition.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Tuition</a>
