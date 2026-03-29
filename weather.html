@@ -332,7 +332,7 @@
                         const buildDaySchedule = (targetDate, mergedPeriods) => {
                             const dayStart = new Date(targetDate); dayStart.setHours(0, 0, 0, 0);
                             const dayEnd = new Date(targetDate); dayEnd.setHours(23, 59, 59, 999);
-                            const formatTime = (d) => d.toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit', hour12: false});
+                            const formatTime = (d) => d.toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit', hour12: false});
                             const periods = [];
                             let current = dayStart.getTime();
 
@@ -494,8 +494,8 @@
                 if (nextLow < now) nextLow += tidalPeriod;
 
                 return {
-                    nextHigh: new Date(nextHigh).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'}),
-                    nextLow: new Date(nextLow).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'})
+                    nextHigh: new Date(nextHigh).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}),
+                    nextLow: new Date(nextLow).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})
                 };
             };
 
@@ -683,8 +683,8 @@
             const azimuths = getSolarAzimuths(lat, todayDate);
 
             const todayInfo = {
-                sunrise: daily?.sunrise?.[0] ? new Date(daily.sunrise[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "--:--",
-                sunset: daily?.sunset?.[0] ? new Date(daily.sunset[0]).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : "--:--",
+                sunrise: daily?.sunrise?.[0] ? new Date(daily.sunrise[0]).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}) : "--:--",
+                sunset: daily?.sunset?.[0] ? new Date(daily.sunset[0]).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}) : "--:--",
                 sunriseAzimuth: azimuths.sunrise,
                 sunsetAzimuth: azimuths.sunset,
                 moonrise: getApproxMoonrise()
@@ -704,7 +704,7 @@
                     const hourTime = new Date(hourly.time[i]).getTime();
                     if (hourTime >= sunsetTime && hourTime <= sunriseTime) {
                         const date = new Date(hourTime);
-                        const timeStr = date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                        const timeStr = date.toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' });
                         const cloud = hourly.cloudcover[i];
                         const weatherCode = hourly.weathercode[i];
                         
@@ -1237,7 +1237,7 @@
                                             {radarFrames[currentFrame].type === 'future' ? 'Future Forecast' : 'Past Radar'}
                                         </span>
                                         <span className="text-xs md:text-sm font-bold text-slate-800 font-mono tracking-tight mt-0.5">
-                                            {new Date(radarFrames[currentFrame].time * 1000).toLocaleTimeString('en-GB', {hour: '2-digit', minute:'2-digit'})}
+                                            {new Date(radarFrames[currentFrame].time * 1000).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})}
                                         </span>
                                     </div>
                                     <button onClick={() => setLayerMode('standard')} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
