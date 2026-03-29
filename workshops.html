@@ -2,48 +2,74 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Optimised Native App Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- SEO -->
     <title>Photography Tuition & Workshops Northumberland | NorthernPixl</title>
+    <meta name="title" content="Photography Tuition & Workshops Northumberland | NorthernPixl">
     <meta name="description" content="Book 1-to-1 photography tuition and small group workshops in Northumberland. Master your camera with landscape, wildlife, and astro photography courses.">
+    <meta name="keywords" content="Northumberland photography workshops, 1-to-1 photography tuition, landscape photography courses, wildlife photography training, astro photography workshop UK, NorthernPixl">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="NorthernPixl">
     
-    <!-- Canonical URL (Fixed to www) -->
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://www.northernpixl.co.uk/favicon.png">
+    <link rel="apple-touch-icon" href="https://www.northernpixl.co.uk/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://www.northernpixl.co.uk/workshops.html" />
 
-    <!-- Schema.org JSON-LD (Course/Product) -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.northernpixl.co.uk/workshops.html">
+    <meta property="og:title" content="Photography Tuition & Workshops Northumberland | NorthernPixl">
+    <meta property="og:description" content="Book 1-to-1 photography tuition and small group workshops in Northumberland.">
+    <meta property="og:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://www.northernpixl.co.uk/workshops.html">
+    <meta property="twitter:title" content="Photography Tuition & Workshops Northumberland | NorthernPixl">
+    <meta property="twitter:description" content="Book 1-to-1 photography tuition and small group workshops in Northumberland.">
+    <meta property="twitter:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
+
+    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": [
+      "@graph": [
         {
-          "@type": "Course",
-          "name": "1-to-1 Landscape Masterclass",
-          "description": "Full day private photography  in Northumberland.",
-          "provider": {
-            "@type": "Organization",
-            "name": "NorthernPixl"
-          },
-          "offers": {
-            "@type": "Offer",
-            "price": "295",
-            "priceCurrency": "GBP"
-          }
+          "@type": "ItemList",
+          "itemListElement": [
+            {
+              "@type": "Course",
+              "position": 1,
+              "name": "1-to-1 Landscape Masterclass",
+              "description": "Full day private photography in Northumberland.",
+              "provider": { "@type": "Organization", "name": "NorthernPixl" },
+              "offers": { "@type": "Offer", "price": "295", "priceCurrency": "GBP" }
+            },
+            {
+              "@type": "Course",
+              "position": 2,
+              "name": "Astro & Nightscape Intro",
+              "description": "Learn to photograph the Milky Way and dark skies in Northumberland.",
+              "provider": { "@type": "Organization", "name": "NorthernPixl" },
+              "offers": { "@type": "Offer", "price": "195", "priceCurrency": "GBP" }
+            }
+          ]
         },
         {
-          "@type": "Course",
-          "name": "Astro & Nightscape Intro",
-          "description": "Learn to photograph the Milky Way and dark skies in Northumberland.",
-          "provider": {
-            "@type": "Organization",
-            "name": "NorthernPixl"
-          },
-          "offers": {
-            "@type": "Offer",
-            "price": "195",
-            "priceCurrency": "GBP"
-          }
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.northernpixl.co.uk/index.html" },
+            { "@type": "ListItem", "position": 2, "name": "Workshops", "item": "https://www.northernpixl.co.uk/workshops.html" }
+          ]
         }
       ]
     }
@@ -92,7 +118,6 @@
 
         const VallerretAffiliateWidget = () => {
             useEffect(() => {
-                // Ensure the div is clear in case the user opens/closes the modal
                 const targetDiv = document.getElementById('rfsn_img_44044');
                 if (targetDiv) targetDiv.innerHTML = '';
 
@@ -104,11 +129,9 @@
                             });
                         } catch(e) { console.error(e); }
                     } else {
-                        // Prevent injecting the script multiple times
                         if (!document.querySelector('script[src*="refersion.com/creative.js"]')) {
                             const script = document.createElement('script');
                             script.type = 'text/javascript';
-                            // Forced https:// to prevent protocol errors in iframes/local viewing
                             script.src = 'https://cdn.refersion.com/creative.js';
                             script.async = true;
                             script.onload = () => {
@@ -123,7 +146,6 @@
                     }
                 };
 
-                // Add a tiny delay to ensure React has fully painted the div to the DOM before the script hunts for the ID
                 const timer = setTimeout(() => {
                     loadRefersion();
                 }, 100);
@@ -140,7 +162,6 @@
 
         const VallerretThumbnailWidget = () => {
             useEffect(() => {
-                // Ensure the div is clear in case the user opens/closes the modal
                 const targetDiv = document.getElementById('rfsn_img_43991');
                 if (targetDiv) targetDiv.innerHTML = '';
 
@@ -152,7 +173,6 @@
                             });
                         } catch(e) { console.error(e); }
                     } else {
-                        // Prevent injecting the script multiple times
                         if (!document.querySelector('script[src*="refersion.com/creative.js"]')) {
                             const script = document.createElement('script');
                             script.type = 'text/javascript';
@@ -327,10 +347,7 @@
 
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
-
-            const toggleMenu = () => {
-                setIsOpen(!isOpen);
-            };
+            const toggleMenu = () => setIsOpen(!isOpen);
 
             const links = [
                 { name: 'Home', url: 'index.html', active: false },
@@ -360,7 +377,7 @@
                                 <a 
                                     key={link.name} 
                                     href={link.url} 
-                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
+                                    className={link.active ? "text-black border-b-2 border-black pb-1" : "hover:text-black transition-colors"}
                                 >
                                     {link.name}
                                 </a>
@@ -663,8 +680,6 @@
                                 <div className="flex-1 flex flex-col">
                                     <div className="flex items-center text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-3 space-x-2">
                                         <span>{article.date}</span>
-                                        <span>•</span>
-                                        <span>{article.readTime}</span>
                                     </div>
                                     <h4 className="text-lg font-black mb-3 leading-tight group-hover:text-sky-500 transition-colors">{article.title}</h4>
                                     <p className="text-slate-600 text-sm leading-relaxed mb-6 line-clamp-3">{article.excerpt}</p>
@@ -727,7 +742,11 @@
                                             alt={workshop.title} 
                                             loading="lazy"
                                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                            onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} 
                                         />
+                                        <div className="absolute inset-0 flex items-center justify-center text-slate-400 bg-slate-200" style={{display: 'none'}}>
+                                            <Icon name="camera" size={32} />
+                                        </div>
                                         
                                         {/* Gradient Overlay for Text Readability */}
                                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
@@ -843,8 +862,6 @@
                                     
                                     <div className="flex items-center text-xs font-bold uppercase tracking-widest text-slate-400 space-x-4 border-b border-slate-100 pb-8">
                                         <span>{selectedArticle.date}</span>
-                                        <span>•</span>
-                                        <span>{selectedArticle.readTime}</span>
                                     </div>
                                 </div>
 
