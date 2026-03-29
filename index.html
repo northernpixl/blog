@@ -2,23 +2,34 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Optimised Native App Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- SEO: Title & Meta Description -->
     <title>Northumberland Photography Guide & Workshops | NorthernPixl</title>
+    <meta name="title" content="Northumberland Photography Guide & Workshops | NorthernPixl">
     <meta name="description" content="The ultimate guide to photography in Northumberland. Discover photo locations, walking routes, and book 1-to-1 photography tuition in the North East.">
     <meta name="keywords" content="Northumberland photography, astro forecast, aurora data, landscape photography workshops, Cheviot walking routes, Bamburgh Castle photos, NorthernPixl">
+    <meta name="robots" content="index, follow">
     <meta name="author" content="NorthernPixl">
     
-    <!-- Canonical URL (Fixed to www) -->
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://www.northernpixl.co.uk/favicon.png">
+    <link rel="apple-touch-icon" href="https://www.northernpixl.co.uk/apple-touch-icon.png">
+    
+    <!-- Canonical URL -->
     <link rel="canonical" href="https://www.northernpixl.co.uk/index.html" />
 
     <!-- Open Graph (Social Media) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.northernpixl.co.uk/index.html">
     <meta property="og:title" content="Northumberland Photography Guide | NorthernPixl">
     <meta property="og:description" content="Discover hidden gems, walking routes, and photography workshops in Northumberland.">
     <meta property="og:image" content="https://www.northernpixl.co.uk/MG2282.jpg">
-    <meta property="og:url" content="https://www.northernpixl.co.uk/index.html">
-    <meta property="og:type" content="website">
 
     <!-- Schema.org JSON-LD (Local Business) -->
     <script type="application/ld+json">
@@ -227,7 +238,7 @@
 
         const App = () => {
             return (
-                <div className="min-h-screen bg-slate-900">
+                <div className="min-h-screen bg-slate-900 flex flex-col">
                     <Navbar />
                     
                     {/* Main Layout Container */}
@@ -287,7 +298,6 @@
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
-    <amp-auto-ads type="adsense" data-ad-client="ca-pub-3848390381001803"></amp-auto-ads>
     <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
