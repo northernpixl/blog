@@ -265,6 +265,35 @@
             const mapInstanceRef = useRef(null);
             const userMarkerRef = useRef(null);
 
+            // Helper to automatically convert standard YouTube links to embeddable links
+            const getSafeUrl = (url) => {
+                if (!url) return "";
+                let safeUrl = url;
+                try {
+                    if (url.includes('youtube.com/watch?v=')) {
+                        const urlObj = new URL(url);
+                        const videoId = urlObj.searchParams.get('v');
+                        safeUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+                    } else if (url.includes('youtu.be/')) {
+                        const videoId = url.split('youtu.be/')[1].split('?')[0];
+                        safeUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
+                    }
+                } catch (e) {
+                    console.error("URL parsing error", e);
+                }
+                return safeUrl;
+            };
+
+            // Helper to extract the original link for the "Watch on YouTube" fallback button
+            const getOriginalUrl = (url) => {
+                if (!url) return "#";
+                if (url.includes('/embed/')) {
+                    const videoId = url.split('/embed/')[1].split('?')[0];
+                    return `https://www.youtube.com/watch?v=${videoId}`;
+                }
+                return url;
+            };
+
             useEffect(() => {
                 const onPopState = () => {
                     setSelectedLoc(null);
@@ -412,9 +441,14 @@
                                             </div>
                                             <div>
                                                 <h3 className="font-black text-lg md:text-xl text-slate-800 leading-none mb-1">{selectedWebcam.name}</h3>
-                                                <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-sky-500 flex items-center gap-1.5">
-                                                    <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Live Stream
-                                                </span>
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-sky-500 flex items-center gap-1.5">
+                                                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Live Stream
+                                                    </span>
+                                                    <a href={getOriginalUrl(selectedWebcam.url)} target="_blank" rel="noopener noreferrer" className="text-[9px] md:text-[10px] font-bold text-slate-500 hover:text-sky-600 underline transition-colors">
+                                                        Watch on YouTube &#8599;
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                         <button onClick={() => setSelectedWebcam(null)} className="p-2.5 hover:bg-slate-200 rounded-full transition-colors text-slate-500 hover:text-slate-900">
@@ -423,7 +457,7 @@
                                     </div>
                                     <div className="w-full aspect-video bg-slate-900 relative">
                                         <iframe 
-                                            src={selectedWebcam.url} 
+                                            src={getSafeUrl(selectedWebcam.url)} 
                                             className="absolute inset-0 w-full h-full border-0" 
                                             allowFullScreen 
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
