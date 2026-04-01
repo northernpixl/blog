@@ -675,14 +675,39 @@
                                 const dayAfterStr = dayAfter.toISOString().split('T')[0];
 
                                 const kpMap = { [todayStr]: 0, [tmrwStr]: 0, [dayAfterStr]: 0 };
-                                for (let i = 1; i < auroraJson.length; i++) {
+                                
+                                // UPDATED PARSER: Handles both old nested arrays and new SWPC standard objects
+                                for (let i = 0; i < auroraJson.length; i++) {
                                     const row = auroraJson[i];
-                                    const dateStr = row[0].split(' ')[0];
-                                    const kp = parseFloat(row[1]);
-                                    if (kpMap[dateStr] !== undefined) {
+                                    let dateStr, kp;
+                                    
+                                    if (Array.isArray(row)) {
+                                        if (i === 0) continue; // Skip old header
+                                        if (!row[0]) continue;
+                                        dateStr = String(row[0]).substring(0, 10);
+                                        kp = parseFloat(row[1]);
+                                    } else if (typeof row === 'object') {
+                                        const timeTag = row.time_tag || row.time;
+                                        if (!timeTag) continue;
+                                        dateStr = String(timeTag).substring(0, 10);
+                                        
+                                        let kpVal = row.predicted_kp;
+                                        if (kpVal === undefined) kpVal = row.kp;
+                                        if (kpVal === undefined) kpVal = row.estimated_kp;
+                                        if (kpVal === undefined) {
+                                            const kpKey = Object.keys(row).find(k => k.toLowerCase().includes('kp'));
+                                            if (kpKey) kpVal = row[kpKey];
+                                        }
+                                        kp = parseFloat(kpVal);
+                                    } else {
+                                        continue;
+                                    }
+
+                                    if (kpMap[dateStr] !== undefined && !isNaN(kp)) {
                                         if (kp > kpMap[dateStr]) kpMap[dateStr] = kp;
                                     }
                                 }
+                                
                                 auroraDays = [
                                     { dayName: 'Tonight', kp: kpMap[todayStr] },
                                     { dayName: 'Tomorrow', kp: kpMap[tmrwStr] },
@@ -693,17 +718,40 @@
                             if (plasmaRes.ok && magRes.ok) {
                                 const plasmaJson = await plasmaRes.json();
                                 const magJson = await magRes.json();
-                                for (let i = plasmaJson.length - 1; i > 0; i--) {
-                                    if (plasmaJson[i][1] && plasmaJson[i][2]) {
-                                        liveSolar.density = parseFloat(plasmaJson[i][1]);
-                                        liveSolar.speed = parseFloat(plasmaJson[i][2]);
-                                        break;
+                                
+                                // UPDATED PARSER: Plasma parsing
+                                for (let i = plasmaJson.length - 1; i >= 0; i--) {
+                                    const row = plasmaJson[i];
+                                    if (Array.isArray(row)) {
+                                        if (i === 0) continue;
+                                        if (row[1] !== null && row[2] !== null && row[1] !== undefined && row[2] !== undefined) {
+                                            liveSolar.density = parseFloat(row[1]);
+                                            liveSolar.speed = parseFloat(row[2]);
+                                            break;
+                                        }
+                                    } else if (typeof row === 'object') {
+                                        if (row.proton_density !== undefined && row.proton_speed !== undefined && row.proton_density !== null && row.proton_speed !== null) {
+                                            liveSolar.density = parseFloat(row.proton_density);
+                                            liveSolar.speed = parseFloat(row.proton_speed);
+                                            break;
+                                        }
                                     }
                                 }
-                                for (let i = magJson.length - 1; i > 0; i--) {
-                                    if (magJson[i][3]) {
-                                        liveSolar.bz = parseFloat(magJson[i][3]);
-                                        break;
+                                
+                                // UPDATED PARSER: Magnetometer parsing
+                                for (let i = magJson.length - 1; i >= 0; i--) {
+                                    const row = magJson[i];
+                                    if (Array.isArray(row)) {
+                                        if (i === 0) continue;
+                                        if (row[3] !== null && row[3] !== undefined) {
+                                            liveSolar.bz = parseFloat(row[3]);
+                                            break;
+                                        }
+                                    } else if (typeof row === 'object') {
+                                        if (row.bz_gsm !== undefined && row.bz_gsm !== null) {
+                                            liveSolar.bz = parseFloat(row.bz_gsm);
+                                            break;
+                                        }
                                     }
                                 }
                             }
