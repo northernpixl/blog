@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Northumberland Photography Guide & Workshops | NorthernPixl</title>
+    <meta name="title" content="Northumberland Photography Guide & Workshops | NorthernPixl">
+    <meta name="description" content="The ultimate guide to photography in Northumberland. Discover photo locations, walking routes, and book 1-to-1 photography tuition in the North East.">
+    <meta name="keywords" content="Northumberland photography, astro forecast, aurora data, landscape photography workshops, Cheviot walking routes, Bamburgh Castle photos, NorthernPixl">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="NorthernPixl">
+    
+    <link rel="icon" type="image/png" href="https://www.northernpixl.co.uk/favicon.png">
+    <link rel="apple-touch-icon" href="https://www.northernpixl.co.uk/apple-touch-icon.png">
+    
+    <link rel="canonical" href="https://www.northernpixl.co.uk/index.html" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.northernpixl.co.uk/index.html">
+    <meta property="og:title" content="Northumberland Photography Guide | NorthernPixl">
+    <meta property="og:description" content="Discover hidden gems, walking routes, and photography workshops in Northumberland.">
+    <meta property="og:image" content="https://www.northernpixl.co.uk/MG2282.jpg">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "NorthernPixl",
+      "image": "https://www.northernpixl.co.uk/MG2282.jpg",
+      "description": "Northumberland landscape photography guide, weather, walking routes, workshops plus more",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "Northumberland",
+        "addressCountry": "UK"
+      },
+      "url": "https://www.northernpixl.co.uk",
+      "priceRange": "££"
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-900 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Topic Data for the Carousel
+        const topics = [
+            { 
+                id: 1, 
+                title: 'Start Learning', 
+                image: 'tree milkyway.jpg', 
+                link: 'tutorials.html', 
+                desc: 'Master your camera',
+                alt: 'Sycamore Gap tree under the Milky Way Northumberland'
+            },
+            { 
+                id: 2, 
+                title: 'Explore Locations', 
+                image: 'shaftoesquare-1.jpg', 
+                link: 'explore.html', 
+                desc: 'Hidden gems',
+                alt: 'Shaftoe Crags Northumberland landscape photography'
+            },
+            { 
+                id: 3, 
+                title: 'Weather Information', 
+                image: 'Orion Merge.jpg', 
+                link: 'weather.html', 
+                desc: 'Full weather details for your location',
+                alt: 'Astro forecast and weather details for chosen locations'
+            },
+            { 
+                id: 4, 
+                title: 'Suggested Routes', 
+                image: 'sycamoresquare.jpg', 
+                link: 'routes.html', 
+                desc: 'Curated paths',
+                alt: 'Walking route map for Northumberland National Park'
+            },
+            { 
+                id: 5, 
+                title: 'Ethics', 
+                image: 'ethics-1.jpg', 
+                link: 'ethics.html', 
+                desc: 'Leave no trace',
+                alt: 'Photographer practising ethical wildlife photography'
+            },
+            { 
+                id: 6, 
+                title: 'Workshops', 
+                image: 'kingfishersquare.jpg', 
+                link: 'workshops.html', 
+                desc: 'Workshops',
+                alt: 'Kingfisher wildlife photography workshop Northumberland'
+            },
+        ];
+
+        const Icon = ({ name, size = 20, className = "" }) => {
+            if (name === 'camera') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+            );
+            if (name === 'menu') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            );
+            if (name === 'x') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            );
+            if (name === 'facebook') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+            );
+            if (name === 'instagram') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                </svg>
+            );
+            if (name === 'arrow-right') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            );
+            if (name === 'mail') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            );
+            if (name === 'download') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            );
+            return null;
+        };
+
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 20);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100 py-2' : 'bg-transparent py-4'}`}>
+                    <div className="flex items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+                        <a href="index.html" className="flex items-center space-x-3 cursor-pointer z-50 group">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${scrolled ? 'bg-slate-900 text-white' : 'bg-white text-slate-900'}`}>
+                                <Icon name="camera" size={18} />
+                            </div>
+                            <span className={`font-black text-lg md:text-xl tracking-tighter uppercase inline ${scrolled ? 'text-slate-900' : 'text-white'}`}>NorthernPixl</span>
+                        </a>
+
+                        <div className={`hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest ${scrolled ? 'text-slate-500' : 'text-slate-300'}`}>
+                            <a href="tutorials.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Tutorials</a>
+                            <a href="explore.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Explore</a>
+                            <a href="weather.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Weather</a>
+                            <a href="routes.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Routes</a>
+                            <a href="ethics.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Ethics</a>
+                            <a href="workshops.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Workshops</a>
+                        </div>
+
+                        <button 
+                            className={`md:hidden z-50 p-2 ${scrolled || isOpen ? 'text-slate-900' : 'text-white'}`}
+                            onClick={() => setIsOpen(!isOpen)}
+                            aria-label="Toggle Menu"
+                        >
+                            <Icon name={isOpen ? 'x' : 'menu'} size={24} />
+                        </button>
+                    </div>
+
+                    {isOpen && (
+                        <div className="md:hidden absolute top-0 left-0 w-full h-screen bg-white flex flex-col items-center justify-center space-y-8 pt-20 animate-fade-in-down z-40">
+                            <a href="tutorials.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Tutorials</a>
+                            <a href="explore.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Explore</a>
+                            <a href="weather.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Weather</a>
+                            <a href="routes.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Routes</a>
+                            <a href="ethics.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Ethics</a>
+                            <a href="workshops.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Workshops</a>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const CarouselCard = ({ item }) => (
+            <a href={item.link} className="relative group overflow-hidden rounded-xl w-[280px] h-[360px] flex-shrink-0 snap-center cursor-pointer">
+                <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors z-10"></div>
+                <img 
+                    src={item.image} 
+                    alt={item.alt || item.title} 
+                    loading="lazy"
+                    width="280"
+                    height="360"
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute bottom-0 left-0 p-6 z-20 w-full">
+                    <p className="text-xs font-bold text-sky-400 uppercase tracking-wider mb-1 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">{item.desc}</p>
+                    <h3 className="text-2xl font-black text-white uppercase tracking-tight leading-none">{item.title}</h3>
+                </div>
+            </a>
+        );
+
+        const ManualCarousel = () => {
+            return (
+                <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent">
+                    <div className="text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                        Scroll across for more
+                    </div>
+                    <div className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth space-x-6 px-6 no-scrollbar pb-6 md:w-max md:mx-auto md:max-w-full">
+                        {topics.map((topic, index) => (
+                            <CarouselCard key={`${topic.id}-${index}`} item={topic} />
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [deferredPrompt, setDeferredPrompt] = useState(null);
+
+            // Listen for the native install prompt event
+            useEffect(() => {
+                const handleBeforeInstallPrompt = (e) => {
+                    e.preventDefault();
+                    setDeferredPrompt(e);
+                };
+                window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+                return () => window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+            }, []);
+
+            // Handle the PWA App install or fallback to manual instructions for Apple devices
+            const handleInstallClick = async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    if (outcome === 'accepted') {
+                        setDeferredPrompt(null);
+                    }
+                } else {
+                    alert("To install the app on your device:\n\niOS / Apple: Tap the 'Share' icon at the bottom of Safari and select 'Add to Home Screen'.\n\nAndroid: Tap the 3-dots menu in Chrome and select 'Add to Home screen' or 'Install App'.");
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-slate-900 flex flex-col">
+                    <Navbar />
+                    
+                    {/* Main Layout Container */}
+                    <main className="flex flex-col min-h-screen">
+                        
+                        {/* 1. Hero / Image Section */}
+                        <section className="relative flex-grow flex flex-col justify-center items-center overflow-hidden">
+                            
+                            {/* Background Image */}
+                            <div className="absolute inset-0 z-0 flex justify-center items-center overflow-hidden bg-slate-900">
+                                <img 
+                                    src="MG2282.jpg" 
+                                    alt="Northumberland Landscape Photography - Dramatic coastline" 
+                                    className="h-full w-auto max-w-none object-cover opacity-80"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/80"></div>
+                            </div>
+
+                            {/* Text Content - SEO Optimized H1 */}
+                            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-32 pb-10">
+                                <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter mb-6 break-words w-full drop-shadow-2xl text-white">
+                                    NORTHUMBERLAND <br/>
+                                    <span className="text-sky-300 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-sky-400 sm:to-sky-600">PHOTOGRAPHY.</span>
+                                </h1>
+                                <p className="text-lg md:text-xl text-slate-300 max-w-2xl mb-10 font-medium leading-relaxed drop-shadow-md">
+                                    The ultimate guide for photographers & hikers in and around Northumberland. Tutorials, locations, aurora and astro data, weather forecasts plus walking routes for your journey in the stunning Northumberland landscape.
+                                </p>
+                                
+                                <div className="flex items-center justify-center space-x-8 mb-8">
+                                    <a href="https://facebook.com/northernpixl" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all" aria-label="Visit NorthernPixl Facebook">
+                                        <Icon name="facebook" size={28} />
+                                    </a>
+                                    <a href="https://instagram.com/northernpixl" target="_blank" rel="noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all" aria-label="Visit NorthernPixl Instagram">
+                                        <Icon name="instagram" size={28} />
+                                    </a>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+                                    <a href="mailto:northernpixl@gmail.com" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white text-white hover:text-slate-900 border border-white/20 hover:border-white transition-all duration-300 font-black uppercase text-[10px] tracking-widest backdrop-blur-sm group w-full sm:w-auto">
+                                        <Icon name="mail" size={16} />
+                                        <span>Contact Me</span>
+                                    </a>
+                                    
+                                    <button onClick={handleInstallClick} className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-sky-500 text-white hover:text-white border border-white/20 hover:border-sky-500 transition-all duration-300 font-black uppercase text-[10px] tracking-widest backdrop-blur-sm group w-full sm:w-auto">
+                                        <Icon name="download" size={16} />
+                                        <span>Install App</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* 2. Carousel Section */}
+                        <div className="relative z-20 w-full bg-slate-900 border-t border-slate-800/50">
+                            <ManualCarousel />
+                        </div>
+
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
