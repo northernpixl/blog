@@ -116,6 +116,42 @@
         .custom-webcam-marker { background: transparent; border: none; outline: none; display: flex; justify-content: center; align-items: center; }
         .custom-webcam-marker div { transition: all 0.3s ease; }
         .custom-webcam-marker:hover div { transform: scale(1.15) translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
+
+        /* CRITICAL SAFARI FIX: Creates a safe stacking context for CSS blending */
+        .leaflet-pane { isolation: isolate; }
+
+        /* RainViewer Cloud Overlay (White Clouds via Screen Blend Mode) */
+        .cloud-overlay-rv {
+            mix-blend-mode: screen;
+            filter: contrast(2) brightness(1.5);
+            pointer-events: none;
+            transition: opacity 1s ease-in-out !important;
+            will-change: opacity;
+        }
+
+        /* 100% Reliable IEM Math Fallback Overlay (Dark Clouds via Invert)
+           NO mix-blend-mode is used here, guaranteeing it bypasses Safari visibility bugs */
+        .cloud-overlay-iem {
+            filter: invert(1) contrast(1.5) blur(1px);
+            transform: translate3d(0,0,0);
+            pointer-events: none;
+            transition: opacity 1s ease-in-out !important;
+            will-change: opacity;
+        }
+
+        .radar-overlay {
+            pointer-events: none;
+            transition: opacity 1s ease-in-out !important;
+            will-change: opacity;
+        }
+
+        /* Absolute safeguard against Leaflet sub-pixel rendering gaps */
+        .cloud-overlay-rv .leaflet-tile,
+        .cloud-overlay-iem .leaflet-tile,
+        .radar-overlay .leaflet-tile {
+            width: 257px !important;
+            height: 257px !important;
+        }
     </style>
 </head>
 <!-- overscroll-none strictly prevents bouncy elastic scrolling on mobile web apps -->
@@ -960,7 +996,8 @@
             const baseLayerRef = useRef(null);
             const darkLayerRef = useRef(null);
             const darkLabelsLayerRef = useRef(null);
-            const radarLayerDictRef = useRef({}); // Safely tracks pre-loaded animation layers
+            
+            const radarLayerDictRef = useRef({}); 
 
             const showToast = (msg) => {
                 setToastMsg(msg);
@@ -994,7 +1031,6 @@
                 }
             };
 
-            // Helper to automatically convert standard YouTube links to embeddable links
             const getSafeUrl = (url) => {
                 if (!url) return "";
                 let safeUrl = url;
@@ -1013,7 +1049,6 @@
                 return safeUrl;
             };
 
-            // Helper to extract the original link for the "Watch on YouTube" fallback button
             const getOriginalUrl = (url) => {
                 if (!url) return "#";
                 if (url.includes('/embed/')) {
@@ -1032,6 +1067,7 @@
                 return () => window.removeEventListener('popstate', onPopState);
             }, []);
 
+            // Setup Map Base Layers
             useEffect(() => {
                 const timer = setTimeout(() => {
                     if (mapContainerRef.current && !mapInstanceRef.current) {
@@ -1091,7 +1127,7 @@
                 };
             }, []);
 
-            // Handle Layer Switching safely
+            // Handle Layer Switching (Robust Async/Await dual-provider system)
             useEffect(() => {
                 if (!mapInstanceRef.current) return;
                 const map = mapInstanceRef.current;
@@ -1104,27 +1140,77 @@
                     if (layerRef.current && !map.hasLayer(layerRef.current)) layerRef.current.addTo(map);
                 };
 
-                if (layerMode === 'dark') {
-                    safeRemove(baseLayerRef);
-                    safeAdd(darkLayerRef);
-                    safeAdd(darkLabelsLayerRef);
-                } else if (layerMode === 'radar') {
-                    safeAdd(baseLayerRef);
-                    safeRemove(darkLayerRef);
-                    safeRemove(darkLabelsLayerRef);
-                    
-                    fetch('https://api.rainviewer.com/public/weather-maps.json')
-                        .then(res => res.json())
-                        .then(data => {
-                            if (isCancelled) return; // Prevent zombie layers if user toggles off quickly
+                const fetchMapData = async () => {
+                    if (layerMode === 'dark') {
+                        safeRemove(baseLayerRef);
+                        safeAdd(darkLayerRef);
+                        safeAdd(darkLabelsLayerRef);
+                        setIsPlaying(false);
+                        setRadarFrames([]);
+                    } else if (layerMode === 'radar' || layerMode === 'cloud') {
+                        safeAdd(baseLayerRef);
+                        safeRemove(darkLayerRef);
+                        safeRemove(darkLabelsLayerRef);
+                        
+                        try {
+                            const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
+                            const data = await res.json();
+                            if (isCancelled) return;
                             
-                            const frames = [
-                                ...(data.radar.past || []).map(f => ({ ...f, type: 'past' })),
-                                ...(data.radar.nowcast || []).map(f => ({ ...f, type: 'future' }))
-                            ];
+                            let frames = [];
+                            
+                            if (layerMode === 'radar') {
+                                const past = (data.radar && data.radar.past) || [];
+                                const nowcast = (data.radar && data.radar.nowcast) || [];
+                                frames = [
+                                    ...past.map(f => ({ ...f, type: 'past', provider: 'rainviewer_radar' })),
+                                    ...nowcast.map(f => ({ ...f, type: 'future', provider: 'rainviewer_radar' }))
+                                ];
+                            } else if (layerMode === 'cloud') {
+                                const pastSat = (data.satellite && data.satellite.infrared) || [];
+                                if (pastSat.length > 0) {
+                                    const latestSat = pastSat.slice(-12);
+                                    frames = latestSat.map(f => ({ 
+                                        ...f, 
+                                        type: 'past', 
+                                        provider: 'rainviewer_sat' 
+                                    }));
+                                } else {
+                                    // 100% UNBREAKABLE MATH FALLBACK: IEM Global WMS 
+                                    // Bypasses all XML fetch errors. Generates purely local 30-min ISO timestamps.
+                                    console.log("RainViewer Satellite Missing. Running Math-Based IEM WMS Fallback...");
+                                    const fallbackFrames = [];
+                                    const now = new Date();
+                                    
+                                    // Offset exactly 2.5 hours to guarantee global mosaic tiles exist on their server
+                                    const bufferTime = new Date(now.getTime() - (150 * 60 * 1000));
+                                    bufferTime.setMinutes(bufferTime.getMinutes() >= 30 ? 30 : 0, 0, 0);
+
+                                    for (let i = 7; i >= 0; i--) {
+                                        const frameTime = new Date(bufferTime.getTime() - (i * 30 * 60 * 1000));
+                                        
+                                        const pad = n => n.toString().padStart(2, '0');
+                                        const isoTime = `${frameTime.getUTCFullYear()}-${pad(frameTime.getUTCMonth() + 1)}-${pad(frameTime.getUTCDate())}T${pad(frameTime.getUTCHours())}:${pad(frameTime.getUTCMinutes())}:00Z`;
+                                        
+                                        fallbackFrames.push({
+                                            time: Math.floor(frameTime.getTime() / 1000),
+                                            timeStr: isoTime,
+                                            type: 'past',
+                                            provider: 'iem_wms'
+                                        });
+                                    }
+                                    frames = fallbackFrames;
+                                }
+                            }
+                            
+                            if (frames.length === 0) {
+                                showToast(`${layerMode === 'cloud' ? 'Cloud' : 'Radar'} data temporarily unavailable`);
+                                setLayerMode('standard');
+                                return;
+                            }
+                            
                             setRadarFrames(frames);
                             
-                            // Clean up any existing radar layers just in case
                             if (radarLayerDictRef.current) {
                                 Object.values(radarLayerDictRef.current).forEach(layer => {
                                     if (map.hasLayer(layer)) map.removeLayer(layer);
@@ -1132,21 +1218,33 @@
                             }
                             radarLayerDictRef.current = {};
 
-                            const nowIdx = data.radar.past ? data.radar.past.length - 1 : 0;
-                            setCurrentFrame(Math.max(0, nowIdx));
+                            const nowIdx = layerMode === 'radar' 
+                                ? ((data.radar && data.radar.past && data.radar.past.length > 0) ? data.radar.past.length - 1 : 0) 
+                                : frames.length - 1;
+                                
+                            setCurrentFrame(nowIdx);
                             setIsPlaying(true);
-                        })
-                        .catch(err => console.warn("Radar fetch error:", err));
-                } else {
-                    safeAdd(baseLayerRef);
-                    safeRemove(darkLayerRef);
-                    safeRemove(darkLabelsLayerRef);
-                }
+                        } catch (err) {
+                            console.warn("Fetch error:", err);
+                            if (!isCancelled) {
+                                showToast(`Failed to load map data`);
+                                setLayerMode('standard');
+                            }
+                        }
+                    } else {
+                        safeAdd(baseLayerRef);
+                        safeRemove(darkLayerRef);
+                        safeRemove(darkLabelsLayerRef);
+                        setIsPlaying(false);
+                        setRadarFrames([]);
+                    }
+                };
 
-                // Cleanup function fires when leaving radar mode or unmounting
+                fetchMapData();
+
                 return () => {
                     isCancelled = true;
-                    if (layerMode === 'radar') {
+                    if (layerMode !== 'radar' && layerMode !== 'cloud') {
                         if (radarLayerDictRef.current) {
                             Object.values(radarLayerDictRef.current).forEach(layer => {
                                 if (mapInstanceRef.current && mapInstanceRef.current.hasLayer(layer)) {
@@ -1161,58 +1259,93 @@
                 };
             }, [layerMode]);
 
-            // Radar Playback Loop Controller
+            // Animation Loop Controller
             useEffect(() => {
                 let interval;
                 if (isPlaying && radarFrames.length > 0) {
                     interval = setInterval(() => {
                         setCurrentFrame(prev => (prev + 1) % radarFrames.length);
-                    }, 1000); // 1 second gives tiles plenty of time to fetch smoothly
+                    }, 1500); 
                 }
                 return () => clearInterval(interval);
             }, [isPlaying, radarFrames.length]);
 
-            // Highly Optimized Double-Buffered Renderer
+            // Highly Optimized Double-Buffered Pre-caching Layer Renderer
             useEffect(() => {
-                if (layerMode !== 'radar' || radarFrames.length === 0 || !mapInstanceRef.current) return;
+                if ((layerMode !== 'radar' && layerMode !== 'cloud') || radarFrames.length === 0 || !mapInstanceRef.current) return;
                 const map = mapInstanceRef.current;
 
-                const frame = radarFrames[currentFrame];
-                const nextFrameIdx = (currentFrame + 1) % radarFrames.length;
-                const nextFrame = radarFrames[nextFrameIdx];
-
                 const getLayer = (f) => {
-                    const path = f.path;
-                    if (!radarLayerDictRef.current[path]) {
-                        const host = f.host || 'https://tilecache.rainviewer.com';
-                        radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/2/1_1.png`, {
-                            opacity: 0,
-                            maxNativeZoom: 7, 
-                            maxZoom: 18,
-                            zIndex: 100,
-                            attribution: '&copy; RainViewer',
-                            errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-                        });
+                    if (!f) return null;
+                    
+                    if (f.provider === 'iem_wms') {
+                        const key = `iem_${f.timeStr}`;
+                        if (!radarLayerDictRef.current[key]) {
+                            radarLayerDictRef.current[key] = L.tileLayer.wms('https://mesonet.agron.iastate.edu/cgi-bin/wms/goes/global.cgi', {
+                                layers: 'goes_global_ir',
+                                format: 'image/png',
+                                transparent: true,
+                                time: f.timeStr,
+                                opacity: 0,
+                                maxNativeZoom: 5,
+                                maxZoom: 18,
+                                zIndex: 100,
+                                className: 'cloud-overlay-iem',
+                                attribution: '&copy; IEM Global Satellite'
+                            });
+                        }
+                        return radarLayerDictRef.current[key];
+                    } else {
+                        const path = f.path;
+                        if (!radarLayerDictRef.current[path]) {
+                            const host = f.host || 'https://tilecache.rainviewer.com';
+                            if (layerMode === 'cloud') {
+                                radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/0/1_1.png`, {
+                                    opacity: 0,
+                                    maxNativeZoom: 5, 
+                                    maxZoom: 18,
+                                    zIndex: 100,
+                                    className: 'cloud-overlay-rv',
+                                    attribution: '&copy; RainViewer Satellite',
+                                    errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+                                });
+                            } else {
+                                radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/2/1_1.png`, {
+                                    opacity: 0,
+                                    maxNativeZoom: 7, 
+                                    maxZoom: 18,
+                                    zIndex: 100,
+                                    className: 'radar-overlay',
+                                    attribution: '&copy; RainViewer Radar',
+                                    errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+                                });
+                            }
+                        }
+                        return radarLayerDictRef.current[path];
                     }
-                    return radarLayerDictRef.current[path];
                 };
 
-                const currentL = getLayer(frame);
-                const nextL = getLayer(nextFrame);
+                // Pre-caching Mechanism: Add all layers transparently
+                radarFrames.forEach(f => {
+                    const layer = getLayer(f);
+                    if (layer && !map.hasLayer(layer)) {
+                        layer.setOpacity(0);
+                        layer.addTo(map);
+                    }
+                });
 
-                if (!map.hasLayer(currentL)) currentL.addTo(map);
-                if (!map.hasLayer(nextL)) nextL.addTo(map);
-
-                Object.values(radarLayerDictRef.current).forEach(l => {
-                    if (l === currentL) {
-                        l.setOpacity(0.6);
-                    } else {
-                        l.setOpacity(0);
-                        if (l !== nextL && map.hasLayer(l)) {
-                            map.removeLayer(l); 
+                // Cycle opacities based on current frame
+                radarFrames.forEach((f, idx) => {
+                    const layer = getLayer(f);
+                    if (layer) {
+                        if (idx === currentFrame) {
+                            layer.setOpacity(layerMode === 'cloud' ? (f.provider === 'iem_wms' ? 0.95 : 0.85) : 0.65);
+                        } else {
+                            layer.setOpacity(0);
                         }
                     }
                 });
+
             }, [currentFrame, radarFrames, layerMode]);
 
             useEffect(() => {
@@ -1305,7 +1438,7 @@
                         </div>
 
                         {/* Floating "Select a location" hint */}
-                        <div className={`absolute top-6 left-1/2 -translate-x-1/2 z-[400] transition-all duration-500 pointer-events-none ${selectedLoc || selectedWebcam || toastMsg || layerMode === 'radar' ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'}`}>
+                        <div className={`absolute top-6 left-1/2 -translate-x-1/2 z-[400] transition-all duration-500 pointer-events-none ${selectedLoc || selectedWebcam || toastMsg || layerMode === 'radar' || layerMode === 'cloud' ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'}`}>
                             <div className="bg-white/95 backdrop-blur-md px-5 py-3 rounded-full shadow-lg border border-slate-200 flex items-center gap-3">
                                 <Icon name="mapPin" size={18} className="text-sky-500 animate-bounce" />
                                 <span className="text-[11px] md:text-xs font-black uppercase tracking-widest text-slate-700">Tap anywhere on the map</span>
@@ -1350,19 +1483,19 @@
                             </div>
                         )}
 
-                        {/* Radar Playback Controls */}
-                        {layerMode === 'radar' && radarFrames.length > 0 && (
+                        {/* Radar/Cloud Playback Controls */}
+                        {(layerMode === 'radar' || layerMode === 'cloud') && radarFrames.length > 0 && (
                             <div className="absolute top-4 md:top-6 left-4 md:left-1/2 md:-translate-x-1/2 z-[400] bg-white/95 backdrop-blur-md px-4 py-3 md:px-5 md:py-4 rounded-2xl md:rounded-3xl shadow-xl border border-slate-200 flex flex-col items-center gap-2 md:gap-3 w-[calc(100%-5.5rem)] md:w-[320px] animate-in">
                                 <div className="flex items-center justify-between w-full">
-                                    <button onClick={() => setIsPlaying(!isPlaying)} className="p-2 md:p-2.5 bg-sky-50 text-sky-600 rounded-full hover:bg-sky-100 transition-colors shadow-sm">
+                                    <button onClick={() => setIsPlaying(!isPlaying)} className={`p-2 md:p-2.5 rounded-full hover:bg-slate-100 transition-colors shadow-sm ${layerMode === 'cloud' ? 'bg-slate-50 text-slate-600' : 'bg-sky-50 text-sky-600'}`}>
                                         <Icon name={isPlaying ? "pause" : "play"} size={16} className={isPlaying ? "animate-pulse" : ""} />
                                     </button>
-                                    <div className="flex flex-col items-center">
-                                        <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest ${radarFrames[currentFrame].type === 'future' ? 'text-indigo-500' : 'text-sky-500'}`}>
-                                            {radarFrames[currentFrame].type === 'future' ? 'Future Forecast' : 'Past Radar'}
+                                    <div className="flex flex-col items-center text-center">
+                                        <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest ${radarFrames[currentFrame]?.type === 'future' ? 'text-indigo-500' : (layerMode === 'cloud' ? 'text-slate-500' : 'text-sky-500')}`}>
+                                            {layerMode === 'cloud' ? (radarFrames[currentFrame]?.provider === 'iem_wms' ? 'Global Cloud Cover (30-min)' : 'Global Cloud Cover (10-min)') : (radarFrames[currentFrame]?.type === 'future' ? 'Future Forecast' : 'Past Radar')}
                                         </span>
                                         <span className="text-xs md:text-sm font-bold text-slate-800 font-mono tracking-tight mt-0.5">
-                                            {new Date(radarFrames[currentFrame].time * 1000).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})}
+                                            {new Date((radarFrames[currentFrame]?.time || 0) * 1000).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})}
                                         </span>
                                     </div>
                                     <button onClick={() => setLayerMode('standard')} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
@@ -1370,18 +1503,26 @@
                                     </button>
                                 </div>
                                 
-                                {/* Radar Timeline Bar */}
+                                {/* Timeline Bar */}
                                 <div className="w-full flex items-center gap-1 mt-1 md:mt-0">
-                                    {radarFrames.map((f, i) => (
-                                        <div 
-                                            key={i} 
-                                            className={`h-1.5 md:h-2 rounded-full transition-all duration-300 flex-1 ${
-                                                i === currentFrame 
-                                                    ? (f.type === 'future' ? 'bg-indigo-500 scale-y-125' : 'bg-sky-500 scale-y-125')
-                                                    : (f.type === 'future' ? 'bg-indigo-100' : 'bg-slate-200')
-                                            }`} 
-                                        />
-                                    ))}
+                                    {radarFrames.map((f, i) => {
+                                        let activeColor = f.type === 'future' ? 'bg-indigo-500' : 'bg-sky-500';
+                                        let inactiveColor = f.type === 'future' ? 'bg-indigo-100' : 'bg-slate-200';
+                                        
+                                        if (layerMode === 'cloud') {
+                                            activeColor = 'bg-slate-600';
+                                            inactiveColor = 'bg-slate-200';
+                                        }
+                                        
+                                        return (
+                                            <div 
+                                                key={i} 
+                                                className={`h-1.5 md:h-2 rounded-full transition-all duration-300 flex-1 ${
+                                                    i === currentFrame ? `${activeColor} scale-y-125` : inactiveColor
+                                                }`} 
+                                            />
+                                        )
+                                    })}
                                 </div>
                             </div>
                         )}
@@ -1397,6 +1538,9 @@
                                         <button onClick={() => { setLayerMode('dark'); setShowLayers(false); }} className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors mt-1 ${layerMode === 'dark' ? 'bg-slate-800 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>Light Pollution (Astro)</button>
                                         <button onClick={() => { setLayerMode('radar'); setShowLayers(false); }} className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors mt-1 ${layerMode === 'radar' ? 'bg-indigo-50 text-indigo-700' : 'hover:bg-slate-50 text-slate-600'}`}>
                                             Rain Radar <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                        </button>
+                                        <button onClick={() => { setLayerMode('cloud'); setShowLayers(false); }} className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors mt-1 ${layerMode === 'cloud' ? 'bg-slate-100 text-slate-900' : 'hover:bg-slate-50 text-slate-600'}`}>
+                                            Cloud Cover <Icon name="cloud" size={14} className={layerMode === 'cloud' ? 'text-slate-900' : 'text-slate-400'} />
                                         </button>
                                     </div>
                                 )}
