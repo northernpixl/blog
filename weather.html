@@ -1374,7 +1374,8 @@
             useEffect(() => {
                 const timer = setTimeout(() => {
                     if (mapContainerRef.current && !mapInstanceRef.current) {
-                        const map = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.35, -2.0], 9);
+                        // UPDATED START COORDINATES AND ZOOM TO SHOW ENTIRE UK
+                        const map = L.map(mapContainerRef.current, { zoomControl: false }).setView([54.5, -3.5], 6);
                         mapInstanceRef.current = map;
                         
                         lightLayerRef.current = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap, &copy; CARTO' });
