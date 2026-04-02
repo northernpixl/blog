@@ -171,7 +171,8 @@
                 share: <><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></>,
                 check: <><polyline points="20 6 9 17 4 12"></polyline></>,
                 play: <><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon></>,
-                pause: <><rect x="6" y="4" width="4" height="16" fill="currentColor"></rect><rect x="14" y="4" width="4" height="16" fill="currentColor"></rect></>
+                pause: <><rect x="6" y="4" width="4" height="16" fill="currentColor"></rect><rect x="14" y="4" width="4" height="16" fill="currentColor"></rect></>,
+                info: <><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -463,7 +464,7 @@
                     <div className="flex items-center text-slate-800 mb-4 z-10 justify-between">
                         <div className="flex items-center">
                             <Icon name="alertTriangle" size={18} className="mr-2 text-amber-500" />
-                            <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Live Safety Times</span>
+                            <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Causeway Crossing Times</span>
                         </div>
                     </div>
                     {loading ? (
@@ -513,6 +514,19 @@
             const [data, setData] = useState({ weather: null, tides: null, aurora: null, liveSolar: null });
             const [loading, setLoading] = useState(true);
             const [errorMsg, setErrorMsg] = useState("");
+            const [activeAuroraInfo, setActiveAuroraInfo] = useState(null);
+
+            const auroraInfoData = {
+                bz: { title: "IMF Bz (Magnetic Field)", desc: "The direction of the solar magnetic field. It must point South (negative values) to 'open the door' to Earth's magnetic field. Values below -2 nT are good; below -5 nT are excellent." },
+                speed: { title: "Solar Wind Speed", desc: "How fast the solar wind is travelling. Higher speeds mean more energy hitting Earth. Normal is ~300 km/s. Above 400 km/s is good, above 500 km/s is excellent for storms." },
+                density: { title: "Solar Wind Density", desc: "The amount of particles in the solar wind. More particles create brighter, more vibrant auroras. Normal is ~3-5 p/cm³. Above 10 p/cm³ is very good." },
+                cloud: { title: "Local Cloud Cover", desc: "You need clear skies to see the aurora! Even a massive solar storm won't be visible through thick clouds. Look for cloud cover values under 30%." },
+                kp: { title: "Kp Index (Geomagnetic Activity)", desc: "A 0-9 scale of global geomagnetic activity. For Northumberland (approx. 55° N), you typically need a Kp of 4+ to see it on the northern horizon, and Kp 6+ to see it overhead." }
+            };
+
+            const toggleAuroraInfo = (key) => {
+                setActiveAuroraInfo(prev => prev === key ? null : key);
+            };
 
             const getApproxMoonrise = () => {
                 const knownNewMoon = new Date('2024-02-09T22:59:00Z').getTime();
@@ -675,14 +689,39 @@
                                 const dayAfterStr = dayAfter.toISOString().split('T')[0];
 
                                 const kpMap = { [todayStr]: 0, [tmrwStr]: 0, [dayAfterStr]: 0 };
-                                for (let i = 1; i < auroraJson.length; i++) {
+                                
+                                // UPDATED PARSER: Handles both old nested arrays and new SWPC standard objects
+                                for (let i = 0; i < auroraJson.length; i++) {
                                     const row = auroraJson[i];
-                                    const dateStr = row[0].split(' ')[0];
-                                    const kp = parseFloat(row[1]);
-                                    if (kpMap[dateStr] !== undefined) {
+                                    let dateStr, kp;
+                                    
+                                    if (Array.isArray(row)) {
+                                        if (i === 0) continue; // Skip old header
+                                        if (!row[0]) continue;
+                                        dateStr = String(row[0]).substring(0, 10);
+                                        kp = parseFloat(row[1]);
+                                    } else if (typeof row === 'object') {
+                                        const timeTag = row.time_tag || row.time;
+                                        if (!timeTag) continue;
+                                        dateStr = String(timeTag).substring(0, 10);
+                                        
+                                        let kpVal = row.predicted_kp;
+                                        if (kpVal === undefined) kpVal = row.kp;
+                                        if (kpVal === undefined) kpVal = row.estimated_kp;
+                                        if (kpVal === undefined) {
+                                            const kpKey = Object.keys(row).find(k => k.toLowerCase().includes('kp'));
+                                            if (kpKey) kpVal = row[kpKey];
+                                        }
+                                        kp = parseFloat(kpVal);
+                                    } else {
+                                        continue;
+                                    }
+
+                                    if (kpMap[dateStr] !== undefined && !isNaN(kp)) {
                                         if (kp > kpMap[dateStr]) kpMap[dateStr] = kp;
                                     }
                                 }
+                                
                                 auroraDays = [
                                     { dayName: 'Tonight', kp: kpMap[todayStr] },
                                     { dayName: 'Tomorrow', kp: kpMap[tmrwStr] },
@@ -693,17 +732,40 @@
                             if (plasmaRes.ok && magRes.ok) {
                                 const plasmaJson = await plasmaRes.json();
                                 const magJson = await magRes.json();
-                                for (let i = plasmaJson.length - 1; i > 0; i--) {
-                                    if (plasmaJson[i][1] && plasmaJson[i][2]) {
-                                        liveSolar.density = parseFloat(plasmaJson[i][1]);
-                                        liveSolar.speed = parseFloat(plasmaJson[i][2]);
-                                        break;
+                                
+                                // UPDATED PARSER: Plasma parsing
+                                for (let i = plasmaJson.length - 1; i >= 0; i--) {
+                                    const row = plasmaJson[i];
+                                    if (Array.isArray(row)) {
+                                        if (i === 0) continue;
+                                        if (row[1] !== null && row[2] !== null && row[1] !== undefined && row[2] !== undefined) {
+                                            liveSolar.density = parseFloat(row[1]);
+                                            liveSolar.speed = parseFloat(row[2]);
+                                            break;
+                                        }
+                                    } else if (typeof row === 'object') {
+                                        if (row.proton_density !== undefined && row.proton_speed !== undefined && row.proton_density !== null && row.proton_speed !== null) {
+                                            liveSolar.density = parseFloat(row.proton_density);
+                                            liveSolar.speed = parseFloat(row.proton_speed);
+                                            break;
+                                        }
                                     }
                                 }
-                                for (let i = magJson.length - 1; i > 0; i--) {
-                                    if (magJson[i][3]) {
-                                        liveSolar.bz = parseFloat(magJson[i][3]);
-                                        break;
+                                
+                                // UPDATED PARSER: Magnetometer parsing
+                                for (let i = magJson.length - 1; i >= 0; i--) {
+                                    const row = magJson[i];
+                                    if (Array.isArray(row)) {
+                                        if (i === 0) continue;
+                                        if (row[3] !== null && row[3] !== undefined) {
+                                            liveSolar.bz = parseFloat(row[3]);
+                                            break;
+                                        }
+                                    } else if (typeof row === 'object') {
+                                        if (row.bz_gsm !== undefined && row.bz_gsm !== null) {
+                                            liveSolar.bz = parseFloat(row.bz_gsm);
+                                            break;
+                                        }
                                     }
                                 }
                             }
@@ -892,24 +954,47 @@
                                         <span className="text-[10px] md:text-xs font-bold text-slate-800 uppercase tracking-widest">Live Solar & Aurora</span>
                                     </div>
                                 </div>
+                                
+                                {activeAuroraInfo && (
+                                    <div className="mb-3 bg-sky-50 border border-sky-100 rounded-xl p-3 relative animate-in text-sky-900 shadow-sm">
+                                        <button onClick={() => setActiveAuroraInfo(null)} className="absolute top-1 right-1 p-2 text-sky-400 hover:text-sky-600 transition-colors">
+                                            <Icon name="x" size={16} />
+                                        </button>
+                                        <h4 className="font-black text-[10px] md:text-[11px] uppercase tracking-widest mb-1.5 pr-6">{auroraInfoData[activeAuroraInfo].title}</h4>
+                                        <p className="text-[11px] md:text-xs leading-relaxed opacity-90">{auroraInfoData[activeAuroraInfo].desc}</p>
+                                    </div>
+                                )}
+
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                                    <div className={`flex flex-col items-center justify-center p-2 rounded-xl border ${getBzClass(data.liveSolar.bz)}`}>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80">IMF Bz</span>
+                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getBzClass(data.liveSolar.bz)}`}>
+                                        <button onClick={() => toggleAuroraInfo('bz')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is IMF Bz?">
+                                            <Icon name="info" size={14} />
+                                        </button>
+                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">IMF Bz</span>
                                         <span className="text-sm md:text-base font-black">{data.liveSolar.bz !== null ? `${data.liveSolar.bz.toFixed(1)} nT` : '--'}</span>
                                         <span className="text-[8px] font-bold uppercase mt-0.5">{getBzLabel(data.liveSolar.bz)}</span>
                                     </div>
-                                    <div className={`flex flex-col items-center justify-center p-2 rounded-xl border ${getSpeedClass(data.liveSolar.speed)}`}>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80">Speed</span>
+                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getSpeedClass(data.liveSolar.speed)}`}>
+                                        <button onClick={() => toggleAuroraInfo('speed')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is Solar Wind Speed?">
+                                            <Icon name="info" size={14} />
+                                        </button>
+                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">Speed</span>
                                         <span className="text-sm md:text-base font-black">{data.liveSolar.speed !== null ? `${Math.round(data.liveSolar.speed)} km/s` : '--'}</span>
                                         <span className="text-[8px] font-bold uppercase mt-0.5">{getSpeedLabel(data.liveSolar.speed)}</span>
                                     </div>
-                                    <div className={`flex flex-col items-center justify-center p-2 rounded-xl border ${getDensityClass(data.liveSolar.density)}`}>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80">Density</span>
+                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getDensityClass(data.liveSolar.density)}`}>
+                                        <button onClick={() => toggleAuroraInfo('density')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is Solar Wind Density?">
+                                            <Icon name="info" size={14} />
+                                        </button>
+                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">Density</span>
                                         <span className="text-sm md:text-base font-black">{data.liveSolar.density !== null ? `${data.liveSolar.density.toFixed(1)} p/cm³` : '--'}</span>
                                         <span className="text-[8px] font-bold uppercase mt-0.5">{getDensityLabel(data.liveSolar.density)}</span>
                                     </div>
-                                    <div className={`flex flex-col items-center justify-center p-2 rounded-xl border ${getCloudClass(data.liveSolar.cloud)}`}>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80">Local Cloud</span>
+                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getCloudClass(data.liveSolar.cloud)}`}>
+                                        <button onClick={() => toggleAuroraInfo('cloud')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is Local Cloud Cover?">
+                                            <Icon name="info" size={14} />
+                                        </button>
+                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">Local Cloud</span>
                                         <span className="text-sm md:text-base font-black">{data.liveSolar.cloud !== null ? `${data.liveSolar.cloud}%` : '--'}</span>
                                         <span className="text-[8px] font-bold uppercase mt-0.5">{getCloudLabel(data.liveSolar.cloud)}</span>
                                     </div>
@@ -922,8 +1007,11 @@
                                         else if (day.kp >= 3) colorClass = "bg-amber-50 text-amber-700 border-amber-200";
                                         
                                         return (
-                                            <div key={idx} className={`flex flex-col items-center justify-center p-2 rounded-xl border ${colorClass}`}>
-                                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 text-center">{day.dayName}</span>
+                                            <div key={idx} className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${colorClass}`}>
+                                                <button onClick={() => toggleAuroraInfo('kp')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is the Kp Index?">
+                                                    <Icon name="info" size={14} />
+                                                </button>
+                                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 text-center mt-1">{day.dayName}</span>
                                                 <span className="text-xs md:text-sm font-black">Kp {day.kp.toFixed(1)}</span>
                                             </div>
                                         );
