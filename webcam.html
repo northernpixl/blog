@@ -1622,7 +1622,7 @@
                         const path = f.path;
                         if (!radarLayerDictRef.current[path]) {
                             const host = f.host || 'https://tilecache.rainviewer.com';
-                            radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/2/1_1.png`, {
+                            radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/4/1_1.png`, {
                                 opacity: 0,
                                 className: 'weather-layer-transition', 
                                 maxNativeZoom: 7, 
