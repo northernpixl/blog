@@ -132,7 +132,12 @@
         .cloud-tile {
             mix-blend-mode: screen !important;
             filter: grayscale(1) contrast(2) brightness(1.5) !important;
-            transform: translateZ(0); 
+        }
+
+        /* Radar specific enhancements */
+        .radar-tile {
+            filter: contrast(1.3) brightness(1.2);
+            /* Explicitly NO translateZ to prevent iOS/Safari GPU crashing on scaled tiles */
         }
 
     </style>
@@ -288,7 +293,7 @@
 
             const links = [
                 { name: 'Home', url: 'index.html', active: false },
-                { name: 'Tutorials', url: 'tutorials.html', active: false },
+                { name: 'Learn', url: 'learn.html', active: false },
                 { name: 'Explore', url: 'explore.html', active: false },
                 { name: 'Weather', url: 'weather.html', active: true },
                 { name: 'Routes', url: 'routes.html', active: false },
@@ -1621,12 +1626,19 @@
                     } else if (f.provider === 'rainviewer_radar') {
                         const path = f.path;
                         if (!radarLayerDictRef.current[path]) {
-                            const host = f.host || 'https://tilecache.rainviewer.com';
-                            radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/4/1_1.png`, {
+                            let host = f.host || 'https://tilecache.rainviewer.com';
+                            host = host.replace('http://', 'https://'); // Force HTTPS to prevent mixed-content blocking
+                            
+                            // BULLETPROOF FIX: We drop maxNativeZoom to 6 and use standard 256 tiles. 
+                            // Zoom 6 is RainViewer's global composite level. By forcing Leaflet to stop requesting new tiles 
+                            // after zoom 6, we completely bypass all regional "Zoom Level Not Supported" holes in their API.
+                            // Leaflet will flawlessly stretch the zoom 6 data across the screen at any higher zoom level.
+                            radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/2/1_1.png`, {
                                 opacity: 0,
-                                className: 'weather-layer-transition', 
-                                maxNativeZoom: 7, 
+                                className: 'weather-layer-transition radar-tile', 
+                                maxNativeZoom: 6, 
                                 maxZoom: 18,
+                                zIndex: 10,
                                 attribution: '&copy; RainViewer Radar',
                                 errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
                             });
