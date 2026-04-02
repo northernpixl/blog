@@ -206,6 +206,81 @@
             { id: "wc19", name: "Loch Arkaig", lat: 56.9707, lng: -5.1367, url: "https://www.youtube.com/embed/iabToGLaMuY" },
         ];
 
+        // --- DATA PROCESSING UTILITY ---
+        const buildSolarBuckets = (mag, plasma) => {
+            const now = Date.now();
+            const buckets = [];
+            // Create 9 boundary points for 8 contiguous 15-minute segments (2 hours total)
+            for (let i = 8; i >= 0; i--) { 
+                buckets.push({
+                    time: now - i * 15 * 60000,
+                    bz: [], speed: [], density: []
+                });
+            }
+
+            const assignToBucket = (t, val, key) => {
+                if (val === null || isNaN(val)) return;
+                const timeDiffs = buckets.map(b => Math.abs(b.time - t));
+                const minDiff = Math.min(...timeDiffs);
+                // Assign to bucket if the time is within 7.5 minutes of the bucket's center
+                if (minDiff <= 7.5 * 60000) {
+                    const idx = timeDiffs.indexOf(minDiff);
+                    buckets[idx][key].push(val);
+                }
+            };
+
+            const parseTime = (tStr) => {
+                if (!tStr) return null;
+                let s = String(tStr);
+                // Ensure SWPC dates are treated as strict UTC by formatting to ISO 8601 with Z
+                if (s.includes(' ') && !s.includes('T')) s = s.replace(' ', 'T');
+                if (!s.endsWith('Z')) s += 'Z';
+                return new Date(s).getTime();
+            };
+
+            if (Array.isArray(mag)) {
+                for (let i = 1; i < mag.length; i++) {
+                    const row = mag[i];
+                    let tStr, bz;
+                    if (Array.isArray(row)) { tStr = row[0]; bz = parseFloat(row[3]); }
+                    else { tStr = row.time_tag || row.time; bz = parseFloat(row.bz_gsm || row.bz); }
+                    const t = parseTime(tStr);
+                    if(t) assignToBucket(t, bz, 'bz');
+                }
+            }
+
+            if (Array.isArray(plasma)) {
+                for (let i = 1; i < plasma.length; i++) {
+                    const row = plasma[i];
+                    let tStr, d, s;
+                    if (Array.isArray(row)) { tStr = row[0]; d = parseFloat(row[1]); s = parseFloat(row[2]); }
+                    else { tStr = row.time_tag || row.time; d = parseFloat(row.density || row.proton_density); s = parseFloat(row.speed || row.proton_speed); }
+                    const t = parseTime(tStr);
+                    if(t) { assignToBucket(t, d, 'density'); assignToBucket(t, s, 'speed'); }
+                }
+            }
+
+            // Forward-fill missing gaps in buckets to keep lines continuous
+            let lastBz = null, lastSpeed = null, lastDensity = null;
+
+            return buckets.map(b => {
+                let bzVal = b.bz.length ? b.bz.reduce((a,c)=>a+c,0)/b.bz.length : lastBz;
+                let speedVal = b.speed.length ? b.speed.reduce((a,c)=>a+c,0)/b.speed.length : lastSpeed;
+                let densityVal = b.density.length ? b.density.reduce((a,c)=>a+c,0)/b.density.length : lastDensity;
+                
+                if (bzVal !== null) lastBz = bzVal;
+                if (speedVal !== null) lastSpeed = speedVal;
+                if (densityVal !== null) lastDensity = densityVal;
+
+                return {
+                    timeLabel: new Date(b.time).toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }),
+                    bz: bzVal,
+                    speed: speedVal,
+                    density: densityVal,
+                };
+            });
+        };
+
         // --- COMPONENTS ---
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
@@ -511,10 +586,11 @@
         };
 
         const LiveConditionsWidget = ({ lat, lng }) => {
-            const [data, setData] = useState({ weather: null, tides: null, aurora: null, liveSolar: null });
+            const [data, setData] = useState({ weather: null, tides: null, aurora: null, liveSolar: null, solarHistory: null });
             const [loading, setLoading] = useState(true);
             const [errorMsg, setErrorMsg] = useState("");
             const [activeAuroraInfo, setActiveAuroraInfo] = useState(null);
+            const [activeChart, setActiveChart] = useState('bz');
 
             const auroraInfoData = {
                 bz: { title: "IMF Bz (Magnetic Field)", desc: "The direction of the solar magnetic field. It must point South (negative values) to 'open the door' to Earth's magnetic field. Values below -2 nT are good; below -5 nT are excellent." },
@@ -651,9 +727,11 @@
 
             useEffect(() => {
                 let isMounted = true;
-                const fetchConditions = async () => {
-                    setLoading(true);
-                    setErrorMsg("");
+
+                const fetchConditions = async (isInitial = true) => {
+                    if (isInitial) setLoading(true);
+                    if (isInitial) setErrorMsg("");
+                    
                     try {
                         const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=weathercode,cloudcover&timezone=Europe%2FLondon&windspeed_unit=mph&models=ukmo_seamless`);
                         if (!weatherRes.ok) throw new Error("Weather API Error");
@@ -671,6 +749,7 @@
 
                         let auroraDays = null;
                         let liveSolar = { bz: null, speed: null, density: null, cloud: currentCloud };
+                        let solarHistory = null;
 
                         try {
                             const [auroraRes, plasmaRes, magRes] = await Promise.all([
@@ -690,7 +769,6 @@
 
                                 const kpMap = { [todayStr]: 0, [tmrwStr]: 0, [dayAfterStr]: 0 };
                                 
-                                // UPDATED PARSER: Handles both old nested arrays and new SWPC standard objects
                                 for (let i = 0; i < auroraJson.length; i++) {
                                     const row = auroraJson[i];
                                     let dateStr, kp;
@@ -733,7 +811,7 @@
                                 const plasmaJson = await plasmaRes.json();
                                 const magJson = await magRes.json();
                                 
-                                // UPDATED PARSER: Plasma parsing
+                                // Fetch Live Stats directly from the most recent row
                                 for (let i = plasmaJson.length - 1; i >= 0; i--) {
                                     const row = plasmaJson[i];
                                     if (Array.isArray(row)) {
@@ -752,7 +830,6 @@
                                     }
                                 }
                                 
-                                // UPDATED PARSER: Magnetometer parsing
                                 for (let i = magJson.length - 1; i >= 0; i--) {
                                     const row = magJson[i];
                                     if (Array.isArray(row)) {
@@ -768,21 +845,122 @@
                                         }
                                     }
                                 }
+
+                                // Build Solar Trend Buckets from History
+                                solarHistory = buildSolarBuckets(magJson, plasmaJson);
                             }
                         } catch (err) { console.warn("Aurora/Solar fetch error:", err.message); }
 
                         if(isMounted) {
-                            setData({ weather: weatherJson, tides: isCoastal ? getTideTimes() : null, aurora: auroraDays, liveSolar: liveSolar });
-                            setLoading(false);
+                            setData({ weather: weatherJson, tides: isCoastal ? getTideTimes() : null, aurora: auroraDays, liveSolar: liveSolar, solarHistory: solarHistory });
+                            if (isInitial) setLoading(false);
                         }
                     } catch (err) {
                         console.warn("Failed to fetch live conditions:", err.message);
-                        if(isMounted) { setErrorMsg("Failed to connect to weather service."); setLoading(false); }
+                        if(isMounted && isInitial) { setErrorMsg("Failed to connect to weather service."); setLoading(false); }
                     }
                 };
-                fetchConditions();
-                return () => { isMounted = false; };
+
+                // Load initial data
+                fetchConditions(true);
+                
+                // Keep data fresh in real-time
+                const intervalId = setInterval(() => { fetchConditions(false); }, 5 * 60 * 1000); 
+
+                return () => { isMounted = false; clearInterval(intervalId); };
             }, [lat, lng]);
+
+            const renderTrendChart = () => {
+                if (!data.solarHistory) return null;
+                
+                const validData = data.solarHistory.filter(d => d[activeChart] !== null && !isNaN(d[activeChart]));
+                if (validData.length < 2) return <div className="h-24 md:h-28 flex items-center justify-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">No recent data</div>;
+
+                const min = Math.min(...validData.map(d => d[activeChart]));
+                const max = Math.max(...validData.map(d => d[activeChart]));
+                
+                // Prevent flatline errors if max === min
+                const range = max === min ? (max === 0 ? 1 : Math.abs(max * 0.1)) : (max - min);
+                const padding = range * 0.15;
+                const paddedMin = min - padding;
+                const paddedMax = max + padding;
+                const paddedRange = paddedMax - paddedMin;
+
+                // Color adapts to metrics - Red/Amber for Bz, Purple for Speed, Green for Density
+                const color = activeChart === 'bz' ? (validData[validData.length-1]?.[activeChart] < 0 ? '#ef4444' : '#f59e0b') : activeChart === 'speed' ? '#8b5cf6' : '#10b981';
+
+                const points = data.solarHistory.map((d, i) => {
+                    if (d[activeChart] === null || isNaN(d[activeChart])) return null;
+                    const x = (i / (data.solarHistory.length - 1)) * 100;
+                    const y = 100 - (((d[activeChart] - paddedMin) / paddedRange) * 100);
+                    return { x, y, val: d[activeChart], time: d.timeLabel };
+                }).filter(Boolean);
+
+                const polylinePoints = points.map(p => `${p.x},${p.y}`).join(' ');
+                const firstX = points[0].x;
+                const lastX = points[points.length - 1].x;
+                const fillPoints = `${firstX},100 ${polylinePoints} ${lastX},100`;
+
+                let zeroLine = null;
+                if (activeChart === 'bz' && paddedMax > 0 && paddedMin < 0) {
+                    const zeroY = 100 - (((0 - paddedMin) / paddedRange) * 100);
+                    zeroLine = (
+                        <g>
+                            <line x1="0" y1={zeroY} x2="100" y2={zeroY} stroke="#cbd5e1" strokeWidth="0.5" strokeDasharray="2 2" />
+                            <text x="99" y={zeroY - 2} fontSize="5" fill="#94a3b8" fontWeight="bold" textAnchor="end">0</text>
+                        </g>
+                    );
+                }
+
+                const formatVal = (v) => activeChart === 'speed' ? Math.round(v) : v.toFixed(1);
+
+                return (
+                    <div className="flex flex-col w-full relative animate-in fade-in mt-3">
+                        <div className="h-24 md:h-28 w-full relative mb-2 flex">
+                            {/* Y-Axis Labels */}
+                            <div className="absolute left-0 top-0 bottom-0 w-8 flex flex-col justify-between items-end text-[8px] font-bold text-slate-400 pb-1 pr-1.5 z-10 pointer-events-none">
+                                <span>{formatVal(max)}</span>
+                                <span>{formatVal(min)}</span>
+                            </div>
+
+                            {/* Chart Area */}
+                            <div className="flex-1 ml-8 relative border-b border-l border-slate-200">
+                                <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full overflow-visible">
+                                    <defs>
+                                        <linearGradient id={`grad-${activeChart}`} x1="0" x2="0" y1="0" y2="1">
+                                            <stop offset="0%" stopColor={color} stopOpacity="0.25" />
+                                            <stop offset="100%" stopColor={color} stopOpacity="0.0" />
+                                        </linearGradient>
+                                    </defs>
+                                    {zeroLine}
+                                    
+                                    <polygon points={fillPoints} fill={`url(#grad-${activeChart})`} />
+                                    <polyline points={polylinePoints} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                                    
+                                    {points.map((p, i) => (
+                                        <g key={i} className="group">
+                                            <circle cx={p.x} cy={p.y} r="2" fill="white" stroke={color} strokeWidth="1.5" className="transition-all cursor-pointer" />
+                                            {/* Hover target expansion area */}
+                                            <circle cx={p.x} cy={p.y} r="8" fill="transparent" className="cursor-pointer" />
+                                            {/* Value on hover */}
+                                            <text x={p.x} y={p.y - 4} fontSize="6" fill={color} fontWeight="bold" textAnchor={p.x > 80 ? "end" : p.x < 20 ? "start" : "middle"} className="opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none drop-shadow-md">
+                                                {formatVal(p.val)}
+                                            </text>
+                                        </g>
+                                    ))}
+                                </svg>
+                            </div>
+                        </div>
+                        
+                        {/* X-Axis Labels */}
+                        <div className="flex justify-between text-[8px] md:text-[9px] text-slate-400 font-bold uppercase tracking-widest pl-8 pr-1 mt-1">
+                            <span>{data.solarHistory[0].timeLabel}</span>
+                            <span>{data.solarHistory[4].timeLabel}</span>
+                            <span>{data.solarHistory[8].timeLabel}</span>
+                        </div>
+                    </div>
+                );
+            };
 
             if (loading) {
                 return (
@@ -1017,6 +1195,21 @@
                                         );
                                     })}
                                 </div>
+                                
+                                {/* 2-HOUR TREND CHART */}
+                                {data.solarHistory && (
+                                    <div className="mt-4 bg-slate-50 border border-slate-100 rounded-xl p-3 pt-3">
+                                        <div className="flex justify-between items-center mb-1">
+                                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">2-Hour Trend (15m)</span>
+                                            <div className="flex gap-1 bg-slate-200/80 p-0.5 rounded-lg border border-slate-200">
+                                                <button onClick={() => setActiveChart('bz')} className={`text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-md transition-colors ${activeChart === 'bz' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Bz</button>
+                                                <button onClick={() => setActiveChart('speed')} className={`text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-md transition-colors ${activeChart === 'speed' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Speed</button>
+                                                <button onClick={() => setActiveChart('density')} className={`text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-md transition-colors ${activeChart === 'density' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Density</button>
+                                            </div>
+                                        </div>
+                                        {renderTrendChart()}
+                                    </div>
+                                )}
                             </div>
                         )}
 
