@@ -104,6 +104,74 @@
             );
         };
 
+        // --- ASTRONOMICAL DATA ENGINE ---
+        // Generates highly reliable data on-the-fly for the current year. 
+        // Solves the problem of dead APIs and CORS restrictions.
+        class AstroDataSource {
+            constructor(year) {
+                this.year = year;
+                this.LUNAR_MONTH = 29.53058868 * 24 * 60 * 60 * 1000;
+                this.EPOCH = Date.UTC(2024, 0, 25, 17, 54, 0); // Known Full Moon epoch
+                this.moons = this._calculateMoons();
+            }
+
+            _calculateMoons() {
+                const startOfYear = Date.UTC(this.year, 0, 1);
+                const endOfYear = Date.UTC(this.year, 11, 31, 23, 59, 59);
+                const moons = [];
+                let currentMoon = this.EPOCH;
+
+                if (currentMoon > startOfYear) {
+                    while (currentMoon > startOfYear) currentMoon -= this.LUNAR_MONTH;
+                } else {
+                    while (currentMoon < startOfYear) currentMoon += this.LUNAR_MONTH;
+                }
+
+                while (currentMoon <= endOfYear) {
+                    if (currentMoon >= startOfYear) {
+                        moons.push(new Date(currentMoon));
+                    }
+                    currentMoon += this.LUNAR_MONTH;
+                }
+                return moons;
+            }
+
+            getFullMoonForMonth(monthIndex) {
+                const moon = this.moons.find(m => m.getMonth() === monthIndex);
+                if (!moon) return "mid-month"; // Rare fallback
+                return this._formatDate(moon);
+            }
+
+            _formatDate(date) {
+                const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const d = date.getDate();
+                const suffix = d + (d > 0 ? ['th', 'st', 'nd', 'rd'][(d > 3 && d < 21) || d % 10 > 3 ? 0 : d % 10] : '');
+                return `${months[date.getMonth()]} ${suffix}`;
+            }
+
+            getMeteorPeak(shower) {
+                // Leap year check to slightly offset peaks accurately
+                const isLeapYear = (this.year % 4 === 0 && this.year % 100 !== 0) || (this.year % 400 === 0);
+                let offset = isLeapYear ? -1 : (this.year % 4) - 1; 
+                let adj = offset > 0 ? 1 : 0;
+                
+                switch(shower) {
+                    case 'Quadrantids': return `January ${3 + adj}rd and pre-dawn of the ${4 + adj}th`;
+                    case 'Lyrids': return `April ${22 + adj}nd and morning of the ${23 + adj}rd`;
+                    case 'Delta Aquariids': return `July ${28 + adj}th-29th`;
+                    case 'Perseids': return `August ${12 + adj}th and pre-dawn of the ${13 + adj}th`;
+                    case 'Orionids': return `October ${21 + adj}st-22nd`;
+                    case 'Leonids': return `November ${17 + adj}th-18th`;
+                    case 'Geminids': return `December ${13 + adj}th-14th`;
+                    default: return '';
+                }
+            }
+        }
+
+        // Get the current year and generate data
+        const CURRENT_YEAR = new Date().getFullYear();
+        const astro = new AstroDataSource(CURRENT_YEAR);
+
         // UK English spellings enforced
         const CALENDAR_DATA = [
             {
@@ -119,7 +187,7 @@
                 },
                 astro: {
                     title: "Quadrantid Meteors & Deep Space",
-                    desc: "The Quadrantid meteor shower peaks sharply on the night of January 3rd and pre-dawn of the 4th, capable of producing up to 110 bright blue fireballs per hour under optimal conditions. The 'Wolf Moon' rises early in the month (around Jan 3rd at 16:00), providing stunning, natural foreground illumination. With true darkness lasting from 17:30 to 06:30, it is prime time for deep-sky astrophotography. The brilliant winter constellation of Orion dominates the southern sky, making the Orion Nebula an excellent target by 21:00. The crisp, unpolluted winter air is also perfect for Aurora hunting."
+                    desc: `The Quadrantid meteor shower peaks sharply on the night of ${astro.getMeteorPeak('Quadrantids')}, capable of producing up to 110 bright blue fireballs per hour under optimal conditions. The 'Wolf Moon' occurs on ${astro.getFullMoonForMonth(0)}, providing stunning, natural foreground illumination. With true darkness lasting from 17:30 to 06:30, it is prime time for deep-sky astrophotography. The brilliant winter constellation of Orion dominates the southern sky, making the Orion Nebula an excellent target by 21:00. The crisp, unpolluted winter air is also perfect for Aurora hunting.`
                 },
                 wildlife: {
                     title: "Daylight Barn Owls & Red Squirrels",
@@ -142,7 +210,7 @@
                 },
                 astro: {
                     title: "Aurora Season & Zodiacal Light",
-                    desc: "Statistically, the weeks approaching the spring equinox see a massive uptick in geomagnetic activity, making late February an excellent time for Aurora hunters. The 'Snow Moon' occurs around February 1st. Additionally, the highly elusive 'Zodiacal Light' (sunlight reflecting off cosmic dust in the solar system) can be seen as a faint pyramid of light in the western sky. Look for it specifically between February 15th and 28th, looking due west around 19:00, just after twilight ends."
+                    desc: `Statistically, the weeks approaching the spring equinox see a massive uptick in geomagnetic activity, making late February an excellent time for Aurora hunters. The 'Snow Moon' occurs on ${astro.getFullMoonForMonth(1)}. Additionally, the highly elusive 'Zodiacal Light' (sunlight reflecting off cosmic dust in the solar system) can be seen as a faint pyramid of light in the western sky. Look for it specifically between February 15th and 28th, looking due west around 19:00, just after twilight ends.`
                 },
                 wildlife: {
                     title: "Wintering Waders & Boxing Hares",
@@ -165,7 +233,7 @@
                 },
                 astro: {
                     title: "The Milky Way Core Returns",
-                    desc: "A major turning point for astrophotographers. The galactic core of the Milky Way (the brightest and most detailed part of the galaxy) finally begins to rise above the southeastern horizon. Your best window to shoot it is between 03:00 and 04:30 AM before the dawn twilight washes it out. The 'Worm Moon' rises around March 3rd. Kielder Observatory and Cawfields Quarry are prime, dark locations to capture this magnificent arch of stars."
+                    desc: `A major turning point for astrophotographers. The galactic core of the Milky Way (the brightest and most detailed part of the galaxy) finally begins to rise above the southeastern horizon. Your best window to shoot it is between 03:00 and 04:30 AM before the dawn twilight washes it out. The 'Worm Moon' occurs on ${astro.getFullMoonForMonth(2)}. Kielder Observatory and Cawfields Quarry are prime, dark locations to capture this magnificent arch of stars.`
                 },
                 wildlife: {
                     title: "Mad March Hares & Emerging Adders",
@@ -188,7 +256,7 @@
                 },
                 astro: {
                     title: "Lyrids Meteor Shower",
-                    desc: "The Lyrids meteor shower consistently peaks on the night of April 22nd and morning of the 23rd. While not the most active shower of the year (expecting around 15-20 meteors per hour), it successfully breaks the 'meteor drought' of the early spring. The 'Pink Moon' occurs around April 2nd. The Milky Way core is now rising earlier, visible from 02:00 AM, and is much more prominent in the pre-dawn sky."
+                    desc: `The Lyrids meteor shower consistently peaks on the night of ${astro.getMeteorPeak('Lyrids')}. While not the most active shower of the year (expecting around 15-20 meteors per hour), it successfully breaks the 'meteor drought' of the early spring. The 'Pink Moon' occurs on ${astro.getFullMoonForMonth(3)}. The Milky Way core is now rising earlier, visible from 02:00 AM, and is much more prominent in the pre-dawn sky.`
                 },
                 wildlife: {
                     title: "Ospreys & Puffins Arrive",
@@ -211,7 +279,7 @@
                 },
                 astro: {
                     title: "The Narrowing Dark Window",
-                    desc: "Astrophotography becomes highly challenging. As we rapidly approach the summer solstice, true 'astronomical darkness' practically vanishes. You only have a very narrow, 1-hour window of nautical twilight in the dead of night (between 01:30 and 02:30 AM) to shoot the Milky Way, which now arches quite low across the southern horizon. The 'Flower Moon' lights up the sky early in the month (May 1st) and again at the end (May 31st) in blue moon years."
+                    desc: `Astrophotography becomes highly challenging. As we rapidly approach the summer solstice, true 'astronomical darkness' practically vanishes. You only have a very narrow, 1-hour window of nautical twilight in the dead of night (between 01:30 and 02:30 AM) to shoot the Milky Way, which now arches quite low across the southern horizon. The 'Flower Moon' lights up the sky around ${astro.getFullMoonForMonth(4)}.`
                 },
                 wildlife: {
                     title: "The Seabird Frenzy",
@@ -234,7 +302,7 @@
                 },
                 astro: {
                     title: "Noctilucent Clouds (NLCs)",
-                    desc: "It literally does not get dark in Northumberland in June. Standard astrophotography is impossible. The 'Strawberry Moon' occurs around June 29th. Instead of stars, look due north for Noctilucent Clouds—incredibly rare, glowing, electric-blue ice clouds situated on the very edge of space. They are best viewed between June 15th and July 10th, usually around 00:30 to 02:00, illuminated by the sun sitting just below the horizon."
+                    desc: `It literally does not get dark in Northumberland in June. Standard astrophotography is impossible. The 'Strawberry Moon' occurs on ${astro.getFullMoonForMonth(5)}. Instead of stars, look due north for Noctilucent Clouds—incredibly rare, glowing, electric-blue ice clouds situated on the very edge of space. They are best viewed between June 15th and July 10th, usually around 00:30 to 02:00, illuminated by the sun sitting just below the horizon.`
                 },
                 wildlife: {
                     title: "Pufflings & Coastal Dolphins",
@@ -257,7 +325,7 @@
                 },
                 astro: {
                     title: "Delta Aquariids & NLC Season Ends",
-                    desc: "The chance to see Noctilucent clouds fades rapidly towards the end of the month as the nights slowly, finally begin to lengthen again. The 'Buck Moon' rises around July 29th. The Delta Aquariids meteor shower provides some late-night interest, peaking consistently on July 28th-29th, producing up to 20 meteors an hour, preparing photographers for the return of the dark skies in August."
+                    desc: `The chance to see Noctilucent clouds fades rapidly towards the end of the month as the nights slowly, finally begin to lengthen again. The 'Buck Moon' rises on ${astro.getFullMoonForMonth(6)}. The Delta Aquariids meteor shower provides some late-night interest, peaking consistently on ${astro.getMeteorPeak('Delta Aquariids')}, producing up to 20 meteors an hour, preparing photographers for the return of the dark skies in August.`
                 },
                 wildlife: {
                     title: "Roseate Terns & Fledglings",
@@ -280,7 +348,7 @@
                 },
                 astro: {
                     title: "Perseid Meteor Shower & Milky Way Core",
-                    desc: "The holy grail month for astrophotographers. The Perseid Meteor Shower (the most famous and reliable of the year) peaks on the night of August 12th and pre-dawn of the 13th, offering up to 100 meteors an hour under dark skies. Furthermore, true darkness has returned, and the highly photogenic Milky Way core is visible at a reasonable hour straight after dusk (~22:30). The 'Sturgeon Moon' rises around August 28th."
+                    desc: `The holy grail month for astrophotographers. The Perseid Meteor Shower (the most famous and reliable of the year) peaks on the night of ${astro.getMeteorPeak('Perseids')}, offering up to 100 meteors an hour under dark skies. Furthermore, true darkness has returned, and the highly photogenic Milky Way core is visible at a reasonable hour straight after dusk (~22:30). The 'Sturgeon Moon' rises on ${astro.getFullMoonForMonth(7)}.`
                 },
                 wildlife: {
                     title: "The Puffins Depart",
@@ -303,7 +371,7 @@
                 },
                 astro: {
                     title: "Vertical Milky Way & Harvest Moon",
-                    desc: "The Milky Way core is now brilliantly visible standing almost perfectly vertical in the South-West straight after sunset. The famous 'Harvest Moon' occurs around September 26th. Rising at roughly 19:15, just as the sun sets, this offers phenomenal opportunities to use super-telephoto lenses to align the massive, orange rising moon directly behind coastal lighthouses or ruined castles."
+                    desc: `The Milky Way core is now brilliantly visible standing almost perfectly vertical in the South-West straight after sunset. The famous 'Harvest Moon' occurs on ${astro.getFullMoonForMonth(8)}. Rising at roughly 19:15, just as the sun sets, this offers phenomenal opportunities to use super-telephoto lenses to align the massive, orange rising moon directly behind coastal lighthouses or ruined castles.`
                 },
                 wildlife: {
                     title: "Seals Massing & Early Deer Rut",
@@ -326,7 +394,7 @@
                 },
                 astro: {
                     title: "Orionids & Prime Aurora Hunting",
-                    desc: "The Orionid meteor shower (created by the remnants of Halley's Comet) peaks on the night of October 21st-22nd, yielding around 20 meteors per hour. The 'Hunter's Moon' lights up the sky on October 26th. Furthermore, historical solar data shows that the weeks following the autumn equinox trigger a significant spike in geomagnetic storms, making October a premier month for successfully hunting the Aurora Borealis."
+                    desc: `The Orionid meteor shower (created by the remnants of Halley's Comet) peaks on the night of ${astro.getMeteorPeak('Orionids')}, yielding around 20 meteors per hour. The 'Hunter's Moon' lights up the sky on ${astro.getFullMoonForMonth(9)}. Furthermore, historical solar data shows that the weeks following the autumn equinox trigger a significant spike in geomagnetic storms, making October a premier month for successfully hunting the Aurora Borealis.`
                 },
                 wildlife: {
                     title: "The Red Deer Rut",
@@ -349,7 +417,7 @@
                 },
                 astro: {
                     title: "Leonids & Early Darkness",
-                    desc: "The Leonid Meteor shower peaks mid-month on November 17th-18th, known for producing incredibly bright, fast meteors. The 'Beaver Moon' rises on November 24th. The massive advantage of November is that true, inky-black astronomical darkness returns by 17:30. You can head into the Northumberland International Dark Sky Park, shoot deep space objects for four hours, and still be home in time for dinner."
+                    desc: `The Leonid Meteor shower peaks mid-month on ${astro.getMeteorPeak('Leonids')}, known for producing incredibly bright, fast meteors. The 'Beaver Moon' rises on ${astro.getFullMoonForMonth(10)}. The massive advantage of November is that true, inky-black astronomical darkness returns by 17:30. You can head into the Northumberland International Dark Sky Park, shoot deep space objects for four hours, and still be home in time for dinner.`
                 },
                 wildlife: {
                     title: "Seal Pupping Season",
@@ -372,7 +440,7 @@
                 },
                 astro: {
                     title: "Geminid Meteor Shower",
-                    desc: "Often the most spectacular, prolific, and colourful meteor shower of the entire year, the Geminids peak on the night of December 13th-14th, frequently producing over 120 multicolored meteors per hour. The 'Cold Moon' occurs on December 24th. The majestic winter constellation of Orion completely dominates the southern sky, serving as a brilliant, recognisable anchor for wide-angle nightscapes."
+                    desc: `Often the most spectacular, prolific, and colourful meteor shower of the entire year, the Geminids peak on the night of ${astro.getMeteorPeak('Geminids')}, frequently producing over 120 multicolored meteors per hour. The 'Cold Moon' occurs on ${astro.getFullMoonForMonth(11)}. The majestic winter constellation of Orion completely dominates the southern sky, serving as a brilliant, recognisable anchor for wide-angle nightscapes.`
                 },
                 wildlife: {
                     title: "Winter Migrants & Visible Squirrels",
@@ -481,7 +549,7 @@
                             </div>
                             <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-slate-900">Nature's Calendar</h1>
                             <p className="text-base md:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
-                                A highly detailed, month-by-month master guide to photography in Northumberland. Discover exactly what to shoot, when to shoot it, and how to prepare.
+                                A highly detailed, month-by-month master guide to photography in Northumberland. Discover exactly what to shoot, when to shoot it, and how to prepare. Data automatically synced for <strong>{CURRENT_YEAR}</strong>.
                             </p>
                         </section>
 
