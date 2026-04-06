@@ -3,181 +3,73 @@
 <head>
     <meta charset="UTF-8">
     
-    <!-- Optimised Native App Viewport (Prevents accidental zooming and supports notches) -->
+    <!-- Optimised Native App Viewport & Theme -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- Primary Meta Tags -->
-    <title>Northumberland Photography Weather Map | NorthernPixl</title>
-    <meta name="title" content="Northumberland Photography Weather Map | NorthernPixl">
-    <meta name="description" content="Live weather, tide times, and astro forecasts for any photography location across Northumberland. Drop a pin anywhere to check the conditions.">
-    <meta name="keywords" content="Northumberland weather, photography weather map, tide times Northumberland, aurora forecast UK, dark sky map, rain radar Northumberland, astrophotography weather, Holy Island safe crossing times">
-    <meta name="robots" content="index, follow">
+    <!-- SEO: Title & Meta Description -->
+    <title>Northumberland Photography Calendar | NorthernPixl</title>
+    <meta name="description" content="A month-by-month guide to photography in Northumberland. Discover when to shoot bluebells, puffins, the deer rut, meteor showers, and the Milky Way.">
+    <meta name="keywords" content="Northumberland photography calendar, when to see puffins farne islands, bluebells northumberland, milky way season uk, red deer rut cheviots">
     <meta name="author" content="NorthernPixl">
     
-    <!-- Favicons (Crucial for Google Search Results UI) -->
+    <!-- Favicons -->
     <link rel="icon" type="image/png" href="https://www.northernpixl.co.uk/favicon.png">
     <link rel="apple-touch-icon" href="https://www.northernpixl.co.uk/apple-touch-icon.png">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.northernpixl.co.uk/weather.html">
-    <meta property="og:title" content="Northumberland Photography Weather Map | NorthernPixl">
-    <meta property="og:description" content="Live weather, tide times, and astro forecasts for any photography location across Northumberland. Drop a pin anywhere to check the conditions.">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.northernpixl.co.uk/calendar.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Photography Calendar | NorthernPixl">
+    <meta property="og:description" content="Plan your year: A month-by-month guide to photography in Northumberland.">
+    <meta property="og:url" content="https://www.northernpixl.co.uk/calendar.html">
+    <meta property="og:type" content="article">
     <meta property="og:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.northernpixl.co.uk/weather.html">
-    <meta property="twitter:title" content="Northumberland Photography Weather Map | NorthernPixl">
-    <meta property="twitter:description" content="Live weather, tide times, and astro forecasts for any photography location across Northumberland. Drop a pin anywhere to check the conditions.">
-    <meta property="twitter:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.northernpixl.co.uk/weather.html" />
-
-    <!-- Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
-
-    <!-- JSON-LD Structured Data for Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebApplication",
-          "name": "NorthernPixl Weather Map",
-          "url": "https://www.northernpixl.co.uk/weather.html",
-          "description": "Live weather, tide times, and astro forecasts for any photography location across Northumberland.",
-          "applicationCategory": "WeatherApplication",
-          "operatingSystem": "Web Browser",
-          "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "GBP"
-          }
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://www.northernpixl.co.uk/index.html"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Live Weather Map",
-              "item": "https://www.northernpixl.co.uk/weather.html"
-            }
-          ]
-        }
-      ]
-    }
-    </script>
-
-    <!-- Core App Scripts -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
-        .animate-in { animation: fadeIn 0.6s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; z-index: 0; cursor: crosshair; }
-        .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
-        @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
         
-        /* Custom Map Marker Animation */
-        .custom-map-marker { background: transparent; border: none; outline: none; }
-        .custom-map-marker svg { transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); cursor: pointer; }
-        .custom-map-marker:hover svg { transform: scale(1.15) translateY(-4px); }
-
-        /* Custom Webcam Marker Styling */
-        .custom-webcam-marker { background: transparent; border: none; outline: none; display: flex; justify-content: center; align-items: center; }
-        .custom-webcam-marker div { transition: all 0.3s ease; }
-        .custom-webcam-marker:hover div { transform: scale(1.15) translateY(-4px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); }
-
-        /* CRITICAL SAFARI FIX: Creates a safe stacking context for CSS blending */
-        .leaflet-pane { isolation: isolate; }
-
-        /* Smooth opacity transitions for weather layers */
-        .weather-layer-transition {
-            transition: opacity 0.5s ease-in-out !important;
-            will-change: opacity;
-            pointer-events: none;
-        }
-
-        /* Hardware-Accelerated Screen Blending 
-           Makes the black infrared background invisible on a dark map */
-        .cloud-tile {
-            mix-blend-mode: screen !important;
-            filter: grayscale(1) contrast(2) brightness(1.5) !important;
-        }
-
-        /* Radar specific enhancements */
-        .radar-tile {
-            filter: contrast(1.3) brightness(1.2);
-            /* Explicitly NO translateZ to prevent iOS/Safari GPU crashing on scaled tiles */
-        }
-
+        /* Animation utilities */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
+        .slide-up { animation: slideUp 0.5s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* Hide scrollbar for horizontal tabs */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 overflow-hidden overscroll-none">
-
-    <div id="root" class="h-screen w-screen overflow-hidden flex flex-col"></div>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+    <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect } = React;
 
-        // --- ICONS COMPONENT ---
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
                 camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
-                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
-                arrowLeft: <><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></>,
-                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
                 x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
-                sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></>,
-                cloudSun: <><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></>,
-                cloud: <><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></>,
-                rain: <><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></>,
-                wind: <><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></>,
-                waves: <><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/></>,
-                alertTriangle: <><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></>,
-                checkCircle: <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
-                xCircle: <><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></>,
+                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
+                calendar: <><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
+                leaf: <><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></>,
+                bird: <><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></>,
                 moon: <><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></>,
-                cloudMoon: <><path d="M13 16a3 3 0 1 1 0 6H7a5 5 0 1 1 4.9-6Z"/><path d="M10.1 9A6 6 0 0 1 16 4a4.24 4.24 0 0 0 6 6 6 6 0 0 1-3 5.197"/></>,
-                locate: <><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/></>,
-                sparkles: <><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></>,
-                layers: <><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></>,
-                bookmark: <><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></>,
-                bookmarkFilled: <><path d="m19 21-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" fill="currentColor"></path></>,
-                share: <><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></>,
-                check: <><polyline points="20 6 9 17 4 12"></polyline></>,
-                play: <><polygon points="5 3 19 12 5 21 5 3" fill="currentColor"></polygon></>,
-                pause: <><rect x="6" y="4" width="4" height="16" fill="currentColor"></rect><rect x="14" y="4" width="4" height="16" fill="currentColor"></rect></>,
-                info: <><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></>
+                arrowRight: <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
+                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
+                sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></>,
+                cameraOutline: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -186,151 +78,347 @@
             );
         };
 
-        const WEBCAMS = [
-            // Original 10 Webcams
-            { id: "wc1", name: "Cresswell", lat: 55.2333, lng: -1.5434, url: "https://www.youtube.com/watch?v=8vZZMvqBNHQ" },
-            { id: "wc2", name: "Lindisfarne Castle Cam", lat: 55.669076, lng: -1.7847482, url: "https://webcams.windy.com/webcams/stream/1621999427" },
-            { id: "wc3", name: "Embleton", lat: 55.4960, lng: -1.6355, url: "https://www.youtube.com/watch?v=JZ38uyr-J6o" },
-            { id: "wc4", name: "Abbey Road - London", lat: 51.532005, lng: -0.177331, url: "https://www.youtube.com/embed/M3EYAY2MftI" },
-            { id: "wc5", name: "Edinburgh - Arthur's Seat", lat: 55.9441, lng: -3.1618, url: "https://www.youtube.com/embed/kl1J1p1TiJc" },
-            { id: "wc6", name: "Loch Ness", lat: 57.3229, lng: -4.4244, url: "https://www.youtube.com/embed/IrH--L0WdrY" },
-            { id: "wc7", name: "St Ives Harbour", lat: 50.2131, lng: -5.4796, url: "https://www.youtube.com/embed/T83mKGf_c3k" },
-            { id: "wc8", name: "Dawlish", lat: 50.5818, lng: -3.4656, url: "https://www.youtube.com/embed/dODxHaxdT0w" },
-            { id: "wc9", name: "Loch of the Lowes Wildlife Reserve Osprey Cam", lat: 56.5741534, lng: -3.5617341, url: "https://www.youtube.com/embed/HS1pL7J3IMA" },
-            
-            // 22 Additional UK Webcams
-            { id: "wc10", name: "Bywyd Gwyllt Glaslyn Wildlife - Osprey Cam", lat: 52.9505, lng: -4.0956, url: "https://www.youtube.com/embed/fU2v_ciabUU" },
-            { id: "wc11", name: "National Trust Holnicote Estate - Beaver Cam", lat: 51.206, lng: -3.562, url: "https://www.youtube.com/embed/2mMGOAjWTnc" },
-            { id: "wc12", name: "Walworth Road, London", lat: 51.4863, lng: -0.0947, url: "https://www.youtube.com/embed/8JCk5M_xrBs" },
-            { id: "wc13", name: "RSPB Loch Garten", lat: 57.2451, lng: -3.6939, url: "https://www.youtube.com/embed/txk-CLxQF4I" },
-            { id: "wc14", name: "Isle of Berneray, Outer Hebrides", lat: 56.7849, lng: -7.6337, url: "https://www.youtube.com/embed/uXtrnaii6rA" },
-            { id: "wc15", name: "Fort William - Loch Linnhe", lat: 56.8153, lng: -5.1169, url: "https://www.youtube.com/embed/fKb7dUCuofs" },
-            { id: "wc16", name: "Coopers Town House", lat: 53.41, lng: -2.98, url: "https://www.youtube.com/embed/MAc-llyjpRM" },
-            { id: "wc17", name: "Stornoway Harbour", lat: 58.209435, lng: -6.384869, url: "https://www.youtube.com/embed/VOw938seADQ" },
-            { id: "wc18", name: "Dublin", lat: 53.3449, lng: -6.2675, url: "https://www.youtube.com/embed/3nyPER2kzqk" },
-            { id: "wc19", name: "Loch Arkaig", lat: 56.9707, lng: -5.1367, url: "https://www.youtube.com/embed/iabToGLaMuY" },
+        // UK English spellings enforced
+        const CALENDAR_DATA = [
+            {
+                id: 1,
+                monthIndex: 0,
+                month: "January",
+                shortMonth: "Jan",
+                season: "Deep Winter",
+                image: "assets/january-calendar.jpg",
+                landscape: {
+                    title: "Frost & Ice Patterns",
+                    desc: "The absolute depths of winter offer incredibly crisp, clear mornings. The low angle of the sun means that 'Golden Hour' lighting can essentially last for 4-5 hours in the middle of the day. Look for frozen tidal pools along the coast at Embleton Bay, which create incredible geometric leading lines towards Dunstanburgh Castle. Inland, severe hoar frost clinging to the Whin Sill crags along Hadrian's Wall transforms the landscape into a stark, monochromatic wilderness."
+                },
+                astro: {
+                    title: "Quadrantid Meteors & Deep Space",
+                    desc: "The Quadrantid meteor shower peaks early in the month, often producing bright blue fireballs. With nights lasting up to 14 hours, it is prime time for deep-sky astrophotography. The brilliant winter constellation of Orion dominates the southern sky, making the Orion Nebula an excellent target. Furthermore, the dark coastlines are perfectly positioned to hunt the Aurora Borealis, as solar wind easily cuts through the crisp, unpolluted winter air."
+                },
+                wildlife: {
+                    title: "Daylight Barn Owls & Red Squirrels",
+                    desc: "Because food is incredibly scarce in the frozen months, Barn Owls and Short-Eared Owls are frequently forced to hunt during daylight hours to survive. Look along the coastal dunes of Druridge Bay or open moorlands in the late afternoon. Meanwhile, in the woodlands of Kielder and Wallington, Red Squirrels are highly visible as they aggressively forage without the dense summer leaf canopy to hide them."
+                },
+                locationSpotlight: "Bamburgh Castle. The sun rises far to the south-east in January, perfectly illuminating the eastern flank of the castle with warm, horizontal light that cuts across the frozen sand dunes.",
+                conditions: "Expect freezing temperatures, high wind chill, and potential snow on the high ground of the Cheviots. Battery life will be severely reduced by the cold.",
+                gear: "Lens warmers to prevent dew/frost on your glass. Thick, photographer-specific gloves so you can operate dials without exposing your skin."
+            },
+            {
+                id: 2,
+                monthIndex: 1,
+                month: "February",
+                shortMonth: "Feb",
+                season: "Late Winter",
+                image: "assets/february-calendar.jpg",
+                landscape: {
+                    title: "Snowdrops at Howick",
+                    desc: "The very first, delicate signs of spring emerge from the frozen ground. Howick Hall's famous 'Silverwood' is carpeted with millions of snowdrops. The challenge is capturing them elegantly. Get down incredibly low—use a beanbag instead of a tripod—and shoot with a macro lens or a fast prime (f/2.8) to isolate the crisp white flowers against the dark, muddy winter soil, throwing the background trees into a creamy blur."
+                },
+                astro: {
+                    title: "Aurora Season & Zodiacal Light",
+                    desc: "Statistically, the weeks approaching the spring equinox (in March) see a massive uptick in geomagnetic activity, making late February an excellent time for Aurora hunters. Additionally, the 'Zodiacal Light' (sunlight reflecting off cosmic dust in the solar system) can sometimes be seen as a faint pyramid of light in the western sky just after twilight ends."
+                },
+                wildlife: {
+                    title: "Wintering Waders & Boxing Hares",
+                    desc: "Lindisfarne National Nature Reserve and the Northumberland coast remain packed with migratory birds like pale-bellied brent geese, bar-tailed godwits, and knots, busily feeding before they head north. In the open fields, Brown Hares begin their mating rituals early; you might catch the very first 'boxing' matches of the year as females aggressively fend off overly eager males."
+                },
+                locationSpotlight: "Howick Hall Gardens. Aside from the snowdrops, the coastal path bordering the estate features incredibly rugged, dark rock strata that contrast beautifully with the winter surf.",
+                conditions: "Often the coldest month of the year due to the 'Beast from the East' winds. The sea fret (coastal fog) can create deeply atmospheric, silent landscapes.",
+                gear: "A macro lens (90mm or 100mm) is essential for the snowdrops. Waterproof trousers are mandatory if you plan on lying in the wet mud to get the shot."
+            },
+            {
+                id: 3,
+                monthIndex: 2,
+                month: "March",
+                shortMonth: "Mar",
+                season: "Early Spring",
+                image: "assets/march-calendar.jpg",
+                landscape: {
+                    title: "Equinox Storms & Wild Daffodils",
+                    desc: "March brings fast-moving, highly turbulent weather systems. The mix of violent squally showers and sudden, piercing bursts of sunshine creates dramatic, moody, and highly directional lighting over the coastal castles. It is the absolute best month for high-contrast black and white landscape photography. Inland, the banks of the River Aln beneath Alnwick Castle are blanketed in thousands of vibrant yellow wild daffodils."
+                },
+                astro: {
+                    title: "The Milky Way Core Returns",
+                    desc: "A major turning point for astrophotographers. The galactic core of the Milky Way (the brightest and most detailed part of the galaxy) finally begins to rise above the horizon in the very early hours before dawn (around 3 AM to 4 AM). Kielder Observatory and Cawfields Quarry are prime, dark locations to capture this magnificent arch of stars."
+                },
+                wildlife: {
+                    title: "Mad March Hares & Emerging Adders",
+                    desc: "The Brown Hare mating season is in full, frantic swing. Finding an open, quiet field and sitting completely still in camouflage gear is the best way to capture them chasing and boxing. On warmer, sunny days, the UK's only venomous snake—the Adder—can be found basking on the rocks and heather in the Cheviot valleys to warm their cold blood."
+                },
+                locationSpotlight: "Seaton Sluice. The equinox tides and wild March storms funnel massive, chaotic waves into the narrow, man-made 'Cut', providing phenomenal, aggressive seascape opportunities.",
+                conditions: "Highly unpredictable. You can experience snow, driving rain, and brilliant sunshine all within a 4-hour shoot. The equinox brings the highest and lowest tides of the year.",
+                gear: "A fast telephoto lens (100-400mm) to compress the massive storm waves against the lighthouses, and to capture the skittish hares from a safe distance."
+            },
+            {
+                id: 4,
+                monthIndex: 3,
+                month: "April",
+                shortMonth: "Apr",
+                season: "Spring",
+                image: "assets/april-calendar.jpg",
+                landscape: {
+                    title: "Early Bluebells & River Mists",
+                    desc: "Depending on the severity of the winter, late April sees the start of the famous bluebell carpets in the ancient, semi-natural woodlands like Allen Banks and Holystone. The temperature differences between the warming air and the cold rivers (like the Tyne and Coquet) frequently create thick, beautiful morning mists that linger in the valleys, offering magical, ethereal conditions at sunrise."
+                },
+                astro: {
+                    title: "Lyrids Meteor Shower",
+                    desc: "The Lyrids meteor shower usually peaks in the second half of April. While not the most active shower of the year (expecting around 15-20 meteors per hour), it successfully breaks the 'meteor drought' of the early spring. The Milky Way core is now rising earlier and is much more prominent in the pre-dawn sky."
+                },
+                wildlife: {
+                    title: "Ospreys & Puffins Arrive",
+                    desc: "A massive month for avian migrations. The magnificent Ospreys complete their staggering journey from Africa and return to Kielder Water to breed. Booking a session at the Kielder waterside hides gives you a chance to photograph them diving for fish. Meanwhile, the very first Puffins make their landfall on the Farne Islands to begin clearing out their burrows."
+                },
+                locationSpotlight: "Kielder Water & Forest Park. The return of the Ospreys makes Bakethin Nature Reserve a hotspot, while the dark skies still offer great Milky Way opportunities.",
+                conditions: "Classic 'April Showers'. Rainbows are highly frequent on the coast as dark rain clouds pass over the North Sea while the sun shines from the west.",
+                gear: "A Circular Polariser (CPL) is your best friend this month. It cuts the glare off wet foliage in the woodlands, deeply saturating the greens and the purples of the early bluebells."
+            },
+            {
+                id: 5,
+                monthIndex: 4,
+                month: "May",
+                shortMonth: "May",
+                season: "Late Spring",
+                image: "assets/may-calendar.jpg",
+                landscape: {
+                    title: "Peak Bluebell Season & Lush Canopies",
+                    desc: "This is the absolute prime month for woodland photography. The bluebells hit their peak, creating endless carpets of colour under the fresh, vibrant, almost neon-green canopy of the newly opened oak and beech leaves. To capture the best images, shoot on heavily overcast days; direct sunlight creates incredibly harsh, distracting, high-contrast shadows on the forest floor that ruin the soft, magical feel of the flowers."
+                },
+                astro: {
+                    title: "The Narrowing Dark Window",
+                    desc: "Astrophotography becomes highly challenging. As we rapidly approach the summer solstice, true 'astronomical darkness' practically vanishes. You only have a very narrow, 1-2 hour window of nautical twilight in the dead of night to shoot the Milky Way, which now arches quite low across the southern horizon."
+                },
+                wildlife: {
+                    title: "The Seabird Frenzy",
+                    desc: "The Farne Islands and Coquet Island erupt into absolute chaos. Tens of thousands of Puffins, Guillemots, and fiercely aggressive Arctic Terns are now actively nesting. It is a sensory overload. Fast shutter speeds (minimum 1/2000s) and continuous tracking autofocus are absolutely essential for capturing the birds in flight as they battle the coastal winds."
+                },
+                locationSpotlight: "Allen Banks & Staward Gorge. The largest area of ancient woodland in Northumberland is visually spectacular when the bluebells bloom beneath the towering canopy.",
+                conditions: "Generally mild and pleasant. The days are noticeably stretching out, meaning sunrise shoots require alarms set for 4:00 AM.",
+                gear: "A macro lens for intimate bluebell portraits, and a 70-200mm lens for extracting detailed, compressed woodland scenes without the sky blowing out."
+            },
+            {
+                id: 6,
+                monthIndex: 5,
+                month: "June",
+                shortMonth: "Jun",
+                season: "Early Summer",
+                image: "assets/june-calendar.jpg",
+                landscape: {
+                    title: "Wild Garlic & Endless Days",
+                    desc: "The coastal paths and inland woodlands are filled with the pungent smell and brilliant, star-like white flowers of wild garlic. June features the longest days of the year; the sun sets around 10:00 PM and rises at 4:30 AM. The incredibly long 'Golden Hour' gives you massive amounts of time to explore coastal locations like the Lindisfarne causeway in soft, warm evening light."
+                },
+                astro: {
+                    title: "Noctilucent Clouds (NLCs)",
+                    desc: "It literally does not get dark in Northumberland in June. Standard astrophotography is impossible. Instead, look due north for Noctilucent Clouds—incredibly rare, glowing, electric-blue ice clouds situated on the very edge of space. They are illuminated by the sun which is sitting just below the horizon, creating a ghostly, web-like glow in the midnight sky."
+                },
+                wildlife: {
+                    title: "Pufflings & Coastal Dolphins",
+                    desc: "The puffin eggs have hatched. This is the absolute best time to capture the iconic, highly sought-after shot of an adult Puffin returning to its burrow with a brightly coloured beak completely stuffed full of silver sand eels to feed its puffling. Offshore, pods of Bottlenose Dolphins are frequently spotted tracking up and down the coastline."
+                },
+                locationSpotlight: "The Farne Islands. The sheer density of active, feeding seabirds makes this the premier wildlife photography destination in the UK during June.",
+                conditions: "Warm and bright. Heat haze can become a serious issue for telephoto landscape shots during the middle of the day, ruining sharpness. Shoot early or late.",
+                gear: "A fast telephoto prime (e.g., 300mm f/4 or 400mm f/5.6) to obliterate the background into creamy bokeh behind the Puffins, isolating them perfectly."
+            },
+            {
+                id: 7,
+                monthIndex: 6,
+                month: "July",
+                shortMonth: "Jul",
+                season: "High Summer",
+                image: "assets/july-calendar.jpg",
+                landscape: {
+                    title: "Lush Dunes & Thunderstorms",
+                    desc: "High summer sees the coastal dune systems at their peak. The Marram grass at Bamburgh and Druridge Bay is incredibly lush, green, and tall, providing phenomenal foreground interest when blowing in the sea breeze. Inland, the intense summer heat often triggers massive, towering cumulonimbus clouds over the Cheviot hills, providing dramatic skies that dwarf the landscape."
+                },
+                astro: {
+                    title: "Delta Aquariids & NLC Season Ends",
+                    desc: "The chance to see Noctilucent clouds fades rapidly towards the end of the month as the nights slowly, finally begin to lengthen again. The Delta Aquariids meteor shower provides some late-night interest, preparing photographers for the return of the dark skies in August."
+                },
+                wildlife: {
+                    title: "Roseate Terns & Fledglings",
+                    desc: "Coquet Island is the UK's only stronghold for the ultra-rare, incredibly elegant Roseate Tern. Specialised boat trips from Amble provide a chance to photograph these pale birds with their distinctive long tail streamers. Across the county, juvenile birds (fledglings) are taking their first awkward flights, offering great behavioural photography."
+                },
+                locationSpotlight: "Druridge Bay. The 7 miles of sweeping golden sand and tall dunes offer endless, minimalist summer compositions, free from the crowds of the rocky northern beaches.",
+                conditions: "Often very warm. Midday photography is generally unrewarding due to harsh, flat overhead lighting and severe atmospheric distortion (heat haze). Stick to the edges of the day.",
+                gear: "Neutral Density (ND) filters (6-stop or 10-stop) are vital if you want to shoot long-exposure seascapes, as the ambient daylight is incredibly bright."
+            },
+            {
+                id: 8,
+                monthIndex: 7,
+                month: "August",
+                shortMonth: "Aug",
+                season: "Late Summer",
+                image: "assets/august-calendar.jpg",
+                landscape: {
+                    title: "The Purple Heather Explosion",
+                    desc: "A massive visual shift in the landscape. The Cheviot Hills, Simonside, and the upland moors explode into a vibrant, vivid, and endless carpet of purple heather. This completely transforms the colour palette of Northumberland. Use ultra-wide-angle lenses and get extremely low to the ground to use the purple blooms as a commanding foreground leading up to the distant hills."
+                },
+                astro: {
+                    title: "Perseid Meteor Shower & Milky Way Core",
+                    desc: "The holy grail month for astrophotographers. The Perseid Meteor Shower (the most famous and reliable of the year) peaks mid-month, offering up to 100 meteors an hour under dark skies. Furthermore, true darkness has returned, and the highly photogenic Milky Way core is visible at a reasonable hour in the late evening, rather than 3 AM."
+                },
+                wildlife: {
+                    title: "The Puffins Depart",
+                    desc: "Timing is critical. In early to mid-August, the puffins abruptly abandon the Farne Islands and head out into the open Atlantic ocean for the winter. If you visit late in the month, they will be entirely gone. In the woodlands, Red Squirrels begin frantically hoarding nuts for the approaching winter."
+                },
+                locationSpotlight: "Simonside Hills. The sandstone ridge offers an elevated, 360-degree panoramic view entirely surrounded by blooming purple heather, making it the finest sunset location in the county.",
+                conditions: "Warm evenings and late sunsets. The heather moors can be very dry, but sudden late-summer downpours can create incredible rainbows over the hills.",
+                gear: "A fast, ultra-wide lens (14mm or 16mm f/2.8) is absolutely mandatory to capture the massive sweep of the Milky Way and the Perseid meteors."
+            },
+            {
+                id: 9,
+                monthIndex: 8,
+                month: "September",
+                shortMonth: "Sep",
+                season: "Early Autumn",
+                image: "assets/september-calendar.jpg",
+                landscape: {
+                    title: "Autumn Transitions & Coastal Mists",
+                    desc: "The very first, subtle signs of autumn appear. The high bracken turns a rich, rusty golden-brown. As the nights cool down but the ground remains warm, thick morning mists become highly frequent in the river valleys (like the Coquet and Tyne) and along the coast, completely separating the castles and hills from the background and creating incredibly atmospheric, layered sunrise opportunities."
+                },
+                astro: {
+                    title: "Vertical Milky Way & Harvest Moon",
+                    desc: "The Milky Way core is now brilliantly visible standing almost perfectly vertical in the South-West straight after sunset. The famous 'Harvest Moon' also occurs, offering great opportunities to use super-telephoto lenses to align the massive, orange rising moon directly behind coastal lighthouses or ruined castles."
+                },
+                wildlife: {
+                    title: "Seals Massing & Early Deer Rut",
+                    desc: "Grey seals begin to congregate around the Farne Islands in massive, noisy numbers ahead of the pupping season. Boat trips offer excellent, close-up portraits of them lounging on the rocks. Inland, the very early stages of the Red Deer rut begin as the stags test their voices."
+                },
+                locationSpotlight: "The Breamish Valley. The winding river and rolling hills look spectacular when shrouded in the low-lying September morning mists.",
+                conditions: "Noticeably cooler mornings. Dew forms heavily on camera gear. The lighting becomes softer and more directional throughout the day as the sun's trajectory lowers.",
+                gear: "A telephoto lens (70-200mm) is perfect for 'extracting' layers of the landscape as they peak through the morning fog, rather than shooting wide and losing the depth."
+            },
+            {
+                id: 10,
+                monthIndex: 9,
+                month: "October",
+                shortMonth: "Oct",
+                season: "Autumn",
+                image: "assets/october-calendar.jpg",
+                landscape: {
+                    title: "Peak Autumn Colours",
+                    desc: "The undisputed champion month for woodland photography. Estates like Cragside, Allen Banks, and the deeply wooded river valleys are absolutely on fire with intense shades of copper, gold, and deep red. A Circular Polariser filter is completely mandatory this month—it cuts the white glare off the wet, fallen leaves and heavily supercharges the natural saturation of the autumnal canopy."
+                },
+                astro: {
+                    title: "Orionids & Prime Aurora Hunting",
+                    desc: "The Orionid meteor shower (created by the remnants of Halley's Comet) peaks. Furthermore, historical solar data shows that the weeks following the autumn equinox trigger a significant spike in geomagnetic storms. Combined with the rapidly lengthening nights, October is a premier month for successfully hunting the Aurora Borealis from the Northumberland coast."
+                },
+                wildlife: {
+                    title: "The Red Deer Rut",
+                    desc: "The most dramatic, aggressive, and visually spectacular event in the UK wildlife calendar. Massive Red Deer stags in the Cheviots and Kielder forests roar constantly and violently clash antlers to establish breeding dominance. You must keep a very safe distance and use your longest telephoto lens, as the stags are highly pumped with testosterone and incredibly dangerous."
+                },
+                locationSpotlight: "Cragside Estate. The sheer scale of the rock gardens and the diverse, mature woodland make it a riot of colour. The iron bridge over the gorge is the iconic autumn shot.",
+                conditions: "Crisp, frosty mornings become possible. The weather can be wet and windy, rapidly stripping the leaves from the trees, so timing your woodland shoot is critical.",
+                gear: "A sturdy tripod for the dark, dense woodlands, and a super-telephoto lens (400mm-600mm) to safely photograph the rutting stags from a distance."
+            },
+            {
+                id: 11,
+                monthIndex: 10,
+                month: "November",
+                shortMonth: "Nov",
+                season: "Late Autumn",
+                image: "assets/november-calendar.jpg",
+                landscape: {
+                    title: "Moody, Minimalist & Stormy",
+                    desc: "The autumn leaves have mostly fallen, leaving stark, skeletal, and dramatic tree silhouettes. The North Sea becomes violent and aggressive. Heavy fogs, flat overcast lighting, and huge, crashing waves make this the absolute perfect month for dark, moody, minimalist, fine-art black and white seascape photography at locations like Seaton Sluice or Cullernose Point."
+                },
+                astro: {
+                    title: "Leonids & Early Darkness",
+                    desc: "The Leonid Meteor shower peaks mid-month. The massive advantage of November is that true, inky-black darkness returns by 5:30 PM. You can head into the Northumberland International Dark Sky Park, shoot deep space objects or star trails for four hours, and still be home in time for dinner."
+                },
+                wildlife: {
+                    title: "Seal Pupping Season",
+                    desc: "The Farne Islands undergo a massive transformation, becoming one of the largest grey seal colonies in the UK. Thousands of fluffy, pure-white seal pups are born on the rocky islands. Boat tours allow you to view them safely. It is absolutely critical to keep your distance to avoid distressing the highly protective mothers."
+                },
+                locationSpotlight: "The Farne Islands (for the seal pups) or Dunstanburgh Castle. The skeletal ruins of the castle perfectly match the bleak, dramatic atmosphere of the November coast.",
+                conditions: "Often stormy, wet, and highly unpredictable. Protect your camera gear from the corrosive sea spray. The wind chill on the coast can be brutal.",
+                gear: "A rain cover for your camera and lens. Microfiber cloths to constantly wipe the sea salt and rain spray off your front element between exposures."
+            },
+            {
+                id: 12,
+                monthIndex: 11,
+                month: "December",
+                shortMonth: "Dec",
+                season: "Early Winter",
+                image: "assets/december-calendar.jpg",
+                landscape: {
+                    title: "Low Golden Light & Hoar Frost",
+                    desc: "The sun barely rises above the horizon for the entire day. This means the harsh, top-down midday light of summer never happens; instead, you get highly directional, soft 'Golden Hour' lighting from sunrise to sunset. The incredibly long shadows perfectly emphasize the textures of the beach sand ripples and the ancient, weathered stonework of the Roman Wall."
+                },
+                astro: {
+                    title: "Geminid Meteor Shower",
+                    desc: "Often the most spectacular, prolific, and colourful meteor shower of the entire year, frequently producing over 120 meteors per hour at its peak. The majestic winter constellation of Orion completely dominates the southern sky, serving as a brilliant, recognisable anchor for wide-angle nightscapes over the freezing landscape."
+                },
+                wildlife: {
+                    title: "Winter Migrants & Visible Squirrels",
+                    desc: "Whooper swans and Pink-footed geese arrive in massive, noisy flocks from Iceland to winter in the Northumberland fields and lakes (like Cresswell Pond). In the forests, the complete lack of leaves makes tracking and photographing the native Red Squirrels significantly easier than in the summer months."
+                },
+                locationSpotlight: "Hadrian's Wall (Steel Rigg to Housesteads). The low winter sun beautifully highlights the severe undulations of the Whin Sill crags, and frost clings stubbornly to the north-facing rocks all day.",
+                conditions: "Very short days (sunset around 3:45 PM). Extremely cold, clear nights perfect for astro, but demanding intense thermal clothing for the photographer.",
+                gear: "A fast memory card and an intervalometer to shoot hundreds of continuous 20-second exposures to capture the Geminid meteor shower fireballs."
+            }
         ];
 
-        // --- DATA PROCESSING UTILITY ---
-        const buildSolarBuckets = (mag, plasma) => {
-            const now = Date.now();
-            const buckets = [];
-            // Create 9 boundary points for 8 contiguous 15-minute segments (2 hours total)
-            for (let i = 8; i >= 0; i--) { 
-                buckets.push({
-                    time: now - i * 15 * 60000,
-                    bz: [], speed: [], density: []
-                });
-            }
-
-            const assignToBucket = (t, val, key) => {
-                if (val === null || isNaN(val)) return;
-                const timeDiffs = buckets.map(b => Math.abs(b.time - t));
-                const minDiff = Math.min(...timeDiffs);
-                // Assign to bucket if the time is within 7.5 minutes of the bucket's center
-                if (minDiff <= 7.5 * 60000) {
-                    const idx = timeDiffs.indexOf(minDiff);
-                    buckets[idx][key].push(val);
-                }
-            };
-
-            const parseTime = (tStr) => {
-                if (!tStr) return null;
-                let s = String(tStr);
-                // Ensure SWPC dates are treated as strict UTC by formatting to ISO 8601 with Z
-                if (s.includes(' ') && !s.includes('T')) s = s.replace(' ', 'T');
-                if (!s.endsWith('Z')) s += 'Z';
-                return new Date(s).getTime();
-            };
-
-            if (Array.isArray(mag)) {
-                for (let i = 1; i < mag.length; i++) {
-                    const row = mag[i];
-                    let tStr, bz;
-                    if (Array.isArray(row)) { tStr = row[0]; bz = parseFloat(row[3]); }
-                    else { tStr = row.time_tag || row.time; bz = parseFloat(row.bz_gsm || row.bz); }
-                    const t = parseTime(tStr);
-                    if(t) assignToBucket(t, bz, 'bz');
-                }
-            }
-
-            if (Array.isArray(plasma)) {
-                for (let i = 1; i < plasma.length; i++) {
-                    const row = plasma[i];
-                    let tStr, d, s;
-                    if (Array.isArray(row)) { tStr = row[0]; d = parseFloat(row[1]); s = parseFloat(row[2]); }
-                    else { tStr = row.time_tag || row.time; d = parseFloat(row.density || row.proton_density); s = parseFloat(row.speed || row.proton_speed); }
-                    const t = parseTime(tStr);
-                    if(t) { assignToBucket(t, d, 'density'); assignToBucket(t, s, 'speed'); }
-                }
-            }
-
-            // Forward-fill missing gaps in buckets to keep lines continuous
-            let lastBz = null, lastSpeed = null, lastDensity = null;
-
-            return buckets.map(b => {
-                let bzVal = b.bz.length ? b.bz.reduce((a,c)=>a+c,0)/b.bz.length : lastBz;
-                let speedVal = b.speed.length ? b.speed.reduce((a,c)=>a+c,0)/b.speed.length : lastSpeed;
-                let densityVal = b.density.length ? b.density.reduce((a,c)=>a+c,0)/b.density.length : lastDensity;
-                
-                if (bzVal !== null) lastBz = bzVal;
-                if (speedVal !== null) lastSpeed = speedVal;
-                if (densityVal !== null) lastDensity = densityVal;
-
-                return {
-                    timeLabel: new Date(b.time).toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }),
-                    bz: bzVal,
-                    speed: speedVal,
-                    density: densityVal,
-                };
-            });
-        };
-
-        // --- COMPONENTS ---
         const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
-            const toggleMenu = () => setIsOpen(!isOpen);
+
+            const toggleMenu = () => {
+                setIsOpen(!isOpen);
+            };
 
             const links = [
                 { name: 'Home', url: 'index.html', active: false },
-                { name: 'Learn', url: 'learn.html', active: false },
+                { name: 'Tutorials', url: 'tutorials.html', active: false },
                 { name: 'Explore', url: 'explore.html', active: false },
-                { name: 'Weather', url: 'weather.html', active: true },
+                { name: 'Weather', url: 'weather.html', active: false },
                 { name: 'Routes', url: 'routes.html', active: false },
+                { name: 'Calendar', url: 'calendar.html', active: true },
                 { name: 'Ethics', url: 'ethics.html', active: false },
-                { name: 'Tuition', url: 'tuition.html', active: false }
+                { name: 'Workshops', url: 'workshops.html', active: false }
             ];
 
             return (
-                <nav className="fixed top-0 w-full z-[1000] bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300 pt-[env(safe-area-inset-top)]">
-                    <div className="flex items-center justify-between px-4 md:px-8 h-16 md:h-20 max-w-7xl mx-auto w-full">
+                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+                    <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
+                        {/* Logo Area */}
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-md">
-                                <Icon name="camera" className="text-white" size={16} />
+                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                <Icon name="camera" className="text-white" size={18} />
                             </div>
-                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden sm:inline">NorthernPixl</span>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NorthernPixl</span>
                         </div>
                         
-                        <div className="hidden lg:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                        {/* Desktop Navigation - Exact match to ethics.html & explore.html */}
+                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
                             {links.map((link) => (
-                                <a key={link.name} href={link.url} className={link.active ? "text-slate-900 border-b-2 border-slate-900 pb-1" : "hover:text-slate-900 transition-colors"}>
+                                <a 
+                                    key={link.name} 
+                                    href={link.url} 
+                                    className={link.active ? "text-slate-900 border-b-2 border-slate-900 pb-1" : "hover:text-slate-900 transition-colors"}
+                                >
                                     {link.name}
                                 </a>
                             ))}
                         </div>
 
-                        <div className="lg:hidden">
+                        {/* Mobile Menu Button */}
+                        <div className="md:hidden">
                             <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
                                 <Icon name={isOpen ? "x" : "menu"} size={24} />
                             </button>
                         </div>
                     </div>
 
+                    {/* Mobile Navigation Dropdown */}
                     {isOpen && (
-                        <div className="lg:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-full shadow-xl fade-in">
+                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
                             <div className="flex flex-col p-6 space-y-6">
                                 {links.map((link) => (
-                                    <a key={link.name} href={link.url} className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}>
+                                    <a 
+                                        key={link.name} 
+                                        href={link.url} 
+                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
+                                    >
                                         {link.name}
                                     </a>
                                 ))}
@@ -341,1624 +429,163 @@
             );
         };
 
-        const HolyIslandCrossingWidget = () => {
-            const [crossingSchedule, setCrossingSchedule] = useState([]);
-            const [loading, setLoading] = useState(true);
-            const [error, setError] = useState(false);
-
-            const parseTableToGrid = (table) => {
-                const rows = Array.from(table.querySelectorAll('tr'));
-                const grid = [];
-                for (let i = 0; i < rows.length; i++) grid[i] = [];
-                
-                for (let r = 0; r < rows.length; r++) {
-                    const cells = Array.from(rows[r].querySelectorAll('td, th'));
-                    let c = 0;
-                    for (const cell of cells) {
-                        while (grid[r][c] !== undefined) c++;
-                        const rowspan = parseInt(cell.getAttribute('rowspan') || 1, 10);
-                        const colspan = parseInt(cell.getAttribute('colspan') || 1, 10);
-                        const text = cell.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
-                        const isHeader = cell.tagName === 'TH' || r < 2; 
-                        
-                        for (let rr = 0; rr < rowspan; rr++) {
-                            if (!grid[r + rr]) grid[r + rr] = [];
-                            for (let cc = 0; cc < colspan; cc++) {
-                                grid[r + rr][c + cc] = { text, isHeader };
-                            }
-                        }
-                    }
-                }
-                return grid;
-            };
-
-            useEffect(() => {
-                let isMounted = true;
-                
-                const fetchCrossing = async () => {
-                    try {
-                        const targetUrl = 'https://holyislandcrossingtimes.northumberland.gov.uk/';
-                        let htmlText = '';
-                        const proxies = [
-                            `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
-                            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
-                            `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
-                        ];
-
-                        for (const proxy of proxies) {
-                            try {
-                                const res = await fetch(proxy);
-                                if (!res.ok) continue;
-                                if (proxy.includes('allorigins')) {
-                                    const data = await res.json();
-                                    htmlText = data.contents;
-                                } else {
-                                    htmlText = await res.text();
-                                }
-                                if (htmlText && htmlText.toLowerCase().includes('crossing')) break; 
-                            } catch (e) { continue; }
-                        }
-                        
-                        if (!htmlText || !htmlText.toLowerCase().includes('crossing')) throw new Error("Could not retrieve valid HTML.");
-                        const doc = new DOMParser().parseFromString(htmlText, 'text/html');
-                        const tables = Array.from(doc.querySelectorAll('table'));
-                        const crossingTable = tables.find(t => t.textContent.toLowerCase().includes('safe'));
-                        if (!crossingTable) throw new Error("No crossing table found.");
-
-                        const grid = parseTableToGrid(crossingTable);
-                        const numCols = grid[0] ? grid[0].length : 0;
-                        const colTypes = [];
-                        
-                        for (let c = 0; c < numCols; c++) {
-                            let headerText = "";
-                            for (let r = 0; r < grid.length; r++) {
-                                if (grid[r][c] && grid[r][c].isHeader) headerText += grid[r][c].text + " ";
-                            }
-                            if (headerText.includes('unsafe') || headerText.includes('do not cross')) colTypes[c] = 'unsafe';
-                            else if (headerText.includes('safe')) colTypes[c] = 'safe';
-                            else colTypes[c] = 'other';
-                        }
-
-                        const today = new Date(); today.setHours(0,0,0,0);
-                        const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
-                        const tmrw = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
-                        const dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate() + 2);
-                        const targetDates = [yesterday, today, tmrw, dayAfter];
-                        const allSafePeriods = [];
-
-                        const getRowForDate = (dateObj) => {
-                            const dNum = dateObj.getDate();
-                            const dayRegex = new RegExp(`\\b0?${dNum}(?:st|nd|rd|th)?\\b`, 'i');
-                            for (let r = 0; r < grid.length; r++) {
-                                if (grid[r][0] && grid[r][0].isHeader) continue;
-                                let rowDateText = "";
-                                for (let c = 0; c < grid[r].length; c++) {
-                                    if (colTypes[c] === 'other' && grid[r][c]) rowDateText += grid[r][c].text + " ";
-                                }
-                                if (dayRegex.test(rowDateText)) return r;
-                            }
-                            return -1;
-                        };
-
-                        for (const tDate of targetDates) {
-                            const rIdx = getRowForDate(tDate);
-                            if (rIdx === -1) continue;
-                            let cursorDate = new Date(tDate); cursorDate.setHours(0,0,0,0);
-                            let lastTimeMins = -1;
-
-                            for (let c = 0; c < grid[rIdx].length; c++) {
-                                if (colTypes[c] === 'safe' || colTypes[c] === 'unsafe') {
-                                    const cellText = grid[rIdx][c] ? grid[rIdx][c].text : "";
-                                    const matches = cellText.match(/\b\d{1,2}[:.]\d{2}\b/g);
-                                    if (!matches) continue;
-
-                                    const cellDates = [];
-                                    for (const m of matches) {
-                                        const parts = m.split(/[:.]/);
-                                        const h = parseInt(parts[0], 10);
-                                        const min = parseInt(parts[1], 10);
-                                        const timeMins = h * 60 + min;
-
-                                        if (timeMins < lastTimeMins - 120) cursorDate.setDate(cursorDate.getDate() + 1);
-                                        
-                                        const absDate = new Date(cursorDate);
-                                        absDate.setHours(h, min, 0, 0);
-                                        cellDates.push(absDate.getTime());
-                                        lastTimeMins = timeMins;
-                                    }
-
-                                    if (colTypes[c] === 'safe') {
-                                        const validLength = cellDates.length - (cellDates.length % 2);
-                                        for (let i = 0; i < validLength; i += 2) allSafePeriods.push({ start: cellDates[i], end: cellDates[i+1] });
-                                    }
-                                }
-                            }
-                        }
-
-                        allSafePeriods.sort((a, b) => a.start - b.start);
-                        const mergedSafePeriods = [];
-                        for (const sp of allSafePeriods) {
-                            if (mergedSafePeriods.length === 0) mergedSafePeriods.push({...sp});
-                            else {
-                                const last = mergedSafePeriods[mergedSafePeriods.length - 1];
-                                if (sp.start <= last.end) last.end = Math.max(last.end, sp.end);
-                                else mergedSafePeriods.push({...sp});
-                            }
-                        }
-
-                        const buildDaySchedule = (targetDate, mergedPeriods) => {
-                            const dayStart = new Date(targetDate); dayStart.setHours(0, 0, 0, 0);
-                            const dayEnd = new Date(targetDate); dayEnd.setHours(23, 59, 59, 999);
-                            const formatTime = (d) => d.toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit', hour12: false});
-                            const periods = [];
-                            let current = dayStart.getTime();
-
-                            for (const sp of mergedPeriods) {
-                                if (sp.end <= current) continue;
-                                if (sp.start >= dayEnd.getTime()) break;
-                                const safeStart = Math.max(sp.start, current);
-                                const safeEnd = Math.min(sp.end, dayEnd.getTime());
-
-                                if (safeStart > current) {
-                                    periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: formatTime(new Date(safeStart)) });
-                                }
-                                periods.push({ type: 'safe', label: 'Safe to cross', start: formatTime(new Date(safeStart)), end: formatTime(new Date(safeEnd)) });
-                                current = safeEnd;
-                            }
-
-                            if (current < dayEnd.getTime() - 60000) {
-                                periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: '23:59' });
-                            }
-                            periods.forEach(p => {
-                                if(p.end === '24:00' || p.end === '00:00') p.end = '23:59';
-                                if(p.start === '24:00') p.start = '00:00';
-                            });
-
-                            const cleanPeriods = periods.filter(p => p.start !== p.end);
-                            const dateStr = targetDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
-                            return cleanPeriods.length > 0 ? { date: dateStr, periods: cleanPeriods } : null;
-                        };
-
-                        const finalSchedule = [];
-                        const todayData = buildDaySchedule(today, mergedSafePeriods);
-                        if (todayData) { todayData.date = `Today - ${todayData.date}`; finalSchedule.push(todayData); }
-                        const tmrwData = buildDaySchedule(tmrw, mergedSafePeriods);
-                        if (tmrwData) { tmrwData.date = `Tomorrow - ${tmrwData.date}`; finalSchedule.push(tmrwData); }
-                        
-                        if (finalSchedule.length > 0 && mergedSafePeriods.length > 0) {
-                            if (isMounted) setCrossingSchedule(finalSchedule);
-                        } else throw new Error("Could not process schedule pairs");
-                    } catch (err) {
-                        console.warn("Holy Island Scrape Error:", err.message);
-                        if (isMounted) setError(true);
-                    } finally {
-                        if (isMounted) setLoading(false);
-                    }
-                };
-                fetchCrossing();
-                return () => { isMounted = false; };
-            }, []);
-
-            return (
-                <div className="bg-slate-50 border border-slate-200 shadow-sm p-4 md:p-5 rounded-2xl flex flex-col relative overflow-hidden mt-4">
-                    <div className="flex items-center text-slate-800 mb-4 z-10 justify-between">
-                        <div className="flex items-center">
-                            <Icon name="alertTriangle" size={18} className="mr-2 text-amber-500" />
-                            <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Causeway Crossing Times</span>
-                        </div>
-                    </div>
-                    {loading ? (
-                        <div className="animate-pulse flex flex-col gap-3">
-                            <div className="h-16 bg-slate-200 rounded-xl w-full"></div>
-                            <div className="h-16 bg-slate-200 rounded-xl w-full"></div>
-                        </div>
-                    ) : error || crossingSchedule.length === 0 ? (
-                        <div className="text-sm text-red-800 bg-red-50 p-4 border border-red-100 rounded-xl">
-                            <p className="mb-4 font-medium">Unable to load safe crossing times automatically. Do not guess crossing times!</p>
-                            <a href="https://holyislandcrossingtimes.northumberland.gov.uk/" target="_blank" rel="noopener noreferrer" className="block bg-red-600 text-white text-xs font-bold uppercase tracking-widest py-3 px-4 rounded-xl text-center hover:bg-red-700 transition-colors shadow-md">
-                                Check Official Times
-                            </a>
-                        </div>
-                    ) : (
-                        <div className="flex flex-col gap-4">
-                            {crossingSchedule.map((day, idx) => (
-                                <div key={idx} className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-sm">
-                                    <div className="bg-slate-100/50 py-2 px-4 border-b border-slate-100">
-                                        <span className="font-bold text-slate-800 text-xs uppercase tracking-wider">{day.date}</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                        {day.periods.map((p, i) => (
-                                            <div key={i} className={`flex justify-between items-center px-4 py-2 border-b last:border-0 ${p.type === 'safe' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-red-50 text-red-800 border-red-100'}`}>
-                                                <div className="flex items-center w-1/3 min-w-[120px]">
-                                                    {p.type === 'safe' ? <Icon name="checkCircle" size={14} className="mr-2 text-emerald-600 shrink-0"/> : <Icon name="xCircle" size={14} className="mr-2 text-red-600 shrink-0"/>}
-                                                    <span className="font-black uppercase tracking-widest text-[9px]">{p.label}</span>
-                                                </div>
-                                                <span className="font-bold text-xs text-right w-2/3">{p.start} - {p.end}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="mt-2">
-                                <a href="https://holyislandcrossingtimes.northumberland.gov.uk/" target="_blank" rel="noopener noreferrer" className="block w-full bg-slate-800 text-white text-[10px] font-bold uppercase tracking-widest py-3 px-4 rounded-xl text-center hover:bg-slate-900 transition-colors shadow-sm">
-                                    Verify on Official Website
-                                </a>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            );
-        };
-
-        const LiveConditionsWidget = ({ lat, lng }) => {
-            const [data, setData] = useState({ weather: null, tides: null, aurora: null, liveSolar: null, solarHistory: null });
-            const [loading, setLoading] = useState(true);
-            const [errorMsg, setErrorMsg] = useState("");
-            const [activeAuroraInfo, setActiveAuroraInfo] = useState(null);
-            const [activeChart, setActiveChart] = useState('bz');
-
-            const auroraInfoData = {
-                bz: { title: "IMF Bz (Magnetic Field)", desc: "The direction of the solar magnetic field. It must point South (negative values) to 'open the door' to Earth's magnetic field. Values below -2 nT are good; below -5 nT are excellent." },
-                speed: { title: "Solar Wind Speed", desc: "How fast the solar wind is travelling. Higher speeds mean more energy hitting Earth. Normal is ~300 km/s. Above 400 km/s is good, above 500 km/s is excellent for storms." },
-                density: { title: "Solar Wind Density", desc: "The amount of particles in the solar wind. More particles create brighter, more vibrant auroras. Normal is ~3-5 p/cm³. Above 10 p/cm³ is very good." },
-                cloud: { title: "Local Cloud Cover", desc: "You need clear skies to see the aurora! Even a massive solar storm won't be visible through thick clouds. Look for cloud cover values under 30%." },
-                kp: { title: "Kp Index (Geomagnetic Activity)", desc: "A 0-9 scale of global geomagnetic activity. For Northumberland (approx. 55° N), you typically need a Kp of 4+ to see it on the northern horizon, and Kp 6+ to see it overhead." }
-            };
-
-            const toggleAuroraInfo = (key) => {
-                setActiveAuroraInfo(prev => prev === key ? null : key);
-            };
-
-            const getApproxMoonrise = () => {
-                const knownNewMoon = new Date('2024-02-09T22:59:00Z').getTime();
-                const now = new Date().getTime();
-                const daysSinceNew = (now - knownNewMoon) / (24 * 60 * 60 * 1000);
-                const cycle = daysSinceNew % 29.530588;
-                let riseHour = 6 + (cycle / 29.530588) * 24;
-                if (riseHour >= 24) riseHour -= 24;
-                const hours = Math.floor(riseHour);
-                const mins = Math.floor((riseHour - hours) * 60);
-                return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-            };
-
-            const getMoonIllumination = (timeInMillis) => {
-                const knownNewMoon = new Date('2024-02-09T22:59:00Z').getTime();
-                const daysSinceNew = (timeInMillis - knownNewMoon) / (24 * 60 * 60 * 1000);
-                const cycle = (daysSinceNew % 29.530588 + 29.530588) % 29.530588;
-                return Math.round((1 - Math.cos((cycle / 29.530588) * 2 * Math.PI)) * 50);
-            };
-
-            const getSolarAzimuths = (latitude, dateObj) => {
-                const start = new Date(dateObj.getFullYear(), 0, 0);
-                const diff = dateObj - start;
-                const oneDay = 1000 * 60 * 60 * 24;
-                const dayOfYear = Math.floor(diff / oneDay);
-                const declination = -23.44 * Math.cos((360 / 365) * (dayOfYear + 10) * (Math.PI / 180));
-                const declRad = declination * (Math.PI / 180);
-                const latRad = latitude * (Math.PI / 180);
-                const cosAzimuth = Math.sin(declRad) / Math.cos(latRad);
-                const azimuthRad = Math.acos(Math.max(-1, Math.min(1, cosAzimuth))); 
-                let sunriseAzimuth = azimuthRad * (180 / Math.PI);
-                let sunsetAzimuth = 360 - sunriseAzimuth;
-                
-                const getCompassDir = (degrees) => {
-                    const val = Math.floor((degrees / 22.5) + 0.5);
-                    const arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
-                    return arr[(val % 16)];
-                };
-
-                return {
-                    sunrise: `${Math.round(sunriseAzimuth)}° ${getCompassDir(sunriseAzimuth)}`,
-                    sunset: `${Math.round(sunsetAzimuth)}° ${getCompassDir(sunsetAzimuth)}`
-                };
-            };
-
-            const getTideTimes = () => {
-                const epoch = new Date('2024-03-25T15:15:00Z').getTime();
-                const tidalPeriod = 44714400; 
-                const halfPeriod = tidalPeriod / 2;
-                const now = new Date().getTime();
-                const periodsSince = Math.floor((now - epoch) / tidalPeriod);
-                const lastHigh = epoch + (periodsSince * tidalPeriod);
-                let nextHigh = lastHigh + tidalPeriod;
-                let nextLow = lastHigh + halfPeriod;
-                if (nextLow < now) nextLow += tidalPeriod;
-
-                return {
-                    nextHigh: new Date(nextHigh).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}),
-                    nextLow: new Date(nextLow).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})
-                };
-            };
-
-            const getBzClass = (bz) => {
-                if (bz === null) return "bg-slate-50 text-slate-400 border-slate-100";
-                if (bz <= -10) return "bg-purple-50 text-purple-700 border-purple-200"; 
-                if (bz <= -2) return "bg-emerald-50 text-emerald-700 border-emerald-200"; 
-                if (bz <= 0) return "bg-amber-50 text-amber-700 border-amber-200"; 
-                return "bg-rose-50 text-rose-700 border-rose-200"; 
-            };
-            const getBzLabel = (bz) => {
-                if (bz === null) return "--";
-                if (bz <= -10) return "Storm";
-                if (bz <= -2) return "Good";
-                if (bz <= 0) return "Fair";
-                return "Poor (North)";
-            };
-
-            const getSpeedClass = (s) => {
-                if (s === null) return "bg-slate-50 text-slate-400 border-slate-100";
-                if (s >= 600) return "bg-purple-50 text-purple-700 border-purple-200";
-                if (s >= 450) return "bg-emerald-50 text-emerald-700 border-emerald-200";
-                if (s >= 350) return "bg-amber-50 text-amber-700 border-amber-200";
-                return "bg-slate-50 text-slate-500 border-slate-200";
-            };
-            const getSpeedLabel = (s) => {
-                if (s === null) return "--";
-                if (s >= 600) return "High";
-                if (s >= 450) return "Good";
-                if (s >= 350) return "Normal";
-                return "Slow";
-            };
-
-            const getDensityClass = (d) => {
-                if (d === null) return "bg-slate-50 text-slate-400 border-slate-100";
-                if (d >= 20) return "bg-purple-50 text-purple-700 border-purple-200";
-                if (d >= 10) return "bg-emerald-50 text-emerald-700 border-emerald-200";
-                if (d >= 5) return "bg-amber-50 text-amber-700 border-amber-200";
-                return "bg-slate-50 text-slate-500 border-slate-200";
-            };
-            const getDensityLabel = (d) => {
-                if (d === null) return "--";
-                if (d >= 20) return "High";
-                if (d >= 10) return "Good";
-                if (d >= 5) return "Normal";
-                return "Low";
-            };
-
-            const getCloudClass = (c) => {
-                if (c === null) return "bg-slate-50 text-slate-400 border-slate-100";
-                if (c <= 15) return "bg-purple-50 text-purple-700 border-purple-200"; 
-                if (c <= 30) return "bg-emerald-50 text-emerald-700 border-emerald-200"; 
-                if (c <= 60) return "bg-amber-50 text-amber-700 border-amber-200"; 
-                return "bg-rose-50 text-rose-700 border-rose-200"; 
-            };
-            const getCloudLabel = (c) => {
-                if (c === null) return "--";
-                if (c <= 15) return "Clear";
-                if (c <= 30) return "Fair";
-                if (c <= 60) return "Patchy";
-                return "Overcast";
-            };
-
-            useEffect(() => {
-                let isMounted = true;
-
-                const fetchConditions = async (isInitial = true) => {
-                    if (isInitial) setLoading(true);
-                    if (isInitial) setErrorMsg("");
-                    
-                    try {
-                        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=weathercode,cloudcover&timezone=Europe%2FLondon&windspeed_unit=mph&models=ukmo_seamless`);
-                        if (!weatherRes.ok) throw new Error("Weather API Error");
-                        const weatherJson = await weatherRes.json();
-
-                        const nowMs = new Date().getTime();
-                        let currentCloud = 0;
-                        if (weatherJson.hourly && weatherJson.hourly.time) {
-                            const idx = weatherJson.hourly.time.findIndex(t => new Date(t).getTime() > nowMs);
-                            currentCloud = idx > 0 ? weatherJson.hourly.cloudcover[idx - 1] : weatherJson.hourly.cloudcover[0];
-                        }
-
-                        const expectedCoastLng = -1.45 - ((lat - 55.0) * 0.75);
-                        const isCoastal = lat >= 54.7 && lat <= 56.0 && lng >= (expectedCoastLng - 0.15);
-
-                        let auroraDays = null;
-                        let liveSolar = { bz: null, speed: null, density: null, cloud: currentCloud };
-                        let solarHistory = null;
-
-                        try {
-                            const [auroraRes, plasmaRes, magRes] = await Promise.all([
-                                fetch('https://services.swpc.noaa.gov/products/noaa-planetary-k-index-forecast.json'),
-                                fetch('https://services.swpc.noaa.gov/products/solar-wind/plasma-1-day.json'),
-                                fetch('https://services.swpc.noaa.gov/products/solar-wind/mag-1-day.json')
-                            ]);
-
-                            if (auroraRes.ok) {
-                                const auroraJson = await auroraRes.json();
-                                const now = new Date();
-                                const todayStr = now.toISOString().split('T')[0];
-                                const tmrw = new Date(now); tmrw.setDate(tmrw.getDate()+1);
-                                const tmrwStr = tmrw.toISOString().split('T')[0];
-                                const dayAfter = new Date(now); dayAfter.setDate(dayAfter.getDate()+2);
-                                const dayAfterStr = dayAfter.toISOString().split('T')[0];
-
-                                const kpMap = { [todayStr]: 0, [tmrwStr]: 0, [dayAfterStr]: 0 };
-                                
-                                for (let i = 0; i < auroraJson.length; i++) {
-                                    const row = auroraJson[i];
-                                    let dateStr, kp;
-                                    
-                                    if (Array.isArray(row)) {
-                                        if (i === 0) continue; // Skip old header
-                                        if (!row[0]) continue;
-                                        dateStr = String(row[0]).substring(0, 10);
-                                        kp = parseFloat(row[1]);
-                                    } else if (typeof row === 'object') {
-                                        const timeTag = row.time_tag || row.time;
-                                        if (!timeTag) continue;
-                                        dateStr = String(timeTag).substring(0, 10);
-                                        
-                                        let kpVal = row.predicted_kp;
-                                        if (kpVal === undefined) kpVal = row.kp;
-                                        if (kpVal === undefined) kpVal = row.estimated_kp;
-                                        if (kpVal === undefined) {
-                                            const kpKey = Object.keys(row).find(k => k.toLowerCase().includes('kp'));
-                                            if (kpKey) kpVal = row[kpKey];
-                                        }
-                                        kp = parseFloat(kpVal);
-                                    } else {
-                                        continue;
-                                    }
-
-                                    if (kpMap[dateStr] !== undefined && !isNaN(kp)) {
-                                        if (kp > kpMap[dateStr]) kpMap[dateStr] = kp;
-                                    }
-                                }
-                                
-                                auroraDays = [
-                                    { dayName: 'Tonight', kp: kpMap[todayStr] },
-                                    { dayName: 'Tomorrow', kp: kpMap[tmrwStr] },
-                                    { dayName: dayAfter.toLocaleDateString('en-GB', { weekday: 'short' }), kp: kpMap[dayAfterStr] }
-                                ];
-                            }
-
-                            if (plasmaRes.ok && magRes.ok) {
-                                const plasmaJson = await plasmaRes.json();
-                                const magJson = await magRes.json();
-                                
-                                // Fetch Live Stats directly from the most recent row
-                                for (let i = plasmaJson.length - 1; i >= 0; i--) {
-                                    const row = plasmaJson[i];
-                                    if (Array.isArray(row)) {
-                                        if (i === 0) continue;
-                                        if (row[1] !== null && row[2] !== null && row[1] !== undefined && row[2] !== undefined) {
-                                            liveSolar.density = parseFloat(row[1]);
-                                            liveSolar.speed = parseFloat(row[2]);
-                                            break;
-                                        }
-                                    } else if (typeof row === 'object') {
-                                        if (row.proton_density !== undefined && row.proton_speed !== undefined && row.proton_density !== null && row.proton_speed !== null) {
-                                            liveSolar.density = parseFloat(row.proton_density);
-                                            liveSolar.speed = parseFloat(row.proton_speed);
-                                            break;
-                                        }
-                                    }
-                                }
-                                
-                                for (let i = magJson.length - 1; i >= 0; i--) {
-                                    const row = magJson[i];
-                                    if (Array.isArray(row)) {
-                                        if (i === 0) continue;
-                                        if (row[3] !== null && row[3] !== undefined) {
-                                            liveSolar.bz = parseFloat(row[3]);
-                                            break;
-                                        }
-                                    } else if (typeof row === 'object') {
-                                        if (row.bz_gsm !== undefined && row.bz_gsm !== null) {
-                                            liveSolar.bz = parseFloat(row.bz_gsm);
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                // Build Solar Trend Buckets from History
-                                solarHistory = buildSolarBuckets(magJson, plasmaJson);
-                            }
-                        } catch (err) { console.warn("Aurora/Solar fetch error:", err.message); }
-
-                        if(isMounted) {
-                            setData({ weather: weatherJson, tides: isCoastal ? getTideTimes() : null, aurora: auroraDays, liveSolar: liveSolar, solarHistory: solarHistory });
-                            if (isInitial) setLoading(false);
-                        }
-                    } catch (err) {
-                        console.warn("Failed to fetch live conditions:", err.message);
-                        if(isMounted && isInitial) { setErrorMsg("Failed to connect to weather service."); setLoading(false); }
-                    }
-                };
-
-                // Load initial data
-                fetchConditions(true);
-                
-                // Keep data fresh in real-time
-                const intervalId = setInterval(() => { fetchConditions(false); }, 5 * 60 * 1000); 
-
-                return () => { isMounted = false; clearInterval(intervalId); };
-            }, [lat, lng]);
-
-            const renderTrendChart = () => {
-                if (!data.solarHistory) return null;
-                
-                const validData = data.solarHistory.filter(d => d[activeChart] !== null && !isNaN(d[activeChart]));
-                if (validData.length < 2) return <div className="h-24 md:h-28 flex items-center justify-center text-[10px] font-bold text-slate-400 uppercase tracking-widest">No recent data</div>;
-
-                const min = Math.min(...validData.map(d => d[activeChart]));
-                const max = Math.max(...validData.map(d => d[activeChart]));
-                
-                // Prevent flatline errors if max === min
-                const range = max === min ? (max === 0 ? 1 : Math.abs(max * 0.1)) : (max - min);
-                const padding = range * 0.15;
-                const paddedMin = min - padding;
-                const paddedMax = max + padding;
-                const paddedRange = paddedMax - paddedMin;
-
-                // Color adapts to metrics - Red/Amber for Bz, Purple for Speed, Green for Density
-                const color = activeChart === 'bz' ? (validData[validData.length-1]?.[activeChart] < 0 ? '#ef4444' : '#f59e0b') : activeChart === 'speed' ? '#8b5cf6' : '#10b981';
-
-                const points = data.solarHistory.map((d, i) => {
-                    if (d[activeChart] === null || isNaN(d[activeChart])) return null;
-                    const x = (i / (data.solarHistory.length - 1)) * 100;
-                    const y = 100 - (((d[activeChart] - paddedMin) / paddedRange) * 100);
-                    return { x, y, val: d[activeChart], time: d.timeLabel };
-                }).filter(Boolean);
-
-                const polylinePoints = points.map(p => `${p.x},${p.y}`).join(' ');
-                const firstX = points[0].x;
-                const lastX = points[points.length - 1].x;
-                const fillPoints = `${firstX},100 ${polylinePoints} ${lastX},100`;
-
-                let zeroLine = null;
-                if (activeChart === 'bz' && paddedMax > 0 && paddedMin < 0) {
-                    const zeroY = 100 - (((0 - paddedMin) / paddedRange) * 100);
-                    zeroLine = (
-                        <g>
-                            <line x1="0" y1={zeroY} x2="100" y2={zeroY} stroke="#cbd5e1" strokeWidth="0.5" strokeDasharray="2 2" />
-                            <text x="99" y={zeroY - 2} fontSize="5" fill="#94a3b8" fontWeight="bold" textAnchor="end">0</text>
-                        </g>
-                    );
-                }
-
-                const formatVal = (v) => activeChart === 'speed' ? Math.round(v) : v.toFixed(1);
-
-                return (
-                    <div className="flex flex-col w-full relative animate-in fade-in mt-3">
-                        <div className="h-24 md:h-28 w-full relative mb-2 flex">
-                            {/* Y-Axis Labels */}
-                            <div className="absolute left-0 top-0 bottom-0 w-8 flex flex-col justify-between items-end text-[8px] font-bold text-slate-400 pb-1 pr-1.5 z-10 pointer-events-none">
-                                <span>{formatVal(max)}</span>
-                                <span>{formatVal(min)}</span>
-                            </div>
-
-                            {/* Chart Area */}
-                            <div className="flex-1 ml-8 relative border-b border-l border-slate-200">
-                                <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="w-full h-full overflow-visible">
-                                    <defs>
-                                        <linearGradient id={`grad-${activeChart}`} x1="0" x2="0" y1="0" y2="1">
-                                            <stop offset="0%" stopColor={color} stopOpacity="0.25" />
-                                            <stop offset="100%" stopColor={color} stopOpacity="0.0" />
-                                        </linearGradient>
-                                    </defs>
-                                    {zeroLine}
-                                    
-                                    <polygon points={fillPoints} fill={`url(#grad-${activeChart})`} />
-                                    <polyline points={polylinePoints} fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                                    
-                                    {points.map((p, i) => (
-                                        <g key={i} className="group">
-                                            <circle cx={p.x} cy={p.y} r="2" fill="white" stroke={color} strokeWidth="1.5" className="transition-all cursor-pointer" />
-                                            {/* Hover target expansion area */}
-                                            <circle cx={p.x} cy={p.y} r="8" fill="transparent" className="cursor-pointer" />
-                                            {/* Value on hover */}
-                                            <text x={p.x} y={p.y - 4} fontSize="6" fill={color} fontWeight="bold" textAnchor={p.x > 80 ? "end" : p.x < 20 ? "start" : "middle"} className="opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none drop-shadow-md">
-                                                {formatVal(p.val)}
-                                            </text>
-                                        </g>
-                                    ))}
-                                </svg>
-                            </div>
-                        </div>
-                        
-                        {/* X-Axis Labels */}
-                        <div className="flex justify-between text-[8px] md:text-[9px] text-slate-400 font-bold uppercase tracking-widest pl-8 pr-1 mt-1">
-                            <span>{data.solarHistory[0].timeLabel}</span>
-                            <span>{data.solarHistory[4].timeLabel}</span>
-                            <span>{data.solarHistory[8].timeLabel}</span>
-                        </div>
-                    </div>
-                );
-            };
-
-            if (loading) {
-                return (
-                    <div className="border-t border-slate-100 pt-6 pb-6 mt-2">
-                        <div className="h-56 bg-slate-50 animate-pulse rounded-2xl w-full"></div>
-                    </div>
-                );
-            }
-
-            if (errorMsg || !data.weather || !data.weather.current_weather) {
-                return (
-                    <div className="p-4 border border-red-100 bg-red-50 rounded-2xl mt-4 text-red-600 text-xs font-bold flex items-center">
-                        <Icon name="cloud" size={16} className="mr-2" /> Live conditions temporarily unavailable.
-                    </div>
-                );
-            }
-
-            const getWeatherInfo = (code, isNight = false) => {
-                if (code === 0) return { icon: isNight ? "moon" : "sun", text: isNight ? "Clear" : "Sunny" };
-                if (code === 1 || code === 2) return { icon: isNight ? "cloudMoon" : "cloudSun", text: isNight ? "P. Cloudy" : "Sunny Intervals" };
-                if (code === 3) return { icon: "cloud", text: "Cloudy" };
-                if (code >= 45 && code <= 48) return { icon: "cloud", text: "Fog" };
-                if (code >= 51 && code <= 67) return { icon: "rain", text: "Light Rain" };
-                if (code >= 71 && code <= 77) return { icon: "cloud", text: "Snow" };
-                if (code >= 80 && code <= 82) return { icon: "rain", text: "Showers" };
-                if (code >= 95 && code <= 99) return { icon: "rain", text: "Storm" };
-                return { icon: isNight ? "moon" : "sun", text: "Clear" };
-            };
-
-            const cw = data.weather.current_weather;
-            const currentInfo = getWeatherInfo(cw.weathercode);
-            const daily = data.weather.daily;
-            const hourly = data.weather.hourly;
-
-            const todayDate = daily?.sunrise?.[0] ? new Date(daily.sunrise[0]) : new Date();
-            const azimuths = getSolarAzimuths(lat, todayDate);
-
-            const todayInfo = {
-                sunrise: daily?.sunrise?.[0] ? new Date(daily.sunrise[0]).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}) : "--:--",
-                sunset: daily?.sunset?.[0] ? new Date(daily.sunset[0]).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}) : "--:--",
-                sunriseAzimuth: azimuths.sunrise,
-                sunsetAzimuth: azimuths.sunset,
-                moonrise: getApproxMoonrise()
-            };
-
-            const astroDays = [0, 1, 2].map(dayIndex => {
-                if (!daily?.sunset?.[dayIndex] || !daily?.sunrise?.[dayIndex + 1] || !hourly?.time || !hourly?.cloudcover) return null;
-                const sunsetTime = new Date(daily.sunset[dayIndex]).getTime();
-                const sunriseTime = new Date(daily.sunrise[dayIndex + 1]).getTime();
-                const dateObj = new Date(daily.sunset[dayIndex]);
-                let dayName = 'Tonight';
-                if (dayIndex === 1) dayName = 'Tomorrow Night';
-                if (dayIndex === 2) dayName = dateObj.toLocaleDateString('en-GB', { weekday: 'long' }) + ' Night';
-
-                const hourlyData = [];
-                for (let i = 0; i < hourly.time.length; i++) {
-                    const hourTime = new Date(hourly.time[i]).getTime();
-                    if (hourTime >= sunsetTime && hourTime <= sunriseTime) {
-                        const date = new Date(hourTime);
-                        const timeStr = date.toLocaleTimeString('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' });
-                        const cloud = hourly.cloudcover[i];
-                        const weatherCode = hourly.weathercode[i];
-                        
-                        let colorClass = "text-red-700 bg-red-50 border-red-200"; 
-                        if (cloud <= 20) colorClass = "text-emerald-700 bg-emerald-50 border-emerald-200"; 
-                        else if (cloud <= 45) colorClass = "text-lime-700 bg-lime-50 border-lime-200"; 
-                        else if (cloud <= 75) colorClass = "text-amber-700 bg-amber-50 border-amber-200"; 
-
-                        hourlyData.push({
-                            time: timeStr, cloud: cloud,
-                            moonIllumination: getMoonIllumination(hourTime),
-                            info: getWeatherInfo(weatherCode, true), 
-                            colorClass
-                        });
-                    }
-                }
-                return hourlyData.length > 0 ? { dayName, hourlyData } : null;
-            }).filter(Boolean);
-
-            const forecastDays = [0, 1, 2].map(i => {
-                if (!daily || !daily.time[i]) return null;
-                const date = new Date(daily.time[i]);
-                const dayName = i === 0 ? 'Today' : date.toLocaleDateString('en-GB', { weekday: 'short' });
-                const dateStr = daily.time[i];
-                const targetHour = `${dateStr}T13:00`;
-                const hourIdx = hourly?.time?.findIndex(t => t === targetHour);
-                const codeToUse = (hourIdx !== -1 && hourIdx !== undefined) ? hourly.weathercode[hourIdx] : daily.weathercode[i];
-                const info = getWeatherInfo(codeToUse);
-                return { dayName, icon: info.icon, max: Math.round(daily.temperature_2m_max[i]), min: Math.round(daily.temperature_2m_min[i]) };
-            }).filter(Boolean);
-
-            return (
-                <div className="pt-2 pb-6 mt-2">
-                    {/* Weather & Astro Widget */}
-                    <div className="bg-white border border-slate-200 shadow-sm p-4 md:p-5 rounded-2xl flex flex-col justify-between relative overflow-hidden w-full">
-                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-4 sm:gap-0">
-                            <div>
-                                <div className="flex items-center text-slate-500 mb-2 z-10">
-                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Live Weather</span>
-                                </div>
-                                <div className="flex items-center space-x-3 z-10 my-1">
-                                    <Icon name={currentInfo.icon} size={32} className="text-slate-800" />
-                                    <span className="text-3xl md:text-4xl font-black tracking-tighter text-slate-900">{Math.round(cw.temperature)}°</span>
-                                </div>
-                                <div className="flex items-center text-slate-500 text-[11px] md:text-xs font-bold tracking-wide z-10">
-                                    <span className="mr-3">{currentInfo.text}</span>
-                                    <Icon name="wind" size={12} className="mr-1" />
-                                    <span>{cw.windspeed} mph</span>
-                                </div>
-                            </div>
-                            
-                            {forecastDays.length > 0 && (
-                                <div className="flex gap-4 md:gap-5 mt-1 sm:mt-0 w-full sm:w-auto justify-between sm:justify-end border-t border-slate-100 sm:border-0 pt-3 sm:pt-0">
-                                    {forecastDays.map((day, idx) => (
-                                        <div key={idx} className="flex flex-col items-center">
-                                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{day.dayName}</span>
-                                            <Icon name={day.icon} size={24} className="text-slate-600 mb-1" />
-                                            <span className="text-[10px] md:text-[11px] font-bold text-slate-800">{day.max}° <span className="text-slate-400 font-medium">{day.min}°</span></span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-100">
-                            <div className="flex flex-col items-center text-center">
-                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Sunrise</span>
-                                <span className="text-[10px] md:text-[11px] font-bold text-amber-600">{todayInfo.sunrise}</span>
-                                <span className="text-[8px] font-bold text-slate-400 mt-0.5">{todayInfo.sunriseAzimuth}</span>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Sunset</span>
-                                <span className="text-[10px] md:text-[11px] font-bold text-orange-600">{todayInfo.sunset}</span>
-                                <span className="text-[8px] font-bold text-slate-400 mt-0.5">{todayInfo.sunsetAzimuth}</span>
-                            </div>
-                            <div className="flex flex-col items-center text-center">
-                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Moonrise</span>
-                                <span className="text-[10px] md:text-[11px] font-bold text-indigo-600">~{todayInfo.moonrise}</span>
-                                <span className="text-[8px] font-bold text-transparent mt-0.5">-</span>
-                            </div>
-                        </div>
-
-                        {data.tides && (
-                            <div className="mt-4 pt-4 border-t border-slate-100">
-                                <div className="flex justify-between items-center bg-sky-50 rounded-xl p-3 px-4 border border-sky-100">
-                                    <div className="flex items-center text-sky-800">
-                                        <Icon name="waves" size={16} className="mr-2" />
-                                        <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Coastal Tide</span>
-                                    </div>
-                                    <div className="flex gap-4 md:gap-6 text-sky-900">
-                                        <div className="flex flex-col text-right">
-                                            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-sky-600/70 mb-0.5">Next High</span>
-                                            <span className="text-[10px] md:text-[11px] font-bold">{data.tides.nextHigh || '--:--'}</span>
-                                        </div>
-                                        <div className="flex flex-col text-right">
-                                            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-sky-600/70 mb-0.5">Next Low</span>
-                                            <span className="text-[10px] md:text-[11px] font-bold">{data.tides.nextLow || '--:--'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {data.aurora && data.liveSolar && (
-                            <div className="mt-4 pt-4 border-t border-slate-100">
-                                <div className="flex items-center justify-between mb-3">
-                                    <div className="flex items-center">
-                                        <Icon name="sparkles" size={16} className="text-emerald-600 mr-2 shrink-0" />
-                                        <span className="text-[10px] md:text-xs font-bold text-slate-800 uppercase tracking-widest">Live Solar & Aurora</span>
-                                    </div>
-                                </div>
-                                
-                                {activeAuroraInfo && (
-                                    <div className="mb-3 bg-sky-50 border border-sky-100 rounded-xl p-3 relative animate-in text-sky-900 shadow-sm">
-                                        <button onClick={() => setActiveAuroraInfo(null)} className="absolute top-1 right-1 p-2 text-sky-400 hover:text-sky-600 transition-colors">
-                                            <Icon name="x" size={16} />
-                                        </button>
-                                        <h4 className="font-black text-[10px] md:text-[11px] uppercase tracking-widest mb-1.5 pr-6">{auroraInfoData[activeAuroraInfo].title}</h4>
-                                        <p className="text-[11px] md:text-xs leading-relaxed opacity-90">{auroraInfoData[activeAuroraInfo].desc}</p>
-                                    </div>
-                                )}
-
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getBzClass(data.liveSolar.bz)}`}>
-                                        <button onClick={() => toggleAuroraInfo('bz')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is IMF Bz?">
-                                            <Icon name="info" size={14} />
-                                        </button>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">IMF Bz</span>
-                                        <span className="text-sm md:text-base font-black">{data.liveSolar.bz !== null ? `${data.liveSolar.bz.toFixed(1)} nT` : '--'}</span>
-                                        <span className="text-[8px] font-bold uppercase mt-0.5">{getBzLabel(data.liveSolar.bz)}</span>
-                                    </div>
-                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getSpeedClass(data.liveSolar.speed)}`}>
-                                        <button onClick={() => toggleAuroraInfo('speed')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is Solar Wind Speed?">
-                                            <Icon name="info" size={14} />
-                                        </button>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">Speed</span>
-                                        <span className="text-sm md:text-base font-black">{data.liveSolar.speed !== null ? `${Math.round(data.liveSolar.speed)} km/s` : '--'}</span>
-                                        <span className="text-[8px] font-bold uppercase mt-0.5">{getSpeedLabel(data.liveSolar.speed)}</span>
-                                    </div>
-                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getDensityClass(data.liveSolar.density)}`}>
-                                        <button onClick={() => toggleAuroraInfo('density')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is Solar Wind Density?">
-                                            <Icon name="info" size={14} />
-                                        </button>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">Density</span>
-                                        <span className="text-sm md:text-base font-black">{data.liveSolar.density !== null ? `${data.liveSolar.density.toFixed(1)} p/cm³` : '--'}</span>
-                                        <span className="text-[8px] font-bold uppercase mt-0.5">{getDensityLabel(data.liveSolar.density)}</span>
-                                    </div>
-                                    <div className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${getCloudClass(data.liveSolar.cloud)}`}>
-                                        <button onClick={() => toggleAuroraInfo('cloud')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is Local Cloud Cover?">
-                                            <Icon name="info" size={14} />
-                                        </button>
-                                        <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 mt-1">Local Cloud</span>
-                                        <span className="text-sm md:text-base font-black">{data.liveSolar.cloud !== null ? `${data.liveSolar.cloud}%` : '--'}</span>
-                                        <span className="text-[8px] font-bold uppercase mt-0.5">{getCloudLabel(data.liveSolar.cloud)}</span>
-                                    </div>
-                                </div>
-                                <div className="grid grid-cols-3 gap-2">
-                                    {data.aurora.map((day, idx) => {
-                                        let colorClass = "bg-slate-50 text-slate-500 border-slate-200";
-                                        if (day.kp >= 6) colorClass = "bg-purple-50 text-purple-700 border-purple-200";
-                                        else if (day.kp >= 4.6) colorClass = "bg-emerald-50 text-emerald-700 border-emerald-200";
-                                        else if (day.kp >= 3) colorClass = "bg-amber-50 text-amber-700 border-amber-200";
-                                        
-                                        return (
-                                            <div key={idx} className={`relative flex flex-col items-center justify-center p-2 rounded-xl border ${colorClass}`}>
-                                                <button onClick={() => toggleAuroraInfo('kp')} className="absolute top-0 right-0 p-2.5 opacity-40 hover:opacity-100 transition-opacity" title="What is the Kp Index?">
-                                                    <Icon name="info" size={14} />
-                                                </button>
-                                                <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest mb-0.5 opacity-80 text-center mt-1">{day.dayName}</span>
-                                                <span className="text-xs md:text-sm font-black">Kp {day.kp.toFixed(1)}</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                                
-                                {/* 2-HOUR TREND CHART */}
-                                {data.solarHistory && (
-                                    <div className="mt-4 bg-slate-50 border border-slate-100 rounded-xl p-3 pt-3">
-                                        <div className="flex justify-between items-center mb-1">
-                                            <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-slate-500">2-Hour Trend (15m)</span>
-                                            <div className="flex gap-1 bg-slate-200/80 p-0.5 rounded-lg border border-slate-200">
-                                                <button onClick={() => setActiveChart('bz')} className={`text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-md transition-colors ${activeChart === 'bz' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Bz</button>
-                                                <button onClick={() => setActiveChart('speed')} className={`text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-md transition-colors ${activeChart === 'speed' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Speed</button>
-                                                <button onClick={() => setActiveChart('density')} className={`text-[9px] md:text-[10px] font-bold px-2 py-1 rounded-md transition-colors ${activeChart === 'density' ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>Density</button>
-                                            </div>
-                                        </div>
-                                        {renderTrendChart()}
-                                    </div>
-                                )}
-                            </div>
-                        )}
-
-                        {astroDays.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-slate-100">
-                                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2 sm:gap-0">
-                                    <div className="flex items-center">
-                                        <Icon name="moon" size={16} className="text-indigo-600 mr-2 shrink-0" />
-                                        <span className="text-[10px] md:text-xs font-bold text-slate-800 uppercase tracking-widest">Astro Forecast (Sunset to Sunrise)</span>
-                                    </div>
-                                    <div className="flex flex-col items-center text-[8px] md:text-[9px] font-black text-slate-500 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm w-fit shrink-0 leading-tight gap-0.5">
-                                        <span>Cloud %</span>
-                                        <span className="text-slate-400">Moon %</span>
-                                    </div>
-                                </div>
-                                
-                                <div className="flex flex-col gap-5">
-                                    {astroDays.map((astroDay, idx) => (
-                                        <div key={idx} className="flex flex-col">
-                                            <span className="text-[9px] font-black text-slate-400 mb-2 uppercase tracking-widest">{astroDay.dayName}</span>
-                                            <div className="flex overflow-x-auto gap-2 pb-2 custom-scrollbar overscroll-x-contain">
-                                                {astroDay.hourlyData.map((hour, hIdx) => (
-                                                    <div key={hIdx} className={`flex flex-col items-center justify-center px-3 py-2 rounded-xl border min-w-[64px] shrink-0 ${hour.colorClass}`}>
-                                                        <span className="text-[10px] font-black mb-1.5 opacity-80">{hour.time}</span>
-                                                        <Icon name={hour.info.icon} size={16} className="mb-1.5" />
-                                                        <span className="text-[11px] font-black" title="Cloud Cover">{hour.cloud}%</span>
-                                                        <span className="text-[10px] font-black opacity-90 mt-1.5 flex items-center bg-white/40 px-1.5 py-0.5 rounded-md w-full justify-center" title="Moon Illumination">
-                                                            <Icon name="moon" size={10} className="mr-1 opacity-70" /> {hour.moonIllumination}%
-                                                        </span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            );
-        };
-
         const App = () => {
-            const [selectedLoc, setSelectedLoc] = useState(null);
-            const [selectedWebcam, setSelectedWebcam] = useState(null);
-            const [isLocating, setIsLocating] = useState(false);
-            const [layerMode, setLayerMode] = useState('standard');
-            const [showLayers, setShowLayers] = useState(false);
-            
-            // Saved Spots feature
-            const [savedSpots, setSavedSpots] = useState(() => JSON.parse(localStorage.getItem('northernPixlSaved')) || []);
-            const [showSaved, setShowSaved] = useState(false);
-            
-            // Radar Playback State
-            const [radarFrames, setRadarFrames] = useState([]);
-            const [currentFrame, setCurrentFrame] = useState(0);
-            const [isPlaying, setIsPlaying] = useState(false);
-            
-            // Toast notification
-            const [toastMsg, setToastMsg] = useState(null);
+            // Default to the actual current month when the page loads
+            const [activeIndex, setActiveIndex] = useState(new Date().getMonth());
+            const activeData = CALENDAR_DATA[activeIndex];
 
-            const mapContainerRef = useRef(null);
-            const mapInstanceRef = useRef(null);
-            const clickMarkerRef = useRef(null);
-            const userMarkerRef = useRef(null);
-            
-            const lightLayerRef = useRef(null);
-            const darkMapLayerRef = useRef(null);
-            const astroLayerRef = useRef(null);
-            const darkLabelsLayerRef = useRef(null);
-            
-            const radarLayerDictRef = useRef({}); 
-
-            const showToast = (msg) => {
-                setToastMsg(msg);
-                setTimeout(() => setToastMsg(null), 3000);
-            };
-
-            const reverseGeocodeAndSelect = async (lat, lng, isUserLocation = false) => {
-                const defaultName = isUserLocation ? "Your Location" : "Custom Location";
-                setSelectedLoc({ lat, lng, name: "Loading...", type: isUserLocation ? "Current Location" : "Custom Pin" });
-                try {
-                    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
-                    const data = await res.json();
-                    let locName = defaultName;
-                    if (data && data.name) {
-                        locName = data.name;
-                    } else if (data && data.address) {
-                        locName = data.address.village || data.address.town || data.address.city || data.address.county || data.address.state || defaultName;
-                    }
-                    setSelectedLoc({ lat, lng, name: locName, type: isUserLocation ? "Current Location" : "Custom Pin" });
-                } catch (err) {
-                    setSelectedLoc({ lat, lng, name: defaultName, type: isUserLocation ? "Current Location" : "Custom Pin" });
-                }
-                
-                if (clickMarkerRef.current) {
-                    clickMarkerRef.current.setLatLng([lat, lng]);
-                } else if (mapInstanceRef.current) {
-                    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0ea5e9" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 32px; height: 32px; filter: drop-shadow(0px 4px 4px rgba(0,0,0,0.25));"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3" fill="#ffffff" stroke="none"></circle></svg>`;
-                    clickMarkerRef.current = L.marker([lat, lng], {
-                        icon: L.divIcon({ className: 'custom-map-marker', html: svg, iconSize: [32, 32], iconAnchor: [16, 32] })
-                    }).addTo(mapInstanceRef.current);
-                }
-            };
-
-            const getSafeUrl = (url) => {
-                if (!url) return "";
-                let safeUrl = url;
-                try {
-                    if (url.includes('youtube.com/watch?v=')) {
-                        const urlObj = new URL(url);
-                        const videoId = urlObj.searchParams.get('v');
-                        safeUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
-                    } else if (url.includes('youtu.be/')) {
-                        const videoId = url.split('youtu.be/')[1].split('?')[0];
-                        safeUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1`;
-                    }
-                } catch (e) {
-                    console.error("URL parsing error", e);
-                }
-                return safeUrl;
-            };
-
-            const getOriginalUrl = (url) => {
-                if (!url) return "#";
-                if (url.includes('/embed/')) {
-                    const videoId = url.split('/embed/')[1].split('?')[0];
-                    return `https://www.youtube.com/watch?v=${videoId}`;
-                }
-                return url;
-            };
-
+            // Automatically scroll the selected month into the center of the view
             useEffect(() => {
-                const onPopState = () => {
-                    setSelectedLoc(null);
-                    setSelectedWebcam(null);
-                };
-                window.addEventListener('popstate', onPopState);
-                return () => window.removeEventListener('popstate', onPopState);
-            }, []);
-
-            // Setup Map Base Layers
-            useEffect(() => {
-                const timer = setTimeout(() => {
-                    if (mapContainerRef.current && !mapInstanceRef.current) {
-                        const map = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.35, -2.0], 9);
-                        mapInstanceRef.current = map;
-                        
-                        lightLayerRef.current = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap, &copy; CARTO' });
-                        darkMapLayerRef.current = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; CARTO' });
-                        
-                        // NASA Black Marble (True Light Pollution) + Dark Labels
-                        astroLayerRef.current = L.tileLayer('https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/VIIRS_CityLights_2012/default/2012-05-01/GoogleMapsCompatible_Level8/{z}/{y}/{x}.jpg', { 
-                            attribution: '&copy; NASA',
-                            maxNativeZoom: 8,
-                            maxZoom: 18
-                        });
-                        darkLabelsLayerRef.current = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}{r}.png', { 
-                            attribution: '&copy; CARTO',
-                            maxZoom: 18
-                        });
-
-                        lightLayerRef.current.addTo(map);
-
-                        // --- Add Webcams to map ---
-                        WEBCAMS.forEach(cam => {
-                            const cameraIconHtml = `<div class="bg-slate-900 text-white rounded-full p-2 shadow-lg border-2 border-white flex items-center justify-center w-8 h-8"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div>`;
-                            const camIcon = L.divIcon({
-                                className: 'custom-webcam-marker',
-                                html: cameraIconHtml,
-                                iconSize: [32, 32],
-                                iconAnchor: [16, 16]
-                            });
-                            const marker = L.marker([cam.lat, cam.lng], { icon: camIcon, zIndexOffset: 500 }).addTo(map);
-                            marker.on('click', () => {
-                                setSelectedWebcam(cam);
-                            });
-                        });
-                        // --------------------------
-                        
-                        map.on('click', async (e) => {
-                            reverseGeocodeAndSelect(e.latlng.lat, e.latlng.lng, false);
-                        });
-
-                        const params = new URLSearchParams(window.location.search);
-                        const urlLat = parseFloat(params.get('lat'));
-                        const urlLng = parseFloat(params.get('lng'));
-                        if (!isNaN(urlLat) && !isNaN(urlLng)) {
-                             reverseGeocodeAndSelect(urlLat, urlLng, false);
-                        }
-                    }
-                }, 100);
-
-                return () => {
-                    clearTimeout(timer);
-                    if (mapInstanceRef.current) {
-                        mapInstanceRef.current.remove();
-                        mapInstanceRef.current = null;
-                    }
-                };
-            }, []);
-
-            // Handle Layer Switching (Robust Async/Await dual-provider system)
-            useEffect(() => {
-                if (!mapInstanceRef.current) return;
-                const map = mapInstanceRef.current;
-                let isCancelled = false;
-                
-                const safeRemove = (layerRef) => {
-                    if (layerRef.current && map.hasLayer(layerRef.current)) map.removeLayer(layerRef.current);
-                };
-                const safeAdd = (layerRef) => {
-                    if (layerRef.current && !map.hasLayer(layerRef.current)) layerRef.current.addTo(map);
-                };
-
-                const fetchMapData = async () => {
-                    if (layerMode === 'dark') {
-                        safeRemove(lightLayerRef);
-                        safeRemove(darkMapLayerRef);
-                        safeAdd(astroLayerRef);
-                        safeAdd(darkLabelsLayerRef);
-                        setIsPlaying(false);
-                        setRadarFrames([]);
-                        
-                    } else if (layerMode === 'cloud') {
-                        safeRemove(lightLayerRef);
-                        safeRemove(astroLayerRef);
-                        safeRemove(darkLabelsLayerRef);
-                        safeAdd(darkMapLayerRef); 
-                        
-                        let frames = [];
-                        
-                        try {
-                            // Primary Attempt: Try to load RainViewer's Animated Satellite Timeline
-                            const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
-                            const data = await res.json();
-                            if (isCancelled) return;
-                            
-                            const satData = data?.satellite?.infrared || [];
-                            
-                            if (satData.length > 1) {
-                                frames = satData.slice(-8).map(f => ({
-                                    time: f.time,
-                                    path: f.path,
-                                    type: 'past',
-                                    provider: 'rainviewer_sat'
-                                }));
-                            }
-                        } catch (err) {
-                            console.warn("Rainviewer satellite API unavailable.", err);
-                        }
-
-                        // BULLETPROOF FALLBACK: If Rainviewer returned 0 or 1 frames, mathematically generate an 8-frame EUMETSAT WMS Timeline
-                        if (frames.length <= 1) {
-                            const now = new Date();
-                            // Round down to nearest 15 mins
-                            const buffer = new Date(now.getTime() - 45 * 60000); 
-                            buffer.setUTCMinutes(Math.floor(buffer.getUTCMinutes() / 15) * 15, 0, 0);
-
-                            for (let i = 7; i >= 0; i--) {
-                                const t = new Date(buffer.getTime() - i * 15 * 60000);
-                                frames.push({
-                                    time: Math.floor(t.getTime() / 1000),
-                                    timeStr: t.toISOString(), // EUMETSAT requires strictly formatted ISO 8601 timestamps
-                                    type: 'past',
-                                    provider: 'eumetsat_wms'
-                                });
-                            }
-                        }
-
-                        if (isCancelled) return;
-
-                        setRadarFrames(frames);
-                        
-                        if (radarLayerDictRef.current) {
-                            Object.values(radarLayerDictRef.current).forEach(layer => {
-                                if (map.hasLayer(layer)) map.removeLayer(layer);
-                            });
-                        }
-                        radarLayerDictRef.current = {};
-
-                        setCurrentFrame(frames.length - 1);
-                        setIsPlaying(true); // Guaranteed to animate because we forced frames.length to 8
-
-                    } else if (layerMode === 'radar') {
-                        safeRemove(lightLayerRef);
-                        safeRemove(astroLayerRef);
-                        safeRemove(darkLabelsLayerRef);
-                        safeAdd(darkMapLayerRef); 
-                        
-                        try {
-                            const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
-                            const data = await res.json();
-                            if (isCancelled) return;
-                            
-                            const past = data?.radar?.past || [];
-                            const nowcast = data?.radar?.nowcast || [];
-                            const frames = [
-                                ...past.map(f => ({ ...f, type: 'past', provider: 'rainviewer_radar' })),
-                                ...nowcast.map(f => ({ ...f, type: 'future', provider: 'rainviewer_radar' }))
-                            ];
-                            
-                            if (frames.length === 0) {
-                                showToast(`Radar data temporarily unavailable`);
-                                setLayerMode('standard');
-                                return;
-                            }
-                            
-                            setRadarFrames(frames);
-                            
-                            if (radarLayerDictRef.current) {
-                                Object.values(radarLayerDictRef.current).forEach(layer => {
-                                    if (map.hasLayer(layer)) map.removeLayer(layer);
-                                });
-                            }
-                            radarLayerDictRef.current = {};
-
-                            setCurrentFrame(frames.length - 1);
-                            setIsPlaying(true);
-                            
-                        } catch (err) {
-                            console.warn("Fetch error:", err);
-                            if (!isCancelled) {
-                                showToast(`Failed to load radar data`);
-                                setLayerMode('standard');
-                            }
-                        }
-                    } else {
-                        safeAdd(lightLayerRef);
-                        safeRemove(darkMapLayerRef);
-                        safeRemove(astroLayerRef);
-                        safeRemove(darkLabelsLayerRef);
-                        setIsPlaying(false);
-                        setRadarFrames([]);
-                    }
-                };
-
-                fetchMapData();
-
-                return () => {
-                    isCancelled = true;
-                    if (layerMode !== 'radar' && layerMode !== 'cloud') {
-                        if (radarLayerDictRef.current) {
-                            Object.values(radarLayerDictRef.current).forEach(layer => {
-                                if (mapInstanceRef.current && mapInstanceRef.current.hasLayer(layer)) {
-                                    mapInstanceRef.current.removeLayer(layer);
-                                }
-                            });
-                            radarLayerDictRef.current = {};
-                        }
-                        setRadarFrames([]);
-                        setIsPlaying(false);
-                    }
-                };
-            }, [layerMode]);
-
-            // Animation Loop Controller - Sped up to match Met Office radar tempo
-            useEffect(() => {
-                let interval;
-                if (isPlaying && radarFrames.length > 1) {
-                    interval = setInterval(() => {
-                        setCurrentFrame(prev => (prev + 1) % radarFrames.length);
-                    }, 1000); 
+                const activeBtn = document.getElementById(`month-btn-${activeIndex}`);
+                if (activeBtn) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
                 }
-                return () => clearInterval(interval);
-            }, [isPlaying, radarFrames.length]);
-
-            // Highly Optimized Double-Buffered Pre-caching Layer Renderer
-            useEffect(() => {
-                if ((layerMode !== 'radar' && layerMode !== 'cloud') || radarFrames.length === 0 || !mapInstanceRef.current) return;
-                const map = mapInstanceRef.current;
-
-                const getLayer = (f) => {
-                    if (!f) return null;
-                    
-                    if (f.provider === 'rainviewer_sat') {
-                        const path = f.path;
-                        if (!radarLayerDictRef.current[path]) {
-                            const host = 'https://tilecache.rainviewer.com';
-                            radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/0/0_0.png`, {
-                                opacity: 0,
-                                className: 'cloud-tile weather-layer-transition',
-                                maxNativeZoom: 3, // CRITICAL FIX: Satellite only supports zoom 1-3. 
-                                maxZoom: 18,
-                                attribution: '&copy; RainViewer Satellite',
-                                errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-                            });
-                        }
-                        return radarLayerDictRef.current[path];
-
-                    } else if (f.provider === 'eumetsat_wms') {
-                        const key = `eumetsat_${f.timeStr}`;
-                        if (!radarLayerDictRef.current[key]) {
-                            radarLayerDictRef.current[key] = L.tileLayer.wms('https://view.eumetsat.int/geoserver/wms', {
-                                layers: 'msg_fes:ir108',
-                                format: 'image/png',
-                                transparent: true,
-                                version: '1.3.0',
-                                time: f.timeStr, // Uses our safe mathematically calculated interval
-                                opacity: 0,
-                                className: 'cloud-tile weather-layer-transition',
-                                maxNativeZoom: 5,
-                                maxZoom: 18,
-                                attribution: '&copy; EUMETSAT'
-                            });
-                        }
-                        return radarLayerDictRef.current[key];
-
-                    } else if (f.provider === 'rainviewer_radar') {
-                        const path = f.path;
-                        if (!radarLayerDictRef.current[path]) {
-                            let host = f.host || 'https://tilecache.rainviewer.com';
-                            host = host.replace('http://', 'https://'); // Force HTTPS to prevent mixed-content blocking
-                            
-                            // BULLETPROOF FIX: We drop maxNativeZoom to 6 and use standard 256 tiles. 
-                            // Zoom 6 is RainViewer's global composite level. By forcing Leaflet to stop requesting new tiles 
-                            // after zoom 6, we completely bypass all regional "Zoom Level Not Supported" holes in their API.
-                            // Leaflet will flawlessly stretch the zoom 6 data across the screen at any higher zoom level.
-                            radarLayerDictRef.current[path] = L.tileLayer(`${host}${path}/256/{z}/{x}/{y}/2/1_1.png`, {
-                                opacity: 0,
-                                className: 'weather-layer-transition radar-tile', 
-                                maxNativeZoom: 6, 
-                                maxZoom: 18,
-                                zIndex: 10,
-                                attribution: '&copy; RainViewer Radar',
-                                errorTileUrl: 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
-                            });
-                        }
-                        return radarLayerDictRef.current[path];
-                    }
-                };
-
-                // Pre-caching Mechanism: Add all layers transparently
-                radarFrames.forEach(f => {
-                    const layer = getLayer(f);
-                    if (layer && !map.hasLayer(layer)) {
-                        layer.setOpacity(0);
-                        layer.addTo(map);
-                    }
-                });
-
-                // Cycle opacities based on current frame
-                radarFrames.forEach((f, idx) => {
-                    const layer = getLayer(f);
-                    if (layer) {
-                        if (idx === currentFrame) {
-                            layer.setOpacity(layerMode === 'cloud' ? 1.0 : 0.85); // Pushed cloud opacity to 100% so it blends beautifully
-                        } else {
-                            layer.setOpacity(0);
-                        }
-                    }
-                });
-
-            }, [currentFrame, radarFrames, layerMode]);
-
-            useEffect(() => {
-                if (mapInstanceRef.current && selectedLoc) {
-                    const map = mapInstanceRef.current;
-                    const isDesktop = window.innerWidth >= 768;
-                    const targetZoom = 12;
-                    const targetPoint = map.project([selectedLoc.lat, selectedLoc.lng], targetZoom);
-                    const offsetX = isDesktop ? -200 : 0;
-                    const offsetY = isDesktop ? 0 : 200;
-                    const offsetPoint = L.point(targetPoint.x + offsetX, targetPoint.y + offsetY);
-                    const offsetLatLng = map.unproject(offsetPoint, targetZoom);
-                    map.flyTo(offsetLatLng, targetZoom, { duration: 1.2 });
-                }
-            }, [selectedLoc]);
-
-            const handleLocateMe = () => {
-                if (!mapInstanceRef.current || isLocating) return;
-                setIsLocating(true);
-                mapInstanceRef.current.locate({ setView: true, maxZoom: 12 });
-                
-                mapInstanceRef.current.once('locationfound', async (e) => {
-                    setIsLocating(false);
-                    const { lat, lng } = e.latlng;
-                    if (userMarkerRef.current) {
-                        userMarkerRef.current.setLatLng([lat, lng]);
-                    } else {
-                        userMarkerRef.current = L.circleMarker([lat, lng], { radius: 8, fillColor: '#ef4444', color: '#ffffff', weight: 3, fillOpacity: 1 }).addTo(mapInstanceRef.current).bindTooltip("You are here", { permanent: false, direction: 'top' });
-                    }
-                    reverseGeocodeAndSelect(lat, lng, true);
-                });
-                
-                mapInstanceRef.current.once('locationerror', () => {
-                    setIsLocating(false);
-                    console.warn("Location access denied.");
-                });
-            };
-
-            const toggleSaveSpot = () => {
-                if (!selectedLoc) return;
-                const exists = savedSpots.find(s => s.lat === selectedLoc.lat && s.lng === selectedLoc.lng);
-                let updated;
-                if (exists) {
-                    updated = savedSpots.filter(s => s.lat !== selectedLoc.lat || s.lng !== selectedLoc.lng);
-                    showToast("Spot removed from bookmarks");
-                } else {
-                    updated = [...savedSpots, { lat: selectedLoc.lat, lng: selectedLoc.lng, name: selectedLoc.name }];
-                    showToast("Spot bookmarked!");
-                }
-                setSavedSpots(updated);
-                localStorage.setItem('northernPixlSaved', JSON.stringify(updated));
-            };
-
-            const copyShareLink = () => {
-                if (!selectedLoc) return;
-                const url = `${window.location.origin}${window.location.pathname}?lat=${selectedLoc.lat.toFixed(5)}&lng=${selectedLoc.lng.toFixed(5)}`;
-                const el = document.createElement('textarea');
-                el.value = url;
-                document.body.appendChild(el);
-                el.select();
-                document.execCommand('copy');
-                document.body.removeChild(el);
-                showToast("Location link copied to clipboard!");
-            };
-
-            const isNearHolyIsland = (lat, lng) => {
-                const dLat = lat - 55.6694;
-                const dLng = lng - -1.7856;
-                return Math.sqrt(dLat*dLat + dLng*dLng) < 0.08;
-            };
-
-            const isSaved = selectedLoc ? savedSpots.some(s => s.lat === selectedLoc.lat && s.lng === selectedLoc.lng) : false;
+            }, [activeIndex]);
 
             return (
-                <div className="fixed inset-0 bg-slate-50 overflow-hidden">
+                <div className="min-h-screen bg-slate-50 flex flex-col">
                     <Navbar />
-                    <main className="absolute top-[calc(4rem+env(safe-area-inset-top))] md:top-[calc(5rem+env(safe-area-inset-top))] bottom-0 left-0 right-0">
-                        <h1 className="sr-only">Northumberland Photography Weather Map, Rain Radar & Aurora Forecast</h1>
+                    
+                    <main className="pt-20 flex-1">
                         
-                        <div className="absolute inset-0 z-0">
-                            <div ref={mapContainerRef} className="w-full h-full"></div>
-                        </div>
-
-                        {/* Floating Toast Notification */}
-                        <div className={`absolute top-6 left-1/2 -translate-x-1/2 z-[1000] transition-all duration-300 pointer-events-none ${toastMsg ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
-                            <div className="bg-slate-900 text-white px-5 py-3 rounded-full shadow-xl flex items-center gap-2">
-                                <Icon name="check" size={16} className="textemerald-400" />
-                                <span className="text-[11px] md:text-xs font-bold uppercase tracking-widest">{toastMsg}</span>
+                        {/* Hero Introduction */}
+                        <section className="bg-white px-4 py-12 md:py-16 text-center border-b border-slate-100">
+                            <div className="inline-flex items-center justify-center p-3 bg-sky-50 rounded-2xl text-sky-500 mb-6 shadow-sm">
+                                <Icon name="calendar" size={32} />
                             </div>
-                        </div>
+                            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-slate-900">Nature's Calendar</h1>
+                            <p className="text-base md:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+                                A highly detailed, month-by-month master guide to photography in Northumberland. Discover exactly what to shoot, when to shoot it, and how to prepare.
+                            </p>
+                        </section>
 
-                        {/* Floating "Select a location" hint */}
-                        <div className={`absolute top-6 left-1/2 -translate-x-1/2 z-[400] transition-all duration-500 pointer-events-none ${selectedLoc || selectedWebcam || toastMsg || layerMode === 'radar' || layerMode === 'cloud' ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'}`}>
-                            <div className="bg-white/95 backdrop-blur-md px-5 py-3 rounded-full shadow-lg border border-slate-200 flex items-center gap-3">
-                                <Icon name="mapPin" size={18} className="text-sky-500 animate-bounce" />
-                                <span className="text-[11px] md:text-xs font-black uppercase tracking-widest text-slate-700">Tap anywhere on the map</span>
-                            </div>
-                        </div>
-
-                        {/* Webcam Live Feed Modal */}
-                        {selectedWebcam && (
-                            <div className="fixed inset-0 z-[2000] bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in" onClick={() => setSelectedWebcam(null)}>
-                                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden w-full max-w-4xl flex flex-col" onClick={(e) => e.stopPropagation()}>
-                                    <div className="flex items-center justify-between p-4 md:p-5 border-b border-slate-100 bg-slate-50">
-                                        <div className="flex items-center gap-3">
-                                            <div className="bg-sky-500 text-white p-2.5 rounded-xl shadow-sm">
-                                                <Icon name="camera" size={20} />
-                                            </div>
-                                            <div>
-                                                <h3 className="font-black text-lg md:text-xl text-slate-800 leading-none mb-1">{selectedWebcam.name}</h3>
-                                                <div className="flex items-center gap-3">
-                                                    <span className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-sky-500 flex items-center gap-1.5">
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span> Live Stream
-                                                    </span>
-                                                    <a href={getOriginalUrl(selectedWebcam.url)} target="_blank" rel="noopener noreferrer" className="text-[9px] md:text-[10px] font-bold text-slate-500 hover:text-sky-600 underline transition-colors">
-                                                        Watch on YouTube &#8599;
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button onClick={() => setSelectedWebcam(null)} className="p-2.5 hover:bg-slate-200 rounded-full transition-colors text-slate-500 hover:text-slate-900">
-                                            <Icon name="x" size={20} />
+                        {/* Sticky Horizontal Tab Bar */}
+                        <div className="sticky top-[80px] z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
+                            <div className="max-w-7xl mx-auto">
+                                <div className="flex overflow-x-auto no-scrollbar py-3 md:py-4 px-4 md:px-8 gap-2 md:gap-4 items-center w-full">
+                                    {CALENDAR_DATA.map((month, index) => (
+                                        <button 
+                                            key={month.id}
+                                            id={`month-btn-${index}`}
+                                            onClick={() => setActiveIndex(index)}
+                                            className={`flex-shrink-0 px-4 py-2 md:px-6 md:py-2.5 rounded-full text-[11px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 focus:outline-none ${
+                                                activeIndex === index 
+                                                ? 'bg-slate-900 text-white shadow-md transform scale-105' 
+                                                : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900'
+                                            }`}
+                                        >
+                                            <span className="md:hidden">{month.shortMonth}</span>
+                                            <span className="hidden md:inline">{month.month}</span>
                                         </button>
-                                    </div>
-                                    <div className="w-full aspect-video bg-slate-900 relative">
-                                        <iframe 
-                                            src={getSafeUrl(selectedWebcam.url)} 
-                                            className="absolute inset-0 w-full h-full border-0" 
-                                            allowFullScreen 
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            title={selectedWebcam.name}
-                                        ></iframe>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
-                        )}
+                        </div>
 
-                        {/* Radar/Cloud Playback Controls */}
-                        {(layerMode === 'radar' || layerMode === 'cloud') && radarFrames.length > 0 && (
-                            <div className="absolute top-4 md:top-6 left-4 md:left-1/2 md:-translate-x-1/2 z-[400] bg-white/95 backdrop-blur-md px-4 py-3 md:px-5 md:py-4 rounded-2xl md:rounded-3xl shadow-xl border border-slate-200 flex flex-col items-center gap-2 md:gap-3 w-[calc(100%-5.5rem)] md:w-[320px] animate-in">
-                                <div className="flex items-center justify-between w-full">
-                                    <button 
-                                        onClick={() => radarFrames.length > 1 && setIsPlaying(!isPlaying)} 
-                                        className={`p-2 md:p-2.5 rounded-full transition-colors shadow-sm ${radarFrames.length <= 1 ? 'opacity-50 cursor-not-allowed bg-slate-100 text-slate-400' : (layerMode === 'cloud' ? 'bg-slate-50 text-slate-600 hover:bg-slate-200' : 'bg-sky-50 text-sky-600 hover:bg-sky-100')}`}
-                                    >
-                                        <Icon name={isPlaying ? "pause" : "play"} size={16} className={isPlaying ? "animate-pulse" : ""} />
-                                    </button>
-                                    <div className="flex flex-col items-center text-center">
-                                        <span className={`text-[8px] md:text-[9px] font-black uppercase tracking-widest ${radarFrames[currentFrame]?.type === 'future' ? 'text-indigo-500' : (layerMode === 'cloud' ? 'text-slate-500' : 'text-sky-500')}`}>
-                                            {layerMode === 'cloud' ? 'Satellite Cloud Cover' : (radarFrames[currentFrame]?.type === 'future' ? 'Future Forecast' : 'Past Radar')}
-                                        </span>
-                                        <span className="text-xs md:text-sm font-bold text-slate-800 font-mono tracking-tight mt-0.5">
-                                            {new Date((radarFrames[currentFrame]?.time || 0) * 1000).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})}
-                                        </span>
+                        {/* Dynamic Content Area */}
+                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 w-full">
+                            
+                            {/* Uses the key prop to force a re-render and trigger the fade-in animation when the month changes */}
+                            <div key={activeData.id} className="animate-in fade-in slide-up">
+                                
+                                {/* Massive Header Image */}
+                                <div className="relative w-full h-[300px] md:h-[450px] lg:h-[500px] rounded-[2rem] md:rounded-[3rem] overflow-hidden mb-8 md:mb-12 shadow-xl bg-slate-900">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent z-10"></div>
+                                    <img 
+                                        src={activeData.image} 
+                                        alt={activeData.month} 
+                                        className="absolute inset-0 w-full h-full object-cover opacity-80"
+                                        onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}
+                                    />
+                                    {/* Fallback pattern if image missing */}
+                                    <div className="absolute inset-0 bg-slate-800 items-center justify-center text-slate-600 hidden">
+                                        <Icon name="camera" size={64} className="opacity-20" />
                                     </div>
-                                    <button onClick={() => setLayerMode('standard')} className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
-                                        <Icon name="x" size={16} />
-                                    </button>
+                                    
+                                    <div className="absolute bottom-8 left-6 md:bottom-12 md:left-12 z-20">
+                                        <span className={`inline-block px-4 py-1.5 rounded-full backdrop-blur-md bg-white/20 border border-white/20 text-[10px] md:text-xs font-black uppercase tracking-widest text-white shadow-lg mb-3 md:mb-4`}>
+                                            {activeData.season}
+                                        </span>
+                                        <h2 className="text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl leading-none">
+                                            {activeData.month}
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                {/* Deep Dive Grid */}
+                                <div className="grid lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+                                    
+                                    {/* Landscape Pillar */}
+                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+                                        <div className="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6 border border-emerald-100">
+                                            <Icon name="leaf" size={28} />
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-2">Landscape Focus</span>
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-4">{activeData.landscape.title}</h3>
+                                        <p className="text-sm md:text-base text-slate-600 leading-relaxed flex-1">
+                                            {activeData.landscape.desc}
+                                        </p>
+                                    </div>
+
+                                    {/* Wildlife Pillar */}
+                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+                                        <div className="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-6 border border-amber-100">
+                                            <Icon name="bird" size={28} />
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-2">Wildlife Focus</span>
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-4">{activeData.wildlife.title}</h3>
+                                        <p className="text-sm md:text-base text-slate-600 leading-relaxed flex-1">
+                                            {activeData.wildlife.desc}
+                                        </p>
+                                    </div>
+
+                                    {/* Astro Pillar */}
+                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+                                        <div className="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center mb-6 border border-indigo-100">
+                                            <Icon name="moon" size={28} />
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-2">Astro Focus</span>
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-4">{activeData.astro.title}</h3>
+                                        <p className="text-sm md:text-base text-slate-600 leading-relaxed flex-1">
+                                            {activeData.astro.desc}
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                {/* Month Specifics Footer Box */}
+                                <div className="bg-slate-900 rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 text-white shadow-xl">
+                                    <h3 className="text-2xl font-black mb-8 border-b border-slate-700 pb-6 uppercase tracking-tight">Month Specifics</h3>
+                                    
+                                    <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center text-sky-400 mb-3">
+                                                <Icon name="mapPin" size={20} className="mr-3" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">Hotspot Location</span>
+                                            </div>
+                                            <p className="text-sm md:text-base text-slate-300 font-medium leading-relaxed">{activeData.locationSpotlight}</p>
+                                        </div>
+
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center text-amber-400 mb-3">
+                                                <Icon name="sun" size={20} className="mr-3" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">Weather & Conditions</span>
+                                            </div>
+                                            <p className="text-sm md:text-base text-slate-300 font-medium leading-relaxed">{activeData.conditions}</p>
+                                        </div>
+
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center text-slate-300 mb-3">
+                                                <Icon name="cameraOutline" size={20} className="mr-3" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">Crucial Gear</span>
+                                            </div>
+                                            <p className="text-sm md:text-base text-slate-300 font-medium leading-relaxed">{activeData.gear}</p>
+                                        </div>
+                                    </div>
                                 </div>
                                 
-                                {/* Timeline Bar */}
-                                <div className="w-full flex items-center gap-1 mt-1 md:mt-0">
-                                    {radarFrames.map((f, i) => {
-                                        let activeColor = f.type === 'future' ? 'bg-indigo-500' : 'bg-sky-500';
-                                        let inactiveColor = f.type === 'future' ? 'bg-indigo-100' : 'bg-slate-200';
-                                        
-                                        if (layerMode === 'cloud') {
-                                            activeColor = 'bg-slate-600';
-                                            inactiveColor = 'bg-slate-200';
-                                        }
-                                        
-                                        return (
-                                            <div 
-                                                key={i} 
-                                                className={`h-1.5 md:h-2 rounded-full transition-all duration-300 flex-1 ${
-                                                    i === currentFrame ? `${activeColor} scale-y-125` : inactiveColor
-                                                }`} 
-                                            />
-                                        )
-                                    })}
-                                </div>
                             </div>
-                        )}
-
-                        {/* Right Side Floating Controls */}
-                        <div className={`absolute right-4 md:right-6 z-[400] flex flex-col gap-3 transition-all duration-500 ${selectedLoc ? 'bottom-[calc(75vh+1rem+env(safe-area-inset-bottom))] md:bottom-6' : 'bottom-[calc(1.5rem+env(safe-area-inset-bottom))] md:bottom-6'}`}>
-                            
-                            {/* Layers Control */}
-                            <div className="relative">
-                                {showLayers && (
-                                    <div className="absolute bottom-full right-0 mb-3 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 w-52 md:w-48 animate-in origin-bottom-right">
-                                        <button onClick={() => { setLayerMode('standard'); setShowLayers(false); }} className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors ${layerMode === 'standard' ? 'bg-sky-50 text-sky-700' : 'hover:bg-slate-50 text-slate-600'}`}>Standard Map</button>
-                                        <button onClick={() => { setLayerMode('dark'); setShowLayers(false); }} className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors mt-1 ${layerMode === 'dark' ? 'bg-slate-800 text-white' : 'hover:bg-slate-50 text-slate-600'}`}>Light Pollution (Astro)</button>
-                                        <button onClick={() => { setLayerMode('radar'); setShowLayers(false); }} className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors mt-1 ${layerMode === 'radar' ? 'bg-indigo-50 text-indigo-700' : 'hover:bg-slate-50 text-slate-600'}`}>
-                                            Rain Radar <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-                                        </button>
-                                        <button onClick={() => { setLayerMode('cloud'); setShowLayers(false); }} className={`w-full flex items-center justify-between px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-colors mt-1 ${layerMode === 'cloud' ? 'bg-slate-100 text-slate-900' : 'hover:bg-slate-50 text-slate-600'}`}>
-                                            Cloud Cover <Icon name="cloud" size={14} className={layerMode === 'cloud' ? 'text-slate-900' : 'text-slate-400'} />
-                                        </button>
-                                    </div>
-                                )}
-                                <button onClick={() => { setShowLayers(!showLayers); setShowSaved(false); }} className={`bg-white p-3.5 rounded-2xl shadow-xl border border-slate-200 transition-all focus:outline-none flex items-center justify-center ${showLayers ? 'text-sky-500' : 'text-slate-700 hover:text-sky-500 hover:scale-105'}`} title="Map Layers">
-                                    <Icon name="layers" size={24} />
-                                </button>
-                            </div>
-
-                            {/* Saved Spots Control */}
-                            <div className="relative">
-                                {showSaved && (
-                                    <div className="absolute bottom-full right-0 mb-3 bg-white rounded-2xl shadow-xl border border-slate-200 p-2 w-64 animate-in origin-bottom-right max-h-64 overflow-y-auto custom-scrollbar">
-                                        <div className="px-3 py-2 border-b border-slate-100 mb-1">
-                                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Bookmarked Spots</span>
-                                        </div>
-                                        {savedSpots.length === 0 ? (
-                                            <div className="p-4 text-center text-xs font-medium text-slate-400">No saved locations yet. Tap the heart icon on any pin to save it.</div>
-                                        ) : (
-                                            savedSpots.map((spot, idx) => (
-                                                <button key={idx} onClick={() => { reverseGeocodeAndSelect(spot.lat, spot.lng, false); setShowSaved(false); }} className="w-full text-left px-3 py-3 rounded-xl hover:bg-slate-50 transition-colors flex flex-col group">
-                                                    <span className="text-xs font-bold text-slate-700 group-hover:text-sky-600 truncate w-full">{spot.name}</span>
-                                                </button>
-                                            ))
-                                        )}
-                                    </div>
-                                )}
-                                <button onClick={() => { setShowSaved(!showSaved); setShowLayers(false); }} className={`bg-white p-3.5 rounded-2xl shadow-xl border border-slate-200 transition-all focus:outline-none flex items-center justify-center ${showSaved ? 'text-rose-500' : 'text-slate-700 hover:text-rose-500 hover:scale-105'}`} title="Saved Spots">
-                                    <Icon name="bookmark" size={24} />
-                                    {savedSpots.length > 0 && <span className="absolute top-2 right-2.5 w-2.5 h-2.5 bg-rose-500 rounded-full border-2 border-white"></span>}
-                                </button>
-                            </div>
-
-                            {/* Locate Me */}
-                            <button onClick={handleLocateMe} disabled={isLocating} className={`bg-white p-3.5 rounded-2xl shadow-xl border border-slate-200 transition-all focus:outline-none flex items-center justify-center ${isLocating ? 'text-sky-500 opacity-80' : 'text-slate-700 hover:text-sky-500 hover:scale-105'}`} title="Locate Me">
-                                <Icon name="locate" size={24} className={isLocating ? 'animate-pulse' : ''} />
-                            </button>
-                        </div>
-
-                        {/* Smart Overlay Panel */}
-                        <div className={`absolute z-[500] pointer-events-auto bg-white/95 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col
-                            ${selectedLoc ? 'translate-y-0 md:translate-x-0 opacity-100' : 'translate-y-full md:translate-y-0 md:-translate-x-[120%] opacity-0 md:opacity-100'}
-                            bottom-0 left-0 right-0 h-[75vh] md:h-auto md:top-6 md:bottom-6 md:left-6 md:right-auto md:w-[420px] lg:w-[480px] md:rounded-3xl rounded-t-[2.5rem] border border-slate-200 overflow-hidden`}
-                        >
-                            {selectedLoc && (
-                                <>
-                                    <div className="w-full flex justify-center pt-4 pb-2 md:hidden absolute top-0 left-0 bg-white/50 backdrop-blur-md z-20">
-                                        <div className="w-12 h-1.5 bg-slate-300/80 rounded-full"></div>
-                                    </div>
-
-                                    <button onClick={() => setSelectedLoc(null)} className="absolute top-4 md:top-6 right-4 md:right-6 z-20 p-2.5 bg-white/80 backdrop-blur-md border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-full transition-all shadow-sm hover:scale-105 hidden md:flex">
-                                        <Icon name="x" size={20} />
-                                    </button>
-
-                                    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8 pt-10 md:pt-8 pb-[calc(2rem+env(safe-area-inset-bottom))] md:pb-8 relative z-10">
-                                        <button onClick={() => setSelectedLoc(null)} className="flex items-center text-slate-500 hover:text-slate-900 font-bold text-[11px] md:text-xs uppercase tracking-widest mb-5 p-2 -ml-2 transition-colors bg-slate-100/50 rounded-lg pr-4 w-fit">
-                                            <Icon name="arrowLeft" size={14} className="mr-2" /> Back to Map
-                                        </button>
-
-                                        <div className="flex items-start justify-between gap-4 mb-1">
-                                            <h3 className="text-3xl md:text-4xl font-black leading-tight pr-2">{selectedLoc.name}</h3>
-                                        </div>
-                                        
-                                        <div className="flex items-center justify-between mb-6">
-                                            <p className="text-[10px] md:text-[11px] text-slate-400 font-mono tracking-widest uppercase flex items-center">
-                                                <Icon name="mapPin" size={12} className="mr-1" /> {selectedLoc.lat.toFixed(5)}, {selectedLoc.lng.toFixed(5)}
-                                            </p>
-                                            
-                                            {/* Action Buttons */}
-                                            <div className="flex gap-2">
-                                                <button onClick={copyShareLink} className="p-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-sky-50 hover:text-sky-600 transition-colors" title="Share Location">
-                                                    <Icon name="share" size={16} />
-                                                </button>
-                                                <button onClick={toggleSaveSpot} className={`p-2 rounded-xl transition-colors ${isSaved ? 'bg-rose-50 text-rose-500' : 'bg-slate-100 text-slate-600 hover:bg-rose-50 hover:text-rose-500'}`} title={isSaved ? "Remove Bookmark" : "Save Spot"}>
-                                                    <Icon name={isSaved ? "bookmarkFilled" : "bookmark"} size={16} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        
-                                        <div className="space-y-6">
-                                            <LiveConditionsWidget lat={selectedLoc.lat} lng={selectedLoc.lng} />
-                                            
-                                            {isNearHolyIsland(selectedLoc.lat, selectedLoc.lng) && <HolyIslandCrossingWidget />}
-                                            
-                                            <div className="mt-8 mb-4 border-t border-slate-100 pt-6">
-                                                <button onClick={() => setSelectedLoc(null)} className="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-widest py-4 px-6 rounded-xl hover:bg-slate-800 transition-colors shadow-lg flex items-center justify-center group">
-                                                    <Icon name="arrowLeft" size={16} className="mr-3 group-hover:-translate-x-1 transition-transform" /> Back to Map
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                        </section>
                     </main>
                 </div>
             );
