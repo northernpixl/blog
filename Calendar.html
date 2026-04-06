@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    
+    <!-- Optimised Native App Viewport & Theme -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- SEO: Title & Meta Description -->
+    <title>Northumberland Photography Calendar | NorthernPixl</title>
+    <meta name="description" content="A month-by-month guide to photography in Northumberland. Discover when to shoot bluebells, puffins, the deer rut, meteor showers, and the Milky Way.">
+    <meta name="keywords" content="Northumberland photography calendar, when to see puffins farne islands, bluebells northumberland, milky way season uk, red deer rut cheviots">
+    <meta name="author" content="NorthernPixl">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="https://www.northernpixl.co.uk/favicon.png">
+    <link rel="apple-touch-icon" href="https://www.northernpixl.co.uk/apple-touch-icon.png">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.northernpixl.co.uk/calendar.html" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Photography Calendar | NorthernPixl">
+    <meta property="og:description" content="Plan your year: A month-by-month guide to photography in Northumberland.">
+    <meta property="og:url" content="https://www.northernpixl.co.uk/calendar.html">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3848390381001803" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        
+        /* Animation utilities */
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; opacity: 0; }
+        .slide-up { animation: slideUp 0.5s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+        
+        /* Hide scrollbar for horizontal tabs */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const Icon = ({ name, size = 20, className = "" }) => {
+            const icons = {
+                camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
+                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
+                menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
+                calendar: <><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
+                leaf: <><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></>,
+                bird: <><path d="M16 7h.01"/><path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20"/><path d="m20 7 2 .5-2 .5"/><path d="M10 18v3"/><path d="M14 17.75V21"/><path d="M7 18a6 6 0 0 0 3.84-10.61"/></>,
+                moon: <><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></>,
+                arrowRight: <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
+                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
+                sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></>,
+                cameraOutline: <><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></>
+            };
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name] || null}
+                </svg>
+            );
+        };
+
+        // UK English spellings enforced
+        const CALENDAR_DATA = [
+            {
+                id: 1,
+                monthIndex: 0,
+                month: "January",
+                shortMonth: "Jan",
+                season: "Deep Winter",
+                image: "assets/Red Squirrel Jumping.jpg",
+                landscape: {
+                    title: "Frost & Ice Patterns",
+                    desc: "The absolute depths of winter offer incredibly crisp, clear mornings. The low angle of the sun means that 'Golden Hour' lighting can essentially last for 4-5 hours in the middle of the day. Look for frozen tidal pools along the coast at Embleton Bay, which create incredible geometric leading lines towards Dunstanburgh Castle. Inland, severe hoar frost clinging to the Whin Sill crags along Hadrian's Wall transforms the landscape into a stark, monochromatic wilderness."
+                },
+                astro: {
+                    title: "Quadrantid Meteors & Deep Space",
+                    desc: "The Quadrantid meteor shower peaks early in the month, often producing bright blue fireballs. With nights lasting up to 14 hours, it is prime time for deep-sky astrophotography. The brilliant winter constellation of Orion dominates the southern sky, making the Orion Nebula an excellent target. Furthermore, the dark coastlines are perfectly positioned to hunt the Aurora Borealis, as solar wind easily cuts through the crisp, unpolluted winter air."
+                },
+                wildlife: {
+                    title: "Daylight Barn Owls & Red Squirrels",
+                    desc: "Because food is incredibly scarce in the frozen months, Barn Owls and Short-Eared Owls are frequently forced to hunt during daylight hours to survive. Look along the coastal dunes of Druridge Bay or open moorlands in the late afternoon. Meanwhile, in the woodlands of Kielder and Wallington, Red Squirrels are highly visible as they aggressively forage without the dense summer leaf canopy to hide them."
+                },
+                locationSpotlight: "Bamburgh Castle. The sun rises far to the south-east in January, perfectly illuminating the eastern flank of the castle with warm, horizontal light that cuts across the frozen sand dunes.",
+                conditions: "Expect freezing temperatures, high wind chill, and potential snow on the high ground of the Cheviots. Battery life will be severely reduced by the cold.",
+                gear: "Lens warmers to prevent dew/frost on your glass. Thick, photographer-specific gloves, like Vallerret, so you can operate dials without exposing your skin."
+            },
+            {
+                id: 2,
+                monthIndex: 1,
+                month: "February",
+                shortMonth: "Feb",
+                season: "Late Winter",
+                image: "assets/Aurora with STEVE.jpg",
+                landscape: {
+                    title: "Snowdrops at Howick",
+                    desc: "The very first, delicate signs of spring emerge from the frozen ground. Howick Hall's famous 'Silverwood' is carpeted with millions of snowdrops. The challenge is capturing them elegantly. Get down incredibly low—use a beanbag instead of a tripod—and shoot with a macro lens or a fast prime (f/2.8) to isolate the crisp white flowers against the dark, muddy winter soil, throwing the background trees into a creamy blur."
+                },
+                astro: {
+                    title: "Aurora Season & Zodiacal Light",
+                    desc: "Statistically, the weeks approaching the spring equinox (in March) see a massive uptick in geomagnetic activity, making late February an excellent time for Aurora hunters. Additionally, the 'Zodiacal Light' (sunlight reflecting off cosmic dust in the solar system) can sometimes be seen as a faint pyramid of light in the western sky just after twilight ends."
+                },
+                wildlife: {
+                    title: "Wintering Waders & Boxing Hares",
+                    desc: "Lindisfarne National Nature Reserve and the Northumberland coast remain packed with migratory birds like pale-bellied brent geese, bar-tailed godwits, and knots, busily feeding before they head north. In the open fields, Brown Hares begin their mating rituals early; you might catch the very first 'boxing' matches of the year as females aggressively fend off overly eager males."
+                },
+                locationSpotlight: "Howick Hall Gardens. Aside from the snowdrops, the coastal path bordering the estate features incredibly rugged, dark rock strata that contrast beautifully with the winter surf.",
+                conditions: "Often the coldest month of the year due to the 'Beast from the East' winds. The sea fret (coastal fog) can create deeply atmospheric, silent landscapes.",
+                gear: "A macro lens (90mm or 100mm) is essential for the snowdrops. Waterproof trousers are mandatory if you plan on lying in the wet mud to get the shot."
+            },
+            {
+                id: 3,
+                monthIndex: 2,
+                month: "March",
+                shortMonth: "Mar",
+                season: "Early Spring",
+                image: "assets/dewno.jpg",
+                landscape: {
+                    title: "Equinox Storms & Wild Daffodils",
+                    desc: "March brings fast-moving, highly turbulent weather systems. The mix of violent squally showers and sudden, piercing bursts of sunshine creates dramatic, moody, and highly directional lighting over the coastal castles. It is the absolute best month for high-contrast black and white landscape photography. Inland, the banks of the River Aln beneath Alnwick Castle are blanketed in thousands of vibrant yellow wild daffodils."
+                },
+                astro: {
+                    title: "The Milky Way Core Returns",
+                    desc: "A major turning point for astrophotographers. The galactic core of the Milky Way (the brightest and most detailed part of the galaxy) finally begins to rise above the horizon in the very early hours before dawn (around 3 AM to 4 AM). Kielder Observatory and Cawfields Quarry are prime, dark locations to capture this magnificent arch of stars."
+                },
+                wildlife: {
+                    title: "Mad March Hares & Emerging Adders",
+                    desc: "The Brown Hare mating season is in full, frantic swing. Finding an open, quiet field and sitting completely still in camouflage gear is the best way to capture them chasing and boxing. On warmer, sunny days, the UK's only venomous snake—the Adder—can be found basking on the rocks and heather in the Cheviot valleys to warm their cold blood."
+                },
+                locationSpotlight: "Seaton Sluice. The equinox tides and wild March storms funnel massive, chaotic waves into the narrow, man-made 'Cut', providing phenomenal, aggressive seascape opportunities.",
+                conditions: "Highly unpredictable. You can experience snow, driving rain, and brilliant sunshine all within a 4-hour shoot. The equinox brings the highest and lowest tides of the year.",
+                gear: "A fast telephoto lens (100-400mm) to compress the massive storm waves against the lighthouses, and to capture the skittish hares from a safe distance."
+            },
+            {
+                id: 4,
+                monthIndex: 3,
+                month: "April",
+                shortMonth: "Apr",
+                season: "Spring",
+                image: "puffinfrain.jpg",
+                landscape: {
+                    title: "Early Bluebells & River Mists",
+                    desc: "Depending on the severity of the winter, late April sees the start of the famous bluebell carpets in the ancient, semi-natural woodlands like Allen Banks and Holystone. The temperature differences between the warming air and the cold rivers (like the Tyne and Coquet) frequently create thick, beautiful morning mists that linger in the valleys, offering magical, ethereal conditions at sunrise."
+                },
+                astro: {
+                    title: "Lyrids Meteor Shower",
+                    desc: "The Lyrids meteor shower usually peaks in the second half of April. While not the most active shower of the year (expecting around 15-20 meteors per hour), it successfully breaks the 'meteor drought' of the early spring. The Milky Way core is now rising earlier and is much more prominent in the pre-dawn sky."
+                },
+                wildlife: {
+                    title: "Ospreys & Puffins Arrive",
+                    desc: "A massive month for avian migrations. The magnificent Ospreys complete their staggering journey from Africa and return to Kielder Water to breed. Spending a few hours at Kielder Dam will give you a chance to photograph them diving for fish. Meanwhile, the very first Puffins make their landfall on the Farne Islands to begin clearing out their burrows."
+                },
+                locationSpotlight: "Kielder Water & Forest Park. The return of the Ospreys makes Bakethin Nature Reserve a hotspot, while the dark skies still offer great Milky Way opportunities.",
+                conditions: "Classic 'April Showers'. Rainbows are highly frequent on the coast as dark rain clouds pass over the North Sea while the sun shines from the west.",
+                gear: "A Circular Polariser (CPL) is your best friend this month. It cuts the glare off wet foliage in the woodlands, deeply saturating the greens and the purples of the early bluebells."
+            },
+            {
+                id: 5,
+                monthIndex: 4,
+                month: "May",
+                shortMonth: "May",
+                season: "Late Spring",
+                image: "assets/Bluebells.jpg",
+                landscape: {
+                    title: "Peak Bluebell Season & Lush Canopies",
+                    desc: "This is the absolute prime month for woodland photography. The bluebells hit their peak, creating endless carpets of colour under the fresh, vibrant, almost neon-green canopy of the newly opened oak and beech leaves. To capture the best images, shoot on heavily overcast days; direct sunlight creates incredibly harsh, distracting, high-contrast shadows on the forest floor that ruin the soft, magical feel of the flowers."
+                },
+                astro: {
+                    title: "The Narrowing Dark Window",
+                    desc: "Astrophotography becomes highly challenging. As we rapidly approach the summer solstice, true 'astronomical darkness' practically vanishes. You only have a very narrow, 1-2 hour window of nautical twilight in the dead of night to shoot the Milky Way, which now arches quite low across the southern horizon."
+                },
+                wildlife: {
+                    title: "The Seabird Frenzy",
+                    desc: "The Farne Islands and Coquet Island erupt into absolute chaos. Tens of thousands of Puffins, Guillemots, and fiercely aggressive Arctic Terns are now actively nesting. It is a sensory overload. Fast shutter speeds (minimum 1/2000s) and continuous tracking autofocus are absolutely essential for capturing the birds in flight as they battle the coastal winds."
+                },
+                locationSpotlight: "Allen Banks & Staward Gorge. The largest area of ancient woodland in Northumberland is visually spectacular when the bluebells bloom beneath the towering canopy.",
+                conditions: "Generally mild and pleasant. The days are noticeably stretching out, meaning sunrise shoots require alarms set for 4:00 AM.",
+                gear: "A macro lens for intimate bluebell portraits, and a 70-200mm lens for extracting detailed, compressed woodland scenes without the sky blowing out."
+            },
+            {
+                id: 6,
+                monthIndex: 5,
+                month: "June",
+                shortMonth: "Jun",
+                season: "Early Summer",
+                image: "assets/Bamburgh Noctilucent Clouds.jpg",
+                landscape: {
+                    title: "Wild Garlic & Endless Days",
+                    desc: "The coastal paths and inland woodlands are filled with the pungent smell and brilliant, star-like white flowers of wild garlic. June features the longest days of the year; the sun sets around 10:00 PM and rises at 4:30 AM. The incredibly long 'Golden Hour' gives you massive amounts of time to explore coastal locations like the Lindisfarne causeway in soft, warm evening light."
+                },
+                astro: {
+                    title: "Noctilucent Clouds (NLCs)",
+                    desc: "It literally does not get dark in Northumberland in June. Standard astrophotography is impossible. Instead, look due north for Noctilucent Clouds—incredibly rare, glowing, electric-blue ice clouds situated on the very edge of space. They are illuminated by the sun which is sitting just below the horizon, creating a ghostly, web-like glow in the midnight sky."
+                },
+                wildlife: {
+                    title: "Pufflings & Coastal Dolphins",
+                    desc: "The puffin eggs have hatched. This is the absolute best time to capture the iconic, highly sought-after shot of an adult Puffin returning to its burrow with a brightly coloured beak completely stuffed full of silver sand eels to feed its puffling. Offshore, pods of Bottlenose Dolphins are frequently spotted tracking up and down the coastline."
+                },
+                locationSpotlight: "The Farne Islands. The sheer density of active, feeding seabirds makes this the premier wildlife photography destination in the UK during June.",
+                conditions: "Warm and bright. Heat haze can become a serious issue for telephoto landscape shots during the middle of the day, ruining sharpness. Shoot early or late.",
+                gear: "A fast telephoto prime (e.g., 300mm f/4 or 400mm f/5.6) to obliterate the background into creamy bokeh behind the Puffins, isolating them perfectly."
+            },
+            {
+                id: 7,
+                monthIndex: 6,
+                month: "July",
+                shortMonth: "Jul",
+                season: "High Summer",
+                image: "assets/Bamburgh Lightning.jpg",
+                landscape: {
+                    title: "Lush Dunes & Thunderstorms",
+                    desc: "High summer sees the coastal dune systems at their peak. The Marram grass at Bamburgh and Druridge Bay is incredibly lush, green, and tall, providing phenomenal foreground interest when blowing in the sea breeze. Inland, the intense summer heat often triggers massive, towering cumulonimbus clouds over the Cheviot hills, providing dramatic skies that dwarf the landscape."
+                },
+                astro: {
+                    title: "Delta Aquariids & NLC Season Ends",
+                    desc: "The chance to see Noctilucent clouds fades rapidly towards the end of the month as the nights slowly, finally begin to lengthen again. The Delta Aquariids meteor shower provides some late-night interest, preparing photographers for the return of the dark skies in August."
+                },
+                wildlife: {
+                    title: "Roseate Terns & Fledglings",
+                    desc: "Coquet Island is the UK's only stronghold for the ultra-rare, incredibly elegant Roseate Tern. Specialised boat trips from Amble provide a chance to photograph these pale birds with their distinctive long tail streamers. Across the county, juvenile birds (fledglings) are taking their first awkward flights, offering great behavioural photography."
+                },
+                locationSpotlight: "Druridge Bay. The 7 miles of sweeping golden sand and tall dunes offer endless, minimalist summer compositions, free from the crowds of the rocky northern beaches.",
+                conditions: "Often very warm. Midday photography is generally unrewarding due to harsh, flat overhead lighting and severe atmospheric distortion (heat haze). Stick to the edges of the day.",
+                gear: "Neutral Density (ND) filters (6-stop or 10-stop) are vital if you want to shoot long-exposure seascapes, as the ambient daylight is incredibly bright."
+            },
+            {
+                id: 8,
+                monthIndex: 7,
+                month: "August",
+                shortMonth: "Aug",
+                season: "Late Summer",
+                image: "assets/Northumberland Heather.jpg",
+                landscape: {
+                    title: "The Purple Heather Explosion",
+                    desc: "A massive visual shift in the landscape. The Cheviot Hills, Simonside, and the upland moors explode into a vibrant, vivid, and endless carpet of purple heather. This completely transforms the colour palette of Northumberland. Use ultra-wide-angle lenses and get extremely low to the ground to use the purple blooms as a commanding foreground leading up to the distant hills."
+                },
+                astro: {
+                    title: "Perseid Meteor Shower & Milky Way Core",
+                    desc: "The holy grail month for astrophotographers. The Perseid Meteor Shower (the most famous and reliable of the year) peaks mid-month, offering up to 100 meteors an hour under dark skies. Furthermore, true darkness has returned, and the highly photogenic Milky Way core is visible at a reasonable hour in the late evening, rather than 3 AM."
+                },
+                wildlife: {
+                    title: "The Puffins Depart",
+                    desc: "Timing is critical. In early to mid-August, the puffins abruptly abandon the Farne Islands and head out into the open Atlantic ocean for the winter. If you visit late in the month, they will be entirely gone. In the woodlands, Red Squirrels begin frantically hoarding nuts for the approaching winter."
+                },
+                locationSpotlight: "Simonside Hills. The sandstone ridge offers an elevated, 360-degree panoramic view entirely surrounded by blooming purple heather, making it the finest sunset location in the county.",
+                conditions: "Warm evenings and late sunsets. The heather moors can be very dry, but sudden late-summer downpours can create incredible rainbows over the hills.",
+                gear: "A fast, ultra-wide lens (14mm or 16mm f/2.8) is absolutely mandatory to capture the massive sweep of the Milky Way and the Perseid meteors."
+            },
+            {
+                id: 9,
+                monthIndex: 8,
+                month: "September",
+                shortMonth: "Sep",
+                season: "Early Autumn",
+                image: "assets/Emmanuel Head Milky Way.jpg",
+                landscape: {
+                    title: "Autumn Transitions & Coastal Mists",
+                    desc: "The very first, subtle signs of autumn appear. The high bracken turns a rich, rusty golden-brown. As the nights cool down but the ground remains warm, thick morning mists become highly frequent in the river valleys (like the Coquet and Tyne) and along the coast, completely separating the castles and hills from the background and creating incredibly atmospheric, layered sunrise opportunities."
+                },
+                astro: {
+                    title: "Vertical Milky Way & Harvest Moon",
+                    desc: "The Milky Way core is now brilliantly visible standing almost perfectly vertical in the South-West straight after sunset. The famous 'Harvest Moon' also occurs, offering great opportunities to use super-telephoto lenses to align the massive, orange rising moon directly behind coastal lighthouses or ruined castles."
+                },
+                wildlife: {
+                    title: "Seals Massing & Early Deer Rut",
+                    desc: "Grey seals begin to congregate around the Farne Islands in massive, noisy numbers ahead of the pupping season. Boat trips offer excellent, close-up portraits of them lounging on the rocks. Inland, the very early stages of the Red Deer rut begin as the stags test their voices."
+                },
+                locationSpotlight: "The Breamish Valley. The winding river and rolling hills look spectacular when shrouded in the low-lying September morning mists.",
+                conditions: "Noticeably cooler mornings. Dew forms heavily on camera gear. The lighting becomes softer and more directional throughout the day as the sun's trajectory lowers.",
+                gear: "A telephoto lens (70-200mm) is perfect for 'extracting' layers of the landscape as they peak through the morning fog, rather than shooting wide and losing the depth."
+            },
+            {
+                id: 10,
+                monthIndex: 9,
+                month: "October",
+                shortMonth: "Oct",
+                season: "Autumn",
+                image: "assets/Allenbanks Autumn Colours.jpg",
+                landscape: {
+                    title: "Peak Autumn Colours",
+                    desc: "The undisputed champion month for woodland photography. Estates like Cragside, Allen Banks, and the deeply wooded river valleys are absolutely on fire with intense shades of copper, gold, and deep red. A Circular Polariser filter is completely mandatory this month—it cuts the white glare off the wet, fallen leaves and heavily supercharges the natural saturation of the autumnal canopy."
+                },
+                astro: {
+                    title: "Orionids & Prime Aurora Hunting",
+                    desc: "The Orionid meteor shower (created by the remnants of Halley's Comet) peaks. Furthermore, historical solar data shows that the weeks following the autumn equinox trigger a significant spike in geomagnetic storms. Combined with the rapidly lengthening nights, October is a premier month for successfully hunting the Aurora Borealis from the Northumberland coast."
+                },
+                wildlife: {
+                    title: "The Red Deer Rut",
+                    desc: "The most dramatic, aggressive, and visually spectacular event in the UK wildlife calendar. Massive Red Deer stags in the Cheviots and Kielder forests roar constantly and violently clash antlers to establish breeding dominance. You must keep a very safe distance and use your longest telephoto lens, as the stags are highly pumped with testosterone and incredibly dangerous."
+                },
+                locationSpotlight: "Cragside Estate. The sheer scale of the rock gardens and the diverse, mature woodland make it a riot of colour. The iron bridge over the gorge is the iconic autumn shot.",
+                conditions: "Crisp, frosty mornings become possible. The weather can be wet and windy, rapidly stripping the leaves from the trees, so timing your woodland shoot is critical.",
+                gear: "A sturdy tripod for the dark, dense woodlands, and a super-telephoto lens (400mm-600mm) to safely photograph the rutting stags from a distance."
+            },
+            {
+                id: 11,
+                monthIndex: 10,
+                month: "November",
+                shortMonth: "Nov",
+                season: "Late Autumn",
+                image: "assets/Sycamore Gap Meteor.jpg",
+                landscape: {
+                    title: "Moody, Minimalist & Stormy",
+                    desc: "The autumn leaves have mostly fallen, leaving stark, skeletal, and dramatic tree silhouettes. The North Sea becomes violent and aggressive. Heavy fogs, flat overcast lighting, and huge, crashing waves make this the absolute perfect month for dark, moody, minimalist, fine-art black and white seascape photography at locations like Seaton Sluice or Cullernose Point."
+                },
+                astro: {
+                    title: "Leonids & Early Darkness",
+                    desc: "The Leonid Meteor shower peaks mid-month. The massive advantage of November is that true, inky-black darkness returns by 5:30 PM. You can head into the Northumberland International Dark Sky Park, shoot deep space objects or star trails for four hours, and still be home in time for dinner."
+                },
+                wildlife: {
+                    title: "Seal Pupping Season",
+                    desc: "The Farne Islands undergo a massive transformation, becoming one of the largest grey seal colonies in the UK. Thousands of fluffy, pure-white seal pups are born on the rocky islands. Boat tours allow you to view them safely. It is absolutely critical to keep your distance to avoid distressing the highly protective mothers."
+                },
+                locationSpotlight: "The Farne Islands (for the seal pups) or Dunstanburgh Castle. The skeletal ruins of the castle perfectly match the bleak, dramatic atmosphere of the November coast.",
+                conditions: "Often stormy, wet, and highly unpredictable. Protect your camera gear from the corrosive sea spray. The wind chill on the coast can be brutal.",
+                gear: "A rain cover for your camera and lens. Microfiber cloths to constantly wipe the sea salt and rain spray off your front element between exposures."
+            },
+            {
+                id: 12,
+                monthIndex: 11,
+                month: "December",
+                shortMonth: "Dec",
+                season: "Early Winter",
+                image: "assets/Hadrians Wall Frost Sunrise.jpg",
+                landscape: {
+                    title: "Low Golden Light & Hoar Frost",
+                    desc: "The sun barely rises above the horizon for the entire day. This means the harsh, top-down midday light of summer never happens; instead, you get highly directional, soft 'Golden Hour' lighting from sunrise to sunset. The incredibly long shadows perfectly emphasize the textures of the beach sand ripples and the ancient, weathered stonework of the Roman Wall."
+                },
+                astro: {
+                    title: "Geminid Meteor Shower",
+                    desc: "Often the most spectacular, prolific, and colourful meteor shower of the entire year, frequently producing over 120 meteors per hour at its peak. The majestic winter constellation of Orion completely dominates the southern sky, serving as a brilliant, recognisable anchor for wide-angle nightscapes over the freezing landscape."
+                },
+                wildlife: {
+                    title: "Winter Migrants & Visible Squirrels",
+                    desc: "Whooper swans and Pink-footed geese arrive in massive, noisy flocks from Iceland to winter in the Northumberland fields and lakes (like Cresswell Pond). In the forests, the complete lack of leaves makes tracking and photographing the native Red Squirrels significantly easier than in the summer months."
+                },
+                locationSpotlight: "Hadrian's Wall (Steel Rigg to Housesteads). The low winter sun beautifully highlights the severe undulations of the Whin Sill crags, and frost clings stubbornly to the north-facing rocks all day.",
+                conditions: "Very short days (sunset around 3:45 PM). Extremely cold, clear nights perfect for astro, but demanding intense thermal clothing for the photographer.",
+                gear: "A fast memory card and an intervalometer to shoot hundreds of continuous 20-second exposures to capture the Geminid meteor shower fireballs."
+            }
+        ];
+
+        const Navbar = () => {
+            const [isOpen, setIsOpen] = useState(false);
+
+            const toggleMenu = () => {
+                setIsOpen(!isOpen);
+            };
+
+            const links = [
+                { name: 'Home', url: 'index.html', active: false },
+                { name: 'Tutorials', url: 'tutorials.html', active: false },
+                { name: 'Explore', url: 'explore.html', active: false },
+                { name: 'Weather', url: 'weather.html', active: false },
+                { name: 'Routes', url: 'routes.html', active: false },
+                { name: 'Calendar', url: 'calendar.html', active: true },
+                { name: 'Ethics', url: 'ethics.html', active: false },
+                { name: 'Workshops', url: 'workshops.html', active: false }
+            ];
+
+            return (
+                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+                    <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
+                        {/* Logo Area */}
+                        <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
+                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+                                <Icon name="camera" className="text-white" size={18} />
+                            </div>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NorthernPixl</span>
+                        </div>
+                        
+                        {/* Desktop Navigation - Exact match to ethics.html & explore.html */}
+                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                            {links.map((link) => (
+                                <a 
+                                    key={link.name} 
+                                    href={link.url} 
+                                    className={link.active ? "text-slate-900 border-b-2 border-slate-900 pb-1" : "hover:text-slate-900 transition-colors"}
+                                >
+                                    {link.name}
+                                </a>
+                            ))}
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <div className="md:hidden">
+                            <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
+                                <Icon name={isOpen ? "x" : "menu"} size={24} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile Navigation Dropdown */}
+                    {isOpen && (
+                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
+                            <div className="flex flex-col p-6 space-y-6">
+                                {links.map((link) => (
+                                    <a 
+                                        key={link.name} 
+                                        href={link.url} 
+                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
+                                    >
+                                        {link.name}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </nav>
+            );
+        };
+
+        const App = () => {
+            // Default to the actual current month when the page loads
+            const [activeIndex, setActiveIndex] = useState(new Date().getMonth());
+            const activeData = CALENDAR_DATA[activeIndex];
+
+            // Automatically scroll the selected month into the center of the view
+            useEffect(() => {
+                const activeBtn = document.getElementById(`month-btn-${activeIndex}`);
+                if (activeBtn) {
+                    activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }, [activeIndex]);
+
+            return (
+                <div className="min-h-screen bg-slate-50 flex flex-col">
+                    <Navbar />
+                    
+                    <main className="pt-20 flex-1">
+                        
+                        {/* Hero Introduction */}
+                        <section className="bg-white px-4 py-12 md:py-16 text-center border-b border-slate-100">
+                            <div className="inline-flex items-center justify-center p-3 bg-sky-50 rounded-2xl text-sky-500 mb-6 shadow-sm">
+                                <Icon name="calendar" size={32} />
+                            </div>
+                            <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter mb-6 text-slate-900">Nature's Calendar</h1>
+                            <p className="text-base md:text-lg text-slate-500 leading-relaxed max-w-2xl mx-auto">
+                                A highly detailed, month-by-month master guide to photography in Northumberland. Discover exactly what to shoot, when to shoot it, and how to prepare.
+                            </p>
+                        </section>
+
+                        {/* Sticky Horizontal Tab Bar */}
+                        <div className="sticky top-[80px] z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all">
+                            <div className="max-w-7xl mx-auto">
+                                <div className="flex overflow-x-auto no-scrollbar py-3 md:py-4 px-4 md:px-8 gap-2 md:gap-4 items-center w-full">
+                                    {CALENDAR_DATA.map((month, index) => (
+                                        <button 
+                                            key={month.id}
+                                            id={`month-btn-${index}`}
+                                            onClick={() => setActiveIndex(index)}
+                                            className={`flex-shrink-0 px-4 py-2 md:px-6 md:py-2.5 rounded-full text-[11px] md:text-xs font-black uppercase tracking-widest transition-all duration-300 focus:outline-none ${
+                                                activeIndex === index 
+                                                ? 'bg-slate-900 text-white shadow-md transform scale-105' 
+                                                : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-900'
+                                            }`}
+                                        >
+                                            <span className="md:hidden">{month.shortMonth}</span>
+                                            <span className="hidden md:inline">{month.month}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Dynamic Content Area */}
+                        <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 w-full">
+                            
+                            {/* Uses the key prop to force a re-render and trigger the fade-in animation when the month changes */}
+                            <div key={activeData.id} className="animate-in fade-in slide-up">
+                                
+                                {/* Massive Header Image */}
+                                <div className="relative w-full h-[300px] md:h-[450px] lg:h-[500px] rounded-[2rem] md:rounded-[3rem] overflow-hidden mb-8 md:mb-12 shadow-xl bg-slate-900">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent z-10"></div>
+                                    <img 
+                                        src={activeData.image} 
+                                        alt={activeData.month} 
+                                        className="absolute inset-0 w-full h-full object-cover opacity-80"
+                                        onError={(e) => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}
+                                    />
+                                    {/* Fallback pattern if image missing */}
+                                    <div className="absolute inset-0 bg-slate-800 items-center justify-center text-slate-600 hidden">
+                                        <Icon name="camera" size={64} className="opacity-20" />
+                                    </div>
+                                    
+                                    <div className="absolute bottom-8 left-6 md:bottom-12 md:left-12 z-20">
+                                        <span className={`inline-block px-4 py-1.5 rounded-full backdrop-blur-md bg-white/20 border border-white/20 text-[10px] md:text-xs font-black uppercase tracking-widest text-white shadow-lg mb-3 md:mb-4`}>
+                                            {activeData.season}
+                                        </span>
+                                        <h2 className="text-6xl md:text-8xl lg:text-9xl font-black text-white tracking-tighter drop-shadow-2xl leading-none">
+                                            {activeData.month}
+                                        </h2>
+                                    </div>
+                                </div>
+
+                                {/* Deep Dive Grid */}
+                                <div className="grid lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+                                    
+                                    {/* Landscape Pillar */}
+                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+                                        <div className="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6 border border-emerald-100">
+                                            <Icon name="leaf" size={28} />
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500 mb-2">Landscape Focus</span>
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-4">{activeData.landscape.title}</h3>
+                                        <p className="text-sm md:text-base text-slate-600 leading-relaxed flex-1">
+                                            {activeData.landscape.desc}
+                                        </p>
+                                    </div>
+
+                                    {/* Wildlife Pillar */}
+                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+                                        <div className="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-6 border border-amber-100">
+                                            <Icon name="bird" size={28} />
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-amber-500 mb-2">Wildlife Focus</span>
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-4">{activeData.wildlife.title}</h3>
+                                        <p className="text-sm md:text-base text-slate-600 leading-relaxed flex-1">
+                                            {activeData.wildlife.desc}
+                                        </p>
+                                    </div>
+
+                                    {/* Astro Pillar */}
+                                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-slate-100 flex flex-col hover:shadow-lg transition-shadow">
+                                        <div className="w-14 h-14 bg-indigo-50 text-indigo-500 rounded-2xl flex items-center justify-center mb-6 border border-indigo-100">
+                                            <Icon name="moon" size={28} />
+                                        </div>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-indigo-500 mb-2">Astro Focus</span>
+                                        <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-4">{activeData.astro.title}</h3>
+                                        <p className="text-sm md:text-base text-slate-600 leading-relaxed flex-1">
+                                            {activeData.astro.desc}
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                {/* Month Specifics Footer Box */}
+                                <div className="bg-slate-900 rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 text-white shadow-xl">
+                                    <h3 className="text-2xl font-black mb-8 border-b border-slate-700 pb-6 uppercase tracking-tight">Month Specifics</h3>
+                                    
+                                    <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center text-sky-400 mb-3">
+                                                <Icon name="mapPin" size={20} className="mr-3" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">Hotspot Location</span>
+                                            </div>
+                                            <p className="text-sm md:text-base text-slate-300 font-medium leading-relaxed">{activeData.locationSpotlight}</p>
+                                        </div>
+
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center text-amber-400 mb-3">
+                                                <Icon name="sun" size={20} className="mr-3" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">Weather & Conditions</span>
+                                            </div>
+                                            <p className="text-sm md:text-base text-slate-300 font-medium leading-relaxed">{activeData.conditions}</p>
+                                        </div>
+
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center text-slate-300 mb-3">
+                                                <Icon name="cameraOutline" size={20} className="mr-3" />
+                                                <span className="text-[11px] font-black uppercase tracking-widest">Crucial Gear</span>
+                                            </div>
+                                            <p className="text-sm md:text-base text-slate-300 font-medium leading-relaxed">{activeData.gear}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+    <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
