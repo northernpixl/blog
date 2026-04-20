@@ -5,15 +5,8 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
-    
-    <!-- Apple & Mobile PWA Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="NorthernPixl">
-    
-    <!-- Inline PWA Manifest (Required for Android Install Prompt) -->
-    <link rel="manifest" href='data:application/manifest+json,{"name":"NorthernPixl Photography Guide","short_name":"NorthernPixl","description":"Northumberland Photography Guide & Workshops","start_url":".","display":"standalone","background_color":"#0f172a","theme_color":"#0f172a","icons":[{"src":"https://www.northernpixl.co.uk/apple-touch-icon.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},{"src":"https://www.northernpixl.co.uk/apple-touch-icon.png","sizes":"512x512","type":"image/png"}]}'>
     
     <title>Northumberland Photography Guide & Workshops | NorthernPixl</title>
     <meta name="title" content="Northumberland Photography Guide & Workshops | NorthernPixl">
@@ -105,14 +98,6 @@
             },
             { 
                 id: 5, 
-                title: 'Monthly Calendar', 
-                image: 'assets/Puffin.jpg', 
-                link: 'Calendar.html', 
-                desc: 'Month by month guide ',
-                alt: 'Monthly guide of what to shoot for astro, landscape and wildlife throughout the year'
-            },
-            { 
-                id: 6, 
                 title: 'Ethics', 
                 image: 'ethics-1.jpg', 
                 link: 'ethics.html', 
@@ -120,7 +105,7 @@
                 alt: 'Photographer practising ethical wildlife photography'
             },
             { 
-                id: 7, 
+                id: 6, 
                 title: 'Workshops', 
                 image: 'kingfishersquare.jpg', 
                 link: 'workshops.html', 
@@ -169,6 +154,25 @@
             if (name === 'more-vertical') return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
             );
+            // New icons for the widget
+            if (name === 'sun') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            );
+            if (name === 'moon') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            );
+            if (name === 'cloud') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path></svg>
+            );
+            if (name === 'waves') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"></path><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"></path></svg>
+            );
+            if (name === 'compass') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
+            );
+            if (name === 'map-pin') return (
+                <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            );
             return null;
         };
 
@@ -197,7 +201,6 @@
                             <a href="explore.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Explore</a>
                             <a href="weather.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Weather</a>
                             <a href="routes.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Routes</a>
-                            <a href="Calendar.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Calendar</a>
                             <a href="ethics.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Ethics</a>
                             <a href="workshops.html" className={`hover:${scrolled ? 'text-slate-900' : 'text-white'} transition-colors`}>Workshops</a>
                         </div>
@@ -217,12 +220,165 @@
                             <a href="explore.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Explore</a>
                             <a href="weather.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Weather</a>
                             <a href="routes.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Routes</a>
-                            <a href="Calendar.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Calendar</a>
                             <a href="ethics.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Ethics</a>
                             <a href="workshops.html" className="text-xl font-black uppercase tracking-widest text-slate-900 hover:text-sky-500" onClick={() => setIsOpen(false)}>Workshops</a>
                         </div>
                     )}
                 </nav>
+            );
+        };
+
+        const WhereToShootWidget = () => {
+            const [data, setData] = useState(null);
+            const [loading, setLoading] = useState(true);
+
+            useEffect(() => {
+                let isMounted = true;
+
+                const fetchConditions = async () => {
+                    try {
+                        // Fetching real Northumberland weather data (using Open-Meteo free API)
+                        // Coordinates for central Northumberland approx (55.41, -1.70)
+                        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=55.41&longitude=-1.70&current=is_day,cloud_cover&timezone=Europe%2FLondon');
+                        const weatherData = await res.json();
+                        
+                        const isDay = weatherData.current.is_day === 1;
+                        const cloudCover = weatherData.current.cloud_cover; // 0-100%
+                        
+                        // Simulating a tide cycle based on current time (for demonstration)
+                        const hour = new Date().getHours();
+                        const isHighTide = hour % 12 < 5; // Roughly simulates a high tide window
+                        
+                        let loc = "";
+                        let reason = "";
+                        let icon = "compass";
+                        let isCoastal = false;
+                        let link = "explore.html";
+
+                        // Logic to recommend a location
+                        if (!isDay && cloudCover < 30) {
+                            loc = "Cawfields Dark Sky Park";
+                            reason = "Clear skies right now! Perfect conditions for astrophotography and Milky Way chasing in the National Park.";
+                            icon = "moon";
+                            isCoastal = false;
+                            link = "explore.html?id=10";
+                        } else if (!isDay) {
+                            loc = "Newcastle Quayside";
+                            reason = "Cloudy night up north, but perfect conditions for urban night photography and river reflections in the city.";
+                            icon = "cloud";
+                            isCoastal = false;
+                            link = "explore.html?loc=newcastle-quayside";
+                        } else if (isDay && cloudCover > 75) {
+                            loc = "Hareshaw Linn Waterfall";
+                            reason = "Overcast skies are currently providing ideal soft, even lighting for woodland and waterfall photography.";
+                            icon = "cloud";
+                            isCoastal = false;
+                            link = "explore.html?id=23";
+                        } else if (isDay && isHighTide) {
+                            loc = "Bamburgh Castle Beach";
+                            reason = "High tide approaching! Great time to head to the coast to capture the castle reflections in the rock pools.";
+                            icon = "waves";
+                            isCoastal = true;
+                            link = "explore.html?id=1";
+                        } else {
+                            loc = "Dunstanburgh Castle";
+                            reason = "Great daytime conditions. The coastal walk from Craster currently offers fantastic light and leading lines.";
+                            icon = "sun";
+                            isCoastal = true;
+                            link = "explore.html?id=2";
+                        }
+
+                        if (isMounted) {
+                            setData({ location: loc, reason, icon, link, conditions: { isDay, cloudCover, isHighTide, isCoastal } });
+                            setLoading(false);
+                        }
+                    } catch (error) {
+                        // Fallback if API fails
+                        if (isMounted) {
+                            setData({ 
+                                location: "Bamburgh Castle", 
+                                reason: "Always a classic location, regardless of the weather. Head to the dunes for natural framing.",
+                                icon: "map-pin",
+                                link: "explore.html?id=1",
+                                conditions: null
+                            });
+                            setLoading(false);
+                        }
+                    }
+                };
+
+                // Initial fetch
+                fetchConditions();
+                
+                // Set up polling interval for real-time updates (every 5 minutes)
+                const intervalId = setInterval(fetchConditions, 5 * 60 * 1000);
+
+                return () => {
+                    isMounted = false;
+                    clearInterval(intervalId);
+                };
+            }, []);
+
+            if (loading && !data) return (
+                <div className="w-full max-w-2xl mx-auto mt-8 mb-4 p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center h-[140px] shadow-xl">
+                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest flex items-center gap-3">
+                        <Icon name="compass" className="animate-spin text-sky-400" size={20} /> Analyzing live conditions...
+                    </div>
+                </div>
+            );
+
+            return (
+                <div className="w-full max-w-2xl mx-auto mt-8 mb-4 p-5 sm:p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl relative group text-left overflow-hidden">
+                    {/* Decorative accent line */}
+                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-sky-600"></div>
+                    
+                    <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+                        <div className="bg-white/10 p-3 rounded-xl flex-shrink-0 w-14 h-14 flex items-center justify-center shadow-inner">
+                            <Icon name={data.icon} size={28} className="text-sky-400" />
+                        </div>
+                        
+                        <div className="flex-grow">
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="text-[10px] font-black uppercase tracking-widest text-sky-400">Suggested location to head to right now</span>
+                                <span className="flex h-2 w-2 relative">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                                </span>
+                            </div>
+                            
+                            <h3 className="text-xl sm:text-2xl font-black text-white mb-2 leading-tight">{data.location}</h3>
+                            <p className="text-sm text-slate-300 leading-relaxed max-w-md">
+                                {data.reason}
+                            </p>
+                            
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4 pt-4 border-t border-white/10">
+                                {data.conditions && (
+                                    <div className="flex flex-wrap gap-2 sm:gap-3">
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/20 border border-white/5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                                            <Icon name={data.conditions.isDay ? 'sun' : 'moon'} size={12} className="text-slate-400" /> 
+                                            {data.conditions.isDay ? 'Daytime' : 'Night'}
+                                        </span>
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/20 border border-white/5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                                            <Icon name="cloud" size={12} className="text-slate-400" /> 
+                                            {data.conditions.cloudCover}% Clouds
+                                        </span>
+                                        {data.conditions.isCoastal && (
+                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/20 border border-white/5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                                                <Icon name="waves" size={12} className="text-slate-400" /> 
+                                                {data.conditions.isHighTide ? 'High Tide Window' : 'Low Tide'}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
+                                
+                                <a href={data.link} className="inline-flex w-fit items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-500/10 hover:bg-sky-500 text-sky-400 hover:text-white border border-sky-500/20 hover:border-sky-500 transition-all duration-300 text-[10px] font-black uppercase tracking-widest whitespace-nowrap group">
+                                    <span>Explore Location</span>
+                                    <Icon name="arrow-right" size={14} className="transform group-hover:translate-x-1 transition-transform duration-300" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             );
         };
 
@@ -307,7 +463,7 @@
                             </div>
 
                             {/* Text Content - SEO Optimized H1 */}
-                            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-32 pb-10">
+                            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 sm:px-6 pt-32 pb-10 w-full">
                                 <h1 className="text-3xl sm:text-6xl md:text-7xl lg:text-9xl font-black tracking-tighter mb-6 break-words w-full drop-shadow-2xl text-white">
                                     NORTHUMBERLAND <br/>
                                     <span className="text-sky-300 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-sky-400 sm:to-sky-600">PHOTOGRAPHY.</span>
@@ -325,7 +481,7 @@
                                     </a>
                                 </div>
 
-                                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+                                <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
                                     <a href="mailto:northernpixl@gmail.com" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white/10 hover:bg-white text-white hover:text-slate-900 border border-white/20 hover:border-white transition-all duration-300 font-black uppercase text-[10px] tracking-widest backdrop-blur-sm group w-full sm:w-auto">
                                         <Icon name="mail" size={16} />
                                         <span>Contact Me</span>
@@ -336,6 +492,10 @@
                                         <span>Install App</span>
                                     </button>
                                 </div>
+                                
+                                {/* New Dynamic Where To Shoot Widget */}
+                                <WhereToShootWidget />
+                                
                             </div>
                         </section>
 
