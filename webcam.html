@@ -233,6 +233,8 @@
             const [loading, setLoading] = useState(true);
 
             useEffect(() => {
+                let isMounted = true;
+
                 const fetchConditions = async () => {
                     try {
                         // Fetching real Northumberland weather data (using Open-Meteo free API)
@@ -259,52 +261,65 @@
                             reason = "Clear skies right now! Perfect conditions for astrophotography and Milky Way chasing in the National Park.";
                             icon = "moon";
                             isCoastal = false;
-                            link = "explore.html#cawfields";
+                            link = "explore.html?loc=cawfields";
                         } else if (!isDay) {
                             loc = "Newcastle Quayside";
                             reason = "Cloudy night up north, but perfect conditions for urban night photography and river reflections in the city.";
                             icon = "cloud";
                             isCoastal = false;
-                            link = "explore.html#newcastle-quayside";
+                            link = "explore.html?loc=newcastle-quayside";
                         } else if (isDay && cloudCover > 75) {
                             loc = "Hareshaw Linn Waterfall";
                             reason = "Overcast skies are currently providing ideal soft, even lighting for woodland and waterfall photography.";
                             icon = "cloud";
                             isCoastal = false;
-                            link = "explore.html#hareshaw-linn";
+                            link = "explore.html?loc=hareshaw-linn";
                         } else if (isDay && isHighTide) {
                             loc = "Bamburgh Castle Beach";
                             reason = "High tide approaching! Great time to head to the coast to capture the castle reflections in the rock pools.";
                             icon = "waves";
                             isCoastal = true;
-                            link = "explore.html#bamburgh-castle";
+                            link = "explore.html?loc=bamburgh-castle";
                         } else {
                             loc = "Dunstanburgh Castle";
                             reason = "Great daytime conditions. The coastal walk from Craster currently offers fantastic light and leading lines.";
                             icon = "sun";
                             isCoastal = true;
-                            link = "explore.html#dunstanburgh-castle";
+                            link = "explore.html?loc=dunstanburgh-castle";
                         }
 
-                        setData({ location: loc, reason, icon, link, conditions: { isDay, cloudCover, isHighTide, isCoastal } });
+                        if (isMounted) {
+                            setData({ location: loc, reason, icon, link, conditions: { isDay, cloudCover, isHighTide, isCoastal } });
+                            setLoading(false);
+                        }
                     } catch (error) {
                         // Fallback if API fails
-                        setData({ 
-                            location: "Bamburgh Castle", 
-                            reason: "Always a classic location, regardless of the weather. Head to the dunes for natural framing.",
-                            icon: "map-pin",
-                            link: "explore.html#bamburgh-castle",
-                            conditions: null
-                        });
-                    } finally {
-                        setLoading(false);
+                        if (isMounted) {
+                            setData({ 
+                                location: "Bamburgh Castle", 
+                                reason: "Always a classic location, regardless of the weather. Head to the dunes for natural framing.",
+                                icon: "map-pin",
+                                link: "explore.html?loc=bamburgh-castle",
+                                conditions: null
+                            });
+                            setLoading(false);
+                        }
                     }
                 };
 
+                // Initial fetch
                 fetchConditions();
+                
+                // Set up polling interval for real-time updates (every 5 minutes)
+                const intervalId = setInterval(fetchConditions, 5 * 60 * 1000);
+
+                return () => {
+                    isMounted = false;
+                    clearInterval(intervalId);
+                };
             }, []);
 
-            if (loading) return (
+            if (loading && !data) return (
                 <div className="w-full max-w-2xl mx-auto mt-8 mb-4 p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center h-[140px] shadow-xl">
                     <div className="text-slate-400 text-xs font-bold uppercase tracking-widest flex items-center gap-3">
                         <Icon name="compass" className="animate-spin text-sky-400" size={20} /> Analyzing live conditions...
