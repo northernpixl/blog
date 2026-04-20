@@ -209,7 +209,7 @@
                 <nav className="fixed top-0 w-full z-[1000] bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300 pt-[env(safe-area-inset-top)]">
                     <div className="flex items-center justify-between px-4 md:px-8 h-16 md:h-20 max-w-7xl mx-auto w-full">
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-md">
+                            <div className="w-8 h-8 md:w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-md">
                                 <Icon name="camera" className="text-white" size={16} />
                             </div>
                             <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden sm:inline">NorthernPixl</span>
@@ -246,7 +246,24 @@
         };
 
         const App = () => {
-            const [selectedLoc, setSelectedLoc] = useState(null);
+            const [selectedLoc, setSelectedLoc] = useState(() => {
+                if (typeof window !== 'undefined') {
+                    const params = new URLSearchParams(window.location.search);
+                    const idParam = params.get('id');
+                    const locParam = params.get('loc');
+                    
+                    if (idParam) {
+                        return LOCATIONS.find(l => l.id === parseInt(idParam, 10)) || null;
+                    }
+                    if (locParam) {
+                        return LOCATIONS.find(l => {
+                            const slug = l.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                            return slug.includes(locParam) || locParam.includes(slug.split('-')[0]);
+                        }) || null;
+                    }
+                }
+                return null;
+            });
             const [isLocating, setIsLocating] = useState(false);
             const mapContainerRef = useRef(null);
             const mapInstanceRef = useRef(null);
@@ -278,7 +295,20 @@
                         });
                         
                         if (selectedLoc) {
-                            map.setView([selectedLoc.lat, selectedLoc.lng], 14);
+                            const isDesktop = window.innerWidth >= 768;
+                            const targetZoom = 14;
+                            const targetPoint = map.project([selectedLoc.lat, selectedLoc.lng], targetZoom);
+                            
+                            const offsetX = isDesktop ? -200 : 0;
+                            const offsetY = isDesktop ? 0 : 200;
+                            
+                            const offsetPoint = L.point(targetPoint.x + offsetX, targetPoint.y + offsetY);
+                            const offsetLatLng = map.unproject(offsetPoint, targetZoom);
+
+                            map.setView(offsetLatLng, targetZoom);
+                            
+                            // Clear URL params so they don't persist on page refresh
+                            window.history.replaceState({}, document.title, window.location.pathname);
                         }
                     }
                 }, 100);
@@ -290,6 +320,7 @@
                         mapInstanceRef.current = null;
                     }
                 };
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             }, []);
 
             // Intelligent Map Centering - offsets the marker so it isn't hidden under the floating panel
