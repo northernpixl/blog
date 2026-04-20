@@ -328,13 +328,13 @@
                         let isCoastal = false;
 
                         // Logic to recommend a location dynamically from the 66 locations
-                        if (!isDay && cloudCover < 30) {
+                        if (!isDay && cloudCover < 15) {
                             suitableLocations = LOCATIONS.filter(l => l.type === "Astro");
                             conditionText = "Clear skies right now! Perfect conditions for astrophotography and Milky Way chasing.";
                             icon = "moon";
                         } else if (!isDay && cloudCover >= 30) {
                             suitableLocations = LOCATIONS.filter(l => l.best_time.includes("Blue Hour") || l.name.includes("Bridge") || l.name.includes("Abbey") || l.name.includes("Walls"));
-                            conditionText = "Cloudy night up north. Ideal conditions for photographing illuminated architecture and townscapes.";
+                            conditionText = "Cloudy night means one thing. Ideal conditions for photographing illuminated architecture and townscapes.";
                             icon = "cloud";
                         } else if (isDay && (rain > 0 || cloudCover > 75)) {
                             suitableLocations = LOCATIONS.filter(l => l.name.includes('Linn') || l.name.includes('Spout') || l.desc.toLowerCase().includes('waterfall') || l.best_time.includes('Overcast') || l.best_time.includes('Moody') || l.best_time.includes('After Rain'));
