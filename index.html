@@ -463,32 +463,7 @@
                 // Initial check and resize listener
                 handleScroll();
                 window.addEventListener('resize', handleScroll);
-                
-                const currentRef = scrollRef.current;
-                
-                // Allow vertical mouse wheel scrolling to translate into horizontal scrolling for the slider
-                const handleWheel = (e) => {
-                    if (e.deltaY !== 0 && !e.shiftKey) {
-                        const isAtStart = currentRef.scrollLeft === 0;
-                        const isAtEnd = Math.ceil(currentRef.scrollLeft + currentRef.clientWidth) >= currentRef.scrollWidth;
-                        
-                        if ((e.deltaY < 0 && !isAtStart) || (e.deltaY > 0 && !isAtEnd)) {
-                            e.preventDefault(); 
-                            currentRef.scrollBy({ left: e.deltaY * 1.5, behavior: 'auto' });
-                        }
-                    }
-                };
-
-                if (currentRef) {
-                    currentRef.addEventListener('wheel', handleWheel, { passive: false });
-                }
-                
-                return () => {
-                    window.removeEventListener('resize', handleScroll);
-                    if (currentRef) {
-                        currentRef.removeEventListener('wheel', handleWheel);
-                    }
-                };
+                return () => window.removeEventListener('resize', handleScroll);
             }, []);
 
             const scroll = (direction) => {
@@ -516,8 +491,24 @@
 
             return (
                 <div className="w-full py-10 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent relative">
-                    <div className="text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-6">
+                    <div className="text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest mb-4">
                         Scroll across for more
+                    </div>
+                    
+                    {/* Draggable Scroll/Slider Track Moved Here */}
+                    <div className="max-w-[200px] md:max-w-md mx-auto mb-6 px-4 relative flex items-center">
+                        <input 
+                            type="range" 
+                            min="0" 
+                            max="100" 
+                            value={scrollProgress} 
+                            onChange={handleSliderChange}
+                            className="w-full slider-range outline-none"
+                            style={{
+                                backgroundImage: `linear-gradient(to right, #0ea5e9 ${scrollProgress}%, transparent ${scrollProgress}%)`
+                            }}
+                            aria-label="Scroll topics"
+                        />
                     </div>
                     
                     <div className="relative max-w-[1400px] mx-auto w-full group">
@@ -547,22 +538,6 @@
                                 <CarouselCard key={`${topic.id}-${index}`} item={topic} />
                             ))}
                         </div>
-                    </div>
-
-                    {/* Draggable Scroll/Slider Track */}
-                    <div className="max-w-[200px] md:max-w-md mx-auto mt-4 px-4 relative flex items-center">
-                        <input 
-                            type="range" 
-                            min="0" 
-                            max="100" 
-                            value={scrollProgress} 
-                            onChange={handleSliderChange}
-                            className="w-full slider-range outline-none"
-                            style={{
-                                backgroundImage: `linear-gradient(to right, #0ea5e9 ${scrollProgress}%, transparent ${scrollProgress}%)`
-                            }}
-                            aria-label="Scroll topics"
-                        />
                     </div>
                 </div>
             );
