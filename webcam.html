@@ -261,7 +261,7 @@
                             reason = "Clear skies right now! Perfect conditions for astrophotography and Milky Way chasing in the National Park.";
                             icon = "moon";
                             isCoastal = false;
-                            link = "explore.html?loc=cawfields";
+                            link = "explore.html?id=10";
                         } else if (!isDay) {
                             loc = "Newcastle Quayside";
                             reason = "Cloudy night up north, but perfect conditions for urban night photography and river reflections in the city.";
@@ -273,19 +273,19 @@
                             reason = "Overcast skies are currently providing ideal soft, even lighting for woodland and waterfall photography.";
                             icon = "cloud";
                             isCoastal = false;
-                            link = "explore.html?loc=hareshaw-linn";
+                            link = "explore.html?id=23";
                         } else if (isDay && isHighTide) {
                             loc = "Bamburgh Castle Beach";
                             reason = "High tide approaching! Great time to head to the coast to capture the castle reflections in the rock pools.";
                             icon = "waves";
                             isCoastal = true;
-                            link = "explore.html?loc=bamburgh-castle";
+                            link = "explore.html?id=1";
                         } else {
                             loc = "Dunstanburgh Castle";
                             reason = "Great daytime conditions. The coastal walk from Craster currently offers fantastic light and leading lines.";
                             icon = "sun";
                             isCoastal = true;
-                            link = "explore.html?loc=dunstanburgh-castle";
+                            link = "explore.html?id=2";
                         }
 
                         if (isMounted) {
@@ -299,7 +299,7 @@
                                 location: "Bamburgh Castle", 
                                 reason: "Always a classic location, regardless of the weather. Head to the dunes for natural framing.",
                                 icon: "map-pin",
-                                link: "explore.html?loc=bamburgh-castle",
+                                link: "explore.html?id=1",
                                 conditions: null
                             });
                             setLoading(false);
