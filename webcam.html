@@ -3,56 +3,59 @@
 <head>
     <meta charset="UTF-8">
     
-    <!-- Optimised Native App Viewport & Theme -->
+    <!-- Optimised Native App Viewport -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f172a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     <!-- SEO -->
-    <title>Northumberland Walking Routes & Maps | NorthernPixl</title>
-    <meta name="description" content="Curated walking routes in Northumberland with difficulty ratings. Download GPX files for The Cheviot, Simonside, and coastal walks.">
-    <meta name="keywords" content="Northumberland walking routes, Cheviot hikes, Simonside walks, Northumberland coast path, GPX routes Northumberland">
+    <title>Northumberland Photography Locations Map | NorthernPixl</title>
+    <meta name="title" content="Northumberland Photography Locations Map | NorthernPixl">
+    <meta name="description" content="Interactive map of the best photography locations in Northumberland. Find GPS coordinates for Bamburgh, Dunstanburgh, Kielder, and hidden gems.">
+    <meta name="keywords" content="Northumberland photography locations, best places to photograph in Northumberland, Kielder dark sky park locations, Bamburgh Castle photography, Northumberland hidden gems map">
+    <meta name="robots" content="index, follow">
     <meta name="author" content="NorthernPixl">
     
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="https://www.northernpixl.co.uk/favicon.png">
     <link rel="apple-touch-icon" href="https://www.northernpixl.co.uk/apple-touch-icon.png">
-
-    <!-- Canonical URL (Fixed to www) -->
-    <link rel="canonical" href="https://www.northernpixl.co.uk/routes.html" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://www.northernpixl.co.uk/explore.html" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.northernpixl.co.uk/routes.html">
-    <meta property="og:title" content="Northumberland Walking Routes & Maps | NorthernPixl">
-    <meta property="og:description" content="Curated walking routes in Northumberland with difficulty ratings.">
+    <meta property="og:url" content="https://www.northernpixl.co.uk/explore.html">
+    <meta property="og:title" content="Northumberland Photography Locations Map | NorthernPixl">
+    <meta property="og:description" content="Interactive map of the best photography locations in Northumberland.">
     <meta property="og:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://www.northernpixl.co.uk/routes.html">
-    <meta property="twitter:title" content="Northumberland Walking Routes & Maps | NorthernPixl">
-    <meta property="twitter:description" content="Curated walking routes in Northumberland with difficulty ratings.">
+    <meta property="twitter:url" content="https://www.northernpixl.co.uk/explore.html">
+    <meta property="twitter:title" content="Northumberland Photography Locations Map | NorthernPixl">
+    <meta property="twitter:description" content="Interactive map of the best photography locations in Northumberland.">
     <meta property="twitter:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
 
-    <!-- Schema.org JSON-LD (ItemList) -->
+    <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ItemList",
-      "itemListElement": [
+      "@graph": [
         {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "The Cheviot and Hedgehope",
-          "description": "11 mile strenuous hike to the highest point in Northumberland."
+          "@type": "WebApplication",
+          "name": "NorthernPixl Photography Locations",
+          "url": "https://www.northernpixl.co.uk/explore.html",
+          "description": "Interactive map of photography locations across Northumberland.",
+          "applicationCategory": "MapsApplication"
         },
         {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Dunstanburgh from Craster",
-          "description": "Easy 4.5 mile coastal walk to the ruined castle."
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.northernpixl.co.uk/index.html" },
+            { "@type": "ListItem", "position": 2, "name": "Explore Map", "item": "https://www.northernpixl.co.uk/explore.html" }
+          ]
         }
       ]
     }
@@ -69,32 +72,44 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
-        html, body, #root { height: 100%; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; z-index: 0; position: relative; }
-        .leaflet-popup-content-wrapper { border-radius: 1rem; padding: 0.5rem; }
-        .leaflet-popup-content { margin: 0.5rem; width: 200px !important; }
-        .custom-popup .title { font-weight: 900; font-size: 1rem; line-height: 1.2; margin-bottom: 0.25rem; }
-        .custom-popup .meta { font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
-        .custom-popup .link { display: inline-block; background: #0f172a; color: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-decoration: none; margin-top: 0.25rem; }
-        .filter-btn.active { background-color: #0f172a; color: white; }
-        .filter-btn { background-color: #f1f5f9; color: #64748b; }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
-        @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+        .animate-in { animation: fadeIn 0.6s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        /* Map container now full bleed, no border radius needed */
+        .leaflet-container { width: 100%; height: 100%; background: #f8fafc; z-index: 0; }
+        .fade-in { animation: fadeInMenu 0.5s ease-out forwards; opacity: 0; transform: translateY(10px); }
+        @keyframes fadeInMenu { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-white text-slate-900 overflow-hidden">
-    <div id="root"></div>
+<body class="bg-slate-50 text-slate-900 overflow-x-hidden">
+    <div id="root" class="h-screen w-screen overflow-hidden flex flex-col"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef, useMemo } = React;
+        const { useState, useEffect, useRef } = React;
 
+        // --- ICONS COMPONENT ---
         const Icon = ({ name, size = 20, className = "" }) => {
             const icons = {
                 camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
-                arrowRight: <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
+                mapPin: <><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></>,
+                arrowLeft: <><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></>,
                 menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
-                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>
+                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
+                sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></>,
+                cloudSun: <><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></>,
+                cloud: <><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></>,
+                rain: <><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M16 14v6"/><path d="M8 14v6"/><path d="M12 16v6"/></>,
+                wind: <><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></>,
+                waves: <><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.6 2 5 2 2.3 0 2.3-2 5-2 1.3 0 1.9.5 2.5 1"/></>,
+                alertTriangle: <><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></>,
+                checkCircle: <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
+                xCircle: <><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></>,
+                moon: <><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></>,
+                cloudMoon: <><path d="M13 16a3 3 0 1 1 0 6H7a5 5 0 1 1 4.9-6Z"/><path d="M10.1 9A6 6 0 0 1 16 4a4.24 4.24 0 0 0 6 6 6 6 0 0 1-3 5.197"/></>,
+                locate: <><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><circle cx="12" cy="12" r="7"/></>,
+                sparkles: <><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3l1.9 5.8 1.9-5.8a2 2 0 0 1 1.3-1.3l5.8-1.9-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -103,129 +118,141 @@
             );
         };
 
-        const WALKS = [
-            { id: 101, category: "1-4", name: "Drake Stone Walk", length: "4 miles", difficulty: "Moderate", elevation: "150m", lat: 55.337, lng: -2.105, desc: "A mystical walk up to a massive sandstone boulder believed to have healing powers.", highlights: "The massive Drake Stone boulder, Harbottle Lake nature reserve.", route: [[55.3378100, -2.1179200]] },
-            { id: 102, category: "1-4", name: "Yeavering Bell", length: "3.6 miles", difficulty: "Strenuous", elevation: "361m", lat: 55.545, lng: -2.112, desc: "A short but sharp climb to the summit of an Iron Age hillfort.", highlights: "Largest Iron Age hillfort in the region, wild Cheviot goats.", route: [[55.5679200, -2.1171600]] },
-            { id: 103, category: "1-4", name: "Bamburgh Castle Circular", length: "3 miles", difficulty: "Easy", elevation: "20m", lat: 55.609, lng: -1.712, desc: "A classic coastal loop. Walk along the beach with the castle towering above you.", highlights: "Bamburgh Castle from the beach, The Wynding dunes.", route: [[55.6043500, -1.6970100]] },
-            { id: 104, category: "1-4", name: "Berwick Walls", length: "1.5 miles", difficulty: "Easy", elevation: "10m", lat: 55.770, lng: -2.005, desc: "A complete circuit of the Elizabethan town walls.", highlights: "Elizabethan fortifications, Royal Border Bridge.", route: [[55.7722693, -2.0040788]] },
-            { id: 105, category: "1-4", name: "Bolam Lake", length: "1 mile", difficulty: "Easy", elevation: "30m", lat: 55.127, lng: -1.865, desc: "A gentle circular walk around a beautiful lake and woodland.", highlights: "Bolam Lake reflections, Red Squirrels.", route: [[55.1326000, -1.8711100]] },
-            { id: 106, category: "1-4", name: "Rothbury Riverside", length: "1.5 miles", difficulty: "Easy", elevation: "15m", lat: 55.309, lng: -1.912, desc: "Follows the River Coquet. Flat, easy walking with plenty of benches.", highlights: "River Coquet stepping stones, views of Simonside.", route: [[55.3077500, -1.9117100]] },
-            { id: 107, category: "1-4", name: "Thirlwall Castle", length: "1.75 miles", difficulty: "Easy", elevation: "40m", lat: 54.989, lng: -2.535, desc: "Visit the ruins of a 14th-century castle built with stones from Hadrian's Wall.", highlights: "Thirlwall Castle ruins, Tipalt Burn.", route: [[54.985011, -2.528657]] },
-            { id: 108, category: "1-4", name: "Falstone Circular", length: "2.5 miles", difficulty: "Moderate", elevation: "60m", lat: 55.185, lng: -2.438, desc: "A lovely route starting in the village of Falstone, following a section of the River Tyne Trail.", highlights: "Stell stone sculpture, River North Tyne.", route: [[55.1804900, -2.4356200]] },
-            { id: 109, category: "1-4", name: "Hareshaw Linn", length: "3 miles", difficulty: "Moderate", elevation: "100m", lat: 55.149, lng: -2.222, desc: "A 'there and back' walk up to a magical wooded dene to a spectacular 30ft waterfall.", highlights: "Hareshaw Linn waterfall, ancient woodland.", route: [[55.145889, -2.253043]] },
-            { id: 110, category: "1-4", name: "St Cuthbert's Cave", length: "2 miles", difficulty: "Moderate", elevation: "90m", lat: 55.617, lng: -1.928, desc: "Short walk to the sandstone cave where St Cuthbert's body was said to have been hidden.", highlights: "St Cuthbert's Cave, Kyloe Hills views.", route: [[55.6096200, -1.9203700]] },
-            { id: 111, category: "1-4", name: "Steel Rigg & Sycamore Gap", length: "2 miles", difficulty: "Moderate", elevation: "100m", lat: 55.0030900, lng: -2.3909400, desc: "A classic section of Hadrian's Wall with iconic views, visiting the site of the famous Sycamore Gap.", highlights: "Hadrian's Wall, Milecastle 39, Crag Lough.", route: [[55.0030900, -2.3909400]] },
-            { id: 112, category: "1-4", name: "Duddo Five Stones", length: "1.5 miles", difficulty: "Easy", elevation: "40m", lat: 55.6767700, lng: -2.1093600, desc: "A short walk across fields to Northumberland's answer to Stonehenge, offering panoramic views of the Cheviots.", highlights: "Ancient Stone Circle, Cheviot Views.", route: [[55.6767700, -2.1093600]] },
-            { id: 113, category: "1-4", name: "Hindhope Linn", length: "3.75 miles", difficulty: "Easy", elevation: "60m", lat: 55.295434, lng: -2.340566, desc: "A magical forest walk leading to a spectacular waterfall in a deep gorge.", highlights: "Hindhope Linn Waterfall, Red Squirrels.", route: [[55.295434, -2.340566]] },
-            { id: 114, category: "1-4", name: "Corbridge Riverside", length: "2.5 miles", difficulty: "Easy", elevation: "10m", lat: 54.9714500, lng: -2.0208600, desc: "A gentle stroll along the banks of the Tyne at the historic Roman town of Corbridge.", highlights: "Roman Bridge remains, River Tyne.", route: [[54.9714500, -2.0208600]] },
-            { id: 115, category: "1-4", name: "Cullernose Point", length: "2.5 miles", difficulty: "Easy", elevation: "30m", lat: 55.4711200, lng: -1.5956600, desc: "A dramatic coastal walk along the basalt cliffs south of Craster.", highlights: "Basalt cliffs, nesting seabirds, views of Dunstanburgh.", route: [[55.4711200, -1.5956600]] },
-            { id: 116, category: "1-4", name: "Holystone & Lady's Well", length: "2 miles", difficulty: "Easy", elevation: "50m", lat: 55.3185200, lng: -2.0718700, desc: "A history-rich walk visiting a holy well associated with St Ninian and St Paulinus.", highlights: "Lady's Well, peaceful woodland, Coquet Valley views.", route: [[55.3185200, -2.0718700]] },
-            { id: 117, category: "1-4", name: "Etal Castle & River Till", length: "2 miles", difficulty: "Easy", elevation: "20m", lat: 55.6468000, lng: -2.1201500, desc: "A picturesque loop around the village of Etal, following the banks of the River Till.", highlights: "Etal Castle ruins, thatched cottages, Heatherslaw Light Railway.", route: [[55.6468000, -2.1201500]] },
-            { id: 118, category: "1-4", name: "Ros Castle", length: "2 miles", difficulty: "Moderate", elevation: "120m", lat: 55.5169300, lng: -1.8875600, desc: "A short climb to the summit of Ros Castle, an Iron Age hillfort with arguably the best coastal views in Northumberland.", highlights: "360-degree panorama, seven castles visible on a clear day.", route: [[55.5169300, -1.8875600]] },
-            { id: 119, category: "1-4", name: "Blanchland & The Derwent", length: "3 miles", difficulty: "Moderate", elevation: "80m", lat: 54.8474961, lng: -2.0537738, desc: "Explore the honey-stone village of Blanchland and the surrounding moors and river.", highlights: "Blanchland Abbey, River Derwent.", route: [[54.8474961, -2.0537738]] },
-            { id: 120, category: "1-4", name: "Linhope Spout", length: "3 miles", difficulty: "Moderate", elevation: "150m", lat: 55.4397500, lng: -2.0382600, desc: "A walk into the Breamish Valley to see the chute of water that is Linhope Spout.", highlights: "Linhope Spout waterfall, deep plunge pool.", route: [[55.4397500, -2.0382600]] },
-            { id: 201, category: "4-7", name: "Dunstanburgh from Craster", length: "4.5 miles", difficulty: "Easy", elevation: "30m", lat: 55.472, lng: -1.593, desc: "The definitive coastal walk. From Craster harbor, along the flat grassy path to the castle, then explore the Embleton Bay beach before returning.", highlights: "Craster Harbour, Dunstanburgh Castle, Embleton Bay sandy beach.", route: [[55.4709300, -1.5957200]] },
-            { id: 202, category: "4-7", name: "Allen Banks & Staward Gorge", length: "6.5 miles", difficulty: "Moderate", elevation: "190m", lat: 54.967, lng: -2.315, desc: "A stunning walk through the largest area of ancient woodland in Northumberland. Cross the suspension bridge (if open) or stepping stones, visit the Victorian summerhouse, and climb to the medieval ruins of Staward Peel for incredible gorge views.", highlights: "Ancient Woodland, Staward Peel Ruins, River Allen Gorge.", route: [[54.9704900, -2.3170200]] },
-            { id: 203, category: "4-7", name: "Holy Island Loop", length: "5 miles", difficulty: "Moderate", elevation: "25m", lat: 55.671, lng: -1.796, desc: "A full circuit of Lindisfarne. Includes the Castle, the Priory, the harbor, and the remote sand dunes on the north side.", highlights: "Lindisfarne Priory, Castle, Emmanuel Head pyramid, North Shore dunes.", route: [[55.6751500, -1.8010900]] },
-            { id: 204, category: "4-7", name: "Doddington Moor", length: "4.5 miles", difficulty: "Moderate", elevation: "180m", lat: 55.578, lng: -2.005, desc: "Explore ancient cup and ring marked rocks and a mysterious stone circle. High moorland with sweeping views.", highlights: "Ancient Rock Art, Doddington Stone Circle, panoramic Cheviot views.", route: [[55.5852000, -2.0029100]] },
-            { id: 205, category: "4-7", name: "Norham Castle", length: "4 miles", difficulty: "Easy", elevation: "40m", lat: 55.721, lng: -2.158, desc: "A riverside walk along the Tweed, looping back through the village of Norham dominated by its massive ruined keep.", highlights: "Norham Castle keep, River Tweed banks, Ladykirk Bridge.", route: [[55.7192373, -2.1622550]] },
-            { id: 206, category: "4-7", name: "Greenlee Lough", length: "4.5 miles", difficulty: "Moderate", elevation: "110m", lat: 55.025, lng: -2.368, desc: "A boardwalk section over the wetlands of the lough, followed by a climb up to Hadrian's Wall for the return leg.", highlights: "Greenlee Lough boardwalk, Hadrian's Wall views, Birdwatching.", route: [[55.0148600, -2.3945300]] },
-            { id: 207, category: "4-7", name: "Hethas Hike", length: "4.5 miles", difficulty: "Strenuous", elevation: "250m", lat: 55.535, lng: -2.165, desc: "Deep in the College Valley. A challenging walk visiting the Hethas scenic area and elusive wild goats.", highlights: "College Valley isolation, Wild Goats, Elsdon Burn.", route: [[55.5461600, -2.1698900]] },
-            { id: 208, category: "4-7", name: "Simonside Hills", length: "4.5 miles", difficulty: "Strenuous", elevation: "300m", lat: 55.289, lng: -1.948, desc: "A sandstone ridge offering 360-degree views. Steep stone steps lead to the summit cairn.", highlights: "Summit Cairn views, Heather moorland, 'Little Church' rock formation.", route: [[55.2832700, -1.9189300]] },
-            { id: 209, category: "4-7", name: "Walltown Crags", length: "5 miles", difficulty: "Moderate", elevation: "150m", lat: 54.992, lng: -2.525, desc: "Some of the most dramatic sections of Hadrian's Wall. The route follows the roller-coaster crags.", highlights: "Walltown Crags, Roman Wall turrets, Thirlwall Castle.", route: [[54.9921600, -2.5014300]] },
-            { id: 210, category: "4-7", name: "Wallington Estate", length: "4.5 miles", difficulty: "Easy", elevation: "50m", lat: 55.152, lng: -1.955, desc: "A long circular route inside and around the boundary of the National Trust estate. Woods, farmland, and riverside paths. Please note you need to be a National Trust member or pay on arrival for this route", highlights: "Wallington Hall grounds, River Wansbeck, Walled Garden.", route: [[55.1542400, -1.9598900]] },
-            { id: 211, category: "4-7", name: "Thrunton Woods and Long Crag", length: "4.5 miles", difficulty: "Moderate", elevation: "200m", lat: 55.378, lng: -1.916, desc: "A woodland walk leading up to dramatic sandstone crags with sweeping views over the Cheviots.", highlights: "Thrunton Crags, Long Crag, mature pine forest.", route: [[55.3597200, -1.8575900]] },
-            { id: 212, category: "4-7", name: "Bamburgh & Budle Bay", length: "6.5 miles", difficulty: "Easy", elevation: "40m", lat: 55.609, lng: -1.717, desc: "A loop combining the iconic castle, sandy beaches, and the bird-rich mudflats of Budle Bay.", highlights: "Bamburgh Castle, Budle Bay nature reserve.", route: [[55.6036400, -1.6972400]] },
-            { id: 213, category: "4-7", name: "Kielder Bull Crag", length: "6.5 miles", difficulty: "Moderate", elevation: "120m", lat: 55.176, lng: -2.583, desc: "A peninsula walk extending into Kielder Water, offering diverse forest trails and water views.", highlights: "Kielder Water views, Bull Crag, red squirrels.", route: [[55.1839500, -2.5356800]] },
-            { id: 214, category: "4-7", name: "Vindolanda & Barcombe", length: "4.5 miles", difficulty: "Moderate", elevation: "150m", lat: 54.991, lng: -2.360, desc: "Visit the famous Roman fort and climb Barcombe Hill for a bird's eye view of the frontier.", highlights: "Vindolanda Fort, Barcombe Hill, Thorngrafton Common.", route: [[54.9915600, -2.3656000]] },
-            { id: 215, category: "4-7", name: "Alwinton Borderlands", length: "6.5 miles", difficulty: "Moderate", elevation: "180m", lat: 55.349, lng: -2.126, desc: "A circular route in the remote Upper Coquet Valley, starting in the tiny hamlet of Alwinton.", highlights: "River Coquet, Clennell Street ancient drove road.", route: [[55.3506700, -2.1287200]] },
-            { id: 216, category: "4-7", name: "Warkworth River", length: "4.5 miles", difficulty: "Easy", elevation: "30m", lat: 55.350, lng: -1.600, desc: "Follows the meanders of the River Coquet around the medieval castle and visit the hermitage.", highlights: "Warkworth Castle, Hermitage, River Coquet.", route: [[55.3506900, -1.6004800]] },
-            { id: 217, category: "4-7", name: "Wooler & Humbleton Hill", length: "6 miles", difficulty: "Strenuous", elevation: "280m", lat: 55.539, lng: -2.038, desc: "Climb the Iron Age hillfort of Humbleton Hill for commanding views over the Glendale valley.", highlights: "Humbleton Hillfort, Wooler Common.", route: [[55.5391400, -2.0384300]] },
-            { id: 218, category: "4-7", name: "Hulne Park and Brizlee Tower", length: "4.5 miles", difficulty: "Easy", elevation: "100m", lat: 55.417, lng: -1.709, desc: "The Duke of Northumberland's private parkland. Open to the public (check times), featuring gothic ruins.", highlights: "Hulne Abbey, Brizlee Tower, deer park.", route: [[55.4175700, -1.7099400]] },
-            { id: 219, category: "4-7", name: "Blawearie & Bewick Moor", length: "4.5 miles", difficulty: "Moderate", elevation: "220m", lat: 55.486, lng: -1.895, desc: "A mysterious walk on the moors visiting a ruined shepherd's cottage and Bronze Age cairns.", highlights: "Blawearie ruins, Cateran Hole, prehistoric rock art.", route: [[55.4868800, -1.8953700]] },
-            { id: 220, category: "4-7", name: "Lambley Viaduct", length: "5 miles", difficulty: "Easy", elevation: "80m", lat: 54.929, lng: -2.501, desc: "Walk along the South Tyne Trail crossing the impressive Victorian viaduct with views of the Pennines.", highlights: "Lambley Viaduct, River South Tyne, Featherstone Castle.", route: [[54.9297916, -2.5017711]] },
-            { id: 301, category: "7+", name: "The Cheviot and Hedgehope", length: "11 miles", difficulty: "Very Strenuous", elevation: "911m", lat: 55.496, lng: -2.074, desc: "The big two. A serious undertaking to two of the highest points in Northumberland. Boggy peat hags on top. Navigation skills essential in bad weather. Comb Fell can be extremely boggy so take care", highlights: "The Cheviot Summit (815m), Scald Hill, Harthope Valley.", route: [[55.4964600, -2.0744500]] },
-            { id: 302, category: "7+", name: "Windy Gyle", length: "7.5 miles", difficulty: "Strenuous", elevation: "619m", lat: 55.396, lng: -2.223, desc: "Start at the foot of Barrow Law just up from Barrowburn. A steady climb up The Street to the border ridge. The summit cairn is massive and offers amazing views into Scotland. One of my favourite routes!", highlights: "Russell's Cairn, The Border Ridge, Views into Scotland.", route: [[55.3967500, -2.2231400]] },
-            { id: 303, category: "7+", name: "Beadnell to Low Newton", length: "8.5 miles", difficulty: "Moderate", elevation: "20m", lat: 55.552, lng: -1.629, desc: "A long coastal walk along sandy bays. Visit the Ship Inn at Low Newton for lunch before heading back. Check tide times too if planning on walking on the beach.", highlights: "Beadnell Bay, Football Hole beach, Ship Inn pub.", route: [[55.5524400, -1.6292200]] },
-            { id: 304, category: "7+", name: "Steel Rigg to Housesteads", length: "7.5 miles", difficulty: "Strenuous", elevation: "350m", lat: 55.003, lng: -2.390, desc: "The classic Hadrian's Wall section. Includes Sycamore Gap site and the steepest crags. Return north of the wall for impressive views.", highlights: "Sycamore Gap site, Crag Lough, Highshield Crags.", route: [[55.0031000, -2.3909000]] },
-            { id: 305, category: "7+", name: "Alnmouth to Warkworth", length: "11.5 miles", difficulty: "Moderate", elevation: "80m", lat: 55.389, lng: -1.606, desc: "Walk from Alnmouth beach to the historic village of Warkworth and its castle, following the river and coast.", highlights: "Alnmouth Estuary, Warkworth Castle, Coastal Path.", route: [[55.3891400, -1.6063900]] },
-            { id: 306, category: "7+", name: "Brough Law Hillforts", length: "10 miles", difficulty: "Strenuous", elevation: "300m", lat: 55.441, lng: -1.989, desc: "Ingram Valley. Explores Iron Age settlements and Linhope Spout waterfall. High grassy ridges with expansive views with a return walking through Ingram Valley.", highlights: "Brough Law Hillfort, Linhope Spout, Ingram Valley.", route: [[55.4410000, -1.9891500]] },
-            { id: 307, category: "7+", name: "Cold Law", length: "7.5 miles", difficulty: "Strenuous", elevation: "450m", lat: 55.519, lng: -2.037, desc: "A wild walk into the dramatic Cheviots. Often deserted.", highlights: "Cold Law summit, Remote wilderness, Amazing views.", route: [[55.5191500, -2.0373400]] },
-            { id: 308, category: "7+", name: "Hedgehope Hill", length: "7.5 miles", difficulty: "Strenuous", elevation: "714m", lat: 55.497, lng: -2.071, desc: "The second highest peak. Steeper and more conical than the Cheviot. Best views in the park by far.", highlights: "Hedgehope Hill summit, Langlee Crags, Housey Crags.", route: [[55.4975200, -2.0715100]] },
-            { id: 309, category: "7+", name: "Pilgrim's Way - Holy Island", length: "8 miles", difficulty: "Moderate", elevation: "100m", lat: 55.677, lng: -1.895, desc: "Holy Island across the pilgrim's causeway over the mud flats. Follow the posts that guide you to Holy Island. Please check tides! You must walk barefoot across the mud.", highlights: "Pilgrim's Causeway, Holy Island mudflats.", route: [[55.67740, -1.89542]] },
-            { id: 310, category: "7+", name: "The Schil", length: "12 miles", difficulty: "Very Strenuous", elevation: "601m", lat: 55.496, lng: -2.189, desc: "A distinctive rocky peak on the Scottish border. Start at the Mounthooly, a permit will need to be booked in advance via the College Valley website. A real lung-buster.", highlights: "The Schil summit, Border Ridge, College Valley.", route: [[55.4966821, -2.1890438]] },
-            { id: 311, category: "7+", name: "Craster & Howick Coast", length: "9 miles", difficulty: "Moderate", elevation: "50m", lat: 55.472, lng: -1.596, desc: "A beautiful coastal walk heading south from Craster past Cullernose Point to the Bathing House at Howick, reaching Boulmer before heading back.", highlights: "Cullernose Point, Howick Hall coastline, Rumbling Kern.", route: [[55.4717300, -1.5960800]] },
-            { id: 312, category: "7+", name: "Ingram & Cochrane Pike", length: "8 miles", difficulty: "Strenuous", elevation: "350m", lat: 55.441, lng: -1.973, desc: "A tough climb in the Breamish Valley, taking in the summit of Cochrane Pike and the prehistoric landscapes of Ingram.", highlights: "Cochrane Pike, Iron Age hillforts, Breamish Valley views.", route: [[55.4412600, -1.9739500]] },
-            { id: 313, category: "7+", name: "Sycamore Gap & Vindolanda", length: "8.5 miles", difficulty: "Strenuous", elevation: "300m", lat: 54.991, lng: -2.354, desc: "Extends the classic wall walk to drop down to the Roman fort of Vindolanda before climbing back up to the crags.", highlights: "Vindolanda Fort, Sycamore Gap site, Crag Lough.", route: [[54.9919000, -2.3545900]] },
-            { id: 314, category: "7+", name: "Yeavering Bell & Newton Tors", length: "8 miles", difficulty: "Strenuous", elevation: "500m", lat: 55.560, lng: -2.069, desc: "A challenging twin-peak walk. Climb the hillfort of Yeavering Bell then cross the glen to the dramatic Newton Tors.", highlights: "Yeavering Bell hillfort, Newton Tors, College Valley views.", route: [[55.5609800, -2.0693000]] },
-            { id: 315, category: "7+", name: "Kielder North Shore Walk", length: "9 miles", difficulty: "Moderate", elevation: "120m", lat: 55.187, lng: -2.461, desc: "A long forest track walk following the northern shoreline of the massive reservoir. Remote and peaceful.", highlights: "Kielder Water, Osprey platforms, Forest sculpture trail.", route: [[55.1876200, -2.4617500]] },
-            { id: 316, category: "7+", name: "The Drake Stone & Harbottle", length: "9 miles", difficulty: "Moderate", elevation: "250m", lat: 55.337, lng: -2.112, desc: "Starts with the Drake Stone but continues high onto the moors of the military ranges before descending.", highlights: "Drake Stone, Harbottle Lake, expansive moorland.", route: [[55.3368800, -2.1121900]] },
-            { id: 317, category: "7+", name: "Berwick Coastal Walk", length: "8 miles", difficulty: "Easy", elevation: "60m", lat: 55.775, lng: -1.997, desc: "Heading north from Berwick along the cliffs towards the Scottish border at Marshall Meadows, returning via the same route.", highlights: "Dramatic cliffs, Scottish Border, Berwick Walls.", route: [[55.7757100, -1.9975600]] },
-            { id: 318, category: "7+", name: "Simonside & Tosson Hill", length: "7.5 miles", difficulty: "Strenuous", elevation: "440m", lat: 55.283, lng: -1.919, desc: "Extends the Simonside ridge walk to include the highest point, Tosson Hill. Rough terrain but incredible views.", highlights: "Tosson Hill summit, Ravensheugh Crags, Simonside ridge.", route: [[55.2833300, -1.9188100]] },
-            { id: 319, category: "7+", name: "Warkworth to Amble Loop", length: "8.5 miles", difficulty: "Easy", elevation: "30m", lat: 55.350, lng: -1.600, desc: "Follows the river Coquet to the harbour town of Amble, exploring the marina and pier before returning.", highlights: "Warkworth Castle, Amble Harbour, Coquet Island views.", route: [[55.3505000, -1.6002400]] },
-            { id: 320, category: "7+", name: "Haltwhistle & The Wall", length: "7.5 miles", difficulty: "Moderate", elevation: "200m", lat: 54.969, lng: -2.461, desc: "Starts in Haltwhistle, follows the Haltwhistle Burn up to the Wall at Cawfields, walks the crags.", highlights: "Haltwhistle Burn, Cawfields Quarry, Milecastle 42.", route: [[54.9698000, -2.4616300]] }
+        // --- TIDE DATA UTILITY ---
+        const getTideTimes = () => {
+            const epoch = new Date('2024-03-25T15:15:00Z').getTime();
+            const tidalPeriod = 44714400; 
+            const halfPeriod = tidalPeriod / 2;
+            const now = new Date().getTime();
+            const periodsSince = Math.floor((now - epoch) / tidalPeriod);
+            const lastHigh = epoch + (periodsSince * tidalPeriod);
+            let nextHigh = lastHigh + tidalPeriod;
+            let nextLow = lastHigh + halfPeriod;
+            if (nextLow < now) nextLow += tidalPeriod;
+
+            return {
+                nextHigh: new Date(nextHigh).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'}),
+                nextLow: new Date(nextLow).toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit'})
+            };
+        };
+
+        // --- DATA ---
+        const LOCATIONS = [
+            { id: 1, name: "Bamburgh Castle", type: "Landscape", lat: 55.6090, lng: -1.7120, desc: "This is arguably the most iconic view in the county, offering a majestic fortress rising dramatically above pristine sand dunes. At low tide, heading north of the castle reveals the 'Black Rocks'—part of the famous volcanic Whin Sill. These tidal pools act as perfect natural mirrors, especially when the wind drops, allowing for stunning symmetrical reflections of the illuminated castle walls. The dune grass (marram) also provides excellent foreground interest if you choose to shoot from the south side, where the pathways lead the eye directly to the fortress.\n\nCOMPOSITION & GEAR: A wide-angle lens (16-24mm) is essential to get close to the green, mossy rocks in the foreground while keeping the castle imposing in the background. If you have a telephoto (70-200mm), try compressing the distance from the Farne Islands side or shooting straight down the beach to emphasise the sheer scale of the walls against the sky. Watch for the 'Stag Rock' painted white for an alternative angle further north along the coast.", parking: "NE69 7DF (Links Car Park)", best_time: "Sunrise (Winter) / Sunset (Summer)", top_tip: "Wellingtons are mandatory! The best compositions often require standing in 6 inches of seawater to get the reflection just right.", history: "The Royal Seat of the Kings of Northumbria. It has stood guard here for over 1,400 years, originally a wooden fort destroyed by Vikings in 993, then rebuilt by Normans. Restored to its current glory by industrialist Lord Armstrong." },
+            { id: 2, name: "Dunstanburgh Castle", type: "Landscape", lat: 55.4915, lng: -1.5947, desc: "The approach from Craster is a scenic 1.3-mile walk along the coastal path, but the photographic rewards are immense. The classic and most dramatic shot is from the 'Greystones' (large, dinosaur-egg-like round boulders) on the north side at Embleton Bay. These smooth rocks provide an incredible foreground leading up to the jagged, skeletal ruins of the Lilburn Tower silhouetted against the sky. The castle's remote location means it is completely free from modern light pollution, making it an exceptional subject for dawn shoots when the sun rises directly out of the North Sea behind the ruins.\n\nCOMPOSITION & GEAR: A sturdy tripod and Neutral Density (ND) filters are absolutely essential here. A long exposure (1-2 seconds) smooths the often rough water washing over the round stones, creating a misty, ethereal effect while retaining dynamic movement. Bring a wide-angle lens (14-20mm) to exaggerate the boulders in the foreground and lead the eye naturally up to the ruins.", parking: "NE66 3TW (Craster Quarry)", best_time: "Sunrise (Year-round)", top_tip: "The round stones are incredibly slippery when wet with sea algae. Wear spikes or move very slowly to avoid a camera-breaking fall.", history: "Built in 1313 by Earl Thomas of Lancaster on a magnificent scale, seemingly to defy King Edward II. It fell into ruin after the Wars of the Roses and was captured twice by Yorkist forces." },
+            { id: 3, name: "Lindisfarne Castle", type: "Landscape", lat: 55.6694, lng: -1.7856, desc: "Situated on Holy Island, access to this location is entirely dictated by the North Sea tide tables. The 16th-century castle sits dramatically atop a volcanic plug known as Beblowe Crag. For photographers, the area offers incredible diversity: from the famous Gertrude Jekyll walled garden offering floral foregrounds in summer, to the stark, empty expanses of mudflats at low tide. The wooden posts marking the Pilgrims' Way across the sands provide stunning, minimalist leading lines for long exposures.\n\nCOMPOSITION & GEAR: The most universally loved angle is from the row of upturned, tarred herring boats in the harbour (The Ouse). Use a mid-range zoom (35-50mm) to compress the boats against the castle backdrop. Alternatively, the small stone jetty points directly at the castle—use a 10-stop ND filter here to blur the incoming tide into a glassy mirror around the ancient stonework.", parking: "TD15 2RX (Chare Ends)", best_time: "Sunrise or Golden Hour", top_tip: "Always check the safe crossing times on the gov.uk website. The causeway floods rapidly and cars get stranded every year.", history: "A 16th-century fort built using stones from the dissolved priory. It was famously renovated by Arts and Crafts architect Edwin Lutyens in 1901. This island saw the first major Viking raid in 793 AD." },
+            { id: 4, name: "St Mary's Island", lat: 55.0717, lng: -1.4496, type: "Landscape", desc: "A tiny tidal island linked to the mainland by a short, concrete causeway. The brilliant white lighthouse provides a striking, stark contrast against the dark, jagged coastal rocks and the deep blue of the North Sea. The island is highly accessible, making it a favourite for both dawn and dusk photography. The rocky shores surrounding the island are filled with tidal pools that offer excellent reflection opportunities, while the grassy banks on the mainland side offer elevated panoramic views.\n\nCOMPOSITION & GEAR: The causeway itself is a perfect, symmetrical leading line. The absolute best time to photograph it is as the tide is just starting to cover the path (ensure you are safely on the mainland side!). Use a heavy ND filter (6 or 10 stops) for exposures of 30 seconds or more. This turns the turbulent sea into a milky mist swirling around the submerged concrete walkway, creating a surreal 'floating island' effect. A standard 24-70mm lens is perfect here.", parking: "NE26 4RS", best_time: "High Tide (for long exposure)", top_tip: "Arrive 1 hour before high tide to capture the causeway just as it gets submerged, creating the 'floating island' effect.", history: "The lighthouse was built in 1898 on the site of an 11th-century monastic chapel. It was decommissioned in 1984 but remains a beacon for photographers and birdwatchers." },
+            { id: 5, name: "Farne Islands", type: "Wildlife", lat: 55.6178, lng: -1.6314, desc: "An unparalleled wildlife photography experience, accessible only by authorised boat tours departing from Seahouses Harbour. Inner Farne is the primary landing site and gets you inches away from nesting seabirds. The sheer density of wildlife is staggering. You will be walking along boardwalks surrounded by thousands of nesting Puffins, Guillemots, Shags, and extremely aggressive Arctic Terns. The boat trip out also offers excellent opportunities to photograph Grey Seals lounging on the outer rocky outcrops.\n\nCOMPOSITION & GEAR: A versatile telephoto lens (e.g., 100-400mm or 70-200mm with an extender) is ideal. Puffins are incredibly fast flyers; you must use Continuous Autofocus (AF-C/AF-Servo) and a minimum shutter speed of 1/2000s to freeze their rapid wing beats. For portraits of birds on the ground, get your camera as low to the boardwalk as legally permitted to achieve an intimate eye-level perspective and beautifully blurred backgrounds (bokeh).", parking: "Seahouses Harbour", best_time: "May - July (Puffin Season)", top_tip: "Wear a wide-brimmed hat. The Arctic Terns are aggressive defenders of their nests and will peck the highest point of you (your head).", history: "Famed as the hermitage of St. Cuthbert who died here in 687 AD. Also the site of Grace Darling's heroic rescue of the SS Forfarshire survivors in 1838." },
+            { id: 6, name: "Coquet Island", type: "Wildlife", lat: 55.3340, lng: -1.5372, desc: "A crucially important RSPB nature reserve located a mile off the coast of Amble. While public landing is strictly prohibited to protect the birds, dedicated photography boat tours from Amble Harbour offer incredible, close-up proximity from the water. It is famously the UK's only stronghold for the incredibly rare Roseate Tern, and it also hosts thousands of Puffins and Eider ducks. The island features a beautiful, automated white lighthouse and the ruins of a medieval monastery, providing great contextual backgrounds for birds in flight.\n\nCOMPOSITION & GEAR: Because you are shooting from a constantly moving and vibrating boat, Optical Image Stabilisation (IS/VR) on your lens is absolutely critical. Do not drop your shutter speed below 1/1250s, even for static shots of birds on the rocks, as engine vibration will ruin the sharpness. A 300mm to 500mm focal length is required to fill the frame with the wildlife from the boat's deck.", parking: "NE65 0AP (Amble)", best_time: "Summer Breeding Season", top_tip: "Use a high shutter speed (1/1000s+) even for static shots, as the boat engine vibration will blur your images at slower speeds.", history: "Home to the ruins of a medieval Benedictine cell. The lighthouse was built in 1841 and is now automated. The island has been a sanctuary since the 7th century." },
+            { id: 7, name: "Chillingham Park", type: "Wildlife", lat: 55.5262, lng: -1.9054, desc: "A truly unique photographic experience. The park is home to the famous Chillingham Wild Cattle, the only untamed survivors of the ancient wild herds that once roamed all of Britain. These animals are genuinely dangerous, completely unhandled, and must only be viewed while accompanied by the park warden. The landscape itself is a stunning mix of ancient, gnarly woodland and open, sweeping pasture, offering highly atmospheric backdrops that feel genuinely prehistoric.\n\nCOMPOSITION & GEAR: You will be kept at a strictly safe distance by the warden, meaning a super-telephoto lens (400mm, 500mm, or 600mm) is mandatory to capture detailed portraits. Try to capture behavioural interactions—bulls posturing, locking horns, or cows nursing calves. The absolute best atmospheric shots are taken on crisp, freezing winter mornings when you can backlight the thick steam of their breath hanging in the cold air against the dark forest.", parking: "NE66 5NJ", best_time: "Early Morning (Mist)", top_tip: "Never approach the cattle on foot without the warden. They are wild animals and can charge without warning. Use a long lens.", history: "The herd has been enclosed here since the 13th century, remaining genetically isolated for hundreds of years. They are considered rarer than the giant panda." },
+            { id: 8, name: "Kielder Water", type: "Wildlife", lat: 55.2330, lng: -2.5330, desc: "A massive, sprawling wilderness area offering Europe's largest man-made lake surrounded by dense, working pine forests. It is a premier destination for capturing two highly sought-after species: Ospreys and Red Squirrels. The Bakethin Nature Reserve at the northern end of the lake is best for birdlife, featuring purpose-built hides that look out over the shallows. The forest trails are dotted with feeding stations that attract the vibrant red squirrels, providing excellent, reliable wildlife portrait opportunities.\n\nCOMPOSITION & GEAR: For the Red Squirrels, patience is your best tool. Sit quietly near the dedicated feeders or woodland hides with a fast 70-200mm f/2.8 or a 300mm prime. The dense forest canopy blocks a lot of light, so you will need to push your ISO higher (1600+) to maintain a fast shutter speed. For the Ospreys, you need a very long lens (600mm) and preferably a tripod with a gimbal head to smoothly track their spectacular hunting dives into the reservoir.", parking: "NE48 1BT (Tower Knowe)", best_time: "April - August (Ospreys)", top_tip: "In summer, the midges are ferocious. Bring a head net and Smidge repellent, or you won't be able to stand still long enough for a shot.", history: "Europe's largest man-made lake, created in 1981. The valley holds a submerged history of farms and schools that were flooded to create the reservoir." },
+            { id: 9, name: "Kielder Observatory", type: "Astro", lat: 55.2325, lng: -2.5866, desc: "Situated proudly at the very heart of the Northumberland International Dark Sky Park (a Gold-Tier protected zone), this location offers some of the clearest, most pristine night skies in all of Europe. While you generally cannot attach your camera to the facility's main telescopes during public events, the striking, futuristic timber architecture of the observatory itself makes a phenomenal foreground subject for wide-angle astrophotography, particularly when the Milky Way arches directly overhead.\n\nCOMPOSITION & GEAR: You need a fast, ultra-wide-angle lens (e.g., 14mm, 16mm, or 20mm at f/1.4 to f/2.8) and a sturdy tripod. The observatory's main viewing deck faces perfectly South, which is the exact direction you need to point to capture the brightest, most detailed part of the Milky Way galactic core during the summer months. Keep exposures around 15-20 seconds to prevent the stars from trailing into blurred lines.", parking: "NE48 1EJ (Permit required at night)", best_time: "New Moon (Winter)", top_tip: "Use a red headtorch. White light ruins your night vision (and everyone else's) for 20 minutes. It's considered very rude in astro circles.", history: "Opened in 2008, this timber structure is designed to look like a 'landship' moored on the hillside. It is a beacon for astronomy education in the UK." },
+            { id: 10, name: "Cawfields Quarry", type: "Astro", lat: 54.9967, lng: -2.4645, desc: "Arguably one of the most accessible and dramatic Dark Sky discovery sites in the region. A deep, perfectly still lake sits in the bowl of a former dolerite quarry, surrounded by sheer, dark cliffs that act as natural shields against any low-level light pollution from distant towns. A spectacular section of Hadrian's Wall runs directly along the top of the highest crag, offering an incredible juxtaposition of ancient human history and cosmic vastness.\n\nCOMPOSITION & GEAR: Because the quarry lake is so sheltered from the wind, it is incredibly still at night, offering perfect, mirror-like reflections of the brightest stars and constellations. Use an ultra-wide lens to capture the water and the sky in one frame. Try 'light painting'—during a 20-second exposure, gently sweep a dim, warm-coloured LED torch across the sheer cliff faces or the Roman Wall for just 1 or 2 seconds to bring out the rugged textures of the rock without overpowering the starlight.", parking: "NE49 9PJ", best_time: "Clear Winter Nights", top_tip: "It's very exposed. Hang your camera bag on your tripod hook to weigh it down and prevent wind-shake during long exposures.", history: "A former dolerite quarry cut directly into the Whin Sill. The dark igneous rock provides a dramatic, stark contrast to the night sky." },
+            { id: 11, name: "Dunstan Steads", type: "Astro", lat: 55.4933, lng: -1.6191, desc: "A revered and prime coastal location for hunting the Aurora Borealis (Northern Lights). Its geography is its greatest asset: it offers a massive, completely unobstructed view looking due North over the dark expanse of the North Sea, with zero light pollution on the horizon. The shoreline here is wild and rugged, dotted with the haunting concrete remains of World War II anti-invasion pillboxes, which serve as phenomenal, eerie foreground anchors for night-time landscapes.\n\nCOMPOSITION & GEAR: Monitor solar activity and geomagnetic storm apps (like Glendale or AuroraWatch). When the Kp index hits 5 or 6, head straight here. You will need a fast wide-angle lens wide open (f/2.8 or faster). Use a 10 to 15-second exposure at a high ISO (1600 to 3200) to drag out the vivid greens and purples of the Aurora that the naked eye might barely perceive as grey smudges. The WWII pillboxes look best when shot from a low angle, looming up into the dancing sky.", parking: "NE66 3SY", best_time: "Aurora Forecast > Kp5", top_tip: "Aurora alerts are often delayed. If the forecast is good, stay out until 2 AM. The best displays often happen in short, sudden bursts.", history: "The coastline here is dotted with World War II concrete pillboxes, constructed to defend against a potential German invasion from Norway." },
+            { id: 12, name: "Alnwick Castle", type: "Landscape", lat: 55.4156, lng: -1.7059, desc: "Globally famous as the on-screen location for Hogwarts in the Harry Potter films, Alnwick is a sprawling, immaculately preserved fortress. While the inner courtyards are spectacular, the very best view for serious landscape photographers is actually found completely outside the grounds. Head to the 'Lion Bridge' which crosses the gently winding River Aln to the north of the castle. From here, the fortress rises above the rolling pastoral landscape, surrounded by lush trees and manicured banks.\n\nCOMPOSITION & GEAR: The River Aln provides the ultimate natural leading line sweeping gently from the bottom corner of your frame directly towards the castle walls. In springtime, the riverbanks are carpeted with thousands of bright yellow daffodils, offering a sensational foreground. Frame the castle through the elegant stone arches of the bridge itself using a standard zoom (24-70mm). Wait for the 'Golden Hour' or late afternoon light when the sun illuminates the warm, honey-coloured stonework of the fortress.", parking: "NE66 1YU", best_time: "Late Afternoon / Golden Hour", top_tip: "Arrive very early (pre-9 AM) or stay late. During the day, the bridge is full of tourists which makes clean architectural shots impossible.", history: "The seat of the Duke of Northumberland and the Percy family for over 700 years. It is the second largest inhabited castle in England after Windsor." },
+            { id: 13, name: "Cragside House", type: "Landscape", lat: 55.3134, lng: -1.8845, desc: "A jaw-dropping Victorian fantasy mansion seemingly carved directly into a rugged, steep hillside, surrounded by one of Europe's largest rock gardens and a labyrinth of towering rhododendrons. The estate is a marvel of Victorian engineering, featuring intricate networks of lakes, waterfalls, and hydro-engineering. The sheer verticality of the landscape makes for uniquely dramatic architectural photography, particularly from the deep gorge that cuts below the main house.\n\nCOMPOSITION & GEAR: The iconic, must-have shot is taken from the elegant Iron Bridge that spans the gorge, looking back up at the towering timber and stone mansion. Autumn is arguably the most spectacular season here, when the massive estate erupts into riotous colours of copper, gold, and red. A Circular Polarising Filter (CPL) is an absolute necessity here—it will cut the harsh glare from the wet leaves and the river, while simultaneously making the autumn foliage colours pop with incredible saturation.", parking: "NE65 7PX", best_time: "Autumn (Oct-Nov)", top_tip: "Visit in late May/early June for the full bloom. The purple rhododendrons frame the house perfectly from the other side of the valley.", history: "Built by Lord Armstrong, it was the first house in the world to be lit by hydroelectricity. It is a masterpiece of Victorian engineering and innovation." },
+            { id: 14, name: "Housesteads", type: "Landscape", lat: 55.0135, lng: -2.3283, desc: "The most complete and iconic Roman Fort remaining on the entirety of Hadrian's Wall. It sits highly exposed on a dramatic, wind-swept escarpment of the Whin Sill, offering sweeping, unbroken panoramic views over the wild Northumberland National Park. The ruins are extensive, including visible barracks, hospital ruins, and the famous communal latrines, allowing for both grand landscape vistas and detailed, textural architectural shots.\n\nCOMPOSITION & GEAR: This is a location that thrives on moody, dramatic weather. Flat blue skies can make the ruins look like plain rubble, but turbulent, stormy clouds and harsh, directional lighting bring out the rugged textures of the Roman stonework. Shoot from the eastern ridge looking west along the snaking line of the wall to capture the severe undulations of the landscape. Use a Graduated Neutral Density (GND) filter to hold back the bright sky exposure without plunging the dark, grassy foreground into silhouette.", parking: "NE47 6NN", best_time: "Stormy/Moody Weather", top_tip: "It's a steep hike up. Pack light. You don't want to be hauling a heavy gear bag up the escarpment only to be too tired to shoot.", history: "Vercovicium (Housesteads) was built around 124 AD. It housed 800 infantry soldiers and is one of the best-preserved frontiers of the Roman Empire." },
+            { id: 15, name: "Blyth Beach Huts", type: "Landscape", lat: 55.1081, lng: -1.4985, desc: "A charming, long row of intensely vibrant, multi-coloured wooden beach huts sitting on a raised promenade directly facing the North Sea. They offer a brilliant, contemporary photographic subject that contrasts sharply with the county's usual offering of ancient, weathered stone castles. The geometric simplicity of the huts makes this location a fantastic playground for abstract, minimalist, and fine-art architectural photography.\n\nCOMPOSITION & GEAR: This location is an exercise in pure symmetry, bold colours, and repeating patterns. Step away from wide-angle lenses; instead, use a medium telephoto (50mm, 85mm, or even 100mm) and stand back to deliberately flatten and compress the perspective. Shoot perfectly straight on to the front of the huts to create a highly graphic image consisting entirely of vertical wooden lines and bright blocks of colour. Overcast days are surprisingly perfect here, as the flat, diffused lighting eliminates harsh, distracting shadows and lets the paint colours pop.", parking: "NE24 3PL", best_time: "Overcast (for even light)", top_tip: "Don't change lenses on the beach if it's windy. The fine sand will get into your sensor immediately. Pick a focal length and stick with it.", history: "Part of the modern regeneration of the Blyth coastline. These huts have become a contemporary icon of the Northumberland coast, distinct from the ancient castles." },
+            { id: 16, name: "Northumberlandia", type: "Landscape", lat: 55.0934, lng: -1.6288, desc: "Known locally as 'The Lady of the North', this is a staggering piece of landscape art—the world's largest human landform sculpture, shaped into the form of a reclining woman. Made from 1.5 million tonnes of rock and soil, it features miles of winding, geometric paths that trace her contours. The sheer scale is incredibly difficult to convey from the ground, making it a unique compositional challenge that rewards creative thinking and elevated perspectives.\n\nCOMPOSITION & GEAR: Shooting from the base of the sculpture often just looks like unidentifiable grassy hills. To capture the true form, you must walk to the highest point (the 'head') for sweeping panoramic views looking down her body, or use a drone (where legally permitted) for top-down abstracts. Alternatively, embrace the curves—use the brightly coloured, winding aggregate paths as immense, curving leading lines. Wide-angle lenses (14-24mm) are best to exaggerate the sweeping curves. Silhouettes of people walking the ridgelines at sunset provide desperately needed scale.", parking: "NE23 8AU", best_time: "Sunset", top_tip: "The best shots are often silhouettes from the bottom looking up, catching people walking along the ridge of the sculpture.", history: "Completed in 2012, designed by Charles Jencks. It was built using 1.5 million tonnes of rock, clay, and soil from the neighboring open-cast mine." },
+            { id: 17, name: "Linhope Spout", type: "Landscape", lat: 55.4475, lng: -2.0620, desc: "A spectacular, hidden gem located in the remote Breamish Valley. This impressive 18-metre high waterfall operates like a powerful chute, forcing water through a narrow rock cleft before plunging straight down into a notoriously deep, circular plunge pool. The location requires a scenic 1.5-mile hike from the nearest parking spot, but the reward is a beautifully enclosed, moss-draped microclimate that feels completely isolated from the open moorland above.\n\nCOMPOSITION & GEAR: This is a textbook location for classic, silky long-exposure waterfall photography. A sturdy tripod and a 3-stop to 6-stop ND filter are essential. Aim for a shutter speed between 0.5s and 1 second—this is the 'sweet spot' that turns the falling water into beautiful, streaky motion blur while retaining enough texture so it doesn't look like a featureless white blob. A Circular Polariser is also mandatory to cut the harsh, distracting glare off the wet rocks and to heavily saturate the greens of the surrounding ferns and mosses.", parking: "NE66 4LZ (Hartside Farm)", best_time: "Overcast / After Rain", top_tip: "The path can be boggy. Hiking boots are essential. Also, bring a polarising filter to cut the glare on the wet rocks.", history: "A popular Victorian picnic spot. The deep plunge pool is bottomless according to local folklore (though actually about 5m deep)." },
+            { id: 18, name: "Twizell Castle", type: "Landscape", lat: 55.6835, lng: -2.1895, desc: "An incredibly atmospheric and unusual subject: a massive, five-story Gothic folly that was started in the late 1700s but abruptly abandoned, leaving it as a sprawling, roofless stone shell. Standing eerily empty amidst dense, ancient woodland high above the River Till, the structure has an undeniable 'haunted' quality. Its skeletal walls, gaping empty windows, and lack of modern tourist infrastructure make it a favourite for dark, moody, and fine-art landscape styles.\n\nCOMPOSITION & GEAR: This location begs to be shot in atmospheric conditions—thick morning mist, heavy fog, or driving rain suit the subject perfectly. Frame the stark, jagged ruins through the twisting, leafless branches of the surrounding winter trees to enhance the gothic horror aesthetic. The high-contrast textures of the weathered stone make it an absolutely prime candidate for dramatic Black and White conversions in post-processing. A mid-range zoom (24-105mm) offers the flexibility to capture the whole shell or punch in on architectural details.", parking: "TD15 2PS", best_time: "Mist/Fog", top_tip: "It looks best in black and white. The stark stone walls and empty windows lend themselves to a high-contrast, moody monochrome edit.", history: "Begun in 1770 by Sir Francis Blake, but never completed. It was designed to be a five-story mansion but remains a grand, empty stone skeleton." },
+            { id: 19, name: "Simonside Hills", type: "Landscape", lat: 55.2832, lng: -1.9615, desc: "A prominent, flat-topped sandstone ridge that dominates the skyline of central Northumberland. A steep but highly rewarding climb through dense conifer plantations opens up to a rugged, heather-clad plateau offering staggering 360-degree panoramic views across the Coquet Valley and all the way to the distant Cheviot Massif. The summit is littered with ancient, weathered sandstone outcrops and distinctive stone cairns that are perfect for foreground interest.\n\nCOMPOSITION & GEAR: Timing your visit is everything here. In late August to early September, the entire plateau erupts into a sea of vibrant purple heather, transforming the colour palette of the landscape. Use a wide-angle lens, get low to the ground, and use the purple blooms or the prominent stone cairns as an anchor in the bottom third of your frame. Because the ridge runs East-West, it is arguably the finest location in the county for sunset photography, allowing you to shoot directly into the setting sun as it drops behind the jagged Cheviot hills.", parking: "NE65 7NW", best_time: "August (Heather Season)", top_tip: "This is the best sunset spot in the county. The sun sets directly over the Cheviots, silhouetting the distant hills.", history: "Known in folklore as the home of the 'Duergar' (dark dwarves) who would lure travellers into bogs. The hills have spiritual significance dating back to the Bronze Age." },
+            { id: 20, name: "Cresswell Pond", type: "Wildlife", lat: 55.2289, lng: -1.5434, desc: "A vitally important brackish lagoon situated directly adjacent to the sweeping sands of Druridge Bay. It serves as a crucial stopover and breeding ground for an incredible variety of wading birds, wildfowl, and seasonal migrants. The site features a well-positioned, elevated wooden hide that looks out across the shallow waters, providing excellent, sheltered opportunities for dedicated avian photography without disturbing the sensitive ecosystem.\n\nCOMPOSITION & GEAR: A super-telephoto lens is non-negotiable here (minimum 400mm, preferably 600mm or an 800mm equivalent). The birds—particularly the elegant but skittish Avocets and Redshanks—often feed right in the centre of the lagoon. Arriving precisely at high tide on the adjacent beach is the golden rule, as the rising ocean pushes the resting birds off the shoreline and directly onto the pond, bringing them much closer to the hide. Shoot in the early morning to catch the golden light and entirely avoid the atmospheric 'heat haze' that ruins sharpness later in the day.", parking: "NE61 5LF", best_time: "High Tide (pushes birds closer)", top_tip: "Stay low and quiet in the hide. The Avocets are skittish. Use 'Silent Shutter' mode if your camera has it.", history: "Formed by mining subsidence, this accidental nature reserve is now a permanent feature of Druridge Bay's ecology." },
+            { id: 21, name: "Holystone Woods", type: "Wildlife", lat: 55.3235, lng: -2.0678, desc: "A deeply historic and incredibly atmospheric patch of ancient, semi-natural oak woodland. It is famously home to the 'Lady's Well', an ancient, crystal-clear natural spring surrounded by ancient stone walls and a grove of massive trees. For wildlife photographers, the dense canopy makes it a challenging but rewarding hotspot for elusive woodland species, particularly the native Red Squirrels, energetic Pied Flycatchers, and Wood Warblers darting through the high branches.\n\nCOMPOSITION & GEAR: Woodland photography requires a specific approach. The dense, interwoven canopy blocks out a massive amount of daylight, meaning it is often remarkably dark on the forest floor even at noon. To capture fast-moving squirrels or small birds without motion blur, you must be prepared to open your aperture fully (f/2.8 or f/4) and comfortably push your camera's ISO up to 1600, 3200, or beyond to secure a fast shutter speed (1/500s+). In Spring, use a macro lens to capture the stunning carpets of bluebells that erupt across the forest floor.", parking: "NE65 7AJ", best_time: "Spring (Bluebells)", top_tip: "Tuck your trousers into your socks. This is prime tick territory in the long grass and ferns.", history: "Associated with St. Ninian, who is said to have baptized early Christians in the Lady's Well here in the 5th century." },
+            { id: 22, name: "The Cheviot", type: "Wildlife", lat: 55.4795, lng: -2.1466, desc: "The colossal, brooding high point of Northumberland, standing at 815 metres. The summit is not a classic pointed peak, but rather a vast, bleak, and unforgiving plateau of deep peat bogs and heather. It is one of the wildest and most isolated places in England. For photographers, it offers an entirely different, almost arctic flavour of photography. It is the prime location to capture rugged upland wildlife that thrives in harsh conditions.\n\nCOMPOSITION & GEAR: This is a telephoto environment. You are primarily looking for the iconic Red Grouse, which will suddenly burst from the dense heather with incredible speed—keep your camera glued to your eye, use Continuous Autofocus (AF-C), and set a rapid burst rate. In the depths of winter, the holy grail here is spotting the elusive Mountain Hare in its brilliant white winter camouflage against the snow. Always carry a waterproof cover for your gear; the weather on the plateau can shift from sunshine to blinding white-out blizzard in minutes.", parking: "NE71 6RJ (Langleeford)", best_time: "Winter (Snow)", top_tip: "The weather changes instantly on the plateau. Always carry a map and compass/GPS. White-outs can happen even in spring.", history: "An extinct volcano that was active 390 million years ago. It has been eroded down to the granite stump we hike today." },
+            { id: 23, name: "Hareshaw Linn", type: "Wildlife", lat: 55.1580, lng: -2.2450, desc: "A spectacular, ancient woodland gorge accessed via a magical walk that crosses six wooden bridges over a winding stream. The microclimate inside the deep ravine is incredibly damp and humid, resulting in a 'Jurassic Park' aesthetic where every rock and tree trunk is dripping in lush, vibrant green ferns, rare liverworts, and thick moss. The trail culminates in a beautiful, hidden 9-metre waterfall that cascades over a lip of ancient sandstone.\n\nCOMPOSITION & GEAR: The damp, dimly lit conditions make this an absolute paradise for macro photography—pack a 90mm or 100mm macro lens to capture intricate close-ups of water droplets clinging to rare fungi and fern fronds. For the waterfall itself, a sturdy tripod is mandatory due to the low light. Use a polariser to heavily saturate the greens and eliminate the white glare reflecting off the wet rocks. Keep a microfiber cloth constantly in hand; the fine mist and spray from the waterfall will continually coat the front element of your lens.", parking: "NE48 2BZ (Bellingham)", best_time: "Overcast days", top_tip: "The waterfall creates a lot of spray. Keep a microfiber cloth handy to wipe your lens front element between every shot.", history: "Surprisingly, this was the site of a noisy ironworks in the 19th century. Nature has completely reclaimed the industrial spoil heaps." },
+            { id: 24, name: "Elf Kirk", type: "Astro", lat: 55.1681, lng: -2.4808, desc: "A designated Dark Sky Discovery Site tucked deep within the heart of the sprawling Kielder Forest. It is essentially a small, elevated clearing completely surrounded by immensely tall, dense pine trees. It is phenomenally dark (regularly hitting Bortle Class 2), offering pristine, inky black skies completely shielded from any horizon light pollution. The feeling of extreme isolation here is palpable, making it a deeply immersive astrophotography experience.\n\nCOMPOSITION & GEAR: The tall pines that tightly ring the clearing are your best compositional asset. They act as a dramatic, natural silhouetted 'window' or 'frame' pointing directly up to the cosmos. This vertical framing makes it one of the absolute best spots in the UK for capturing towering vertical panoramas of the Milky Way arching straight overhead. You will need a fast, ultra-wide lens (14mm to 20mm, f/2.8 or faster) and must manually focus to infinity on a bright star using your camera's live-view magnification.", parking: "NE48 1HX", best_time: "Moonless Nights", top_tip: "Turn off your car headlights immediately upon parking. Let your eyes adjust for 20 minutes to see the full majesty of the Milky Way.", history: "The name implies a 'Church of the Elves', hinting at the magical atmosphere of this remote forest clearing." },
+            { id: 25, name: "Wooler Common", type: "Astro", lat: 55.5412, lng: -2.0345, desc: "An excellent, highly accessible alternative to Kielder for astrophotography, located on the northeastern edge of the National Park. It offers vast, sweeping expanses of open moorland with very low horizons. Unlike the enclosed forests, the massive, open 360-degree skies here make it an absolutely premier location for photographing expansive celestial events like meteor showers, lunar eclipses, or the sweeping arc of the Milky Way galaxy.\n\nCOMPOSITION & GEAR: The completely unobstructed horizon means you can photograph constellations and planets right down to 0 degrees elevation. The common is dotted with small, still ponds and deep puddles that can perfectly reflect the brightest stars (like Sirius) or planets (like Jupiter) on calm nights. For a striking foreground, set up low behind the numerous gorse bushes; gently illuminating their bright yellow flowers with an off-camera, warm-coloured LED light panel for 1-2 seconds during your long exposure creates an incredible colour contrast against the deep blue night sky.", parking: "NE71 6RL", best_time: "Meteor Showers", top_tip: "Use the gorse bushes as foreground interest. When illuminated with a low-level light, their yellow flowers pop against the blue night sky.", history: "Ancient common land that has been grazed for centuries. It sits on the edge of the Northumberland National Park." },
+            { id: 26, name: "Stonehaugh", type: "Astro", lat: 55.0877, lng: -2.3166, desc: "A fascinating location deep in the Wark Forest that features a purpose-built, architectural 'Stargazing Pavilion'. Designed collaboratively by architecture students, this striking concrete and timber structure is built into the landscape to naturally block out the prevailing winds while offering a comfortable, reclined viewing angle straight up into the Gold-Tier dark skies. It is a brilliant blend of modern brutalist design and natural cosmic wonder.\n\nCOMPOSITION & GEAR: The pavilion itself is the undeniable star of the show photographically. Don't just shoot the sky; use the sharp, angular concrete walls and timber slatted roof as bold, geometric silhouettes to frame the stars. It is an exceptional, wind-proof location for shooting 2 to 3-hour long star trails. Simply set your camera low on the concrete structure, point it dead North towards Polaris (the North Star), and use an intervalometer to shoot hundreds of continuous 30-second exposures to stack later in software.", parking: "NE48 3DZ", best_time: "Winter (Gemini Meteor Shower)", top_tip: "Bring a sleeping bag/blanket. Lying on the concrete pavilion is cold, even in summer. Comfort equals patience!", history: "The village was built in the 1950s for forestry workers. The pavilion was a project by architecture students from Newcastle University." },
+            { id: 27, name: "Warkworth Castle", type: "Landscape", lat: 55.3444, lng: -1.6115, desc: "A spectacularly intact and visually commanding medieval fortress that aggressively crowns a steep hilltop. The castle is almost entirely encircled by a dramatic, tight loop of the River Coquet, which acts as a massive natural moat. The sheer scale and excellent preservation of the towering cross-shaped keep make it one of the most photogenic and structurally impressive strongholds in the entire north of England.\n\nCOMPOSITION & GEAR: While the interior is stunning, the quintessential landscape shot requires you to leave the castle entirely. Walk down to the north bank of the river. From here, you can use the calm, reflective waters of the Coquet as a massive mirror for the castle. The magnificent 'Lion Tower' is particularly striking from this angle. Use a mid-range zoom (35-70mm) to frame the castle tightly. Sunset and Golden Hour are spectacular here, as the warm western light hits the stonework directly, turning it a rich, glowing gold against the sky.", parking: "NE65 0UJ", best_time: "Golden Hour / Sunset", top_tip: "Walk to the river bank to 'The Hermitage' (a chapel carved into the rock) for unique angles of the castle through the trees.", history: "The stronghold of the powerful Percy family. It played a key role in the long war between England and Scotland and features in Shakespeare's Henry IV." },
+            { id: 28, name: "Rumbling Kern", type: "Landscape", lat: 55.4462, lng: -1.5922, desc: "A deeply hidden, rugged, and secretive rocky cove secreted away near Howick. It is dominated by a bizarre, tiny, stone 'Bathing House' perched precariously on the cliff edge, originally built for the Earl Grey family. The coastline here aggressively eschews the flat sandy beaches of the north in favor of dark, severely jagged rock strata, hidden caves, and aggressive wave action, giving it a wildly dramatic and untamed atmosphere.\n\nCOMPOSITION & GEAR: This east-facing cove is a spectacular, dramatic sunrise location. Frame the tiny Bathing House perched on the horizon as your focal point, silhouetted against the deep reds and oranges of the dawn sky. In the foreground, utilise an ultra-wide lens (16mm) to capture the incredibly complex, grooved textures of the rock strata pointing out to sea. A 6-stop ND filter is brilliant here to blur the violent, crashing waves into a surreal, smoky mist rolling over the harsh, dark rocks.", parking: "NE66 3XZ (Park at the farm)", best_time: "Sunrise", top_tip: "Check the tide times. The beach is accessible at high tide, but the best rock formations are revealed at mid-to-low tide.", history: "Historically a smuggling cove. The name comes from the rumbling sound the waves make as they crash into the hollowed-out rocks." },
+            { id: 29, name: "Cullernose Point", type: "Landscape", lat: 55.4578, lng: -1.6033, desc: "A brutal, dramatic, and sheer headland comprised entirely of dark, towering columnar basalt cliffs. This is an exposed, rugged slice of the famous Great Whin Sill volcanic ridge violently meeting the North Sea. It is a paradise for photographers obsessed with raw geological textures, sheer vertical drops, and powerful, crashing ocean waves. In the spring and summer, the vertical cliff faces become a noisy, chaotic nesting colony for thousands of Kittiwakes and Fulmars.\n\nCOMPOSITION & GEAR: This location is an absolute masterclass in texture. Get low to the rocky shore (taking extreme care with the unpredictable tides) and use a wide-angle lens to emphasise the towering, hexagonal columns of the basalt rising vertically from the water. It is the perfect spot for 'mid-speed' long exposures—use a shutter speed of around 1/2 to 1 full second (with a polarising filter) to capture the aggressive, streaking motion lines of the waves retreating over the black rocks.", parking: "NE66 3TF", best_time: "Sunrise", top_tip: "It's a nesting site for Kittiwakes in spring/summer. Bring a telephoto lens if you want to capture the birds on the cliff face.", history: "Part of the Great Whin Sill, a volcanic ridge that stretches across Northumberland. The cliffs here were once quarried for road stone." },
+            { id: 30, name: "Duddo Five Stones", type: "Astro", lat: 55.6868, lng: -2.1120, desc: "Often referred to affectionately as Northumberland’s answer to Stonehenge, this is an incredibly evocative, 4000-year-old Bronze Age stone circle. It sits entirely exposed on a small, elevated grassy knoll with commanding, 360-degree panoramic views of the distant Cheviot Hills. The five remaining stones have been deeply, heavily weathered by millennia of wind and rain, giving them strange, skeletal, and deeply grooved textures that look incredibly dramatic in low light.\n\nCOMPOSITION & GEAR: The complete lack of surrounding trees, buildings, or light pollution makes this one of the ultimate astrophotography and silhouette locations in the UK. Use an ultra-wide lens (14mm) and get very close to the base of one of the stones, shooting upward to make it loom massive in the frame against the sky. Align the stones so the core of the Milky Way arcs directly behind them. During sunset, underexpose slightly to turn the deeply textured stones into pure, stark black silhouettes against a fiery sky.", parking: "TD15 2PT (Layby)", best_time: "Sunset / Astro", top_tip: "It's a 20-minute walk across a muddy field from the parking layby. Bring a torch and boots.", history: "A Bronze Age stone circle. The stones are deeply weathered, creating unique grooves and shapes that look skeletal in silhouette." },
+            { id: 31, name: "Steel Rigg", type: "Landscape", lat: 55.0034, lng: -2.3923, desc: "Arguably the most visually dramatic, iconic, and heavily photographed section of the entirety of Hadrian's Wall. Here, the Roman engineering masterclass utilises the brutal, natural defences of the Whin Sill, resulting in the ancient stone wall snaking wildly up and down near-vertical, sheer cliff faces. Looking eastward from the high ridge offers the classic, sweeping view plunging down towards the deep, dark waters of Crag Lough in the valley below.\n\nCOMPOSITION & GEAR: This location is entirely about capturing sheer scale, depth, and historical drama. Shoot from the high ridge looking east using a mid-range zoom (35-50mm) to tightly frame the wall as it violently dips and rises over the crags, while keeping the reflective lake anchored in the background. Including a hiker walking along the crest of the wall in the distance provides a desperately needed sense of scale to the massive landscape. Use a graduated ND filter to correctly expose the bright sky while retaining detail in the dark, sheer rock faces.", parking: "NE47 7AN", best_time: "Golden Hour", top_tip: "It's incredibly windy up here. Hang your bag on your tripod hook or the wind will vibrate your camera and ruin the sharpness.", history: "This section of the wall utilizes the natural defense of the Whin Sill cliffs, making it one of the most defensible positions on the frontier." },
+            { id: 32, name: "Walltown Crags", type: "Landscape", lat: 54.9897, lng: -2.5255, desc: "A wildly rugged, steep, and deeply undulating section of Hadrian's Wall that features the exceptionally well-preserved Turret 45a. Because this area was heavily quarried in the past, the landscape here is incredibly dramatic, featuring sheer, sheer drops, harsh man-made cuts, and a beautiful, deep quarry lake. It offers some of the most severe and photogenic elevation changes on the entire Roman frontier.\n\nCOMPOSITION & GEAR: The severe undulations of the hills here are the main photographic prize. Step away from your wide-angle lens; instead, use a telephoto lens (70-200mm) and shoot right down the line of the wall. This 'compresses' the perspective, artificially stacking the hills on top of one another and making the wall look like a wild, impossible rollercoaster. Facing directly West, this location catches the absolute last, fading rays of golden hour light, illuminating the front face of the Roman stonework spectacularly against the shadows of the valleys.", parking: "CA8 7JD", best_time: "Sunset", top_tip: "This was a quarry site, so some parts are sheer cliffs. Stay on the marked path. The quarry lake is also a nice subject.", history: "Roman soldiers built this section first, likely because it was the most strategically important high ground." },
+            { id: 33, name: "Vindolanda", type: "Landscape", lat: 54.9912, lng: -2.3606, desc: "A sprawling, highly active, and world-renowned archaeological excavation site containing the extensive ruins of multiple superimposed Roman forts and a civilian settlement. Unlike the sweeping, open landscapes of the Wall itself, Vindolanda is a complex maze of excavated barracks, command buildings, bathhouses, and striking reconstructed wooden watchtowers, offering an intimate, detailed look at ancient frontier life.\n\nCOMPOSITION & GEAR: Photography here is much less about grand, sweeping landscape vistas and almost entirely about intimate, historical details and textures. Bring a versatile walkaround lens (24-105mm). Isolate the fascinating geometric patterns of the hypocaust (underfloor heating) pillars, the incredibly precise stonework of the latrines, and the timber textures of the imposing replica towers against moody, overcast skies. Depth of field is key here—shoot at f/8 to f/11 to ensure the intricate layers of the ruins remain pin-sharp from front to back.", parking: "NE47 7JN", best_time: "Mid-day (for details)", top_tip: "Visit the museum first. Seeing the writing tablets gives you context for the ruins you are photographing.", history: "Famous for the 'Vindolanda Tablets', the oldest surviving handwritten documents in Britain, revealing daily life on the frontier." },
+            { id: 34, name: "Hexham Abbey", type: "Landscape", lat: 54.9715, lng: -2.1022, desc: "A towering, masterful piece of Early English Gothic architecture dominating the centre of the historic market town of Hexham. The building is visually stunning both inside and out. The exterior boasts immense, soaring lancet windows, while the cavernous interior features the world-famous 'Night Stair'—a sweeping, worn stone staircase originally used by the Augustinian canons, and the only complete example remaining in England.\n\nCOMPOSITION & GEAR: The undisputed 'money shot' is capturing the majestic East End exterior during the 'Blue Hour' (the 20-minute window just after sunset). The deep blue twilight sky provides a phenomenal, cinematic contrast to the warm, golden internal lights glowing through the towering stained glass windows. Inside, tripod usage is generally restricted. To photograph the Night Stair or the ancient Saxon crypt, you must rely on a very fast prime lens (e.g., a 35mm f/1.4), push your ISO to 3200+, or carefully rest your camera on a stone pillar to ensure sharp, shake-free images in the incredibly low ambient light.", parking: "NE46 3NB", best_time: "Blue Hour", top_tip: "Tripods are usually not allowed inside without permission. Use a high ISO or rest your camera on a pew/column for stability.", history: "Founded by St. Wilfrid in 674 AD. The crypt is original Anglo-Saxon, built using stones robbed from the nearby Roman ruins of Corbridge." },
+            { id: 35, name: "Blanchland", type: "Landscape", lat: 54.8493, lng: -2.0543, desc: "A deeply historic, picture-postcard estate village nestled in the Derwent Valley, uniquely constructed almost entirely from the salvaged stones of the dissolved 12th-century Premonstratensian Abbey that once stood there. The central cobbled square, flanked by ancient, honey-coloured stone cottages and the imposing, fortress-like Lord Crewe Arms, feels completely untouched by modern development, resembling a pristine historical film set.\n\nCOMPOSITION & GEAR: The architectural uniformity is what makes Blanchland special. For the best compositions, shoot from a very low angle directly off the damp cobbles of the square to emphasise the rich, historical textures of the ground leading up to the grand buildings. Overcast, diffused lighting works best to eliminate harsh shadows in the narrow archways. It transforms into an absolute photographer's dream during heavy winter snowfall, taking on a timeless, magical, Christmas-card aesthetic. Use a standard 35mm or 50mm lens to avoid wide-angle distortion on the historic buildings.", parking: "DH8 9SP", best_time: "Overcast / Snow", top_tip: "There is no mobile signal here. Download your maps offline before you go.", history: "Built on the plan of the 12th-century Premonstratensian Abbey. The Lord Crewe Arms hotel incorporates the Abbot's Lodge and guest house." },
+            { id: 36, name: "Bolam Lake", type: "Wildlife", lat: 55.129297, lng: -1.869208, desc: "A serene, beautifully landscaped country park built around a large, still lake entirely enclosed by varied, mature woodland. The park is highly accessible with excellent, flat paths right to the water's edge. It is incredibly popular with local photographers for its reliable, resident population of very tame Mute Swans and ducks, as well as its phenomenal, vibrant seasonal colour transformations.\n\nCOMPOSITION & GEAR: In the height of autumn, the towering beech trees ringing the lake turn an intense, fiery copper, dropping a carpet of leaves onto the water's surface. Walk to the far side of the lake and use a standard lens to shoot back across the water towards the wooden jetty, capturing the perfect mirror reflection of the brilliant autumn canopy in the calm water. Arriving early on a crisp, windless morning often rewards you with thick, atmospheric mist rolling low across the surface of the lake, completely transforming the mood of the scene.", parking: "NE20 0HE", best_time: "Autumn Morning", top_tip: "Walk to the far side of the lake to shoot back towards the jetty for the best reflection composition.", history: "Designed by John Dobson (architect of Newcastle's streets) in 1816 for the Bolam Hall estate." },
+            { id: 37, name: "Ros Castle", type: "Landscape", lat: 55.5175, lng: -1.8833, desc: "Despite the name, this is not a stone building, but rather an ancient, 3000-year-old Iron Age hillfort. However, it holds the absolute crown for offering what is widely considered the single finest, most extensive 360-degree panoramic view in all of Northumberland. From the summit trig point, the entire county is laid out before you: sweeping inland to the massive Cheviot Massif, and looking eastward over the plains to clearly see the famous coastal castles of Bamburgh, Lindisfarne, and Dunstanburgh lining the North Sea.\n\nCOMPOSITION & GEAR: While it's tempting to use an ultra-wide lens, the landscape is so vast that wide shots often render the famous landmarks as invisible specks. Instead, this is the perfect location for extreme landscape telephoto work. Mount a 200mm, 300mm, or even 400mm lens on a sturdy tripod. Use the severe focal compression to artificially 'pull' the distant coastal castles forward, stacking them dramatically against the horizon line and the ocean. It is an unmatched location for capturing the first golden rays of sunrise hitting the coast from afar.", parking: "NE66 4LE", best_time: "Sunrise", top_tip: "It's a short but steep climb from the road. The top is exposed to wind, so dress warmly.", history: "A 3000-year-old fortification. It was one of a chain of beacons used to warn of Scottish invasion." },
+            { id: 38, name: "Yeavering Bell", type: "Wildlife", lat: 55.5433, lng: -2.1033, desc: "A massive, twin-peaked hill dominating the northern Cheviots, and the imposing site of the largest Iron Age hillfort in the region. The steep, sprawling slopes are a mix of harsh scree, deep bracken, and heather. For the dedicated wildlife photographer, this demanding location is the ultimate destination to track and photograph the famous, feral Cheviot Goats—a truly ancient, incredibly rugged, and shaggy breed bearing massive, sweeping horns.\n\nCOMPOSITION & GEAR: These goats are completely wild, unpredictable, and blend perfectly into the rocky, brown landscape. You must pack binoculars to scan the hillsides—what appears to be a grey boulder is often a resting goat. A fast telephoto lens (e.g., 100-400mm or 150-600mm) is mandatory, as they will quickly retreat over the ridges if approached. Try to position yourself slightly lower than the goats on the steep inclines to silhouette their impressive, sweeping horns against the open sky for incredibly dramatic wildlife portraits.", parking: "NE71 6HG", best_time: "Daytime", top_tip: "The goats blend into the bracken perfectly. Stop and scan the hillside with binoculars; what looks like a rock might be a goat.", history: "The capital of the Anglo-Saxon Kingdom of Northumbria was located in the valley below (Ad Gefrin)." },
+            { id: 39, name: "Hindhope Linn", type: "Landscape", lat: 55.2667, lng: -2.3167, desc: "A truly magical, deeply secluded waterfall completely tucked away inside the dense, commercial pine plantations of Redesdale Forest. The approach takes you through towering, dark trees before opening up into a vibrant, lush 'fairy glen'. The waterfall features a beautiful, clean drop into a deep, clear pool that is densely bordered by intensely green moss-covered rocks and overgrown, sweeping fern fronds.\n\nCOMPOSITION & GEAR: This location provides the quintessential, intimate woodland waterfall composition. The absolute enemy of this shot is direct, bright sunlight, which will blow out the white water and cast harsh, ugly shadows across the dark forest floor. Shoot exclusively on heavily overcast, cloudy days to ensure soft, even, diffused lighting. A tripod and a polariser are mandatory. Use a shutter speed of 0.5s to 1s to create the classic, silky 'bridal veil' effect on the water, while the polariser drastically deepens the rich greens of the surrounding foliage.", parking: "NE19 1SW (Blakehopeburnhaugh)", best_time: "Overcast", top_tip: "In summer, the bracken can be head-high on the path. Check for ticks after your walk.", history: "Situated on the Pennine Way, this spot has been a resting place for travellers for centuries." },
+            { id: 40, name: "Roughting Linn", type: "Landscape", lat: 55.6333, lng: -2.0333, desc: "A profoundly secretive, overgrown, and remarkably secluded waterfall hidden in a densely wooded ravine near the Scottish border. The water cascades dramatically over a wide, sweeping sandstone lip into a remarkably dark, enclosed plunge pool, giving the entire location the feel of an undiscovered tropical lagoon rather than northern England. Adding to the mystery, the immediate area is heavily dotted with world-class examples of ancient, 5000-year-old Neolithic cup-and-ring marked rocks.\n\nCOMPOSITION & GEAR: Finding the waterfall is half the challenge, as the paths are unmarked and slippery—listen for the sound of falling water from the road. The heavy tree canopy means you will be shooting in very low light. Use a very wide-angle lens (14-16mm) from the edge of the pool to capture the full sweep of the overhanging rock lip and the cascading water in a single, immersive frame. Take time to photograph the nearby, mysterious rock carvings—use off-camera flash or a torch held at an extreme, low angle skimming across the stone surface to cast deep shadows and make the ancient, shallow rings visually pop.", parking: "TD15 2QF", best_time: "After Rain", top_tip: "The path is unmarked and slippery. Listen for the sound of falling water to find it from the road.", history: "The nearby rock carvings are Neolithic (4000-5000 years old), adding a mysterious atmosphere to the site." },
+            { id: 41, name: "Royal Border Bridge", type: "Landscape", lat: 55.7725, lng: -2.0150, desc: "A masterful, colossal feat of Victorian railway engineering spanning the wide, tidal estuary of the River Tweed at Berwick. Designed by the legendary Robert Stephenson, its 28 towering, elegant masonry arches curve gracefully across the water, creating a monumental and highly photogenic gateway between England and Scotland. The sheer scale and symmetry of the structure make it a playground for architectural and landscape photographers alike.\n\nCOMPOSITION & GEAR: The classic, definitive composition is taken from the muddy south bank of the river, looking back towards the town. At high tide, the wide, calm waters of the Tweed act as a massive mirror, perfectly reflecting the 28 arches to create a series of complete, mesmerizing circles. The absolute prime time to shoot is the 'Blue Hour' at dusk, when the stonework is dramatically floodlit (often in vibrant, shifting colours) against the deep blue twilight sky. To add an incredibly dynamic element to the static stone architecture, mount your camera on a tripod, wait for a fast-moving train to cross, and use a 4 to 8-second long exposure to capture its illuminated windows as a smooth, streaking blur of light across the bridge.", parking: "TD15 1NF", best_time: "Blue Hour", top_tip: "Wait for a train to cross. The motion blur of a train crossing the bridge adds a dynamic element to the static architecture.", history: "Designed by Robert Stephenson and opened by Queen Victoria in 1850. It creates a grand entrance between England and Scotland." },
+            { id: 42, name: "Seaton Sluice", type: "Landscape", lat: 55.0845, lng: -1.4722, desc: "A fascinating, historic coastal location defined by 'The Cut'—a sheer, impossibly deep, and incredibly narrow man-made channel violently blasted through solid rock in the 1700s to create a sheltered harbour for coal ships. Today, it offers a highly dramatic, almost brutalist slice of coastal architecture. The sheer, towering stone walls of the channel create incredibly deep, graphic shadows and striking geometric lines leading directly out to the open North Sea.\n\nCOMPOSITION & GEAR: The key to photographing The Cut is harnessing the intense contrast between the dark, shadowy depths of the channel walls and the bright sky/ocean at the end of the tunnel. It faces directly into the setting sun during the summer months. Position yourself safely on the bridge or the banks looking straight down the channel as the sun sets over the water. Underexpose slightly to turn the massive rock walls into stark, framing silhouettes, allowing the vibrant colours of the setting sun reflecting on the rushing water below to completely dominate the image.", parking: "NE26 4RD", best_time: "Sunset", top_tip: "The currents in the Cut are fierce. Do not get too close to the edge when the tide is rushing in.", history: "The 'Cut' was blasted through solid rock in 1764 to allow larger ships to collect coal, designed by the Delaval family." },
+            { id: 43, name: "Druridge Bay", type: "Landscape", lat: 55.2667, lng: -1.5500, desc: "A sweeping, immense 7-mile stretch of uninterrupted, pristine golden sand backed by a massive, undulating ecosystem of towering dunes and vital freshwater nature reserves. It is the definition of vast, open coastal wilderness. For photographers, it offers an incredible variety of subjects: from the minimalist sweep of the empty beach to the highly textured, graphic dunes, and the haunting, brutalist concrete remains of World War II anti-tank blocks that are slowly sinking into the sands.\n\nCOMPOSITION & GEAR: A wide-angle lens (16-35mm) is your best friend here. Focus your attention on the massive dune systems; get extremely low and use the sharp, spiky textures of the marram grass blowing in the wind as a powerful, leading foreground element sweeping down towards the sea. The concrete anti-tank blocks provide phenomenal, angular, high-contrast subjects for minimalist, long-exposure seascapes—use a 10-stop ND filter to blur the crashing waves into a smooth, ethereal mist around the harsh, immovable concrete cubes.", parking: "NE61 5BX", best_time: "Sunrise", top_tip: "It's a popular dog walking spot. If you want pristine sand without footprints, you must arrive at sunrise.", history: "During WWII, this bay was considered a likely landing spot for a German invasion, so it was heavily fortified with anti-tank blocks which still remain." },
+            { id: 44, name: "Thrunton Woods", type: "Wildlife", lat: 55.3833, lng: -1.8667, desc: "A sprawling, deeply atmospheric commercial coniferous forest managed by the Forestry Commission, wrapped tightly around the dramatic, towering sandstone escarpment of Thrunton Crags. The location offers a striking duality for photographers: the dark, imposing, tightly packed vertical lines of the pine plantation on the lower slopes, contrasted with the sweeping, highly exposed panoramic vistas from the rocky crags rising high above the tree canopy.\n\nCOMPOSITION & GEAR: Deep inside the plantation, utilise a telephoto lens (70-200mm) pointed straight ahead to compress the hundreds of tall, straight pine trunks into a highly abstract, repeating, geometric 'barcode' pattern, completely eliminating the sky from your frame. Alternatively, climb the steep trails to the Crags. The view from the top is spectacular, especially on crisp autumn mornings when low-lying valley fog settles into the basin below, allowing you to photograph just the very tops of the pine trees piercing through the mist like islands.", parking: "NE66 4SD", best_time: "Autumn / Fog", top_tip: "Look for 'Hob's Hol' - a small cave in the crags. It adds a focal point to the landscape shots.", history: "Planted in the 20th century, but the crags themselves have been a landmark for millennia." },
+            { id: 45, name: "Amble Harbour", type: "Landscape", lat: 55.3333, lng: -1.5833, desc: "Proudly known as the 'Friendliest Port', Amble offers a vibrant, bustling, and highly colourful working harbour environment. It presents a fantastic contrast to the county's deserted beaches. The harbour is packed with a messy, photogenic mix of authentic working fishing trawlers, stacks of weathered lobster pots, modern wooden retail pods, and a beautifully structured, long wooden pier that extends out to a classic lighthouse guarding the estuary.\n\nCOMPOSITION & GEAR: This is a phenomenal location for classic, vibrant travel and detail photography. A versatile 24-105mm lens is perfect. The long wooden pier provides an incredibly strong, perfectly straight leading line drawing the viewer's eye directly out to the lighthouse and the sea. Arrive during the 'Golden Hour' on a calm evening—the completely still harbour waters will act as a perfect mirror, reflecting the incredibly vibrant colours of the moored fishing boats and the warm sunset sky.", parking: "NE65 0AP", best_time: "Golden Hour", top_tip: "Walk to the end of the pier to photograph Coquet Island in the distance.", history: "Historically a coal export port. It has reinvented itself as a seafood destination with its 'Lobster Hatchery'." },
+            { id: 46, name: "Ladyburn Lake", type: "Wildlife", lat: 55.2583, lng: -1.5667, desc: "A large, beautifully serene freshwater lake forming the centrepiece of the Druridge Bay Country Park, situated just a few hundred metres behind the coastal dunes. The lake is highly accessible via flat, well-maintained paths right to the water's edge. It is an absolute haven for wildlife photographers, particularly those looking to practise on highly approachable subjects, as it hosts a massive, permanent, and very tame population of Mute Swans, Grebes, and Tufted Ducks.\n\nCOMPOSITION & GEAR: The absolute golden rule for photographing the waterfowl here is to get as low as physically possible. Do not shoot standing up. Drop down, rest your camera directly on the grassy bank or a beanbag (use your flip-out screen to see), and shoot at exact eye-level with the birds swimming on the water. Combine this extreme low angle with a long telephoto lens (300mm+) shot wide open (f/4 or f/5.6)—this technique effortlessly melts the foreground water and the background trees into a creamy, beautiful blur, completely isolating the sharp details of the bird.", parking: "NE61 5BX", best_time: "Morning", top_tip: "Bring some duck food (seeds, not bread). It will bring the swans closer for portrait shots.", history: "This is a reclaimed open-cast coal mine, now successfully returned to nature." },
+            { id: 47, name: "Etal Castle", type: "Landscape", lat: 55.6481, lng: -2.1232, desc: "An immensely charming and historically significant 14th-century border castle ruin, situated flawlessly at the end of a pristine, immaculately manicured estate village. The ruins primarily consist of a highly imposing, heavily fortified stone gatehouse complete with defensive cannons, surrounded by lush, manicured lawns. The village itself is an architectural joy, featuring striking, uniform white-painted houses and flawlessly kept floral gardens.\n\nCOMPOSITION & GEAR: The iconic shot here is capturing the sheer, imposing bulk of the ancient gatehouse. Use a wide-angle lens (24mm) and get low behind the historic black cannons on the lawn, using the barrel of the weapon as a powerful foreground leading line aimed directly at the castle entrance. In the height of summer, the highly colourful floral borders and village gardens explode with vibrant purple lavender—use a mid-range lens to shoot low through the brightly coloured flowers, throwing them out of focus in the foreground to beautifully frame the stark, grey stone ruins behind them.", parking: "TD12 4TN", best_time: "Afternoon", top_tip: "Visit the nearby thatched pub 'The Black Bull' - the only thatched pub in Northumberland.", history: "Built by Robert Manners in 1341. It fell to James IV's army in 1513 before the Battle of Flodden." },
+            { id: 48, name: "Norham Castle", type: "Landscape", lat: 55.7222, lng: -2.1495, desc: "An absolute colossus of a ruin, sitting fiercely atop a steep, grassy mound directly commanding a vital crossing point over the River Tweed. The sheer, towering scale of the remaining pink sandstone walls makes it one of the most intimidating and majestic fortresses in the country. It was famously beloved by the legendary landscape painter J.M.W. Turner, who visited and painted the ruins multiple times, cementing its status as an iconic, romantic landscape subject.\n\nCOMPOSITION & GEAR: To capture the legendary 'Turner perspective' that made the castle famous in the art world, you must leave the castle grounds entirely. Cross the bridge to the Scottish side of the river and walk down the bank at sunrise. Use a standard lens (50mm) to capture the massive, bulky silhouette of the castle glowing in the warm dawn light, perfectly reflected in the wide, calm waters of the Tweed below. For detailed architectural shots, the massive, deeply arched main gatehouse on the village green offers fantastic, imposing geometry when shot from a very low angle.", parking: "TD15 2JY", best_time: "Sunrise (for the Turner view)", top_tip: "The village green offers a great view of the gatehouse if you don't want to walk to the river.", history: "Besieged 13 times by the Scots. Known as 'The most dangerous place in England'." },
+            { id: 49, name: "Belsay Hall & Castle", type: "Landscape", lat: 55.1018, lng: -1.8693, desc: "A uniquely fascinating English Heritage site offering three entirely distinct photographic environments in one location. The site features an imposing 14th-century medieval tower house, a starkly minimalist, unfurnished Greek Revival villa (the Hall), and—most spectacularly—a colossal, deeply cut Quarry Garden. The stone for the Hall was blasted directly from the grounds, resulting in sheer, towering rock ravines that have since been heavily planted with massive, exotic ferns, creating a highly surreal, 'Jurassic Park' microclimate.\n\nCOMPOSITION & GEAR: While the stark pillars of the Hall are great for minimalist architecture, the Quarry Garden is the true prize. The sheer rock faces and deep ravines completely block out harsh sunlight. This requires an ultra-wide lens (14-24mm) to capture the massive scale of the towering rock walls flanking the narrow paths. The lighting is incredibly high-contrast—deep black shadows in the cuts and bright highlights on the top foliage—making this a mandatory location for Auto Exposure Bracketing (HDR), shooting three differently exposed frames on a tripod to seamlessly blend the extreme dynamic range later in software.", parking: "NE20 0DX", best_time: "Overcast (for the quarry)", top_tip: "Wide angle is essential in the quarry to capture the scale of the rock faces.", history: "Home to the Middleton family for over 700 years. The Hall was built using stone from the garden quarry." },
+            { id: 50, name: "Seaton Delaval Hall", type: "Landscape", lat: 55.0825, lng: -1.5067, desc: "An absolute masterpiece of English Baroque architecture, notoriously designed by the legendary dramatist and architect Sir John Vanbrugh. The building has a dark, dramatic history; the breathtaking Central Hall was utterly gutted by a massive fire in 1822 and remained a roofless, exposed ruin for decades. Today, the fire-scarred, naked brick walls of the central hall stand in stark, eerie contrast to the perfectly manicured, geometric symmetry of the surrounding formal gardens and towering obelisks.\n\nCOMPOSITION & GEAR: The location thrives on grand symmetry and dramatic, harsh lighting. The massive, imposing West Facade, with its sweeping staircases and towering pillars, is best photographed during the Golden Hour when the setting sun hits the stonework directly, casting immense, long shadows that highlight the deeply carved, theatrical architecture. Inside, use a wide-angle lens pointing upwards in the fire-damaged Central Hall to capture the incredible contrast between the blackened, ruined walls and the meticulously restored checkerboard floor.", parking: "NE26 4QR", best_time: "Golden Hour (West facade)", top_tip: "Look for the 'White Lady' ghost in the windows if you are shooting at dusk!", history: "Ravaged by fire in 1822, it remained a roofless shell for 40 years. Famous for the 'Gay Delavals' and their parties." },
+            { id: 51, name: "The Couple", type: "Landscape", lat: 55.1817, lng: -1.5089, desc: "A mesmerizing and somewhat surreal coastal art installation located offshore in Newbiggin-by-the-Sea. Created by artist Sean Henry, this towering bronze sculpture features a colossal man and woman standing together upon a concrete breakwater, constantly battered by the tides of the North Sea, gazing eternally out towards the horizon. It offers a profoundly unique, contemporary focal point that completely breaks away from traditional coastal landscape photography.\n\nCOMPOSITION & GEAR: This location was practically built for long-exposure fine art photography. The absolute best conditions are at high tide when the rough sea completely surrounds the base of the breakwater. Mount your camera on a heavy tripod and use an extremely dense ND filter (10-stop or even 15-stop) to push your shutter speed to 30 seconds or longer. This technique completely smooths the chaotic, crashing waves into a pristine, milky white fog, creating the haunting, deeply atmospheric illusion that the massive bronze figures are floating magically in the clouds.", parking: "NE64 6DB", best_time: "Sunrise", top_tip: "Check the tide. At high tide, they are surrounded by water. At low tide, the breakwater is exposed (less photogenic).", history: "Installed in 2007 as part of a regeneration project. It is the UK's first permanent offshore sculpture." },
+            { id: 52, name: "Allen Banks", type: "Landscape", lat: 54.9669, lng: -2.3160, desc: "A profoundly beautiful, steeply sided gorge carved out by the fast-flowing River Allen. It is a stunning example of a Victorian wilderness pleasure ground, featuring miles of winding trails through ancient, semi-natural woodland, dramatic rocky outcrops, and dark, damp ravines. The centrepiece of the location is a brilliantly photogenic, swaying wooden suspension bridge that crosses the tumbling river, offering excellent leading lines and a sense of scale amidst the towering trees.\n\nCOMPOSITION & GEAR: This is an unmissable location during the autumn months when the dense canopy explodes into vibrant, saturated shades of copper and gold. The gorge is extremely steep and dense, meaning it blocks out almost all direct sunlight, resulting in very dark, challenging shooting conditions even at midday. A sturdy tripod is absolutely essential to shoot at f/8 or f/11 for maximum depth of field. Use a circular polarising filter to cut the severe white glare off the rushing river water and the wet leaves, heavily boosting the natural saturation of the autumn colours.", parking: "NE47 7BP", best_time: "Autumn", top_tip: "It can be very dark in the gorge. Bring a tripod.", history: "Once a Victorian pleasure ground. Much of the 'wild' woodland was actually planted for aesthetic appeal." },
+            { id: 53, name: "Ingram Valley", type: "Landscape", lat: 55.4389, lng: -1.9750, desc: "A spectacularly wide, open, and heavily glaciated valley cutting deep into the heart of the Cheviot Hills. It is defined by the gently meandering, highly reflective River Breamish, surrounded by steep, rolling green hillsides incredibly rich in ancient Bronze Age archaeology and Iron Age hillforts. As you drive deeper down the single-track road towards Hartside, the landscape becomes increasingly wild, remote, and completely devoid of modern infrastructure.\n\nCOMPOSITION & GEAR: The sweeping, gentle curves of the River Breamish are your greatest compositional tool. Gain a little elevation on the valley sides and use a mid-range zoom (35-50mm) to capture the river winding perfectly through the frame like a silver ribbon. The area known as Bulby's Wood offers highly distinctive stands of dark pine trees that contrast brilliantly against the lighter grassy hills, making them perfect subjects for isolation shots. Due to its extreme remoteness and lack of villages, the valley is also a phenomenal, pitch-black location for wide-angle astrophotography and capturing the Milky Way arching over the hills.", parking: "NE66 4LT", best_time: "Night (Astro) or Summer", top_tip: "Drive until the road ends at Hartside for the wildest views.", history: "Rich in Bronze Age archaeology, with hillforts visible on many of the surrounding slopes." },
+            { id: 54, name: "Hethpool Linn", type: "Landscape", lat: 55.5611, lng: -2.1625, desc: "A fierce, compact, and highly dramatic waterfall and rocky gorge hidden away in the incredibly remote and isolated College Valley, at the very northern edge of the Cheviot Hills. The water of the College Burn is forced violently through a tight, jagged cleft in the hard bedrock, creating intense rapids and a rushing cascade. The surrounding slopes are incredibly wild, covered in gorse and bracken, and are frequently roamed by herds of ancient, wild Cheviot goats.\n\nCOMPOSITION & GEAR: This location is all about capturing raw power and dynamic water flow in a tight space. To get the best shots, you must carefully scramble down the banks to get your camera as low as possible, practically at water level. Set up your tripod on the rocks directly facing the rush of the water through the narrow gap. Use a slightly faster long exposure (around 1/4 to 1/8 of a second) rather than a multi-second exposure; this retains the aggressive, textured, white-water energy of the 'boiling' burn rather than turning it into a featureless, milky blur.", parking: "NE71 6TW", best_time: "After rain", top_tip: "Look out for wild Cheviot goats on the rocks above the waterfall.", history: "The College Valley memorial for airmen killed in the Cheviots is nearby." },
+            { id: 55, name: "Berwick Town Walls", type: "Landscape", lat: 55.7689, lng: -1.9980, desc: "A monumentally impressive, complete, and perfectly intact circuit of colossal Elizabethan defensive walls entirely encircling the historic town of Berwick-upon-Tweed. These incredibly thick, grassy ramparts and striking stone bastions sit high above the town, offering photographers unparalleled, sweeping, elevated vantage points over the tightly packed, red-tiled rooftops, the wide River Tweed estuary, and out to the expansive North Sea.\n\nCOMPOSITION & GEAR: This is a classic architectural and townscape photography location. The heavy geometric angles of the defensive earthworks provide phenomenal, bold leading lines. The most spectacular views are found looking outward from the walls near the 'Cowport' gate or the coastal bastions. Bring a versatile telephoto lens (70-200mm); the elevated height of the walls allows you to brilliantly compress the jumble of historic red rooftops against the blue of the sea or the distant lighthouse, creating incredibly dense, graphic images packed with historical texture.", parking: "TD15 1DF", best_time: "Sunrise", top_tip: "Follow the 'Lowry Trail' to find the exact spots where L.S. Lowry painted the town.", history: "Built in 1558 to keep out the French and Scots. A masterpiece of military engineering." },
+            { id: 56, name: "Edlingham Castle", type: "Landscape", lat: 55.3775, lng: -1.8217, desc: "A highly evocative, deeply melancholic, and wildly romantic ruin situated in a desolate, sweeping moorland valley. It is universally famous for its massive, severely leaning 'solar tower', which features massive, jagged cracks tearing through the ancient masonry. The castle sits in a soggy, often misty depression, flanked by an incredibly striking 19th-century railway viaduct in the near distance, creating a brilliant juxtaposition of medieval ruins and Victorian industrial engineering.\n\nCOMPOSITION & GEAR: The severe, gravity-defying lean of the tower and the violent, jagged cracks in its walls are the focal points here. Frame the ruins tightly with a mid-range lens, using the stark, empty landscape to emphasise the castle's isolation. It is a phenomenal location at sunset, as the ruins sit in an open bowl that catches the very last, warm horizontal rays of light, deeply highlighting the textures of the broken stone. In winter, shoot the castle from a distance to include the railway viaduct sweeping across the background, visually linking the two distinct eras of history.", parking: "NE66 2BW", best_time: "Sunset", top_tip: "Cattle often graze inside the ruins. They are generally calm but keep an eye out.", history: "The tower 'cracked' and leaned due to subsidence, not battle. It has defied gravity for centuries." },
+            { id: 57, name: "Brinkburn Priory", type: "Landscape", lat: 55.2794, lng: -1.8197, desc: "An architectural marvel and a supremely peaceful, hidden gem. This exquisite, incredibly well-preserved early Gothic priory is uniquely tucked deep within a steep, heavily wooded loop of the River Coquet. Unlike most monastic ruins in the region, the priory was completely and meticulously roofed and restored in the 19th century, meaning the interior boasts phenomenal acoustics and soaring, intact architectural details. The sheer, steep banks of the river entirely shield the building, making it feel like a secret discovery.\n\nCOMPOSITION & GEAR: The ultimate exterior shot requires a very short walk along the river path. Position yourself on the banks of the Coquet to capture the majestic, tall lancet windows of the priory peeking through the dense, surrounding woodland, perfectly reflected in the calm, slow-moving river water. Inside, the architecture is breathtaking. Pack an ultra-wide lens (14mm-20mm) to capture the soaring, vaulted ceilings and the stunning array of stained glass. A tripod is usually essential indoors due to the very dim, moody light filtering through the narrow gothic windows.", parking: "NE65 8AR", best_time: "Early Morning", top_tip: "Walk along the river path for reflections of the priory in the Coquet.", history: "Founded in 1135 by Augustinian canons. It was restored in the 19th century." },
+            { id: 58, name: "Howick Hall", type: "Landscape", lat: 55.4439, lng: -1.6067, desc: "The stately ancestral home of Earl Grey (namesake of the famous tea), surrounded by some of the most extensive, meticulously designed, and photogenic formal gardens in Northumberland. For photographers, the prime attraction is rarely the house itself, but rather the spectacular 'Silverwood'—a massive woodland garden that explodes with millions of snowdrops in early spring, followed by vibrant, towering rhododendrons. The estate uniquely extends right down to the jagged coastline, offering a stark contrast between manicured lawns and brutal sea cliffs.\n\nCOMPOSITION & GEAR: Timing is critical. In February and March, macro photographers will be in heaven—bring a 100mm macro lens and get flat on the ground to capture deeply isolated, creamy portraits of the snowdrops against the dark earth. For wider garden shots, overcast, soft lighting is strongly preferred to avoid the incredibly harsh, dappled shadows created by the intense woodland canopy. Don't miss the coastal path; the geological rock formations here are incredibly stark, layered, and jagged, offering phenomenal long-exposure seascape opportunities just minutes from the formal gardens.", parking: "NE66 3LB", best_time: "Spring (Snowdrops)", top_tip: "The tea house serves the real Earl Grey tea. Worth a break!", history: "Earl Grey (the Prime Minister) brewed the famous tea here to suit the local water." },
+            { id: 59, name: "Cocklawburn Beach", type: "Landscape", lat: 55.7336, lng: -1.9614, desc: "An absolute visual playground for seascape and geological photographers, located on the far northern coast near Berwick. The beach is completely dominated by deeply fascinating, highly complex limestone and shale strata that aggressively tilt and slice directly into the North Sea at striking angles. These long, jagged rock ridges create immediate, powerful, and natural geometric lines that sweep the viewer's eye straight off the beach and into the water.\n\nCOMPOSITION & GEAR: This location demands a strong grasp of long exposure techniques and leading lines. The absolute best time to shoot is at mid-tide as the water recedes, exposing the incredible, jagged channels of the rock strata. Set up your tripod low among the ridges and use an ultra-wide lens (16mm) to capture the full sweep of the rocks leading to the horizon. Utilise a 6-stop ND filter to drag your shutter speed to around 2-4 seconds—this brilliantly captures the aggressive, streaking motion of the water rushing violently through the narrow rock channels as the waves pull back.", parking: "TD15 2RW", best_time: "Mid-Tide", top_tip: "Look for fossils (crinoids) in the rocks to use as foreground interest.", history: "The lime kilns nearby hint at the industrial past of this now-quiet beach." },
+            { id: 60, name: "Spittal Promenade", type: "Landscape", lat: 55.7600, lng: -1.9944, desc: "A sweeping, wide, and highly evocative Victorian seaside promenade located at the very mouth of the River Tweed. The area exudes a nostalgic, historical seaside aesthetic, featuring a beautifully long, paved walkway, a prominent line of brightly coloured wooden beach huts, and a massively long, robust stone pier that reaches far out into the often-turbulent North Sea, culminating in a distinctive, classic lighthouse.\n\nCOMPOSITION & GEAR: This is an exceptional location for capturing the raw, brutal power of the North Sea during autumn and winter storms. From the complete safety of the high promenade wall, use a telephoto lens (200mm+) to severely compress the distance and photograph massive, chaotic waves violently smashing over the breakwater and swallowing the lighthouse. On calmer, brighter days, swap to a 50mm or 85mm lens and focus on the vibrant, repeating geometry of the colourful beach huts, shooting them perfectly straight-on for striking, minimalist, fine-art compositions.", parking: "TD15 1RN", best_time: "Sunrise", top_tip: "Great for capturing stormy seas crashing over the pier wall from a safe distance.", history: "A popular spa resort in the 18th century. 'Spittal' refers to a hospital that once stood here." },
+            { id: 61, name: "Brizlee Tower", type: "Landscape", lat: 55.4333, lng: -1.7333, desc: "A breathtakingly ornate, highly elaborate, and spectacularly eccentric six-story Gothic folly, standing proudly on a high ridge deep within the private Hulne Park estate. Surrounded by dense, mature woodland, the tower features incredibly intricate stone carving, projecting balconies, and a distinctive fire-basket crowning its roof. Because access is strictly limited to walking or cycling (no public vehicles), the location remains phenomenally quiet, pristine, and unspoiled by crowds.\n\nCOMPOSITION & GEAR: The sheer height of the tower combined with the densely packed surrounding trees makes this a challenging but highly rewarding architectural subject. An ultra-wide lens (14-20mm) is absolutely required to capture the full, towering height of the structure from its immediate base, deliberately using the extreme perspective distortion to make the folly look impossibly tall and imposing against the sky. During the autumn months, use a mid-range zoom to step back and meticulously frame the intricate, gothic stone details through the wildly colourful, golden and red leaves of the surrounding parkland canopy.", parking: "NE66 1NQ", best_time: "Autumn", top_tip: "Check opening times. Hulne Park is often closed for shooting or private events.", history: "Built in 1781 by the 1st Duke of Northumberland. It was designed to be viewed from the castle." },
+            { id: 62, name: "Preston Tower", type: "Landscape", lat: 55.5458, lng: -1.7067, desc: "A fascinating, immensely sturdy, and beautifully preserved example of a historic Pele Tower (a fortified border keep designed to protect against Scottish Reivers). What makes Preston Tower entirely unique photographically is the massively oversized, highly incongruous Victorian clock face that was aggressively retrofitted into its austere medieval stonework centuries later. The tower is set amidst exceptionally manicured, vibrant, and incredibly lush formal gardens, providing a stark contrast to the brutal, functional military architecture.\n\nCOMPOSITION & GEAR: The massive, flat, unadorned stone walls of the tower can look quite plain and flat under overcast, grey skies. The absolute key to making this location work is directional lighting. Shoot specifically during the middle of the day or early afternoon when direct, harsh sunlight grazes across the southern or western facades; this intense cross-lighting will massively emphasise the rough, deeply pitted textures of the 14th-century stonework. Use a standard lens to frame the stark tower rising abruptly from the incredibly soft, vibrant, and flawless green lawns of the foreground gardens.", parking: "NE67 5DH", best_time: "Mid-day", top_tip: "You can climb to the top for views, but the best photo is from the lawn.", history: "Built between 1392 and 1399. The clock was added in 1864." },
+            { id: 63, name: "Ford Village", type: "Landscape", lat: 55.6300, lng: -2.0833, desc: "A flawless, staggeringly picturesque 'model village' originally conceived and painstakingly rebuilt in the 19th century by the aristocratic Waterford family. The entire settlement is a masterclass in uniform, historical aesthetic perfection. It features immaculately maintained stone cottages, pristine, highly colourful floral borders, an iconic, beautifully arched stone blacksmith's forge, and the famous Lady Waterford Hall, making the entire village feel like a pristine, living museum completely frozen in time.\n\nCOMPOSITION & GEAR: The area is an absolute goldmine for capturing classic, idyllic, quintessential English heritage and travel photography. The standout architectural feature is the iconic, sweeping horseshoe-shaped stone archway of the old village forge. Use a wide-angle lens (24mm) to capture the sweeping curve of the arch framing the village street beyond. For the best results, arrive very early in the morning before the influx of daily tourists and parked cars completely clutter the narrow, historic roads and ruin the timeless, centuries-old illusion of the pristine streetscapes.", parking: "TD15 2QA", best_time: "Morning", top_tip: "Visit the heavy horse centre nearby if you like equine photography.", history: "Remodelled in the 19th century by Louisa, Marchioness of Waterford." },
+            { id: 64, name: "Blawearie", type: "Landscape", lat: 55.4951, lng: -1.8677, desc: "A genuinely haunting, profoundly isolated, and deeply atmospheric abandoned shepherd's cottage, left to ruin high on the incredibly bleak, windswept, and desolate moors of the Bewick and Beanley estates. Surrounded by nothing but vast expanses of heather, ancient Bronze Age burial cairns, and sweeping horizons, the roofless stone shell and completely empty, staring windows exude an incredible feeling of melancholy, primitive isolation, and the harsh reality of historical moorland life.\n\nCOMPOSITION & GEAR: This location actively rejects bright, sunny days; it absolutely demands extreme, moody, and turbulent weather to convey its true, desolate character. Hike up here when the clouds are hanging incredibly low, heavy, and threatening rain. Frame the empty, jagged windows of the ruined cottage directly against the bleak hills in the background. The raw, high-contrast textures of the crumbling stone, the wildly blowing moorland grass, and the dark, brooding skies make this an undeniably spectacular location for extremely dramatic, high-contrast Black and White landscape photography.", parking: "NE66 4LX", best_time: "Moody/Stormy", top_tip: "It's a hike. Bring navigation. The atmosphere is best when the clouds are low.", history: "Name means 'Tired of the blue' or 'Blue and weary'? A remote spot occupied until World War II." },
+            { id: 65, name: "Corbridge Roman Town", type: "Landscape", lat: 54.9736, lng: -2.0294, desc: "A sprawling, incredibly detailed, and highly significant archaeological site that stands apart from the typical military forts of Hadrian's Wall. Corbridge was a massive, bustling civilian town and a vital supply base for the entire Roman frontier. The extensive ruins are laid out across a wide, flat plain, featuring the remarkably well-preserved main high street (the Stanegate), exceptionally detailed granary buildings with highly visible sub-floor ventilation columns, and incredibly complex, intricate stone foundations that hint at the massive scale of the ancient settlement.\n\nCOMPOSITION & GEAR: Because the ruins consist mostly of low-lying foundations spread over a wide, flat area, finding strong compositions requires a very specific approach. Avoid shooting from eye level, which flattens the site into a messy jumble of rocks. Instead, get extremely low to the ground with a wide-angle lens (16-24mm) to heavily emphasise the height of the remaining walls and the complex, geometric grid patterns of the granary floor vents. The absolute best time to shoot is the late afternoon, when the low, raking sun casts incredibly long, deep shadows across the site, drastically highlighting the rough textures and the grid-like layout of the ancient stonework.", parking: "NE45 5NT", best_time: "Late afternoon", top_tip: "The 'Corbridge Lion' sculpture inside the museum is a must-see, though harder to photograph well due to glass.", history: "The supply base for the Wall. It was inhabited much longer than the forts." },
+            { id: 66, name: "Low Newton", type: "Landscape", lat: 55.5133, lng: -1.6108, desc: "An exceptionally charming, historic, and visually striking 18th-century fishing village, now almost entirely owned and preserved by the National Trust. The village is famously arranged in an incredibly photogenic three-sided square of uniform, brilliantly white-washed cottages that open directly onto a pristine, sweeping, golden sandy bay. The intense visual contrast between the brilliant white buildings, the vibrant green central grass, the yellow sand, and the deep blue sea makes it one of the most idyllic and sought-after coastal locations in the county.\n\nCOMPOSITION & GEAR: This location is absolutely tailor-made for warm, golden hour evening light. As the sun sets behind the village, the last rays directly illuminate the front of the pristine white cottages, casting a phenomenal, warm, golden glow across the entire square. Use a versatile wide-to-standard zoom (24-70mm) to capture the sweep of the buildings framing the open beach. Don't miss capturing the iconic Ship Inn microbrewery as part of the scene, and consider using the scattered, traditional wooden fishing boats pulled up onto the grass as brilliant, colourful foreground interest to anchor your shots.", parking: "NE66 3EL", best_time: "Sunset", top_tip: "The Ship Inn is famous for its microbrewery. A great reward after a shoot.", history: "Built in the 18th century for fishermen. Now almost entirely National Trust." }
         ];
 
-        const NavBar = () => {
+        // --- COMPONENTS ---
+        const Navbar = () => {
             const [isOpen, setIsOpen] = useState(false);
 
-            const toggleMenu = () => {
-                setIsOpen(!isOpen);
-            };
+            const toggleMenu = () => setIsOpen(!isOpen);
 
             const links = [
                 { name: 'Home', url: 'index.html', active: false },
                 { name: 'Tutorials', url: 'tutorials.html', active: false },
-                { name: 'Explore', url: 'explore.html', active: false },
+                { name: 'Explore', url: 'explore.html', active: true },
                 { name: 'Weather', url: 'weather.html', active: false },
-                { name: 'Routes', url: 'routes.html', active: true },
+                { name: 'Routes', url: 'routes.html', active: false },
+                { name: 'Calendar', url: 'Calendar.html', active: false },
                 { name: 'Ethics', url: 'ethics.html', active: false },
                 { name: 'Workshops', url: 'workshops.html', active: false }
             ];
 
             return (
-                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
-                    <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
-                        {/* Logo Area */}
+                <nav className="fixed top-0 w-full z-[1000] bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-300 pt-[env(safe-area-inset-top)]">
+                    <div className="flex items-center justify-between px-4 md:px-8 h-16 md:h-20 max-w-7xl mx-auto w-full">
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
-                            <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
-                                <Icon name="camera" className="text-white" size={18} />
+                            <div className="w-8 h-8 md:w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center shadow-md">
+                                <Icon name="camera" className="text-white" size={16} />
                             </div>
-                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
-                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NorthernPixl</span>
+                            <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden sm:inline">NorthernPixl</span>
                         </div>
                         
-                        {/* Desktop Navigation */}
-                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                        <div className="hidden lg:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
                             {links.map((link) => (
-                                <a 
-                                    key={link.name} 
-                                    href={link.url} 
-                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
-                                >
+                                <a key={link.name} href={link.url} className={link.active ? "text-slate-900 border-b-2 border-slate-900 pb-1" : "hover:text-slate-900 transition-colors"}>
                                     {link.name}
                                 </a>
                             ))}
                         </div>
 
-                        {/* Mobile Menu Button */}
-                        <div className="md:hidden">
+                        <div className="lg:hidden">
                             <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
                                 <Icon name={isOpen ? "x" : "menu"} size={24} />
                             </button>
                         </div>
                     </div>
 
-                    {/* Mobile Navigation Dropdown */}
                     {isOpen && (
-                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
+                        <div className="lg:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-full shadow-xl fade-in">
                             <div className="flex flex-col p-6 space-y-6">
                                 {links.map((link) => (
-                                    <a 
-                                        key={link.name} 
-                                        href={link.url} 
-                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
-                                    >
+                                    <a key={link.name} href={link.url} className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}>
                                         {link.name}
                                     </a>
                                 ))}
@@ -236,158 +263,510 @@
             );
         };
 
-        const App = () => {
-            const mapContainerRef = useRef(null);
-            const mapInstanceRef = useRef(null);
-            const markersLayerRef = useRef(null);
-            const [activeFilter, setActiveFilter] = useState('all');
-            const [selectedWalk, setSelectedWalk] = useState(null);
-            const [isNavOpen, setIsNavOpen] = useState(false);
-            const walkMapContainerRef = useRef(null);
-            const walkMapInstanceRef = useRef(null);
+        const HolyIslandCrossingWidget = () => {
+            const [crossingSchedule, setCrossingSchedule] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(false);
 
-            const filteredWalks = useMemo(() => {
-                if (activeFilter === 'all') return WALKS;
-                if (activeFilter === '1-4') return WALKS.filter(w => w.category === '1-4');
-                if (activeFilter === '4-7') return WALKS.filter(w => w.category === '4-7');
-                if (activeFilter === '7+') return WALKS.filter(w => w.category === '7+');
-                return WALKS;
-            }, [activeFilter]);
-
-            // Handle Deep Linking
-            useEffect(() => {
-                const params = new URLSearchParams(window.location.search);
-                const walkId = params.get('id');
-                if (walkId) {
-                    const walk = filteredWalks.find(w => w.id === parseInt(walkId));
-                    if (walk) setSelectedWalk(walk);
-                }
-                const onPopState = () => setSelectedWalk(null);
-                window.addEventListener('popstate', onPopState);
-                return () => window.removeEventListener('popstate', onPopState);
-            }, [filteredWalks]);
-
-            // Main Map Logic
-            useEffect(() => {
-                if (mapContainerRef.current && !mapInstanceRef.current && !selectedWalk) {
-                     const map = L.map(mapContainerRef.current, { 
-                        zoomControl: false,
-                        center: [55.35, -2.0], 
-                        zoom: 9 
-                    });
-                    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-                        attribution: '&copy; OpenStreetMap'
-                    }).addTo(map);
-                    mapInstanceRef.current = map;
-                    markersLayerRef.current = L.layerGroup().addTo(map);
-                    
-                    // Fix for map loading correctly
-                    setTimeout(() => {
-                        map.invalidateSize();
-                    }, 100);
-                }
-            }, [selectedWalk]);
-
-            useEffect(() => {
-                if (!mapInstanceRef.current || !markersLayerRef.current) return;
-
-                // Clear existing markers
-                markersLayerRef.current.clearLayers();
-
-                // Add filtered markers
-                filteredWalks.forEach(walk => {
-                    const color = walk.category === '1-4' ? '#22c55e' : // Green
-                                  walk.category === '4-7' ? '#f59e0b' : // Orange
-                                  '#ef4444'; // Red
-                    
-                    if (walk.route && walk.route.length > 0) {
-                        const startPoint = walk.route[0];
-                        const marker = L.circleMarker(startPoint, {
-                            radius: 6,
-                            fillColor: color,
-                            color: "#fff",
-                            weight: 2,
-                            fillOpacity: 1
-                        });
-
-                        // Link logic with Deep Linking ID
-                        const baseUrl = walk.category === '1-4' ? 'walks_short.html' :
-                                        walk.category === '4-7' ? 'walks_medium.html' :
-                                        'walks_long.html';
-                        const linkUrl = `${baseUrl}?id=${walk.id}`;
-                        const weatherUrl = `weather.html?lat=${startPoint[0]}&lng=${startPoint[1]}`;
-
-                        const popupContent = `
-                            <div class="custom-popup">
-                                <div class="meta">${walk.length} • ${walk.difficulty}</div>
-                                <div class="title">${walk.name}</div>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <a href="${linkUrl}" class="link">View Details</a>
-                                    <a href="${weatherUrl}" class="link" style="background-color: #0ea5e9;">Live Weather</a>
-                                </div>
-                            </div>
-                        `;
-                        marker.bindPopup(popupContent);
-                        marker.addTo(markersLayerRef.current);
+            const parseTableToGrid = (table) => {
+                const rows = Array.from(table.querySelectorAll('tr'));
+                const grid = [];
+                for (let i = 0; i < rows.length; i++) grid[i] = [];
+                
+                for (let r = 0; r < rows.length; r++) {
+                    const cells = Array.from(rows[r].querySelectorAll('td, th'));
+                    let c = 0;
+                    for (const cell of cells) {
+                        while (grid[r][c] !== undefined) c++;
+                        const rowspan = parseInt(cell.getAttribute('rowspan') || 1, 10);
+                        const colspan = parseInt(cell.getAttribute('colspan') || 1, 10);
+                        const text = cell.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+                        const isHeader = cell.tagName === 'TH' || r < 2; 
+                        
+                        for (let rr = 0; rr < rowspan; rr++) {
+                            if (!grid[r + rr]) grid[r + rr] = [];
+                            for (let cc = 0; cc < colspan; cc++) {
+                                grid[r + rr][c + cc] = { text, isHeader };
+                            }
+                        }
                     }
-                });
+                }
+                return grid;
+            };
 
-            }, [filteredWalks]);
+            useEffect(() => {
+                let isMounted = true;
+                
+                const fetchCrossing = async () => {
+                    try {
+                        const targetUrl = 'https://holyislandcrossingtimes.northumberland.gov.uk/';
+                        let htmlText = '';
+                        const proxies = [
+                            `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
+                            `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
+                            `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
+                        ];
+
+                        for (const proxy of proxies) {
+                            try {
+                                const res = await fetch(proxy);
+                                if (!res.ok) continue;
+                                if (proxy.includes('allorigins')) {
+                                    const data = await res.json();
+                                    htmlText = data.contents;
+                                } else {
+                                    htmlText = await res.text();
+                                }
+                                if (htmlText && htmlText.toLowerCase().includes('crossing')) break; 
+                            } catch (e) { continue; }
+                        }
+                        
+                        if (!htmlText || !htmlText.toLowerCase().includes('crossing')) throw new Error("Could not retrieve valid HTML.");
+                        const doc = new DOMParser().parseFromString(htmlText, 'text/html');
+                        const tables = Array.from(doc.querySelectorAll('table'));
+                        const crossingTable = tables.find(t => t.textContent.toLowerCase().includes('safe'));
+                        if (!crossingTable) throw new Error("No crossing table found.");
+
+                        const grid = parseTableToGrid(crossingTable);
+                        const numCols = grid[0] ? grid[0].length : 0;
+                        const colTypes = [];
+                        
+                        for (let c = 0; c < numCols; c++) {
+                            let headerText = "";
+                            for (let r = 0; r < grid.length; r++) {
+                                if (grid[r][c] && grid[r][c].isHeader) headerText += grid[r][c].text + " ";
+                            }
+                            if (headerText.includes('unsafe') || headerText.includes('do not cross')) colTypes[c] = 'unsafe';
+                            else if (headerText.includes('safe')) colTypes[c] = 'safe';
+                            else colTypes[c] = 'other';
+                        }
+
+                        const today = new Date(); today.setHours(0,0,0,0);
+                        const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+                        const tmrw = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
+                        const dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate() + 2);
+                        const targetDates = [yesterday, today, tmrw, dayAfter];
+                        const allSafePeriods = [];
+
+                        const getRowForDate = (dateObj) => {
+                            const dNum = dateObj.getDate();
+                            const dayRegex = new RegExp(`\\b0?${dNum}(?:st|nd|rd|th)?\\b`, 'i');
+                            for (let r = 0; r < grid.length; r++) {
+                                if (grid[r][0] && grid[r][0].isHeader) continue;
+                                let rowDateText = "";
+                                for (let c = 0; c < grid[r].length; c++) {
+                                    if (colTypes[c] === 'other' && grid[r][c]) rowDateText += grid[r][c].text + " ";
+                                }
+                                if (dayRegex.test(rowDateText)) return r;
+                            }
+                            return -1;
+                        };
+
+                        for (const tDate of targetDates) {
+                            const rIdx = getRowForDate(tDate);
+                            if (rIdx === -1) continue;
+                            let cursorDate = new Date(tDate); cursorDate.setHours(0,0,0,0);
+                            let lastTimeMins = -1;
+
+                            for (let c = 0; c < grid[rIdx].length; c++) {
+                                if (colTypes[c] === 'safe' || colTypes[c] === 'unsafe') {
+                                    const cellText = grid[rIdx][c] ? grid[rIdx][c].text : "";
+                                    const matches = cellText.match(/\b\d{1,2}[:.]\d{2}\b/g);
+                                    if (!matches) continue;
+
+                                    const cellDates = [];
+                                    for (const m of matches) {
+                                        const parts = m.split(/[:.]/);
+                                        const h = parseInt(parts[0], 10);
+                                        const min = parseInt(parts[1], 10);
+                                        const timeMins = h * 60 + min;
+
+                                        if (timeMins < lastTimeMins - 120) cursorDate.setDate(cursorDate.getDate() + 1);
+                                        
+                                        const absDate = new Date(cursorDate);
+                                        absDate.setHours(h, min, 0, 0);
+                                        cellDates.push(absDate.getTime());
+                                        lastTimeMins = timeMins;
+                                    }
+
+                                    if (colTypes[c] === 'safe') {
+                                        const validLength = cellDates.length - (cellDates.length % 2);
+                                        for (let i = 0; i < validLength; i += 2) allSafePeriods.push({ start: cellDates[i], end: cellDates[i+1] });
+                                    }
+                                }
+                            }
+                        }
+
+                        allSafePeriods.sort((a, b) => a.start - b.start);
+                        const mergedSafePeriods = [];
+                        for (const sp of allSafePeriods) {
+                            if (mergedSafePeriods.length === 0) mergedSafePeriods.push({...sp});
+                            else {
+                                const last = mergedSafePeriods[mergedSafePeriods.length - 1];
+                                if (sp.start <= last.end) last.end = Math.max(last.end, sp.end);
+                                else mergedSafePeriods.push({...sp});
+                            }
+                        }
+
+                        const buildDaySchedule = (targetDate, mergedPeriods) => {
+                            const dayStart = new Date(targetDate); dayStart.setHours(0, 0, 0, 0);
+                            const dayEnd = new Date(targetDate); dayEnd.setHours(23, 59, 59, 999);
+                            const formatTime = (d) => d.toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit', hour12: false});
+                            const periods = [];
+                            let current = dayStart.getTime();
+
+                            for (const sp of mergedPeriods) {
+                                if (sp.end <= current) continue;
+                                if (sp.start >= dayEnd.getTime()) break;
+                                const safeStart = Math.max(sp.start, current);
+                                const safeEnd = Math.min(sp.end, dayEnd.getTime());
+
+                                if (safeStart > current) {
+                                    periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: formatTime(new Date(safeStart)) });
+                                }
+                                periods.push({ type: 'safe', label: 'Safe to cross', start: formatTime(new Date(safeStart)), end: formatTime(new Date(safeEnd)) });
+                                current = safeEnd;
+                            }
+
+                            if (current < dayEnd.getTime() - 60000) {
+                                periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: '23:59' });
+                            }
+                            periods.forEach(p => {
+                                if(p.end === '24:00' || p.end === '00:00') p.end = '23:59';
+                                if(p.start === '24:00') p.start = '00:00';
+                            });
+
+                            const cleanPeriods = periods.filter(p => p.start !== p.end);
+                            const dateStr = targetDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+                            return cleanPeriods.length > 0 ? { date: dateStr, periods: cleanPeriods } : null;
+                        };
+
+                        const finalSchedule = [];
+                        const todayData = buildDaySchedule(today, mergedSafePeriods);
+                        if (todayData) { todayData.date = `Today - ${todayData.date}`; finalSchedule.push(todayData); }
+                        const tmrwData = buildDaySchedule(tmrw, mergedSafePeriods);
+                        if (tmrwData) { tmrwData.date = `Tomorrow - ${tmrwData.date}`; finalSchedule.push(tmrwData); }
+                        
+                        if (finalSchedule.length > 0 && mergedSafePeriods.length > 0) {
+                            if (isMounted) setCrossingSchedule(finalSchedule);
+                        } else throw new Error("Could not process schedule pairs");
+                    } catch (err) {
+                        console.warn("Holy Island Scrape Error:", err.message);
+                        if (isMounted) setError(true);
+                    } finally {
+                        if (isMounted) setLoading(false);
+                    }
+                };
+                fetchCrossing();
+                return () => { isMounted = false; };
+            }, []);
 
             return (
-                <div className="h-full flex flex-col">
-                    <NavBar />
-                    
-                    <main className="flex-1 pt-20 relative">
-                        {/* Hidden H1 for SEO */}
-                        <h1 className="sr-only">Northumberland Walking Routes Map</h1>
-                        <div ref={mapContainerRef} className="w-full h-full" />
-                        
-                        {/* Legend Overlay & Filter */}
-                        <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-[400] flex flex-col gap-2 md:gap-4">
-                            
-                            {/* Filter Controls */}
-                            <div className="bg-white p-2 rounded-2xl shadow-xl border border-slate-100 flex gap-2">
-                                <button onClick={() => setActiveFilter('all')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === 'all' ? 'active' : 'hover:bg-slate-200'}`}>All</button>
-                                <button onClick={() => setActiveFilter('1-4')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '1-4' ? 'active' : 'hover:bg-slate-200'}`}>Short</button>
-                                <button onClick={() => setActiveFilter('4-7')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '4-7' ? 'active' : 'hover:bg-slate-200'}`}>Med</button>
-                                <button onClick={() => setActiveFilter('7+')} className={`filter-btn px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors ${activeFilter === '7+' ? 'active' : 'hover:bg-slate-200'}`}>Long</button>
-                            </div>
-
-                            {/* New Group Link Button */}
-                            {activeFilter !== 'all' && (
-                                <a 
-                                    href={
-                                        activeFilter === '1-4' ? 'walks_short.html' :
-                                        activeFilter === '4-7' ? 'walks_medium.html' :
-                                        'walks_long.html'
-                                    }
-                                    className="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-900 flex items-center justify-between group hover:bg-slate-800 transition-all no-underline"
-                                >
-                                    <span className="font-bold text-xs uppercase tracking-widest mr-3">
-                                        View {activeFilter === '1-4' ? 'Short' : activeFilter === '4-7' ? 'Medium' : 'Long'} Walks
-                                    </span>
-                                    <Icon name="arrowRight" size={16} />
-                                </a>
-                            )}
-
-                            <div className="bg-white p-4 rounded-2xl shadow-xl border border-slate-100">
-                                <h3 className="font-black text-xs uppercase tracking-widest mb-3">Route Key</h3>
-                                <div className="space-y-2">
-                                    <div className="flex items-center">
-                                        <span className="w-3 h-3 rounded-full bg-green-500 mr-2"></span>
-                                        <span className="text-xs font-bold text-slate-600">1-4 Miles</span>
+                <div className="bg-slate-50 border border-slate-200 shadow-sm p-4 md:p-5 rounded-2xl flex flex-col relative overflow-hidden mt-4">
+                    <div className="flex items-center text-slate-800 mb-4 z-10 justify-between">
+                        <div className="flex items-center">
+                            <Icon name="alertTriangle" size={18} className="mr-2 text-amber-500" />
+                            <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Causeway Crossing Times</span>
+                        </div>
+                    </div>
+                    {loading ? (
+                        <div className="animate-pulse flex flex-col gap-3">
+                            <div className="h-16 bg-slate-200 rounded-xl w-full"></div>
+                            <div className="h-16 bg-slate-200 rounded-xl w-full"></div>
+                        </div>
+                    ) : error || crossingSchedule.length === 0 ? (
+                        <div className="text-sm text-red-800 bg-red-50 p-4 border border-red-100 rounded-xl">
+                            <p className="mb-4 font-medium">Unable to load safe crossing times automatically. Do not guess crossing times!</p>
+                            <a href="https://holyislandcrossingtimes.northumberland.gov.uk/" target="_blank" rel="noopener noreferrer" className="block bg-red-600 text-white text-xs font-bold uppercase tracking-widest py-3 px-4 rounded-xl text-center hover:bg-red-700 transition-colors shadow-md">
+                                Check Official Times
+                            </a>
+                        </div>
+                    ) : (
+                        <div className="flex flex-col gap-4">
+                            {crossingSchedule.map((day, idx) => (
+                                <div key={idx} className="bg-white rounded-xl border border-slate-100 overflow-hidden shadow-sm">
+                                    <div className="bg-slate-100/50 py-2 px-4 border-b border-slate-100">
+                                        <span className="font-bold text-slate-800 text-xs uppercase tracking-wider">{day.date}</span>
                                     </div>
-                                    <div className="flex items-center">
-                                        <span className="w-3 h-3 rounded-full bg-amber-500 mr-2"></span>
-                                        <span className="text-xs font-bold text-slate-600">4-7 Miles</span>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <span className="w-3 h-3 rounded-full bg-red-500 mr-2"></span>
-                                        <span className="text-xs font-bold text-slate-600">7+ Miles</span>
+                                    <div className="flex flex-col">
+                                        {day.periods.map((p, i) => (
+                                            <div key={i} className={`flex justify-between items-center px-4 py-2 border-b last:border-0 ${p.type === 'safe' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' : 'bg-red-50 text-red-800 border-red-100'}`}>
+                                                <div className="flex items-center w-1/3 min-w-[120px]">
+                                                    {p.type === 'safe' ? <Icon name="checkCircle" size={14} className="mr-2 text-emerald-600 shrink-0"/> : <Icon name="xCircle" size={14} className="mr-2 text-red-600 shrink-0"/>}
+                                                    <span className="font-black uppercase tracking-widest text-[9px]">{p.label}</span>
+                                                </div>
+                                                <span className="font-bold text-xs text-right w-2/3">{p.start} - {p.end}</span>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
+                            ))}
+                            <div className="mt-2">
+                                <a href="https://holyislandcrossingtimes.northumberland.gov.uk/" target="_blank" rel="noopener noreferrer" className="block w-full bg-slate-800 text-white text-[10px] font-bold uppercase tracking-widest py-3 px-4 rounded-xl text-center hover:bg-slate-900 transition-colors shadow-sm">
+                                    Verify on Official Website
+                                </a>
                             </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [selectedLoc, setSelectedLoc] = useState(() => {
+                if (typeof window !== 'undefined') {
+                    const params = new URLSearchParams(window.location.search);
+                    const idParam = params.get('id');
+                    const locParam = params.get('loc');
+                    
+                    if (idParam) {
+                        return LOCATIONS.find(l => l.id === parseInt(idParam, 10)) || null;
+                    }
+                    if (locParam) {
+                        return LOCATIONS.find(l => {
+                            const slug = l.name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                            return slug.includes(locParam) || locParam.includes(slug.split('-')[0]);
+                        }) || null;
+                    }
+                }
+                return null;
+            });
+            const [isLocating, setIsLocating] = useState(false);
+            const mapContainerRef = useRef(null);
+            const mapInstanceRef = useRef(null);
+            const userMarkerRef = useRef(null);
+
+            useEffect(() => {
+                const onPopState = () => {
+                    setSelectedLoc(null);
+                };
+                window.addEventListener('popstate', onPopState);
+                return () => window.removeEventListener('popstate', onPopState);
+            }, []);
+
+            useEffect(() => {
+                const timer = setTimeout(() => {
+                    if (mapContainerRef.current) {
+                        const map = L.map(mapContainerRef.current, { zoomControl: false }).setView([55.35, -2.0], 9);
+                        mapInstanceRef.current = map;
+                        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                            attribution: '&copy; OpenStreetMap, &copy; CARTO'
+                        }).addTo(map);
+                        
+                        LOCATIONS.forEach(loc => {
+                            const marker = L.circleMarker([loc.lat, loc.lng], { radius: 8, fillColor: '#0ea5e9', color: "#fff", weight: 3, fillOpacity: 1 }).addTo(map);
+                            marker.on('click', () => {
+                                setSelectedLoc(loc);
+                                window.history.pushState({}, "");
+                            });
+                        });
+                        
+                        if (selectedLoc) {
+                            const isDesktop = window.innerWidth >= 768;
+                            const targetZoom = 14;
+                            const targetPoint = map.project([selectedLoc.lat, selectedLoc.lng], targetZoom);
+                            
+                            const offsetX = isDesktop ? -200 : 0;
+                            const offsetY = isDesktop ? 0 : 200;
+                            
+                            const offsetPoint = L.point(targetPoint.x + offsetX, targetPoint.y + offsetY);
+                            const offsetLatLng = map.unproject(offsetPoint, targetZoom);
+
+                            map.setView(offsetLatLng, targetZoom);
+                            
+                            // Clear URL params so they don't persist on page refresh
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                        }
+                    }
+                }, 100);
+
+                return () => {
+                    clearTimeout(timer);
+                    if (mapInstanceRef.current) {
+                        mapInstanceRef.current.remove();
+                        mapInstanceRef.current = null;
+                    }
+                };
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            }, []);
+
+            // Intelligent Map Centering - offsets the marker so it isn't hidden under the floating panel
+            useEffect(() => {
+                if (mapInstanceRef.current) {
+                    if (selectedLoc) {
+                        const map = mapInstanceRef.current;
+                        const isDesktop = window.innerWidth >= 768;
+                        const targetZoom = 14;
+                        
+                        const targetPoint = map.project([selectedLoc.lat, selectedLoc.lng], targetZoom);
+                        // Desktop: shift center left by 200px. Mobile: shift center down by 200px.
+                        const offsetX = isDesktop ? -200 : 0;
+                        const offsetY = isDesktop ? 0 : 200;
+                        
+                        const offsetPoint = L.point(targetPoint.x + offsetX, targetPoint.y + offsetY);
+                        const offsetLatLng = map.unproject(offsetPoint, targetZoom);
+
+                        map.flyTo(offsetLatLng, targetZoom, { duration: 1.2 });
+                    } else {
+                        mapInstanceRef.current.flyTo([55.35, -2.0], 9, { duration: 1.2 });
+                    }
+                }
+            }, [selectedLoc]);
+
+            const handleLocateMe = () => {
+                if (!mapInstanceRef.current || isLocating) return;
+                setIsLocating(true);
+                
+                mapInstanceRef.current.locate({ setView: true, maxZoom: 12 });
+                
+                mapInstanceRef.current.once('locationfound', (e) => {
+                    setIsLocating(false);
+                    if (userMarkerRef.current) {
+                        userMarkerRef.current.setLatLng(e.latlng);
+                    } else {
+                        userMarkerRef.current = L.circleMarker(e.latlng, { 
+                            radius: 8, 
+                            fillColor: '#ef4444', 
+                            color: '#ffffff', 
+                            weight: 3, 
+                            fillOpacity: 1 
+                        }).addTo(mapInstanceRef.current).bindTooltip("You are here", { permanent: false, direction: 'top' });
+                    }
+                });
+                
+                mapInstanceRef.current.once('locationerror', (e) => {
+                    setIsLocating(false);
+                    console.warn("Location access denied or unavailable.");
+                });
+            };
+
+            return (
+                <div className="fixed inset-0 bg-slate-50 overflow-hidden">
+                    <Navbar />
+                    <main className="absolute top-20 bottom-0 left-0 right-0">
+                        <h1 className="sr-only">Northumberland Photography Locations Map</h1>
+                        
+                        {/* Full Bleed Map Layer */}
+                        <div className="absolute inset-0 z-0">
+                            <div ref={mapContainerRef} className="w-full h-full"></div>
+                        </div>
+
+                        {/* Floating "Select a location" hint */}
+                        <div className={`absolute top-6 left-1/2 -translate-x-1/2 z-[400] transition-all duration-500 pointer-events-none ${selectedLoc ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'}`}>
+                            <div className="bg-white/95 backdrop-blur-md px-5 py-2.5 rounded-full shadow-lg border border-slate-200 flex items-center gap-3">
+                                <Icon name="mapPin" size={16} className="text-sky-500" />
+                                <span className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-slate-700">Select a location</span>
+                            </div>
+                        </div>
+
+                        {/* Dynamic Locate Me Button */}
+                        <button 
+                            onClick={handleLocateMe}
+                            disabled={isLocating}
+                            className={`absolute right-4 md:right-6 z-[400] bg-white p-3.5 rounded-2xl shadow-xl border border-slate-200 transition-all duration-500 focus:outline-none flex items-center justify-center 
+                                ${selectedLoc ? 'bottom-[calc(75vh+1rem)] md:bottom-6' : 'bottom-6 md:bottom-6'}
+                                ${isLocating ? 'text-sky-500 opacity-80' : 'text-slate-700 hover:text-sky-500 hover:scale-105'}`}
+                            title="Locate Me"
+                        >
+                            <Icon name="locate" size={24} className={isLocating ? 'animate-pulse' : ''} />
+                        </button>
+
+                        {/* Smart Overlay Panel */}
+                        <div className={`absolute z-[500] pointer-events-auto bg-white/95 backdrop-blur-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.1)] md:shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col
+                            ${selectedLoc ? 'translate-y-0 md:translate-x-0 opacity-100' : 'translate-y-full md:translate-y-0 md:-translate-x-[120%] opacity-0 md:opacity-100'}
+                            bottom-0 left-0 right-0 h-[75vh] md:h-auto md:top-6 md:bottom-6 md:left-6 md:right-auto md:w-[420px] lg:w-[480px] md:rounded-3xl rounded-t-[2.5rem] border border-slate-200 overflow-hidden`}
+                        >
+                            {selectedLoc && (
+                                <>
+                                    {/* Mobile drag handle */}
+                                    <div className="w-full flex justify-center pt-4 pb-2 md:hidden absolute top-0 left-0 bg-white/50 backdrop-blur-md z-20">
+                                        <div className="w-12 h-1.5 bg-slate-300/80 rounded-full"></div>
+                                    </div>
+
+                                    {/* Floating Close Button (Desktop) */}
+                                    <button onClick={() => setSelectedLoc(null)} className="absolute top-4 md:top-6 right-4 md:right-6 z-20 p-2.5 bg-white/80 backdrop-blur-md border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-full transition-all shadow-sm hover:scale-105 hidden md:flex">
+                                        <Icon name="x" size={20} />
+                                    </button>
+
+                                    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 md:p-8 pt-10 md:pt-8 relative z-10">
+                                        {/* Top Back to Map Button */}
+                                        <button onClick={() => setSelectedLoc(null)} className="flex items-center text-slate-500 hover:text-slate-900 font-bold text-[11px] md:text-xs uppercase tracking-widest mb-5 p-2 -ml-2 transition-colors bg-slate-100/50 rounded-lg pr-4 w-fit">
+                                            <Icon name="arrowLeft" size={14} className="mr-2" /> Back to Map
+                                        </button>
+
+                                        <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg bg-sky-500 text-white mb-3 inline-block shadow-sm">{selectedLoc.type}</span>
+                                        <h3 className="text-3xl md:text-4xl font-black leading-tight mb-3 pr-8">{selectedLoc.name}</h3>
+                                        <p className="text-sm text-slate-500 leading-relaxed mb-6">{selectedLoc.history}</p>
+                                        
+                                        <div className="space-y-6">
+                                            <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                                                <p className="text-[9px] font-black uppercase text-slate-400 mb-2">General Advice</p>
+                                                <p className="text-sm font-bold whitespace-pre-line text-slate-700 leading-relaxed">{selectedLoc.desc}</p>
+                                            </div>
+                                            
+                                            {selectedLoc.top_tip && (
+                                                <div className="bg-sky-50 p-5 rounded-2xl border border-sky-100">
+                                                    <p className="text-[9px] font-black uppercase text-sky-500 mb-2">Top Tip</p>
+                                                    <p className="text-sm font-bold text-sky-900 leading-relaxed">{selectedLoc.top_tip}</p>
+                                                </div>
+                                            )}
+                                            
+                                            <div className="flex flex-col gap-2 pt-2">
+                                                <p className="text-[11px] font-bold text-slate-500 flex items-center">
+                                                    <span className="text-slate-400 w-24 shrink-0">PARKING:</span> 
+                                                    <span className="text-slate-800">{selectedLoc.parking}</span>
+                                                </p>
+                                                {selectedLoc.best_time && (
+                                                    <p className="text-[11px] font-bold text-sky-600 flex items-center">
+                                                        <span className="text-sky-500 w-24 shrink-0">BEST TIME:</span> 
+                                                        <span>{selectedLoc.best_time}</span>
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {/* LINDISFARNE COASTAL TIDE TIMES WIDGET */}
+                                            {selectedLoc.id === 3 && (
+                                                <>
+                                                    <div className="mt-4 pt-4 border-t border-slate-100">
+                                                        <div className="flex justify-between items-center bg-sky-50 rounded-xl p-3 px-4 border border-sky-100">
+                                                            <div className="flex items-center text-sky-800">
+                                                                <Icon name="waves" size={16} className="mr-2" />
+                                                                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest">Coastal Tide</span>
+                                                            </div>
+                                                            <div className="flex gap-4 md:gap-6 text-sky-900">
+                                                                <div className="flex flex-col text-right">
+                                                                    <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-sky-600/70 mb-0.5">Next High</span>
+                                                                    <span className="text-[10px] md:text-[11px] font-bold">{getTideTimes().nextHigh}</span>
+                                                                </div>
+                                                                <div className="flex flex-col text-right">
+                                                                    <span className="text-[8px] md:text-[9px] font-black uppercase tracking-widest text-sky-600/70 mb-0.5">Next Low</span>
+                                                                    <span className="text-[10px] md:text-[11px] font-bold">{getTideTimes().nextLow}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <HolyIslandCrossingWidget />
+                                                </>
+                                            )}
+                                            
+                                            {/* Link to Weather Page */}
+                                            <div className="mt-6">
+                                                <a href={`weather.html?lat=${selectedLoc.lat}&lng=${selectedLoc.lng}`} className="w-full bg-sky-50 text-sky-600 border border-sky-100 font-bold text-xs uppercase tracking-widest py-3.5 px-6 rounded-xl hover:bg-sky-100 hover:border-sky-200 transition-colors shadow-sm flex items-center justify-center group">
+                                                    <Icon name="cloudSun" size={16} className="mr-2 group-hover:scale-110 transition-transform" /> Live Weather & Astro
+                                                </a>
+                                            </div>
+                                            
+                                            {/* Bottom Back to Map Button */}
+                                            <div className="mt-8 mb-4 border-t border-slate-100 pt-6">
+                                                <button onClick={() => setSelectedLoc(null)} className="w-full bg-slate-900 text-white font-bold text-xs uppercase tracking-widest py-4 px-6 rounded-xl hover:bg-slate-800 transition-colors shadow-lg flex items-center justify-center group">
+                                                    <Icon name="arrowLeft" size={16} className="mr-3 group-hover:-translate-x-1 transition-transform" /> Back to Map
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </main>
                 </div>
