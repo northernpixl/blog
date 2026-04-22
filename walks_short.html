@@ -84,7 +84,9 @@
 
                 download: <><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></>,
 
-                externalLink: <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>
+                externalLink: <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>,
+                
+                cloudSun: <><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></>
 
             };
 
@@ -611,6 +613,22 @@
                                                 </p>
 
                                             </div>
+
+                                            
+
+                                            {startPoint && (
+
+                                                <div className="mt-2">
+
+                                                    <a href={`weather.html?lat=${startPoint[0]}&lng=${startPoint[1]}`} className="w-full bg-sky-50 text-sky-600 border border-sky-100 font-bold text-xs uppercase tracking-widest py-3.5 px-6 rounded-xl hover:bg-sky-100 hover:border-sky-200 transition-colors shadow-sm flex items-center justify-center group">
+
+                                                        <Icon name="cloudSun" size={16} className="mr-2 group-hover:scale-110 transition-transform" /> Live Weather & Astro
+
+                                                    </a>
+
+                                                </div>
+
+                                            )}
 
                                             
 
