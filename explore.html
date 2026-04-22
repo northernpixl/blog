@@ -14,7 +14,9 @@
     <meta name="title" content="Northumberland Photography Locations Map & Accessible Spots | NorthernPixl">
     <meta name="description" content="Interactive map of the best photography locations in Northumberland. Find GPS coordinates for Bamburgh, Kielder, hidden gems, and wheelchair accessible zero hike photo spots.">
     <meta name="keywords" content="Northumberland photography locations, best places to photograph in Northumberland, wheelchair accessible photo spots Northumberland, zero hike photo locations, accessible photography spots UK, Kielder dark sky park locations, Bamburgh Castle photography, Northumberland hidden gems map">
-    <meta name="robots" content="index, follow">
+    
+    <!-- Advanced Google Robots Directives for Snippets & Discover -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="author" content="NorthernPixl">
     
     <!-- Favicons -->
@@ -30,6 +32,8 @@
     <meta property="og:title" content="Northumberland Photography Locations Map & Accessible Spots | NorthernPixl">
     <meta property="og:description" content="Interactive map of the best photography locations in Northumberland, including a dedicated filter for wheelchair accessible and zero hike photo spots.">
     <meta property="og:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
+    <meta property="og:locale" content="en_GB">
+    <meta property="og:site_name" content="NorthernPixl">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
@@ -37,6 +41,12 @@
     <meta property="twitter:title" content="Northumberland Photography Locations Map & Accessible Spots | NorthernPixl">
     <meta property="twitter:description" content="Interactive map of the best photography locations in Northumberland, including a dedicated filter for wheelchair accessible and zero hike photo spots.">
     <meta property="twitter:image" content="https://www.northernpixl.co.uk/assets/og-image.jpg">
+
+    <!-- Preconnects for Core Web Vitals (Speed) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://unpkg.com">
 
     <!-- Schema.org JSON-LD -->
     <script type="application/ld+json">
@@ -48,7 +58,11 @@
           "name": "NorthernPixl Photography Locations & Accessible Spots Map",
           "url": "https://www.northernpixl.co.uk/explore.html",
           "description": "Interactive map of photography locations across Northumberland, featuring a dedicated filter for wheelchair accessible and zero hike spots.",
-          "applicationCategory": "MapsApplication"
+          "applicationCategory": "MapsApplication",
+          "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://www.northernpixl.co.uk/explore.html"
+          }
         },
         {
           "@type": "BreadcrumbList",
