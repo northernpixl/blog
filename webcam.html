@@ -250,164 +250,6 @@
             return null;
         };
 
-        const WhereToShootWidget = () => {
-            const [data, setData] = useState(null);
-            const [loading, setLoading] = useState(true);
-
-            useEffect(() => {
-                let isMounted = true;
-
-                const fetchConditions = async () => {
-                    try {
-                        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=55.41&longitude=-1.70&current_weather=true&hourly=cloudcover,precipitation_probability&timezone=Europe%2FLondon&windspeed_unit=mph&models=ukmo_seamless');
-                        const weatherData = await res.json();
-                        
-                        const nowMs = new Date().getTime();
-                        let cloudCover = 0;
-                        
-                        if (weatherData.hourly && weatherData.hourly.time) {
-                            const idx = weatherData.hourly.time.findIndex(t => new Date(t).getTime() > nowMs);
-                            const targetIdx = idx > 0 ? idx - 1 : 0;
-                            cloudCover = weatherData.hourly.cloudcover[targetIdx] || 0;
-                        }
-
-                        const cw = weatherData.current_weather;
-                        const isDay = cw.is_day === 1;
-                        const windSpeed = cw.windspeed || 0;
-                        const weatherCode = cw.weathercode || 0;
-                        const isRaining = (weatherCode >= 51 && weatherCode <= 67) || (weatherCode >= 80 && weatherCode <= 99);
-                        
-                        const hour = new Date().getHours();
-                        const isHighTide = hour % 12 < 5; 
-                        const isGoldenHour = (hour >= 5 && hour <= 8) || (hour >= 15 && hour <= 19);
-                        
-                        let suitableLocations = [];
-                        let conditionText = "";
-                        let icon = "compass";
-                        let isCoastal = false;
-
-                        if (!isDay && cloudCover < 15) {
-                            suitableLocations = LOCATIONS.filter(l => l.type === "Astro");
-                            conditionText = "Clear skies right now! Perfect conditions for astrophotography and Milky Way chasing.";
-                            icon = "moon";
-                        } else if (!isDay && cloudCover >= 30) {
-                            suitableLocations = LOCATIONS.filter(l => l.best_time.includes("Blue Hour") || l.name.includes("Bridge") || l.name.includes("Abbey") || l.name.includes("Walls"));
-                            conditionText = "Cloudy night means one thing. Ideal conditions for photographing illuminated architecture and townscapes.";
-                            icon = "cloud";
-                        } else if (isDay && (isRaining || weatherCode === 3 || cloudCover > 85)) {
-                            suitableLocations = LOCATIONS.filter(l => l.name.includes('Linn') || l.name.includes('Spout') || l.desc.toLowerCase().includes('waterfall') || l.best_time.includes('Overcast') || l.best_time.includes('Moody') || l.best_time.includes('After Rain'));
-                            conditionText = "Overcast or damp conditions. This provides ideal soft, even lighting for woodlands, ruins, and waterfalls.";
-                            icon = "cloud";
-                        } else if (isDay && isHighTide && windSpeed > 15) {
-                            suitableLocations = LOCATIONS.filter(l => l.desc.toLowerCase().includes('waves') || l.best_time.includes('High Tide') || l.desc.toLowerCase().includes('seascape'));
-                            conditionText = "High tide and breezy! Head to the coast for dramatic seascape photography and crashing waves.";
-                            icon = "waves";
-                            isCoastal = true;
-                        } else if (isDay && isGoldenHour && cloudCover < 70 && !isRaining) {
-                            suitableLocations = LOCATIONS.filter(l => l.best_time.includes("Sunrise") || l.best_time.includes("Sunset") || l.best_time.includes("Golden Hour"));
-                            conditionText = "Approaching golden hour with decent skies. The perfect time to capture dramatic, warm landscape lighting.";
-                            icon = "sun";
-                        } else {
-                            suitableLocations = LOCATIONS.filter(l => l.type === "Wildlife" || l.type === "Landscape");
-                            conditionText = "Fair daytime conditions. A fantastic time to explore classic Northumberland landscapes or spot local wildlife.";
-                            icon = "sun";
-                        }
-
-                        if (suitableLocations.length === 0) {
-                            suitableLocations = LOCATIONS;
-                        }
-
-                        const selectedLoc = suitableLocations[Math.floor(Math.random() * suitableLocations.length)];
-                        isCoastal = isCoastal || selectedLoc.desc.toLowerCase().includes('beach') || selectedLoc.desc.toLowerCase().includes('coast') || selectedLoc.desc.toLowerCase().includes('sea');
-
-                        if (isMounted) {
-                            setData({ 
-                                location: selectedLoc.name, 
-                                reason: conditionText, 
-                                icon, 
-                                link: `explore.html?id=${selectedLoc.id}`, 
-                                conditions: { isDay, cloudCover, isHighTide, isCoastal } 
-                            });
-                            setLoading(false);
-                        }
-                    } catch (error) {
-                        if (isMounted) {
-                            setData({ 
-                                location: "Bamburgh Castle", 
-                                reason: "Always a classic location, regardless of the weather. Head to the dunes for natural framing.",
-                                icon: "map-pin",
-                                link: "explore.html?id=1",
-                                conditions: null
-                            });
-                            setLoading(false);
-                        }
-                    }
-                };
-
-                fetchConditions();
-                const intervalId = setInterval(fetchConditions, 5 * 60 * 1000);
-
-                return () => {
-                    isMounted = false;
-                    clearInterval(intervalId);
-                };
-            }, []);
-
-            if (loading && !data) return (
-                <div className="w-full max-w-2xl mx-auto mt-8 mb-4 p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex items-center justify-center h-[140px] shadow-xl">
-                    <div className="text-slate-400 text-xs font-bold uppercase tracking-widest flex items-center gap-3">
-                        <Icon name="compass" className="animate-spin text-sky-400" size={20} /> Analyzing live conditions...
-                    </div>
-                </div>
-            );
-
-            return (
-                <div className="w-full max-w-2xl mx-auto mt-8 mb-4 p-5 sm:p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 shadow-2xl relative group text-left overflow-hidden">
-                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-sky-400 to-sky-600"></div>
-                    <div className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
-                        <div className="bg-white/10 p-3 rounded-xl flex-shrink-0 w-14 h-14 flex items-center justify-center shadow-inner">
-                            <Icon name={data.icon} size={28} className="text-sky-400" />
-                        </div>
-                        <div className="flex-grow">
-                            <div className="flex items-center gap-2 mb-1">
-                                <span className="text-[10px] font-black uppercase tracking-widest text-sky-400">Suggested location to head to right now</span>
-                                <span className="flex h-2 w-2 relative">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-                                </span>
-                            </div>
-                            <h3 className="text-xl sm:text-2xl font-black text-white mb-2 leading-tight">{data.location}</h3>
-                            <p className="text-sm text-slate-300 leading-relaxed max-w-md">{data.reason}</p>
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4 pt-4 border-t border-white/10">
-                                {data.conditions && (
-                                    <div className="flex flex-wrap gap-2 sm:gap-3">
-                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/20 border border-white/5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
-                                            <Icon name={data.conditions.isDay ? 'sun' : 'moon'} size={12} className="text-slate-400" /> 
-                                            {data.conditions.isDay ? 'Daytime' : 'Night'}
-                                        </span>
-                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/20 border border-white/5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
-                                            <Icon name="cloud" size={12} className="text-slate-400" /> 
-                                            {data.conditions.cloudCover}% Clouds
-                                        </span>
-                                        {data.conditions.isCoastal && (
-                                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-black/20 border border-white/5 text-[10px] font-bold text-slate-300 uppercase tracking-wider">
-                                                <Icon name="waves" size={12} className="text-slate-400" /> 
-                                                {data.conditions.isHighTide ? 'High Tide Window' : 'Low Tide'}
-                                            </span>
-                                        )}
-                                    </div>
-                                )}
-                                <a href={data.link} className="inline-flex w-fit items-center gap-1.5 px-4 py-2 rounded-lg bg-sky-500/10 hover:bg-sky-500 text-sky-400 hover:text-white border border-sky-500/20 hover:border-sky-500 transition-all duration-300 text-[10px] font-black uppercase tracking-widest whitespace-nowrap group">
-                                    <span>Explore Location</span>
-                                    <Icon name="arrow-right" size={14} className="transform group-hover:translate-x-1 transition-transform duration-300" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
         const CarouselCard = ({ item }) => (
             <a href={item.link} className="relative group overflow-hidden rounded-xl w-[280px] h-[360px] flex-shrink-0 snap-center cursor-pointer">
                 <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/20 transition-colors z-10"></div>
@@ -765,16 +607,13 @@
                                                 </div>
                                                 <div className="text-left">
                                                     <h3 className="text-white font-black text-sm sm:text-base">Not sure where to start?</h3>
-                                                    <p className="text-slate-300 text-xs sm:text-sm mt-1">Take the 30-second Location Matchmaker Quiz to find your perfect shoot.</p>
+                                                    <p className="text-slate-300 text-xs sm:text-sm mt-1">Take the 30-second Quiz to find your perfect photography adventure.</p>
                                                 </div>
                                             </div>
                                             <Icon name="arrow-right" size={20} className="text-sky-400 group-hover:translate-x-1 transition-transform" />
                                         </div>
                                     </button>
                                 </div>
-                                
-                                {/* New Dynamic Where To Shoot Widget */}
-                                <WhereToShootWidget />
                                 
                             </div>
                         </section>
