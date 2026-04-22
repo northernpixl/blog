@@ -466,28 +466,31 @@
             const calculateMatches = (finalAnswers) => {
                 return LOCATIONS.map(loc => {
                     let score = 0;
-                    // Q1 Subject
-                    if (finalAnswers.subject === 'Wildlife' && loc.type === 'Wildlife') score += 10;
-                    if (finalAnswers.subject === 'Dark Skies' && loc.type === 'Astro') score += 10;
-                    if (finalAnswers.subject === 'Historical Architecture' && (loc.name.includes('Castle') || loc.name.includes('Abbey') || loc.name.includes('Priory') || loc.name.includes('Tower') || loc.name.includes('Fort'))) score += 10;
-                    if (finalAnswers.subject === 'Coastal Landscapes' && (loc.desc.toLowerCase().includes('sea') || loc.desc.toLowerCase().includes('coast') || loc.desc.toLowerCase().includes('beach') || loc.desc.toLowerCase().includes('bay') || loc.name.includes('Island'))) score += 10;
+                    const descLower = loc.desc.toLowerCase();
+                    const nameLower = loc.name.toLowerCase();
+
+                    // Q1 Subject (Weighted heavily to ensure primary relevance)
+                    if (finalAnswers.subject === 'Wildlife' && loc.type === 'Wildlife') score += 100;
+                    if (finalAnswers.subject === 'Dark Skies' && loc.type === 'Astro') score += 100;
+                    if (finalAnswers.subject === 'Historical Architecture' && (nameLower.includes('castle') || nameLower.includes('abbey') || nameLower.includes('priory') || nameLower.includes('tower') || nameLower.includes('fort') || nameLower.includes('roman') || nameLower.includes('hall'))) score += 100;
+                    if (finalAnswers.subject === 'Coastal Landscapes' && !descLower.includes('distant coastal') && (/\b(sea|coast|coastal|beach|bay|island|harbour|dunes?|cove|pier|promenade)\b/.test(descLower) || nameLower.includes('island') || nameLower.includes('bay') || nameLower.includes('beach') || nameLower.includes('point'))) score += 100;
 
                     // Q2 Walk
-                    const isHike = loc.desc.toLowerCase().includes('hike') || loc.desc.toLowerCase().includes('climb') || loc.desc.toLowerCase().includes('steep');
+                    const isHike = descLower.includes('hike') || descLower.includes('climb') || descLower.includes('steep') || descLower.includes('trek');
                     if (finalAnswers.walk === 'Car park to tripod' && !isHike && loc.parking) score += 5;
-                    if (finalAnswers.walk === 'A brisk 2-mile loop' && (loc.desc.toLowerCase().includes('walk') || loc.desc.toLowerCase().includes('mile'))) score += 5;
+                    if (finalAnswers.walk === 'A brisk 2-mile loop' && (descLower.includes('walk') || descLower.includes('mile'))) score += 5;
                     if (finalAnswers.walk === 'Full day mountain trek' && isHike) score += 5;
 
                     // Q3 Time
                     const bt = loc.best_time?.toLowerCase() || '';
                     if (finalAnswers.time === 'Dawn Patrol' && bt.includes('sunrise')) score += 5;
-                    if (finalAnswers.time === 'Midday Light' && (bt.includes('daytime') || bt.includes('mid-day') || bt.includes('overcast'))) score += 5;
+                    if (finalAnswers.time === 'Midday Light' && (bt.includes('daytime') || bt.includes('mid-day') || bt.includes('overcast') || bt.includes('afternoon'))) score += 5;
                     if (finalAnswers.time === 'Golden Hour' && (bt.includes('sunset') || bt.includes('golden'))) score += 5;
                     if (finalAnswers.time === 'Deep Night' && (loc.type === 'Astro' || bt.includes('night') || bt.includes('astro'))) score += 5;
 
                     // Q4 Gear
                     if (finalAnswers.gear === 'Smartphone' && loc.type !== 'Wildlife' && loc.type !== 'Astro') score += 3;
-                    if (finalAnswers.gear === 'Full Pro Kit & Tripod' && (loc.desc.toLowerCase().includes('tripod') || loc.desc.toLowerCase().includes('nd ') || loc.desc.toLowerCase().includes('exposure'))) score += 5;
+                    if (finalAnswers.gear === 'Full Pro Kit & Tripod' && (descLower.includes('tripod') || descLower.includes('nd ') || descLower.includes('exposure'))) score += 5;
                     if (finalAnswers.gear === 'Lightweight Mirrorless') score += 2; 
 
                     // Slight randomisation to break ties
