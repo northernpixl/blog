@@ -935,7 +935,7 @@
                     if (isInitial) setErrorMsg("");
                     
                     try {
-                        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=weathercode,cloudcover&timezone=Europe%2FLondon&windspeed_unit=mph&models=ukmo_seamless`);
+                        const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&hourly=weathercode,cloudcover,temperature_2m,precipitation_probability,is_day,windspeed_10m&timezone=Europe%2FLondon&windspeed_unit=mph&models=ukmo_seamless`);
                         if (!weatherRes.ok) throw new Error("Weather API Error");
                         const weatherJson = await weatherRes.json();
 
@@ -1117,6 +1117,40 @@
                 sunsetAzimuth: azimuths.sunset,
                 moonrise: getApproxMoonrise()
             };
+            
+            const hourlyForecastData = (() => {
+                if (!hourly || !hourly.temperature_2m) return null;
+                const now = new Date();
+                const currentHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()).getTime();
+                
+                const result = [];
+                for (let i = 0; i < hourly.time.length; i++) {
+                    const hourTimeStr = hourly.time[i];
+                    const hourDate = new Date(hourTimeStr);
+                    const hourTime = hourDate.getTime();
+                    
+                    if (hourTime >= currentHour && result.length < 24) {
+                        const timeLabel = hourTime === currentHour ? 'Now' : hourDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+                        const temp = Math.round(hourly.temperature_2m[i]);
+                        const precip = hourly.precipitation_probability ? Math.round(hourly.precipitation_probability[i]) : 0;
+                        const cloud = hourly.cloudcover ? Math.round(hourly.cloudcover[i]) : 0;
+                        const wind = hourly.windspeed_10m ? Math.round(hourly.windspeed_10m[i]) : 0;
+                        const weatherCode = hourly.weathercode[i];
+                        const isNight = hourly.is_day ? hourly.is_day[i] === 0 : false;
+                        
+                        result.push({
+                            time: timeLabel,
+                            temp,
+                            precip,
+                            cloud,
+                            wind,
+                            isNight,
+                            info: getWeatherInfo(weatherCode, isNight)
+                        });
+                    }
+                }
+                return result;
+            })();
 
             const astroDays = [0, 1, 2].map(dayIndex => {
                 if (!daily?.sunset?.[dayIndex] || !daily?.sunrise?.[dayIndex + 1] || !hourly?.time || !hourly?.cloudcover) return null;
@@ -1196,6 +1230,39 @@
                                 </div>
                             )}
                         </div>
+                        
+                        {hourlyForecastData && hourlyForecastData.length > 0 && (
+                            <div className="mt-5 pt-5 border-t border-slate-100 w-full overflow-hidden">
+                                <div className="flex items-center mb-3">
+                                    <Icon name="cloudSun" size={16} className="text-sky-600 mr-2 shrink-0" />
+                                    <span className="text-[10px] md:text-xs font-bold text-slate-800 uppercase tracking-widest">Today's Hourly Forecast</span>
+                                </div>
+                                <div className="flex overflow-x-auto gap-2 pb-2 custom-scrollbar overscroll-x-contain">
+                                    {hourlyForecastData.map((hour, hIdx) => (
+                                        <div key={hIdx} className="flex flex-col items-center justify-center px-3 py-2.5 rounded-xl border border-slate-100 bg-slate-50 min-w-[72px] shrink-0">
+                                            <span className="text-[10px] font-black mb-1 opacity-80">{hour.time}</span>
+                                            <Icon name={hour.info.icon} size={18} className="my-1 text-slate-700" />
+                                            <span className="text-[13px] font-black">{hour.temp}°</span>
+                                            
+                                            <div className="flex flex-col items-center gap-1.5 w-full mt-2 pt-2 border-t border-slate-200/60">
+                                                <span className={`text-[9px] font-bold flex items-center justify-center w-full ${hour.precip > 0 ? 'text-sky-600' : 'text-slate-400'}`} title="Rain Probability">
+                                                    <Icon name="rain" size={10} className="mr-1" /> {hour.precip}%
+                                                </span>
+                                                <span className="text-[9px] font-bold text-slate-500 flex items-center justify-center w-full" title="Cloud Cover">
+                                                    <Icon name="cloud" size={10} className="mr-1 opacity-70" /> {hour.cloud}%
+                                                </span>
+                                                <span className={`text-[9px] font-bold flex items-center justify-center w-full ${hour.isNight ? 'text-indigo-500' : 'text-amber-500'}`} title={hour.isNight ? "Clear Sky" : "Sunshine"}>
+                                                    <Icon name={hour.isNight ? "moon" : "sun"} size={10} className="mr-1 opacity-70" /> {100 - hour.cloud}%
+                                                </span>
+                                                <span className="text-[9px] font-bold text-slate-500 flex items-center justify-center w-full" title="Wind Speed">
+                                                    <Icon name="wind" size={10} className="mr-1 opacity-70" /> {hour.wind}mph
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         <div className="grid grid-cols-3 gap-2 mt-4 pt-4 border-t border-slate-100">
                             <div className="flex flex-col items-center text-center">
