@@ -96,7 +96,9 @@
                 camera: <><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></>,
                 arrowRight: <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
                 menu: <><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></>,
-                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>
+                x: <><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></>,
+                chevronDown: <><polyline points="6 9 12 15 18 9"></polyline></>,
+                chevronUp: <><polyline points="18 15 12 9 6 15"></polyline></>
             };
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -168,25 +170,24 @@
             { id: 320, category: "7+", name: "Haltwhistle & The Wall", length: "7.5 miles", difficulty: "Moderate", elevation: "200m", lat: 54.969, lng: -2.461, desc: "Starts in Haltwhistle, follows the Haltwhistle Burn up to the Wall at Cawfields, walks the crags.", highlights: "Haltwhistle Burn, Cawfields Quarry, Milecastle 42.", route: [[54.9698000, -2.4616300]] }
         ];
 
-        const NavBar = () => {
+        const NavBar = ({ activePath }) => {
             const [isOpen, setIsOpen] = useState(false);
+            const [isRoutesOpen, setIsRoutesOpen] = useState(false);
 
-            const toggleMenu = () => {
-                setIsOpen(!isOpen);
-            };
+            const toggleMenu = () => setIsOpen(!isOpen);
 
             const links = [
-                { name: 'Home', url: 'index.html', active: false },
-                { name: 'Tutorials', url: 'tutorials.html', active: false },
-                { name: 'Explore', url: 'explore.html', active: false },
-                { name: 'Weather', url: 'weather.html', active: false },
-                { name: 'Routes', url: 'routes.html', active: true },
-                { name: 'Ethics', url: 'ethics.html', active: false },
-                { name: 'Workshops', url: 'workshops.html', active: false }
+                { name: 'Home', url: 'index.html', active: activePath === 'index.html' },
+                { name: 'Tutorials', url: 'tutorials.html', active: activePath === 'tutorials.html' },
+                { name: 'Explore', url: 'explore.html', active: activePath === 'explore.html' },
+                { name: 'Weather', url: 'weather.html', active: activePath === 'weather.html' },
+                { name: 'Routes', url: 'routes.html', active: ['routes.html', 'walks_short.html', 'walks_medium.html', 'walks_long.html'].includes(activePath) },
+                { name: 'Ethics', url: 'ethics.html', active: activePath === 'ethics.html' },
+                { name: 'Workshops', url: 'workshops.html', active: activePath === 'workshops.html' }
             ];
 
             return (
-                <nav className="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
+                <nav className="fixed top-0 w-full z-[1000] bg-white/90 backdrop-blur-md border-b border-slate-100">
                     <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
                         {/* Logo Area */}
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
@@ -198,15 +199,32 @@
                         </div>
                         
                         {/* Desktop Navigation */}
-                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400">
+                        <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400 items-center h-full">
                             {links.map((link) => (
-                                <a 
-                                    key={link.name} 
-                                    href={link.url} 
-                                    className={link.active ? "text-black border-b-2 border-black" : "hover:text-black"}
-                                >
-                                    {link.name}
-                                </a>
+                                link.name === 'Routes' ? (
+                                    <div key={link.name} className="relative group h-full flex items-center">
+                                        <a href={link.url} className={link.active ? "text-black border-b-2 border-black pb-1" : "hover:text-black transition-colors pb-1"}>
+                                            {link.name}
+                                        </a>
+                                        {/* Dropdown Menu - invisible extension to bridge gap */}
+                                        <div className="absolute top-[calc(100%-1.5rem)] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                                            <div className="bg-white border border-slate-100 shadow-xl rounded-2xl p-4 flex flex-col space-y-4 min-w-[180px]">
+                                                <a href="routes.html" className={`hover:text-black transition-colors ${activePath === 'routes.html' ? 'text-black' : 'text-slate-400'}`}>Map Overview</a>
+                                                <a href="walks_short.html" className={`hover:text-black transition-colors ${activePath === 'walks_short.html' ? 'text-black' : 'text-slate-400'}`}>Short (1-4 Miles)</a>
+                                                <a href="walks_medium.html" className={`hover:text-black transition-colors ${activePath === 'walks_medium.html' ? 'text-black' : 'text-slate-400'}`}>Medium (4-7 Miles)</a>
+                                                <a href="walks_long.html" className={`hover:text-black transition-colors ${activePath === 'walks_long.html' ? 'text-black' : 'text-slate-400'}`}>Long (7+ Miles)</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <a 
+                                        key={link.name} 
+                                        href={link.url} 
+                                        className={link.active ? "text-black border-b-2 border-black pb-1" : "hover:text-black transition-colors pb-1"}
+                                    >
+                                        {link.name}
+                                    </a>
+                                )
                             ))}
                         </div>
 
@@ -220,16 +238,35 @@
 
                     {/* Mobile Navigation Dropdown */}
                     {isOpen && (
-                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in">
+                        <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in max-h-[calc(100vh-5rem)] overflow-y-auto">
                             <div className="flex flex-col p-6 space-y-6">
                                 {links.map((link) => (
-                                    <a 
-                                        key={link.name} 
-                                        href={link.url} 
-                                        className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
-                                    >
-                                        {link.name}
-                                    </a>
+                                    link.name === 'Routes' ? (
+                                        <div key={link.name} className="flex flex-col space-y-4">
+                                            <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsRoutesOpen(!isRoutesOpen)}>
+                                                <span className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}>
+                                                    {link.name}
+                                                </span>
+                                                <Icon name={isRoutesOpen ? "chevronUp" : "chevronDown"} size={16} className={link.active ? "text-slate-900" : "text-slate-400"} />
+                                            </div>
+                                            {isRoutesOpen && (
+                                                <div className="flex flex-col space-y-4 pl-4 border-l-2 border-slate-100">
+                                                    <a href="routes.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'routes.html' ? 'text-slate-900' : 'text-slate-400'}`}>Map Overview</a>
+                                                    <a href="walks_short.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'walks_short.html' ? 'text-slate-900' : 'text-slate-400'}`}>Short (1-4 Miles)</a>
+                                                    <a href="walks_medium.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'walks_medium.html' ? 'text-slate-900' : 'text-slate-400'}`}>Medium (4-7 Miles)</a>
+                                                    <a href="walks_long.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'walks_long.html' ? 'text-slate-900' : 'text-slate-400'}`}>Long (7+ Miles)</a>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : (
+                                        <a 
+                                            key={link.name} 
+                                            href={link.url} 
+                                            className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
+                                        >
+                                            {link.name}
+                                        </a>
+                                    )
                                 ))}
                             </div>
                         </div>
@@ -335,7 +372,7 @@
 
             return (
                 <div className="h-full flex flex-col">
-                    <NavBar />
+                    <NavBar activePath="routes.html" />
                     
                     <main className="flex-1 pt-20 relative">
                         {/* Hidden H1 for SEO */}
