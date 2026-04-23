@@ -153,110 +153,216 @@
         ];
 
         const NavBar = ({ activePath }) => {
+
             const [isOpen, setIsOpen] = useState(false);
+
             const [isRoutesOpen, setIsRoutesOpen] = useState(false);
+
+
 
             const toggleMenu = () => setIsOpen(!isOpen);
 
+
+
             const links = [
+
                 { name: 'Home', url: 'index.html', active: activePath === 'index.html' },
+
                 { name: 'Tutorials', url: 'tutorials.html', active: activePath === 'tutorials.html' },
+
                 { name: 'Explore', url: 'explore.html', active: activePath === 'explore.html' },
+
                 { name: 'Weather', url: 'weather.html', active: activePath === 'weather.html' },
+
                 { name: 'Routes', url: 'routes.html', active: ['routes.html', 'walks_short.html', 'walks_medium.html', 'walks_long.html'].includes(activePath) },
+
                 { name: 'Calendar', url: 'Calendar.html', active: activePath === 'Calendar.html' },
+
                 { name: 'Ethics', url: 'ethics.html', active: activePath === 'ethics.html' },
+
                 { name: 'Workshops', url: 'workshops.html', active: activePath === 'workshops.html' }
+
             ];
 
+
+
             return (
+
                 <nav className="fixed top-0 w-full z-[1000] bg-white/90 backdrop-blur-md border-b border-slate-100">
+
                     <div className="flex items-center justify-between px-4 md:px-8 h-20 max-w-7xl mx-auto w-full">
+
                         {/* Logo Area */}
+
                         <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.location.href='index.html'}>
+
                             <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center">
+
                                 <Icon name="camera" className="text-white" size={18} />
+
                             </div>
+
                             <span className="font-black text-lg md:text-xl tracking-tighter uppercase hidden md:inline">NorthernPixl</span>
+
                             <span className="font-black text-lg md:text-xl tracking-tighter uppercase md:hidden">NorthernPixl</span>
+
                         </div>
+
                         
+
                         {/* Desktop Navigation */}
+
                         <div className="hidden md:flex space-x-10 text-[11px] font-black uppercase tracking-widest text-slate-400 items-center h-full">
+
                             {links.map((link) => (
+
                                 link.name === 'Routes' ? (
+
                                     <div key={link.name} className="relative group h-full flex items-center">
+
                                         <a href={link.url} className={link.active ? "text-black border-b-2 border-black pb-1" : "hover:text-black transition-colors pb-1"}>
+
                                             {link.name}
+
                                         </a>
+
                                         {/* Dropdown Menu - invisible extension to bridge gap */}
+
                                         <div className="absolute top-[calc(100%-1.5rem)] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+
                                             <div className="bg-white border border-slate-100 shadow-xl rounded-2xl p-4 flex flex-col space-y-4 min-w-[180px]">
+
                                                 <a href="routes.html" className={`hover:text-black transition-colors ${activePath === 'routes.html' ? 'text-black' : 'text-slate-400'}`}>Map Overview</a>
+
                                                 <a href="walks_short.html" className={`hover:text-black transition-colors ${activePath === 'walks_short.html' ? 'text-black' : 'text-slate-400'}`}>Short (1-4 Miles)</a>
+
                                                 <a href="walks_medium.html" className={`hover:text-black transition-colors ${activePath === 'walks_medium.html' ? 'text-black' : 'text-slate-400'}`}>Medium (4-7 Miles)</a>
+
                                                 <a href="walks_long.html" className={`hover:text-black transition-colors ${activePath === 'walks_long.html' ? 'text-black' : 'text-slate-400'}`}>Long (7+ Miles)</a>
+
                                             </div>
+
                                         </div>
+
                                     </div>
+
                                 ) : (
+
                                     <a 
+
                                         key={link.name} 
+
                                         href={link.url} 
+
                                         className={link.active ? "text-black border-b-2 border-black pb-1" : "hover:text-black transition-colors pb-1"}
+
                                     >
+
                                         {link.name}
+
                                     </a>
+
                                 )
+
                             ))}
+
                         </div>
+
+
 
                         {/* Mobile Menu Button */}
+
                         <div className="md:hidden">
+
                             <button onClick={toggleMenu} className="p-2 text-slate-900 focus:outline-none">
+
                                 <Icon name={isOpen ? "x" : "menu"} size={24} />
+
                             </button>
+
                         </div>
+
                     </div>
 
+
+
                     {/* Mobile Navigation Dropdown */}
+
                     {isOpen && (
+
                         <div className="md:hidden bg-white border-b border-slate-100 absolute w-full left-0 top-20 shadow-xl fade-in max-h-[calc(100vh-5rem)] overflow-y-auto">
+
                             <div className="flex flex-col p-6 space-y-6">
+
                                 {links.map((link) => (
+
                                     link.name === 'Routes' ? (
+
                                         <div key={link.name} className="flex flex-col space-y-4">
+
                                             <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsRoutesOpen(!isRoutesOpen)}>
+
                                                 <span className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}>
+
                                                     {link.name}
+
                                                 </span>
+
                                                 <Icon name={isRoutesOpen ? "chevronUp" : "chevronDown"} size={16} className={link.active ? "text-slate-900" : "text-slate-400"} />
+
                                             </div>
+
                                             {isRoutesOpen && (
+
                                                 <div className="flex flex-col space-y-4 pl-4 border-l-2 border-slate-100">
+
                                                     <a href="routes.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'routes.html' ? 'text-slate-900' : 'text-slate-400'}`}>Map Overview</a>
+
                                                     <a href="walks_short.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'walks_short.html' ? 'text-slate-900' : 'text-slate-400'}`}>Short (1-4 Miles)</a>
+
                                                     <a href="walks_medium.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'walks_medium.html' ? 'text-slate-900' : 'text-slate-400'}`}>Medium (4-7 Miles)</a>
+
                                                     <a href="walks_long.html" className={`text-xs font-bold uppercase tracking-widest ${activePath === 'walks_long.html' ? 'text-slate-900' : 'text-slate-400'}`}>Long (7+ Miles)</a>
+
                                                 </div>
+
                                             )}
+
                                         </div>
+
                                     ) : (
+
                                         <a 
+
                                             key={link.name} 
+
                                             href={link.url} 
+
                                             className={`text-sm font-black uppercase tracking-widest ${link.active ? "text-slate-900" : "text-slate-400"}`}
+
                                         >
+
                                             {link.name}
+
                                         </a>
+
                                     )
+
                                 ))}
+
                             </div>
+
                         </div>
+
                     )}
+
                 </nav>
+
             );
+
         };
+
+
 
         const App = () => {
 
@@ -442,134 +548,266 @@
 
             const startPoint = selectedWalk?.route[0];
 
+
+
             return (
+
                 <div className="min-h-screen bg-white">
+
                     <NavBar activePath="walks_short.html" />
 
+
+
                     <main className="pt-20">
+
                         <section className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12">
+
                             {!selectedWalk ? (
+
                                 <div className="animate-in">
+
                                     <div className="mb-8 md:mb-12 text-center">
+
                                         <h2 className="text-3xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-slate-900">Short Walks (1-4 Miles)</h2>
+
                                         <p className="text-sm md:text-base text-slate-400 mb-8">Perfect for families, quick outings, and leisurely strolls.</p>
+
                                         
+
                                         <div className="flex justify-center items-center gap-2 mb-8 overflow-x-auto pb-4 px-2">
+
                                             <div className="inline-flex bg-slate-100 p-1 rounded-full">
+
                                                 <a href="#" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest bg-white shadow-md text-black transition-all">1-4 Miles</a>
+
                                                 <a href="walks_medium.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">4-7 Miles</a>
+
                                                 <a href="walks_long.html" className="px-4 md:px-8 py-2 md:py-3 rounded-full text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-all">7+ Miles</a>
+
                                             </div>
+
                                         </div>
+
                                     </div>
+
+
 
                                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
                                         {WALKS.map(walk => (
+
                                             <div key={walk.id} onClick={() => { setSelectedWalk(walk); window.history.pushState({}, ""); }} className="group bg-white border border-slate-100 p-6 md:p-8 rounded-[2rem] hover:shadow-xl transition-all cursor-pointer active:scale-95 duration-200">
+
                                                 <div className="flex justify-between items-start mb-6">
+
                                                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${
+
                                                         walk.difficulty === 'Easy' ? 'bg-green-100 text-green-700' : 
+
                                                         walk.difficulty === 'Moderate' ? 'bg-yellow-100 text-yellow-700' : 
+
                                                         'bg-red-100 text-red-700'
+
                                                     }`}>{walk.difficulty}</span>
+
                                                     <span className="text-slate-400 text-xs font-bold">{walk.length}</span>
+
                                                 </div>
+
                                                 <h3 className="text-xl font-black mb-2 group-hover:text-green-500 transition-colors">{walk.name}</h3>
+
                                                 <p className="text-slate-400 text-xs line-clamp-2">{walk.desc}</p>
+
                                             </div>
+
                                         ))}
+
                                     </div>
+
                                 </div>
+
                             ) : (
+
                                 <div className="animate-in flex flex-col lg:grid lg:grid-cols-12 gap-6 lg:gap-8 h-full lg:h-[80vh]">
+
                                     <div className="w-full h-[40vh] lg:h-full lg:col-span-8 rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-slate-100 shadow-2xl relative">
+
                                         <div ref={walkMapContainerRef} className="w-full h-full"></div>
+
                                     </div>
+
                                     <div className="w-full lg:col-span-4 bg-white rounded-[2rem] md:rounded-[3rem] p-6 md:p-10 border border-slate-100 overflow-y-auto custom-scrollbar shadow-xl flex flex-col">
+
                                         <div className="flex justify-between items-start mb-6 md:mb-8">
+
                                             <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+
                                                 <Icon name="arrowLeft" size={14} className="mr-2" /> Back to List
+
                                             </button>
+
                                             <button onClick={() => downloadGPX(selectedWalk)} className="flex items-center text-green-500 hover:text-green-600 font-black uppercase text-[10px] tracking-widest p-2">
+
                                                 <Icon name="download" size={14} className="mr-2" /> Download GPX
+
                                             </button>
+
                                         </div>
+
                                         
+
                                         <span className="text-green-500 font-black uppercase text-xs tracking-[0.3em] mb-2 block">{selectedWalk.length} • {selectedWalk.difficulty}</span>
+
                                         <h2 className="text-3xl md:text-4xl font-black tracking-tighter mb-6">{selectedWalk.name}</h2>
+
                                         
+
                                         <div className="space-y-6">
+
                                             <div className="bg-slate-50 p-6 rounded-3xl">
+
                                                 <div className="grid grid-cols-2 gap-6">
+
                                                     <div>
+
                                                         <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Elevation</p>
+
                                                         <p className="font-bold text-lg">{selectedWalk.elevation}</p>
+
                                                     </div>
+
                                                     <div>
+
                                                         <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Est. Time</p>
+
                                                         <p className="font-bold text-lg">{getStats(selectedWalk).time}</p>
+
                                                     </div>
+
                                                     <div>
+
                                                         <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Est. Steps</p>
+
                                                         <p className="font-bold text-lg">{getStats(selectedWalk).steps}</p>
+
                                                     </div>
+
                                                     <div>
+
                                                         <p className="text-[9px] font-black uppercase text-slate-400 mb-1">Start Point</p>
+
                                                         {startPoint && (
+
                                                             <a 
+
                                                                 href={`https://www.google.com/maps/search/?api=1&query=${startPoint[0]},${startPoint[1]}`}
+
                                                                 target="_blank"
+
                                                                 rel="noopener noreferrer"
+
                                                                 className="font-bold text-sm pt-1 text-green-500 hover:text-green-700 underline decoration-green-300 underline-offset-2 transition-colors block truncate"
+
                                                                 title="Open in Google Maps"
+
                                                             >
+
                                                                 Click Here <Icon name="externalLink" size={10} className="inline ml-1" />
+
                                                             </a>
+
                                                         )}
+
                                                     </div>
+
                                                 </div>
+
                                             </div>
+
+
 
                                             <div>
+
                                                 <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Highlights</h4>
+
                                                 <p className="text-green-600 font-bold leading-relaxed text-sm mb-4">{selectedWalk.highlights}</p>
+
                                                 <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">Route Description</h4>
+
                                                 <p className="text-slate-600 leading-relaxed text-sm">{selectedWalk.desc}</p>
+
                                             </div>
+
                                             
+
                                             <div className="mt-auto bg-amber-50 p-6 rounded-3xl border border-amber-100">
+
                                                 <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Trail Advice</h4>
+
                                                 <p className="text-amber-900 text-xs font-bold leading-relaxed italic">
+
                                                     "Always carry a physical OS map. GPS signals in the park are unreliable. Stick to public footpaths."
+
                                                 </p>
+
                                             </div>
+
                                             
+
                                             {startPoint && (
+
                                                 <div className="mt-2">
+
                                                     <a href={`weather.html?lat=${startPoint[0]}&lng=${startPoint[1]}`} className="w-full bg-green-50 text-green-600 border border-green-100 font-bold text-xs uppercase tracking-widest py-3.5 px-6 rounded-xl hover:bg-green-100 hover:border-green-200 transition-colors shadow-sm flex items-center justify-center group">
+
                                                         <Icon name="cloudSun" size={16} className="mr-2 group-hover:scale-110 transition-transform" /> Live Weather & Astro
+
                                                     </a>
+
                                                 </div>
+
                                             )}
+
                                             
+
                                             <div className="pt-4 flex justify-center md:justify-start">
+
                                                 <button onClick={() => setSelectedWalk(null)} className="flex items-center text-slate-400 hover:text-black font-black uppercase text-[10px] tracking-widest p-2 -ml-2">
+
                                                     <Icon name="arrowLeft" size={14} className="mr-2" /> Back to List
+
                                                 </button>
+
                                             </div>
+
                                         </div>
+
                                     </div>
+
                                 </div>
+
                             )}
+
                         </section>
+
                     </main>
+
                 </div>
+
             );
+
         };
 
+
+
         const root = ReactDOM.createRoot(document.getElementById('root'));
+
         root.render(<App />);
+
     </script>
+
     <script data-goatcounter="https://northernpixl.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
 </body>
+
 </html>
