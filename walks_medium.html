@@ -3,55 +3,69 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Medium Walks | NorthernPixl</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
+    <!-- SEO -->
+    <title>Medium Walking Routes in Northumberland | NorthernPixl</title>
+    <meta name="title" content="Medium Walking Routes in Northumberland | NorthernPixl">
+    <meta name="description" content="Explore medium distance walks (4-7 miles) across Northumberland. Discover Hadrian's Wall, coastal paths, and woodland trails with free GPX files.">
+    <meta name="keywords" content="medium walks Northumberland, Northumberland day hikes, hiking routes UK, Hadrian's wall walks, coastal hikes">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="NorthernPixl">
     
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="[https://www.northernpixl.co.uk/favicon.png](https://www.northernpixl.co.uk/favicon.png)">
+    <link rel="apple-touch-icon" href="[https://www.northernpixl.co.uk/apple-touch-icon.png](https://www.northernpixl.co.uk/apple-touch-icon.png)">
+    <link rel="canonical" href="[https://www.northernpixl.co.uk/walks_medium.html](https://www.northernpixl.co.uk/walks_medium.html)" />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="[https://www.northernpixl.co.uk/walks_medium.html](https://www.northernpixl.co.uk/walks_medium.html)">
+    <meta property="og:title" content="Medium Walking Routes in Northumberland | NorthernPixl">
+    <meta property="og:description" content="Explore medium distance walks (4-7 miles) across Northumberland. Discover Hadrian's Wall, coastal paths, and woodland trails.">
+    <meta property="og:image" content="[https://www.northernpixl.co.uk/assets/og-image.jpg](https://www.northernpixl.co.uk/assets/og-image.jpg)">
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="[https://www.northernpixl.co.uk/walks_medium.html](https://www.northernpixl.co.uk/walks_medium.html)">
+    <meta property="twitter:title" content="Medium Walking Routes in Northumberland | NorthernPixl">
+    <meta property="twitter:description" content="Explore medium distance walks (4-7 miles) across Northumberland.">
+    <meta property="twitter:image" content="[https://www.northernpixl.co.uk/assets/og-image.jpg](https://www.northernpixl.co.uk/assets/og-image.jpg)">
 
-    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "[https://schema.org](https://schema.org)",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "[https://www.northernpixl.co.uk/index.html](https://www.northernpixl.co.uk/index.html)" },
+        { "@type": "ListItem", "position": 2, "name": "Routes", "item": "[https://www.northernpixl.co.uk/routes.html](https://www.northernpixl.co.uk/routes.html)" },
+        { "@type": "ListItem", "position": 3, "name": "Medium Walks", "item": "[https://www.northernpixl.co.uk/walks_medium.html](https://www.northernpixl.co.uk/walks_medium.html)" }
+      ]
+    }
+    </script>
 
+    <!-- Core Scripts & Styles -->
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="[https://unpkg.com/react@18/umd/react.production.min.js](https://unpkg.com/react@18/umd/react.production.min.js)"></script>
+    <script src="[https://unpkg.com/react-dom@18/umd/react-dom.production.min.js](https://unpkg.com/react-dom@18/umd/react-dom.production.min.js)"></script>
+    <script src="[https://unpkg.com/@babel/standalone/babel.min.js](https://unpkg.com/@babel/standalone/babel.min.js)"></script>
+    <link rel="stylesheet" href="[https://unpkg.com/leaflet@1.9.4/dist/leaflet.css](https://unpkg.com/leaflet@1.9.4/dist/leaflet.css)" />
+    <script src="[https://unpkg.com/leaflet@1.9.4/dist/leaflet.js](https://unpkg.com/leaflet@1.9.4/dist/leaflet.js)"></script>
     <style>
-
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
-
+        @import url('[https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap)');
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-
         .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
-
         .animate-in { animation: fadeIn 0.6s ease-out forwards; }
-
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
         .leaflet-container { width: 100%; height: 100%; background: #f8fafc; border-radius: 1.5rem; z-index: 0; }
-
-        @media (min-width: 1024px) {
-
-            .leaflet-container { border-radius: 3rem; }
-
-        }
-
+        @media (min-width: 1024px) { .leaflet-container { border-radius: 3rem; } }
     </style>
-
 </head>
 
 <body class="bg-white text-slate-900 overflow-x-hidden">
