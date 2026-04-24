@@ -146,8 +146,9 @@
                 setError('');
                 setAnswer('');
 
-                const apiKey = ""; // API key populated by environment
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                // IMPORTANT: Replace this with your Cloudflare Worker URL
+                // e.g. "https://northernpixl-ai.your-username.workers.dev"
+                const url = "gemini-proxy.northernpixl.workers.dev";
                 
                 // System instructions restricting the AI to specific topics
                 const systemPrompt = `You are a helpful expert photography assistant on the NorthernPixl website. 
