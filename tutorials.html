@@ -157,8 +157,8 @@
                 const url = "https://gemini-proxy-v2.northernpixl.workers.dev";
                 
                 // System instructions restricting the AI to specific topics
-                const systemPrompt = `You are a helpful expert photography assistant on the NorthernPixl website. 
-                Your purpose is to answer user questions related to photography, wildlife, landscape, weather, or astro photography.
+                const systemPrompt = `You are a helpful expert photography and weather assistant on the NorthernPixl website. 
+                Your purpose is to answer user questions related to photography, wildlife, landscape, weather, or astro photography. For any weather related questions, direct the user to the Weather section of the website.
                 If the user asks a question about any other topic (e.g., coding, politics, recipes, general chat), you must politely decline and state that you are only programmed to assist with photography, wildlife, landscape, weather, and astrophotography topics. 
                 Keep your answers concise, informative, and formatted clearly.`;
 
@@ -200,7 +200,7 @@
                             </div>
                             <div>
                                 <h3 className="text-2xl md:text-3xl font-black tracking-tighter">Ask NorthernPixl AI</h3>
-                                <p className="text-slate-500 text-sm md:text-base mt-1">Get instant answers about camera settings, fieldcraft, or weather conditions.</p>
+                                <p className="text-slate-500 text-sm md:text-base mt-1">Get instant answers about anything photography related, camera settings, fieldcraft.</p>
                             </div>
                         </div>
                         
