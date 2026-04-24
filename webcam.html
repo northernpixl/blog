@@ -155,16 +155,15 @@
                 If the user asks a question about any other topic (e.g., coding, politics, recipes, general chat), you must politely decline and state that you are only programmed to assist with photography, wildlife, landscape, weather, and astrophotography topics. 
                 Keep your answers concise, informative, and formatted clearly.`;
 
-                const payload = {
-                    contents: [{ parts: [{ text: question }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                };
+                // Combine the system prompt and the user's question into one string
+                // so it matches the simple { question: "..." } format the worker expects.
+                const combinedQuestion = `${systemPrompt}\n\nUser Question: ${question}`;
 
                 try {
                     const result = await fetchWithBackoff(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify({ question: combinedQuestion })
                     });
                     
                     const text = result.answer; // Changed to match your worker response format
