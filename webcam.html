@@ -146,9 +146,8 @@
                 setError('');
                 setAnswer('');
 
-                // IMPORTANT: Replace this with your Cloudflare Worker URL
-                // e.g. "https://northernpixl-ai.your-username.workers.dev"
-                const url = "gemini-proxy.northernpixl.workers.dev";
+                // IMPORTANT FIX: Added 'https://' to the URL
+                const url = "https://gemini-proxy.northernpixl.workers.dev";
                 
                 // System instructions restricting the AI to specific topics
                 const systemPrompt = `You are a helpful expert photography assistant on the NorthernPixl website. 
@@ -168,9 +167,11 @@
                         body: JSON.stringify(payload)
                     });
                     
-                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                    const text = result.answer; // Changed to match your worker response format
                     if (text) {
                         setAnswer(text);
+                    } else if (result.error) {
+                        setError(`Error: ${result.error}`);
                     } else {
                         setError('Received an unexpected response. Please try asking differently.');
                     }
