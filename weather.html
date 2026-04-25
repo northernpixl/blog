@@ -460,158 +460,215 @@
                 let isMounted = true;
                 
                 const fetchCrossing = async () => {
-                    try {
-                        const targetUrl = 'https://holyislandcrossingtimes.northumberland.gov.uk/';
-                        let htmlText = '';
+                    const CACHE_KEY = 'northernPixl_holyIslandCache';
+                    const CACHE_EXPIRY = 7 * 24 * 60 * 60 * 1000; // 7 days in ms
+                    const targetUrl = 'https://holyislandcrossingtimes.northumberland.gov.uk/';
+
+                    const fetchFreshHtml = async () => {
+                        let freshHtml = '';
                         const proxies = [
                             `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`,
                             `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`,
                             `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`
                         ];
-
                         for (const proxy of proxies) {
                             try {
                                 const res = await fetch(proxy);
                                 if (!res.ok) continue;
                                 if (proxy.includes('allorigins')) {
                                     const data = await res.json();
-                                    htmlText = data.contents;
+                                    freshHtml = data.contents;
                                 } else {
-                                    htmlText = await res.text();
+                                    freshHtml = await res.text();
                                 }
-                                if (htmlText && htmlText.toLowerCase().includes('crossing')) break; 
+                                if (freshHtml && freshHtml.toLowerCase().includes('crossing')) break; 
                             } catch (e) { continue; }
                         }
-                        
-                        if (!htmlText || !htmlText.toLowerCase().includes('crossing')) throw new Error("Could not retrieve valid HTML.");
-                        const doc = new DOMParser().parseFromString(htmlText, 'text/html');
-                        const tables = Array.from(doc.querySelectorAll('table'));
-                        const crossingTable = tables.find(t => t.textContent.toLowerCase().includes('safe'));
-                        if (!crossingTable) throw new Error("No crossing table found.");
+                        return freshHtml;
+                    };
 
-                        const grid = parseTableToGrid(crossingTable);
-                        const numCols = grid[0] ? grid[0].length : 0;
-                        const colTypes = [];
-                        
-                        for (let c = 0; c < numCols; c++) {
-                            let headerText = "";
-                            for (let r = 0; r < grid.length; r++) {
-                                if (grid[r][c] && grid[r][c].isHeader) headerText += grid[r][c].text + " ";
-                            }
-                            if (headerText.includes('unsafe') || headerText.includes('do not cross')) colTypes[c] = 'unsafe';
-                            else if (headerText.includes('safe')) colTypes[c] = 'safe';
-                            else colTypes[c] = 'other';
+                    try {
+                        let htmlText = '';
+                        let usedCache = false;
+
+                        // 1. Try to load from Cache
+                        const cached = localStorage.getItem(CACHE_KEY);
+                        if (cached) {
+                            try {
+                                const parsed = JSON.parse(cached);
+                                if (Date.now() - parsed.timestamp < CACHE_EXPIRY) {
+                                    htmlText = parsed.htmlText;
+                                    usedCache = true;
+                                }
+                            } catch (e) {}
                         }
 
-                        const today = new Date(); today.setHours(0,0,0,0);
-                        const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
-                        const tmrw = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
-                        const dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate() + 2);
-                        const targetDates = [yesterday, today, tmrw, dayAfter];
-                        const allSafePeriods = [];
-
-                        const getRowForDate = (dateObj) => {
-                            const dNum = dateObj.getDate();
-                            const dayRegex = new RegExp(`\\b0?${dNum}(?:st|nd|rd|th)?\\b`, 'i');
-                            for (let r = 0; r < grid.length; r++) {
-                                if (grid[r][0] && grid[r][0].isHeader) continue;
-                                let rowDateText = "";
-                                for (let c = 0; c < grid[r].length; c++) {
-                                    if (colTypes[c] === 'other' && grid[r][c]) rowDateText += grid[r][c].text + " ";
-                                }
-                                if (dayRegex.test(rowDateText)) return r;
+                        // 2. Fetch fresh if no cache or expired
+                        if (!htmlText) {
+                            htmlText = await fetchFreshHtml();
+                            if (htmlText && htmlText.toLowerCase().includes('crossing')) {
+                                localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), htmlText }));
                             }
-                            return -1;
+                        }
+
+                        if (!htmlText || !htmlText.toLowerCase().includes('crossing')) {
+                            throw new Error("Could not retrieve valid HTML.");
+                        }
+
+                        // 3. Process the HTML (cached or fresh)
+                        const processAndSetSchedule = (html) => {
+                            const doc = new DOMParser().parseFromString(html, 'text/html');
+                            const tables = Array.from(doc.querySelectorAll('table'));
+                            const crossingTable = tables.find(t => t.textContent.toLowerCase().includes('safe'));
+                            if (!crossingTable) throw new Error("No crossing table found.");
+
+                            const grid = parseTableToGrid(crossingTable);
+                            const numCols = grid[0] ? grid[0].length : 0;
+                            const colTypes = [];
+                            
+                            for (let c = 0; c < numCols; c++) {
+                                let headerText = "";
+                                for (let r = 0; r < grid.length; r++) {
+                                    if (grid[r][c] && grid[r][c].isHeader) headerText += grid[r][c].text + " ";
+                                }
+                                if (headerText.includes('unsafe') || headerText.includes('do not cross')) colTypes[c] = 'unsafe';
+                                else if (headerText.includes('safe')) colTypes[c] = 'safe';
+                                else colTypes[c] = 'other';
+                            }
+
+                            const today = new Date(); today.setHours(0,0,0,0);
+                            const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+                            const tmrw = new Date(today); tmrw.setDate(tmrw.getDate() + 1);
+                            const dayAfter = new Date(today); dayAfter.setDate(dayAfter.getDate() + 2);
+                            const targetDates = [yesterday, today, tmrw, dayAfter];
+                            const allSafePeriods = [];
+
+                            const getRowForDate = (dateObj) => {
+                                const dNum = dateObj.getDate();
+                                const dayRegex = new RegExp(`\\b0?${dNum}(?:st|nd|rd|th)?\\b`, 'i');
+                                for (let r = 0; r < grid.length; r++) {
+                                    if (grid[r][0] && grid[r][0].isHeader) continue;
+                                    let rowDateText = "";
+                                    for (let c = 0; c < grid[r].length; c++) {
+                                        if (colTypes[c] === 'other' && grid[r][c]) rowDateText += grid[r][c].text + " ";
+                                    }
+                                    if (dayRegex.test(rowDateText)) return r;
+                                }
+                                return -1;
+                            };
+
+                            for (const tDate of targetDates) {
+                                const rIdx = getRowForDate(tDate);
+                                if (rIdx === -1) continue;
+                                let cursorDate = new Date(tDate); cursorDate.setHours(0,0,0,0);
+                                let lastTimeMins = -1;
+
+                                for (let c = 0; c < grid[rIdx].length; c++) {
+                                    if (colTypes[c] === 'safe' || colTypes[c] === 'unsafe') {
+                                        const cellText = grid[rIdx][c] ? grid[rIdx][c].text : "";
+                                        const matches = cellText.match(/\b\d{1,2}[:.]\d{2}\b/g);
+                                        if (!matches) continue;
+
+                                        const cellDates = [];
+                                        for (const m of matches) {
+                                            const parts = m.split(/[:.]/);
+                                            const h = parseInt(parts[0], 10);
+                                            const min = parseInt(parts[1], 10);
+                                            const timeMins = h * 60 + min;
+
+                                            if (timeMins < lastTimeMins - 120) cursorDate.setDate(cursorDate.getDate() + 1);
+                                            
+                                            const absDate = new Date(cursorDate);
+                                            absDate.setHours(h, min, 0, 0);
+                                            cellDates.push(absDate.getTime());
+                                            lastTimeMins = timeMins;
+                                        }
+
+                                        if (colTypes[c] === 'safe') {
+                                            const validLength = cellDates.length - (cellDates.length % 2);
+                                            for (let i = 0; i < validLength; i += 2) allSafePeriods.push({ start: cellDates[i], end: cellDates[i+1] });
+                                        }
+                                    }
+                                }
+                            }
+
+                            allSafePeriods.sort((a, b) => a.start - b.start);
+                            const mergedSafePeriods = [];
+                            for (const sp of allSafePeriods) {
+                                if (mergedSafePeriods.length === 0) mergedSafePeriods.push({...sp});
+                                else {
+                                    const last = mergedSafePeriods[mergedSafePeriods.length - 1];
+                                    if (sp.start <= last.end) last.end = Math.max(last.end, sp.end);
+                                    else mergedSafePeriods.push({...sp});
+                                }
+                            }
+
+                            const buildDaySchedule = (targetDate, mergedPeriods) => {
+                                const dayStart = new Date(targetDate); dayStart.setHours(0, 0, 0, 0);
+                                const dayEnd = new Date(targetDate); dayEnd.setHours(23, 59, 59, 999);
+                                const formatTime = (d) => d.toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit', hour12: false});
+                                const periods = [];
+                                let current = dayStart.getTime();
+
+                                for (const sp of mergedPeriods) {
+                                    if (sp.end <= current) continue;
+                                    if (sp.start >= dayEnd.getTime()) break;
+                                    const safeStart = Math.max(sp.start, current);
+                                    const safeEnd = Math.min(sp.end, dayEnd.getTime());
+
+                                    if (safeStart > current) {
+                                        periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: formatTime(new Date(safeStart)) });
+                                    }
+                                    periods.push({ type: 'safe', label: 'Safe to cross', start: formatTime(new Date(safeStart)), end: formatTime(new Date(safeEnd)) });
+                                    current = safeEnd;
+                                }
+
+                                if (current < dayEnd.getTime() - 60000) {
+                                    periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: '23:59' });
+                                }
+                                periods.forEach(p => {
+                                    if(p.end === '24:00' || p.end === '00:00') p.end = '23:59';
+                                    if(p.start === '24:00') p.start = '00:00';
+                                });
+
+                                const cleanPeriods = periods.filter(p => p.start !== p.end);
+                                const dateStr = targetDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
+                                return cleanPeriods.length > 0 ? { date: dateStr, periods: cleanPeriods } : null;
+                            };
+
+                            const finalSchedule = [];
+                            const todayData = buildDaySchedule(today, mergedSafePeriods);
+                            if (todayData) { todayData.date = `Today - ${todayData.date}`; finalSchedule.push(todayData); }
+                            const tmrwData = buildDaySchedule(tmrw, mergedSafePeriods);
+                            if (tmrwData) { tmrwData.date = `Tomorrow - ${tmrwData.date}`; finalSchedule.push(tmrwData); }
+                            
+                            if (finalSchedule.length > 0 && mergedSafePeriods.length > 0) {
+                                if (isMounted) setCrossingSchedule(finalSchedule);
+                                return true;
+                            } else {
+                                throw new Error("Could not process schedule pairs");
+                            }
                         };
 
-                        for (const tDate of targetDates) {
-                            const rIdx = getRowForDate(tDate);
-                            if (rIdx === -1) continue;
-                            let cursorDate = new Date(tDate); cursorDate.setHours(0,0,0,0);
-                            let lastTimeMins = -1;
-
-                            for (let c = 0; c < grid[rIdx].length; c++) {
-                                if (colTypes[c] === 'safe' || colTypes[c] === 'unsafe') {
-                                    const cellText = grid[rIdx][c] ? grid[rIdx][c].text : "";
-                                    const matches = cellText.match(/\b\d{1,2}[:.]\d{2}\b/g);
-                                    if (!matches) continue;
-
-                                    const cellDates = [];
-                                    for (const m of matches) {
-                                        const parts = m.split(/[:.]/);
-                                        const h = parseInt(parts[0], 10);
-                                        const min = parseInt(parts[1], 10);
-                                        const timeMins = h * 60 + min;
-
-                                        if (timeMins < lastTimeMins - 120) cursorDate.setDate(cursorDate.getDate() + 1);
-                                        
-                                        const absDate = new Date(cursorDate);
-                                        absDate.setHours(h, min, 0, 0);
-                                        cellDates.push(absDate.getTime());
-                                        lastTimeMins = timeMins;
-                                    }
-
-                                    if (colTypes[c] === 'safe') {
-                                        const validLength = cellDates.length - (cellDates.length % 2);
-                                        for (let i = 0; i < validLength; i += 2) allSafePeriods.push({ start: cellDates[i], end: cellDates[i+1] });
-                                    }
+                        try {
+                            processAndSetSchedule(htmlText);
+                        } catch (parseError) {
+                            // If we used cache but couldn't parse today's dates, the cache might be stale (new month)
+                            if (usedCache) {
+                                console.warn("Cached HTML missing today's dates. Fetching fresh data...");
+                                localStorage.removeItem(CACHE_KEY);
+                                htmlText = await fetchFreshHtml();
+                                if (htmlText && htmlText.toLowerCase().includes('crossing')) {
+                                    localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), htmlText }));
+                                    processAndSetSchedule(htmlText);
+                                } else {
+                                    throw new Error("Could not retrieve valid HTML after invalidating cache.");
                                 }
+                            } else {
+                                throw parseError;
                             }
                         }
 
-                        allSafePeriods.sort((a, b) => a.start - b.start);
-                        const mergedSafePeriods = [];
-                        for (const sp of allSafePeriods) {
-                            if (mergedSafePeriods.length === 0) mergedSafePeriods.push({...sp});
-                            else {
-                                const last = mergedSafePeriods[mergedSafePeriods.length - 1];
-                                if (sp.start <= last.end) last.end = Math.max(last.end, sp.end);
-                                else mergedSafePeriods.push({...sp});
-                            }
-                        }
-
-                        const buildDaySchedule = (targetDate, mergedPeriods) => {
-                            const dayStart = new Date(targetDate); dayStart.setHours(0, 0, 0, 0);
-                            const dayEnd = new Date(targetDate); dayEnd.setHours(23, 59, 59, 999);
-                            const formatTime = (d) => d.toLocaleTimeString('en-GB', {timeZone: 'Europe/London', hour: '2-digit', minute:'2-digit', hour12: false});
-                            const periods = [];
-                            let current = dayStart.getTime();
-
-                            for (const sp of mergedPeriods) {
-                                if (sp.end <= current) continue;
-                                if (sp.start >= dayEnd.getTime()) break;
-                                const safeStart = Math.max(sp.start, current);
-                                const safeEnd = Math.min(sp.end, dayEnd.getTime());
-
-                                if (safeStart > current) {
-                                    periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: formatTime(new Date(safeStart)) });
-                                }
-                                periods.push({ type: 'safe', label: 'Safe to cross', start: formatTime(new Date(safeStart)), end: formatTime(new Date(safeEnd)) });
-                                current = safeEnd;
-                            }
-
-                            if (current < dayEnd.getTime() - 60000) {
-                                periods.push({ type: 'unsafe', label: 'Unsafe (Do Not Cross)', start: formatTime(new Date(current)), end: '23:59' });
-                            }
-                            periods.forEach(p => {
-                                if(p.end === '24:00' || p.end === '00:00') p.end = '23:59';
-                                if(p.start === '24:00') p.start = '00:00';
-                            });
-
-                            const cleanPeriods = periods.filter(p => p.start !== p.end);
-                            const dateStr = targetDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
-                            return cleanPeriods.length > 0 ? { date: dateStr, periods: cleanPeriods } : null;
-                        };
-
-                        const finalSchedule = [];
-                        const todayData = buildDaySchedule(today, mergedSafePeriods);
-                        if (todayData) { todayData.date = `Today - ${todayData.date}`; finalSchedule.push(todayData); }
-                        const tmrwData = buildDaySchedule(tmrw, mergedSafePeriods);
-                        if (tmrwData) { tmrwData.date = `Tomorrow - ${tmrwData.date}`; finalSchedule.push(tmrwData); }
-                        
-                        if (finalSchedule.length > 0 && mergedSafePeriods.length > 0) {
-                            if (isMounted) setCrossingSchedule(finalSchedule);
-                        } else throw new Error("Could not process schedule pairs");
                     } catch (err) {
                         console.warn("Holy Island Scrape Error:", err.message);
                         if (isMounted) setError(true);
@@ -619,6 +676,7 @@
                         if (isMounted) setLoading(false);
                     }
                 };
+
                 fetchCrossing();
                 return () => { isMounted = false; };
             }, []);
@@ -633,7 +691,9 @@
                     </div>
                     {loading ? (
                         <div className="animate-pulse flex flex-col gap-3">
-                            <div className="h-16 bg-slate-200 rounded-xl w-full"></div>
+                            <div className="h-16 bg-slate-200 rounded-xl w-full flex items-center justify-center">
+                                <span className="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400">Updating Times...</span>
+                            </div>
                             <div className="h-16 bg-slate-200 rounded-xl w-full"></div>
                         </div>
                     ) : error || crossingSchedule.length === 0 ? (
